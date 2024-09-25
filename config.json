@@ -1,0 +1,13 @@
+{
+  "service_port": 3816,
+  "version": "0.4.1",
+  "graphql_remote_url": "http://hms-bff.hedge.dev.iptwork.com/graphql",
+  "template": {
+    "root": null,
+    "repo": "https://coding.sxftwork.com/nova/nebula-store.git",
+    "enableSyncTool": true
+  },
+  "folder": {
+    "localeRoot": ""
+  }
+}

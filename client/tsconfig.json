@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    // Target latest version of ECMAScript.,
+    "target": "esnext",
+    "types": [
+      "cypress",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
+    // Search under node_modules for non-relative imports.
+    "moduleResolution": "node",
+    "module": "esnext",
+    // Process & infer types from .js files.
+    "allowJs": true,
+    // Typechecks js files. Note: does not allow typescript types.
+    "checkJs": false,
+    // Don't emit; allow Babel to transform files.
+    "noEmit": true,
+    // Enable strictest settings like strictNullChecks & noImplicitAny.
+    "strict": true,
+    // Disallow features that require cross-file information for emit.
+    "isolatedModules": true,
+    // Import non-ES modules as default imports.
+    "esModuleInterop": true,
+    // The mode doesn't matter as we are not emitting, but needs setting to stop errors.
+    "jsx": "react",
+    "resolveJsonModule": true,
+    // This would stop errors in libraries from for example isolatedModules - currently none
+    // But its set to false otherwise we don't get errors from global.d.ts
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "incremental": true,
+    "outDir": ".tscache",
+    "paths": {
+      "@client/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "./src",
+    "cypress/**/*.ts",
+  ],
+  "exclude": ["node_modules"]
+}

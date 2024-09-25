@@ -1,0 +1,109 @@
+.fields-orders-content-box
+  flex 1
+  position relative
+
+  .switch-group
+    font-size 14px
+    display flex
+    justify-content right
+    gap 3px
+    .switch-case
+      cursor pointer
+      font-size 17px
+
+      &:hover
+        text-shadow 0 1px 5px #a8a8a8
+
+      &.preview
+        color #4b9b8c
+
+      &.edit
+        color orange
+
+    .switch-spliter
+      color #e3221d
+
+
+.fields-orders-expander
+  text-align left
+
+  .fields-list-title
+    font-weight 600
+    display flex
+    justify-content space-between
+    align-items center
+
+  .operation-list
+    display flex
+    gap 10px
+    font-weight 400
+
+  .fields-list
+    background #d3d3b6
+    padding 10px
+    min-height 200px
+    border-radius 3px
+    font-size 15px
+
+    &.scoll-inside
+      height 200px
+      overflow-y auto
+      min-height unset
+
+    .column
+      padding 3px 5px
+      color black
+      cursor pointer
+
+      &.height-light
+        text-shadow 0 0 5px yellow, 0 0 10px yellow, 0 0 15px yellow
+
+        .matched-field-list
+          display none;
+
+        &:hover
+          position relative
+
+          .matched-field-list
+            position absolute
+            display block
+            margin-left 30px
+            margin-top -3px
+            border solid 1px #777777
+            border-radius 3px
+            box-shadow: -2px 3px 3px 1px #666, -2px 3px 8px 1px #adadad;
+            background rgba(255, 255, 255, 0.8)
+            z-index 20
+
+            > div
+              font-size 13px
+              padding 5px
+              border-bottom solid 1px #f0f0f0
+              text-shadow none
+              color #333
+              display flex
+              align-items center
+              cursor pointer
+              user-select none
+
+              &:last-child
+                border 0
+
+              &:before
+                content: "👉"
+                padding-right 10px
+
+              &:after
+                content ''
+                flex-shrink 0
+                width 20px
+                box-sizing border-box
+
+              &.checked
+                &:after
+                  content '✔'
+                  flex-shrink 0
+                  padding-left 10px
+
+              &:hover
+                background rgba(152, 152, 152, 0.8)

@@ -1,0 +1,28 @@
+.sideBySide
+  display flex
+  background #FFFFFF
+  height 100%
+
+  .side
+    flex 1
+    padding 10px 10px
+    box-sizing border-box
+    position relative
+    overflow auto
+
+  .gutter
+    width 8px
+    background #f3f3f3
+    cursor col-resize
+    user-select text
+    box-sizing border-box
+
+    &:hover
+      border solid 1px #e0e0e0
+      border-top 0
+      border-bottom 0
+      background #000000
+      opacity 0.1
+
+  .side-innerscroll
+    overflow auto

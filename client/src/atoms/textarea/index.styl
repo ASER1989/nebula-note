@@ -1,0 +1,27 @@
+.textarea
+  outline 0
+  width 100%
+  border solid 1px #777777
+  border-radius 3px
+  padding 5px 10px
+  height 100%
+  position relative
+  box-sizing border-box
+
+  &:focus
+    color black
+    text-shadow: 0 0 0 #000000, 0 0 0 #777777
+
+  &.horizontal
+    height 100% !important
+    resize horizontal
+
+  &.vertical
+    width 100% !important
+    resize vertical
+
+  &.none
+    resize none
+
+&.border-none
+  border 0

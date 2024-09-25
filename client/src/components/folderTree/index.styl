@@ -1,0 +1,44 @@
+.folderTree
+  background #FFFFFF
+  height 100%
+
+  .tool_bar
+    height 50px
+    border-bottom solid 1px #dddddd
+    display flex
+    padding 0 7px
+    align-items center
+
+    .searchTitle
+      font-size 14px
+
+    .searchBox
+      display flex
+      height 50%
+
+  .treeRoot
+    .tree_node
+      display flex
+      height 30px
+      border-bottom solid 1px #dddddd
+      align-items center
+      justify-content flex-start
+      padding 0 7px
+
+      &.matchedMark
+        color #dc9f2b
+
+      &.expanded
+        border 0
+
+      &:hover
+        background #f7f7f7
+
+      .tree_node_item
+        flex 1
+        display flex
+        justify-content flex-start
+
+    .tree_node_indent
+      margin-left 27px
+      border-left dashed 1px #cccccc

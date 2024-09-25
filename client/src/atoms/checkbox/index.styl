@@ -1,0 +1,37 @@
+.checkbox
+  display inline-block
+  cursor pointer
+
+  .check-label
+    font-size 13px
+    vertical-align middle
+    padding-left 3px
+
+    &:hover
+      user-select none
+      text-shadow 0 0 1px #777, 0 0 1px #cccccc
+
+  .check-box
+    border solid 1px #777777
+    border-radius 3px
+    cursor pointer
+    width 13px
+    height @width
+    display inline-block
+    vertical-align middle
+    position relative
+
+    &.checked
+      background #ffc400
+      border solid 1px #999999
+
+      &:before
+        content " "
+        position absolute
+        width 7px
+        height 3px
+        border-left solid 2px #FFFFFF
+        border-bottom solid 2px #FFFFFF
+        left 50%
+        top 15%
+        transform rotate(-45deg) translate(-50%, -50%)

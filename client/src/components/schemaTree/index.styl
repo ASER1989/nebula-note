@@ -1,0 +1,108 @@
+.schemaTree
+  background #FFFFFF
+  height 100%
+
+  .tool_bar
+    height 30px
+    border-bottom solid 1px #c0c0c0
+    display flex
+    padding 0 7px
+
+  .treeRoot
+    .tree_node
+      display flex
+      height 30px
+      border-bottom solid 1px #cccccc
+      align-items center
+      justify-content flex-start
+      padding 0 7px
+
+      &.expanded
+        border 0
+
+      &:hover
+        background #f7f7f7
+
+        input
+          background #f7f7f7
+
+      .tree_node_name
+        width 40%
+        overflow hidden
+        text-overflow ellipsis
+        word-break break-all
+        text-align left
+        height 100%
+        display flex
+        justify-content space-between
+
+        &.repeatMark
+          input
+            color red
+
+      .tree_node_descrption
+        flex 1
+        padding-left 10px
+        text-align left
+        height 100%
+        display flex
+
+    .tree_node_indent
+      margin-left 27px
+      border-left dashed 1px #cccccc
+
+  .tags
+    display flex
+    align-items center
+    justify-content flex-end
+    --font-color: #ffffff
+    --background-color: #a6c869
+    --border-color: #1fcd48
+    flex-shrink: 0;
+
+    .tag
+      padding: 3px 5px;
+      box-sizing: border-box;
+      border-radius: 6px;
+      color: var(--font-color);
+      border: solid 1px var(--border-color);
+      height: 26px;
+      display: inline-block;
+      font-size: 12px;
+      background: var(--background-color);
+      transform: scale(0.8);
+      flex-shrink 0
+      cursor pointer
+      user-select none
+
+      &.type
+        --font-color: #505050
+        --background-color: #f5f5f5
+        --border-color: #d5d5d5
+        user-select initial
+        cursor auto
+
+      &.argument
+        --font-color: #e84600
+        --background-color: #f5f5f5
+        --border-color: #ffffff
+
+      &.enum
+        --font-color: #f5ffb8
+        --background-color: orange
+        --border-color: #f2b900
+
+      &.query
+        --font-color: #f4f6f1
+        --background-color: #28703e
+        --border-color: #4b9b8c
+
+      &.mutation
+        --font-color: #f4f6f1
+        --background-color: #f36202
+        --border-color: #ff5006
+
+      &.array
+        --font-color: #f4f6f1
+        --background-color: #F44336
+        --border-color: #fdd57f
