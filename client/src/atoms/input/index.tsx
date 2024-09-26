@@ -3,7 +3,7 @@ import React, {ChangeEvent} from 'react';
 import type {FocusEvent} from 'react';
 import classNames from 'classnames';
 
-type InputType = string | number | undefined;
+type InputType = string | undefined;
 export type Props<T extends InputType> = {
   value?: T;
   border?: boolean;
