@@ -1,0 +1,37 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { useState } from 'react';
+import Input from './index';
+
+// Define the primary story using `of={Input}`
+<Meta title="Components/Input" of={Input} />
+
+# Input Component
+
+The `Input` component is a simple text input field that can take a label, placeholder, and value.
+
+## Example Usage
+
+<Canvas>
+  <Story name="Default">
+    {() => {
+      const [value, setValue] = useState('');
+      return (
+        <Input
+          label="Name"
+          placeholder="Enter your name"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Props
+
+| Name       | Type      | Description                          |
+|------------|-----------|--------------------------------------|
+| `label`    | `string`  | Optional label for the input field.  |
+| `placeholder` | `string`  | Placeholder text for the input field. |
+| `value`    | `string`  | Current value of the input field.    |
+| `onChange` | `function` | Handler for when the input changes. |
