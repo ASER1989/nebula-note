@@ -11,6 +11,7 @@ export type Props<T extends InputType> = {
   onChange?: (newValue: T, value?: T, event?: ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: FocusEvent<HTMLInputElement, Element>) => void;
   light?: boolean;
+  testId?:string;
 };
 
 
@@ -21,7 +22,8 @@ export default function Input<T extends InputType>(
     onChange,
     placeholder,
     onFocus,
-    light
+    light,
+    testId
   }: Props<T>) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -35,6 +37,7 @@ export default function Input<T extends InputType>(
 
   return (
     <input
+      data-testid={testId}
       className={classes}
       value={value}
       onChange={handleChange}

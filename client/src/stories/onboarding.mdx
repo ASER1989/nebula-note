@@ -11,17 +11,80 @@ Storybook is a frontend workshop for building UI components and pages in isolati
 For more information, visit [storybook.js.org](https://storybook.js.org/)。
 
 ## Stories
-How can we build stories in the project? There are two ways: using MDX or TypeScript. To maintain consistency, we always create xxx.stories.ts or xxx.mdx files under the respective component folder.
+How can we build stories in the project?
+To maintain consistency, we always create xxx.stories.tsx or xxx.mdx files under the respective component folder.
+By default, simply create a xxx.stories.tsx file. This will generate stories, parameter documentation, and more.
+Starting with version 8, we can create custom documentation using an .mdx file.
 
 ## Grammar & Examples
 
+### Stories
+
+``` typescript tsx
+import type {Meta, StoryObj} from '@storybook/react';
+import {action} from '@storybook/addon-actions';
+
+import Input from './index';
+
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+const meta = {
+  title: 'Atoms/Input',
+  component: Input,
+  parameters: {
+    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
+    layout: 'centered',
+  },
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
+  // More on argTypes: https://storybook.js.org/docs/api/argtypes
+  argTypes: {
+    border: {control: 'boolean',description:'Enable the input border.',table:{defaultValue:{summary:'false'}}},
+    value: {control: 'text',description:'The input content'},
+    placeholder: {control: 'text',table:{defaultValue:{summary:'undefined'}}},
+  },
+  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
+  args: {
+    onChange: action('onChange'),
+    onFocus: action('onFocus'),
+    border: true
+  },
+} satisfies Meta<typeof Input>;
+
+export default meta;
+
+type Story = StoryObj<typeof Input>;
+export const Primary:Story = {
+  args : {
+    border:true
+  }
+};
+
+export const Sceondary:Story = {
+  args : {
+    border:false
+  }
+};
+```
 ### MDX
-``` mdxjs
-import { Meta } from "@storybook/blocks";
+Use an .mdx file to introduce the component.
+It can be linked to stories and used to display examples and parameter documentation.
 
-<Meta title="Onboarding" />
+``` jsx
+import {Meta, Story, Canvas, ArgTypes} from '@storybook/addon-docs';
+import Input,{Primary} from './input.stories'
 
-# Onboarding
+<Meta title="Components/Input" of={Input}/>
 
-An introductory-level document, skip if experienced.
+# Input Component
+
+The `Input` component is a simple text input field that can take a label, placeholder, and value.
+
+## Example Usage
+
+<Canvas>
+  <Story of={Primary}/>
+</Canvas>
+
+## Props
+<ArgTypes />
 ```

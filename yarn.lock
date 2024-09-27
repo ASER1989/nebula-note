@@ -16,6 +16,7 @@ __metadata:
     "@cypress/react": "npm:^8.0.2"
     "@cypress/webpack-dev-server": "npm:^3.11.0"
     "@storybook/addon-actions": "npm:^8.3.3"
+    "@storybook/addon-docs": "npm:^8.3.3"
     "@storybook/addon-essentials": "npm:^8.3.3"
     "@storybook/addon-interactions": "npm:^8.3.3"
     "@storybook/addon-links": "npm:^8.3.3"
@@ -3499,7 +3500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-docs@npm:8.3.3":
+"@storybook/addon-docs@npm:8.3.3, @storybook/addon-docs@npm:^8.3.3":
   version: 8.3.3
   resolution: "@storybook/addon-docs@npm:8.3.3"
   dependencies:
