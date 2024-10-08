@@ -1,7 +1,7 @@
 import './index.styl';
 import React, { useState, useMemo } from 'react';
 
-type Props = {
+export type Props = {
     children: any;
     extendChild: any;
 };

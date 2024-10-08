@@ -1,0 +1,29 @@
+.resizable-split
+  display grid
+  height 100%
+  width 100%
+  overflow hidden
+
+  .panel
+    background-color #f0f0f0
+    padding 20px
+    overflow auto
+
+  .panel-1
+    background-color #d0e6f2
+
+  .panel-2
+    background-color #f2d9d0
+
+  .divider
+    background-color #ccc
+    cursor col-resize
+    width 10px
+    height 100%
+    user-select none
+
+  // 垂直方向的分割线样式
+  &[style*="grid-template-rows"]
+    .divider
+      cursor row-resize
+      width 100%
