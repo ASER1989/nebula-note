@@ -21,15 +21,15 @@ const ResizableSplit: React.FC<ResizableSplitProps> = (
     ? {gridTemplateColumns: attrVal} // 只设置水平方向的列布局
     : {gridTemplateRows: attrVal};  // 只设置垂直方向的行布局
 
+  const limitQuery = (newSize: number) => {
+    const result = newSize > 10 ? newSize : 10;
+    return result > 90 ? 90 : result;
+  }
 
   const handleDrag = (e: globalThis.MouseEvent) => {
-    if (isHorizontal) {
-      const newSize = (e.clientX / window.innerWidth) * 100;
-      setSize(newSize);
-    } else {
-      const newSize = (e.clientY / window.innerHeight) * 100;
-      setSize(newSize);
-    }
+    const widthBase = isHorizontal ? window.innerWidth : window.innerHeight;
+    const newSize = (e.clientX / widthBase) * 100;
+    setSize(limitQuery(newSize));
   };
 
   const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {

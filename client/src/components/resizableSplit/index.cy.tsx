@@ -19,41 +19,73 @@ describe('ResizableSplit Component', () => {
   });
 
   it('allows resizing the panels', () => {
-    // 获取 divider 的位置
-    cy.get('.divider').trigger('mousedown'); // 按下鼠标左键
+    cy.get('.panel-1')
+      .invoke('css', 'width')
+      .then((initialWidth) => {
+        const initialWidthInPixels = parseFloat(initialWidth.toString());
 
-    // 移动鼠标到新的位置（假设您要将左边的面板扩大 20%）
-    cy.get('body').trigger('mousemove', { clientX: 700 }); // 这里的 clientX 根据您的布局调整
-    cy.get('body').trigger('mouseup');
-    // // 获取面板的实际宽度
-    // cy.get('.panel-1')
-    //   .invoke('css', 'width')
-    //   .then((width) => {
-    //     const widthValue = parseFloat(width.toString()); // 转换为数字
-    //     const expectedWidth = 0.5/* 根据您拖动的百分比计算期望宽度，例如 50% */;
-    //     const expectedWidthInPixels = (expectedWidth * window.innerWidth) / 100; // 转换为像素
-    //     expect(widthValue).to.be.closeTo(expectedWidthInPixels, 1); // 检查宽度是否在预期范围内
-    //   });
-    //
-    // cy.get('.panel-2')
-    //   .should('have.css', 'width')
-    //   .and('match', /calc\(\d+% - 10px\)/); // 检查第二个面板
+        // Simulate mousedown
+        cy.get('.divider').trigger('mousedown', { which: 1 });
+
+        // Move the mouse to a new position
+        const moveOffset = 100; // Desired drag distance
+        const newClientX = initialWidthInPixels + moveOffset;
+
+        cy.get('body').trigger('mousemove', { clientX: newClientX });
+
+        // Add a delay before the next mouse move to simulate realistic dragging
+        cy.wait(100); // Optional: Adjust the wait time as needed
+
+        // Release mouse
+        cy.get('body').trigger('mouseup');
+
+        // Verify the new width of the left panel
+        cy.get('.panel-1')
+          .invoke('css', 'width')
+          .then((newWidth) => {
+            const newWidthValue = parseFloat(newWidth.toString());
+            expect(newWidthValue).to.be.greaterThan(initialWidthInPixels); // Check if width has increased
+          });
+      });
   });
 
   it('changes cursor style on drag', () => {
-    cy.get('.divider').trigger('mousedown', { button: 1 });
+    cy.get('.divider').trigger('mousedown', { which: 1 });
     cy.get('body').should('have.css', 'cursor', 'col-resize'); // 检查鼠标样式变化
 
     cy.get('body').trigger('mouseup'); // 释放鼠标
   });
 
-  it('does not allow resizing beyond limits', () => {
+  it('does not allow resizing less than limits', () => {
     // 尝试将左侧面板拉伸到小于 0%
     cy.get('.divider').trigger('mousedown', { which: 1 });
     cy.get('body').trigger('mousemove', { clientX: -100 }); // 移动到负值
+    cy.wait(10);
     cy.get('body').trigger('mouseup');
 
     // 检查面板宽度是否大于 0%
-    cy.get('.panel-1').should('have.css', 'width').and('match', /calc\(\d+% - 10px\)/);
+    cy.get('.panel-1')
+      .invoke('css', 'width')
+      .then((initialWidth) => {
+        const newWidthValue = parseFloat(initialWidth.toString());
+        expect(newWidthValue).to.be.greaterThan(0);
+      });
   });
+
+  it('does not allow resizing more than limits', () => {
+    // 尝试将左侧面板拉伸到小于 0%
+    cy.get('.divider').trigger('mousedown', { which: 1 });
+    cy.get('body').trigger('mousemove', { clientX: window.innerWidth }); // 移动到负值
+    cy.wait(10);
+    cy.get('body').trigger('mouseup');
+
+    // 检查面板宽度是否大于 0%
+    cy.get('.panel-2')
+      .invoke('css', 'width')
+      .then((initialWidth) => {
+        const newWidthValue = parseFloat(initialWidth.toString());
+        expect(newWidthValue).to.be.greaterThan(0);
+      });
+  });
+
 });
