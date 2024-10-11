@@ -13,6 +13,7 @@
     "version:patch": "npm version patch",
     "test": "jest",
     "cyperss": "cypress open",
+    "cyperss:run:component": "cypress run --component",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },

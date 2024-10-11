@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 import React from 'react';
 import ResizableSplit from './index';
+import { expect } from 'chai';
 
 describe('ResizableSplit Component', () => {
   beforeEach(() => {
