@@ -27,8 +27,13 @@ const ResizableSplit: React.FC<ResizableSplitProps> = (
   }
 
   const handleDrag = (e: globalThis.MouseEvent) => {
-    const widthBase = isHorizontal ? window.innerWidth : window.innerHeight;
-    const newSize = (e.clientX / widthBase) * 100;
+    let ratio = 0;
+    if (isHorizontal) {
+      ratio = e.clientX / window.innerWidth;
+    } else {
+      ratio = e.clientY / window.innerHeight;
+    }
+    const newSize = ratio * 100;
     setSize(limitQuery(newSize));
   };
 

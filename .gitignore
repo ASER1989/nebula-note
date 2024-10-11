@@ -137,3 +137,5 @@ dist
 
 
 *storybook.log
+
+**/cypress/screenshots

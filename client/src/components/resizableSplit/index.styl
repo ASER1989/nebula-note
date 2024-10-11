@@ -10,19 +10,24 @@
     overflow auto
 
   .panel-1
-    background-color #d0e6f2
+    background-color #FFFFFF
 
   .panel-2
-    background-color #f2d9d0
+    background-color #FFFFFF
 
   .divider
-    background-color #ccc
+    background-color #e0e0e0
     cursor col-resize
     width 10px
     height 100%
     user-select none
 
+    &:hover
+      background-color #cfcfcf
+      box-shadow 0 0 1px 1px #cccccc inset
+
   // 垂直方向的分割线样式
+
   &[style*="grid-template-rows"]
     .divider
       cursor row-resize

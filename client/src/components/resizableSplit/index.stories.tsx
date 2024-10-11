@@ -14,7 +14,7 @@ export default {
     },
   },
   args: {
-    children: [<div key='left'>left</div>, <div key='left'>right</div>]
+    children: [<div key='left' style={{backgroundColor: 'lightblue'}}>left</div>, <div key='left' style={{backgroundColor: 'lightgreen'}} >right</div>]
   },
   decorators: [
     (Story) => (
