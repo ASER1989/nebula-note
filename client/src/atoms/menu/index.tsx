@@ -2,33 +2,34 @@ import './index.styl';
 import React from 'react';
 import classNames from "classnames";
 
+export  type MenuConfigObject = {
+    path: string;
+    label: string;
+}
 
 type MenuProps = {
     checkedKey: string | undefined;
     onChange: (key: string) => void;
-    menuConfig: Array<{
-        key: string;
-        label: string;
-    }>;
+    menuConfig: Array<MenuConfigObject>;
 };
 
 const Menu = ({ checkedKey, menuConfig, onChange }: MenuProps) => {
-    
-    
-    const handleClick = (key: string) => {
-        onChange(key);
+
+
+    const handleClick = (path: string) => {
+        onChange(path);
     }
-    
+
     return (
         <div className='menu'>
             {
                 menuConfig.map((item) => {
-                    const isChecked = item.key === checkedKey
+                    const isChecked = item.path === checkedKey
                     return (
                         <div
-                            key={item.key}
+                            key={item.path}
                             className={classNames('menu-item', { 'checked': isChecked })}
-                            onClick={() => handleClick(item.key)}
+                            onClick={() => handleClick(item.path)}
                         >
                             {item.label}
                         </div>

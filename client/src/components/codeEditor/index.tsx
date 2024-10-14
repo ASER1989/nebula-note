@@ -28,7 +28,7 @@ export default function CodeEditor(props: Props) {
         onSave
     } = props;
 
-    const [langTemplate, setLangTemplate] = useState<keyof typeof langs>(lang as any);
+    const [langTemplate, setLangTemplate] = useState<keyof typeof langs>(lang);
     const [isFullScreenEditor, setIsFullScreenEditor] = useState(false);
     const handleEditorSizeChange = () => {
         setIsFullScreenEditor(() => !isFullScreenEditor);
