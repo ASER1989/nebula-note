@@ -16,6 +16,7 @@ module.exports = {
     'eslint:recommended',                  // 使用推荐的 ESLint 规则
     'plugin:react/recommended',            // 使用推荐的 React 规则
     'plugin:@typescript-eslint/recommended', // 使用推荐的 TypeScript 规则
+    // 'plugin:prettier/recommended'
   ],
   rules: {
     // 在这里添加你的自定义规则

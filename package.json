@@ -11,7 +11,8 @@
     "yarn": ">=1.22"
   },
   "scripts": {
-    "client:cypress:run": "yarn workspace  @Nebula/Client cyperss:run:component"
+    "client:cypress:run": "yarn workspace  @Nebula/Client cyperss:run:component",
+    "serve": "node ./service/index.js"
   },
   "dependencies": {
     "@koa/router": "12.0.0",
