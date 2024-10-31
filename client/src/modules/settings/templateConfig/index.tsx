@@ -5,14 +5,14 @@ import Button from "@client/atoms/button";
 import {FiSave} from 'react-icons/fi';
 import useMessage from "@client/atoms/message/useMessage";
 import CodeEditor from "@client/components/codeEditor";
-import {useTemplateConfigs} from "@client/models/templateStore";
+import {useTemplateConfig} from "@client/models/template";
 
 export default function TemplateConfig() {
 
     const {showMessage} = useMessage();
     const [config, setConfig] = useState<unknown>();
     const [newConfig, setNewConfig] = useState<string>();
-    const {refreshOptions} = useTemplateConfigs();
+    const {reloadTemplateConfig} = useTemplateConfig();
 
     const loadSettings = () => {
         request.get('/template/config')
@@ -37,7 +37,7 @@ export default function TemplateConfig() {
             request.post('/template/config', {settings: newSettings})
                 .then((resp) => {
                     if (resp.success) {
-                        refreshOptions();
+                        reloadTemplateConfig();
                         return showMessage("保存成功！");
                     }
                     showMessage(resp.error.toString());

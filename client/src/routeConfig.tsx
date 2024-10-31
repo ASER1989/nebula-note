@@ -1,6 +1,8 @@
 import React from 'react';
 import Locale from "./modules/locale";
 import SliceShop from "./modules/sliceShop";
+import SnippetList from './modules/snippetList';
+
 import type {RouteObject} from "react-router-dom";
 import _ from 'lodash';
 
@@ -19,9 +21,16 @@ const SLICE_SHOP: RouteConfig = {
   // index:true,
 }
 
+const SNIPPET_LIST:RouteConfig = {
+  path:"/snippet-list",
+  element:<SnippetList />,
+  label:"片段管理"
+}
+
 export const Routings: Record<string, RouteConfig> = {
   LOCALE,
-  SLICE_SHOP
+  SLICE_SHOP,
+SNIPPET_LIST
 }
 const RoutingList: Array<RouteConfig> = _.values(Routings);
 export default RoutingList;

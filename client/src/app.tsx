@@ -9,7 +9,7 @@ import {FaAppStore} from 'react-icons/fa';
 import {SidePage} from "@client/components/sidePage";
 import Settings from "@client/modules/settings";
 import classNames from 'classnames';
-import {useStoreUpdate} from "@client/models/templateStore";
+import {useStoreUpdate} from "@client/models/template";
 import Performance from "@client/modules/tools/performance";
 import {useRoutes, useNavigate} from "react-router-dom";
 import routeConfig from "@client/routeConfig";
@@ -45,7 +45,6 @@ function App() {
         </div>
         <div className='app_layout_footer'>
           <div className='app_layout_footer_copyright'>
-            <div title='版权所有，盗版必究'>©2023 Nova</div>
             <div>v{packageConfig.version}</div>
             <Performance/>
           </div>

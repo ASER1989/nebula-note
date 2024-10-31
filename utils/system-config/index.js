@@ -4,7 +4,7 @@ const initialConfig = require('../../config.json');
 const _ = require('lodash');
 
 const userFolderPath = process.env.HOME || process.env.USERPROFILE;
-const configPath = path.join(userFolderPath, 'AppData/Local/Nebula/config.json');
+const configPath = path.join(userFolderPath, 'Nebula/config.json');
 
 let _systemConfig;
 const subscribes = [];

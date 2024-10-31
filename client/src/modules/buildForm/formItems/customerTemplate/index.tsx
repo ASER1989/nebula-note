@@ -7,11 +7,11 @@ import Dropdown, {DropdownOption} from "@client/atoms/dropdown";
 import request from '@client/utils/request';
 import useMessage from '@client/atoms/message/useMessage';
 import Expander from "./expander";
-import {useTemplateConfigs} from "@client/models/templateStore";
+import {useTemplateConfig} from "@client/models/template";
 
 export default function CustomerTemplate() {
     const {setExtraState, setExtraRender} = useContext(BuildFormContext);
-    const {options, refreshOptions, setOptionKeyword} = useTemplateConfigs();
+    const {templateConfig, reloadTemplateConfig, setTemplateKeyword} = useTemplateConfig();
     const {showMessage} = useMessage();
     const setCustomerTemplate = (customerTemplate: ExtraState['customerTemplate']) => {
         setExtraState?.((ownState) => {
@@ -22,8 +22,16 @@ export default function CustomerTemplate() {
         });
     };
 
+    const options = useMemo(()=>{
+        return templateConfig.map(item => ({
+            value: item.filePath,
+            label: item.name,
+            keyword: item.keyword
+        }))
+    },[templateConfig])
+
     useEffect(() => {
-        refreshOptions();
+        reloadTemplateConfig();
     }, []);
 
 
@@ -50,7 +58,7 @@ export default function CustomerTemplate() {
     };
 
     const handleSearch = (keyword: string | undefined) => {
-        setOptionKeyword(keyword)
+        setTemplateKeyword(keyword)
     }
 
     const tagColors = [

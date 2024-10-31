@@ -1,25 +1,41 @@
-import React, {MouseEvent, useState} from 'react';
+import React, {MouseEvent, useState, useMemo} from 'react';
 import './index.styl';
 
 export interface ResizableSplitProps {
   direction?: 'horizontal' | 'vertical';
   children?: [React.ReactNode, React.ReactNode];
+  percentage?: number;
+  minWidth?: number;
 }
 
 const ResizableSplit: React.FC<ResizableSplitProps> = (
   {
     direction = 'horizontal',
-    children
+    children,
+    percentage = 50,
+    minWidth
   }) => {
 
-  const [size, setSize] = useState<number>(50); // 默认分割比率为50%
+  const [size, setSize] = useState<number>(percentage); // 默认分割比率为50%
 
   const isHorizontal = direction === 'horizontal';
 
-  const attrVal = `calc(${size}% - 10px) 10px auto`;
-  const style = isHorizontal
-    ? {gridTemplateColumns: attrVal} // 只设置水平方向的列布局
-    : {gridTemplateRows: attrVal};  // 只设置垂直方向的行布局
+
+  const style = useMemo(() => {
+    let realSize = `${size}%`;
+
+    if (minWidth !== undefined && minWidth !== null) {
+      const windowSize = isHorizontal ? window.innerWidth : window.innerHeight;
+      const firstPanelSize = (windowSize) * size / 100;
+      realSize = `${firstPanelSize < minWidth ? minWidth : firstPanelSize}px`;
+    }
+
+    const attrVal = `calc(${realSize} - 10px) 10px auto`;
+    const result = isHorizontal
+      ? {gridTemplateColumns: attrVal} // 只设置水平方向的列布局
+      : {gridTemplateRows: attrVal};  // 只设置垂直方向的行布局
+    return result;
+  }, [size, minWidth]);
 
   const limitQuery = (newSize: number) => {
     const result = newSize > 10 ? newSize : 10;

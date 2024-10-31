@@ -1,7 +1,7 @@
 export type Response<T> = {
     success: boolean;
     data: T;
-    error: string | Record<string, any>;
+    error: string | Record<string, unknown>;
 };
 
 const headers = {
@@ -30,7 +30,7 @@ export default {
                 const value =
                     typeof params?.[key] === 'object'
                         ? encodeURIComponent(JSON.stringify(params?.[key]))
-                        : encodeURIComponent(params?.[key] as any);
+                        : encodeURIComponent(params?.[key] as string);
                 return `${encodeURIComponent(key)}=${value}`;
             })
             .join('&');

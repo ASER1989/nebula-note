@@ -4,7 +4,7 @@ const systemConfig = require('../system-config');
 const _ = require('lodash');
 
 const userFolderPath = process.env.HOME || process.env.USERPROFILE;
-const configFolder = path.join(userFolderPath, 'AppData/Local/Nebula/Templates');
+const configFolder = path.join(userFolderPath, 'Nebula/Templates');
 
 let templateConfigs;
 

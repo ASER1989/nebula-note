@@ -7,12 +7,7 @@ module.exports = (prefix, opts) => {
     const router = new Router({prefix});
 
     router.get('/list', async (ctx) => {
-        const tableTemplateRecord = await templateUtils.getTemplateConfigs();
-        return tableTemplateRecord.map(item => ({
-            value: item.filePath,
-            label: item.name,
-            keyword: item.keyword
-        }))
+        return  await templateUtils.getTemplateConfigs();
     });
 
     router.post('/add', async (ctx) => {
