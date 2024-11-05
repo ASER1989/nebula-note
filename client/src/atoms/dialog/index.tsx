@@ -7,17 +7,17 @@ type SidePageProps = {
     title?: string;
     children: JSX.Element | React.ReactElement;
     visible: boolean;
-    onVisibleChange?: (visible: boolean) => void;
+    onClose?: (visible: boolean) => void;
 };
 
-export function Dialog({children, title, visible = false, onVisibleChange}: SidePageProps) {
+export function Dialog({children, title, visible = false, onClose}: SidePageProps) {
 
     const [hide, setHide] = useState(true);
 
     const handleClose = () => {
         setHide(true);
         setTimeout(() => {
-            onVisibleChange?.(false);
+            onClose?.(false);
         }, 400);
     }
     const handleDocumentKeyDown = (e: DocumentEventMap["keydown"]) => {

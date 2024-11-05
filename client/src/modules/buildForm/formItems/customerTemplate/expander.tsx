@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dialog} from "@client/components/dialog";
+import {Dialog} from "@client/atoms/dialog";
 import CodeEditor from "@client/components/codeEditor";
 import SaveForm from './saveForm';
 import {ExtraState} from "@client/modules/buildForm/types";
@@ -30,7 +30,7 @@ export default function Expander({templateOption, onChange}: Props) {
                 onChange={handleContentChange}
                 onSave={handleSaveShown}
             />
-            <Dialog visible={saveShown} onVisibleChange={() => setSaveShown(false)} title='模板'>
+            <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
                 <SaveForm templateOption={templateOption} onClose={handleSaveClose}/>
             </Dialog>
         </>

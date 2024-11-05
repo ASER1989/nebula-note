@@ -10,8 +10,7 @@ import {getLangOptions, SupportedLang} from './queries';
 import * as events from '@uiw/codemirror-extensions-events';
 import _ from 'lodash';
 
-
-type Props = ReactCodeMirrorProps & {
+export interface Props extends ReactCodeMirrorProps  {
   title?: string;
   showExpand?: boolean;
   showHeader?: boolean;

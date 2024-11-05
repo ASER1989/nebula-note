@@ -1,5 +1,4 @@
 import React, {useState, useCallback, useRef} from 'react';
-import SideBySide from '@client/components/sideBySide';
 import './index.styl';
 import Form, {FormItem} from '@client/components/form';
 import Button from '@client/atoms/button';

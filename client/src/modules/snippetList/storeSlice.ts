@@ -6,6 +6,7 @@ export type SliceType = {
   fetchStatus: FetchStatus;
   template: Partial<TemplateConfig> & {
     content?: string;
+    editStatus?: 'Edited' | 'Saved' | 'None'
   }
 }
 
@@ -14,13 +15,16 @@ export const storeSlice = createSlice({
   name: sliceName,
   initialState: {
     fetchStatus: 'None',
-    template: {} as SliceType['template']
+    template: {} as SliceType['template'],
   },
   reducers: {
     setTemplateFilePath: (state, action: { payload: TemplateConfig }) => {
       return {
         fetchStatus: 'None',
-        template: action.payload
+        template: {
+          ...action.payload,
+          editStatus: 'None'
+        },
       };
     },
     setTemplateContent: (state, action: { payload: string }) => {
@@ -28,7 +32,27 @@ export const storeSlice = createSlice({
         fetchStatus: 'None',
         template: {
           ...state.template,
-          content: action.payload
+          content: action.payload,
+          editStatus: 'None'
+        }
+      };
+    },
+    updateTemplateContent: (state, action: { payload: string }) => {
+      return {
+        fetchStatus: 'None',
+        template: {
+          ...state.template,
+          content: action.payload,
+          editStatus: 'Edited'
+        }
+      };
+    },
+    saveTemplateContent: (state) => {
+      return {
+        fetchStatus: 'None',
+        template: {
+          ...state.template,
+          editStatus: 'Saved'
         }
       };
     },
@@ -37,7 +61,9 @@ export const storeSlice = createSlice({
 
 export const {
   setTemplateFilePath: setTemplateAction,
-  setTemplateContent: setTemplateContentAction
+  setTemplateContent: setTemplateContentAction,
+  updateTemplateContent: updateTemplateContentAction,
+  saveTemplateContent: saveTemplateContentAction
 } = storeSlice.actions;
 
 export const reducer = storeSlice.reducer;

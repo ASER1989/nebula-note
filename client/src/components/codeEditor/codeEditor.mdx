@@ -1,0 +1,17 @@
+import {Meta, Story, Canvas, ArgTypes} from '@storybook/addon-docs';
+import CodeEditor,{Primary} from './codeEditor.stories'
+
+<Meta title="Components/CodeEditor" of={CodeEditor}/>
+
+# CodeEditor Component
+
+The `CodeEditor` component is based on `codemirror`.On the basis of `codemirror`, language selection, shortcut save (ctrl+s), title, full-screen display and other functions are added.
+
+## Example Usage
+
+<Canvas>
+  <Story of={Primary}/>
+</Canvas>
+
+## Props
+<ArgTypes typeof={CodeEditor}/>
