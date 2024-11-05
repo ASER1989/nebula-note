@@ -24,20 +24,20 @@ module.exports = (prefix, opts) => {
         templateConfigs.push(newConfig);
 
         await templateUtils.updateTemplateConfigs(templateConfigs);
-        await templateUtils.saveTemplateFile(reqParams.template, newConfig.filePath);
+        await templateUtils.saveTemplateFile(reqParams.content, newConfig.filePath);
     });
 
     router.post('/update', async (ctx) => {
         const reqParams = ctx.request.body;
-        const {path, template} = reqParams;
-        await templateUtils.saveTemplateFile(template, path);
+        const {filePath, content} = reqParams;
+        await templateUtils.saveTemplateFile(content, filePath);
     });
 
     router.get('/detail', async (ctx) => {
         const {path} = ctx.query;
         if (!_.isEmpty(path)) {
-            const templateString = templateUtils.getTemplateFile(path);
-            return templateString;
+            const templateContent = templateUtils.getTemplateFile(path);
+            return templateContent;
         }
     })
 

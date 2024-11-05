@@ -5,7 +5,6 @@ import {TemplateConfig} from "@client/models/template/types";
 export type SliceType = {
   fetchStatus: FetchStatus;
   template: Partial<TemplateConfig> & {
-    content?: string;
     editStatus?: 'Edited' | 'Saved' | 'None'
   }
 }
