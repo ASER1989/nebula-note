@@ -18,6 +18,7 @@ export function Dialog({children, title, visible = false, onClose}: SidePageProp
         setHide(true);
         setTimeout(() => {
             onClose?.(false);
+            setHide(false);
         }, 400);
     }
     const handleDocumentKeyDown = (e: DocumentEventMap["keydown"]) => {

@@ -1,12 +1,40 @@
-import React from 'react';
 import {Meta, StoryObj} from '@storybook/react';
 import CodeEditor, {Props} from './index';
-import {ViewUpdate} from "@uiw/react-codemirror";
 
 const meta: Meta<Props> = {
   title: 'Components/CodeEditor',
   component: CodeEditor,
-  parameters: {docs: {description: {component: ViewUpdate}}},
+  argTypes: {
+    lang:{
+      type:'string',
+      table:{
+        type:{
+          summary:"jsx | json | tsx | javascript | markdown | typescript | html | yaml"
+        }
+      }
+    },
+    onChange: {
+      type:'function',
+      table:{
+        subcategory:'Events',
+        disable:false,
+        type: {
+          summary:'(value:string,viewUpdate:ViewUpdate) => void '
+        }
+      }
+    },
+    onSave:{
+      type:'function',
+      description:'Trigger this event by pressing the ctrl and s keys',
+      table:{
+        subcategory:'Events',
+        type:{
+          summary:"() => void",
+        }
+      }
+    }
+  },
+
   args: {
     value: 'const App: React.FC = () => (\n' +
       '  <>\n' +
