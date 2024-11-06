@@ -17,7 +17,7 @@ export const BuildResult = () => {
   return (
     <SidePage visible={state?.visible} onVisibleChange={handlePanelHide}>
       <Stack direction='column'>
-        <StackItem flex='true'>
+        <StackItem flex>
           <CodeEditor value={state?.content} showHeader={true}/>
         </StackItem>
         <StackItem style={{height:20,textAlign:'right',padding:5}}>
