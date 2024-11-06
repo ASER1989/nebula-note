@@ -3,18 +3,17 @@ import React, {FC, ReactNode} from "react";
 export type StackItemProps = {
   children: ReactNode;
   style?: React.CSSProperties;
-  grow?: number;
-  flex?: number
+  flex?: boolean
 }
 
 export const StackItem: FC<StackItemProps> = (
   {
     children,
     style,
-    grow,
+    flex,
   }) => {
   return (
-    <div style={{...style, flexGrow: grow}}>
+    <div style={{...style, flex:flex? 1: undefined}}>
       {children}
     </div>
   );

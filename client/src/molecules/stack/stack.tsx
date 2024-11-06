@@ -12,7 +12,7 @@ export type StackProps =
 
 export const Stack: FC<StackProps> = (
   {
-    direction = 'column',
+    direction = 'row',
     spacing = 0,
     align = 'stretch',
     justify = 'flex-start',
@@ -20,11 +20,12 @@ export const Stack: FC<StackProps> = (
   }) => {
 
   const style = useMemo(() => ({
-    display:'flex',
+    display: 'flex',
     flexDirection: direction,
     gap: `${spacing}px`,
     alignItems: align,
-    justifyContent: justify
+    justifyContent: justify,
+    [direction === 'row' ? 'width' : 'height']: '100%'
   }), [direction, spacing, align, justify]);
 
   return (

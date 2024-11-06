@@ -5,6 +5,7 @@ import {StateName} from "@client/modules/_shared/template/buildReuslt/constants"
 import {BuildResultState} from "@client/modules/_shared/template/buildReuslt/types";
 import CodeEditor from "@client/components/codeEditor";
 import Copy from "@client/molecules/copy";
+import {Stack, StackItem} from "@client/molecules/stack";
 
 export const BuildResult = () => {
   const [state, setState] = useRedux(StateName, {} as BuildResultState);
@@ -15,8 +16,14 @@ export const BuildResult = () => {
 
   return (
     <SidePage visible={state?.visible} onVisibleChange={handlePanelHide}>
-      <CodeEditor value={state?.content}/>
-      <Copy code={state?.content}/>
+      <Stack direction='column'>
+        <StackItem flex='true'>
+          <CodeEditor value={state?.content} showHeader={true}/>
+        </StackItem>
+        <StackItem style={{height:20,textAlign:'right',padding:5}}>
+          <Copy code={state?.content}/>
+        </StackItem>
+      </Stack>
     </SidePage>
   )
 }
