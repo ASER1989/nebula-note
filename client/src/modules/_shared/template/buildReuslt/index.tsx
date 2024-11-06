@@ -8,19 +8,19 @@ import Copy from "@client/molecules/copy";
 import {Stack, StackItem} from "@client/molecules/stack";
 
 export const BuildResult = () => {
-  const [state, setState] = useRedux(StateName, {} as BuildResultState);
+  const [state, setState] = useRedux(StateName, {visible:false} as BuildResultState);
 
   const handlePanelHide = () => {
-    setState({...state, visible: false})
+    setState({content: '', visible: false})
   }
 
   return (
     <SidePage visible={state?.visible} onVisibleChange={handlePanelHide}>
       <Stack direction='column'>
-        <StackItem flex>
+        <StackItem flex style={{overflow: 'auto'}}>
           <CodeEditor value={state?.content} showHeader={true}/>
         </StackItem>
-        <StackItem style={{height:20,textAlign:'right',padding:5}}>
+        <StackItem style={{height: 20, textAlign: 'right', padding: 5}}>
           <Copy code={state?.content}/>
         </StackItem>
       </Stack>

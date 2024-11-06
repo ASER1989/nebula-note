@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import Button from "@client/atoms/button";
 
 export type Props = {
-  code: string;
+  code?: string;
 }
 export const Copy = ({code}: Props) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(code ?? '');
       setIsCopied(true);
 
       // 2秒后重置复制状态
@@ -20,7 +20,8 @@ export const Copy = ({code}: Props) => {
   };
 
   return (
-    <Button type={isCopied ? 'default' : 'primary'} disabled={isCopied} onClick={handleCopy}>{isCopied ? 'Copied!' : 'Copy'}</Button>
+    <Button type={isCopied ? 'default' : 'primary'} disabled={isCopied}
+            onClick={handleCopy}>{isCopied ? 'Copied!' : 'Copy'}</Button>
   );
 };
 

@@ -1,4 +1,4 @@
 export type BuildResultState = {
-  content: string;
+  content?: string;
   visible: boolean;
 }

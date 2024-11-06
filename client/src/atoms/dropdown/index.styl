@@ -8,7 +8,8 @@
   --padding-top-size 6px
   --dropdown-triangle-size 8px
   --dropdown-line-color #777777
-  height 30px
+  --dropdown-height 30px
+  height var(--dropdown-height)
   border solid 1px var(--dropdown-line-color)
   border-radius: 3px
   position relative
@@ -17,10 +18,10 @@
 
   &.small
     --padding-top-size 3px
-    height 24px
+    --dropdown-height 24px
 
   &.tiny
-    height 20px
+    --dropdown-height 20px
     --padding-top-size 0
     --dropdown-triangle-size 6px
 
@@ -61,13 +62,16 @@
   .dropdown-toggle
     background-color transparent
     padding var(--padding-top-size) 6px
-    width 100%
+    width calc(100% - 2*var(--dropdown-triangle-size))
     cursor pointer
     text-align left
     outline 0
     color inherit
     position relative
     z-index 1
+    height var(--dropdown-height)
+    overflow hidden
+    text-overflow ellipsis
 
   .dropdown-menu
     position absolute

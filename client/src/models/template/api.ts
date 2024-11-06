@@ -27,3 +27,7 @@ export const updateTemplate = (postData: TemplateConfig) => {
 export const buildTemplate = (postData: Pick<TemplateConfig, 'meta' | 'content'>) => {
   return request.post<string>('/slice/build/meta', postData)
 }
+
+export const buildTemplateWithFormData = <T extends Record<string, unknown>>(postData: T)=>{
+  return request.post<string>('/slice/build/form', {...postData});
+}

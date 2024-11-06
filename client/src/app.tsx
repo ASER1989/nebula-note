@@ -4,7 +4,7 @@ import Menu, {MenuConfigObject} from './atoms/menu';
 import {MessageContext} from '@client/atoms/message/context';
 import Message from '@client/atoms/message';
 import packageConfig from '../../package.json';
-import {LuSettings,LuFileCode} from 'react-icons/lu';
+import {LuSettings} from 'react-icons/lu';
 import {FaAppStore} from 'react-icons/fa';
 import {SidePage} from "@client/components/sidePage";
 import Settings from "@client/modules/settings";
@@ -56,7 +56,6 @@ function App() {
               <Performance/>
             </div>
             <div className='app_layout_footer_operation'>
-              <LuFileCode title='代码'  className='app_operate filecode'/>
               <FaAppStore
                 title='模板商店'
                 className={classNames('app_operate', {active: storeTools.loading})}
