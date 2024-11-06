@@ -1,13 +1,16 @@
 import React from "react";
 import classNames from "classnames";
+import {FaPlayCircle} from "react-icons/fa";
+
 import './index.styl';
 
 export type Props = {
   name: string,
   isChecked: boolean,
   onClick?: () => void;
+  onBuild?: () => void;
 };
-export const ListItem = ({name, isChecked, onClick}: Props) => {
+export const ListItem = ({name, isChecked, onClick, onBuild}: Props) => {
 
   const className = classNames({"checked": isChecked}, 'snippet-list-item')
   const handleClick = () => {
@@ -17,6 +20,9 @@ export const ListItem = ({name, isChecked, onClick}: Props) => {
   return (
     <div onClick={handleClick} className={className}>
       <div className='item-name'> {name}</div>
+      <div className='item-operation'>
+        <FaPlayCircle color='#009688' size={23} onClick={onBuild}/>
+      </div>
     </div>
   )
 }

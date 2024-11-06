@@ -24,7 +24,6 @@
     "yarn": ">=1.22"
   },
   "dependencies": {
-    "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@storybook/addon-docs": "^8.3.3",
     "@types/react": "^18.2.25",

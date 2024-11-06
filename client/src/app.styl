@@ -80,7 +80,9 @@
       color #545454
       animation operate-active 6s infinite linear;
       animation-play-state paused
-
+      &.filecode
+        animation operate-breathe 1s infinite cubic-bezier(0.77, 0.02, 0.34, 0.85)
+        animation-play-state paused
       &:hover
         filter drop-shadow(1px 1px 1px #7e7e7e)
 
@@ -90,6 +92,7 @@
 
         &:hover
           filter unset
+
 
 .logo
   transition: all 300ms;
@@ -127,5 +130,16 @@
   }
   to {
     transform rotateZ(359deg);
+  }
+}
+
+@keyframes operate-breathe {
+  from {
+    background: #ffffff;
+    box-shadow: 0 0 5px 2px #ffffff;
+  }
+  to {
+    background transparent;
+    box-shadow transparent;
   }
 }

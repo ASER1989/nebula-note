@@ -6,7 +6,7 @@ type Props<T> = {
   key: string,
   reducer: Reducer<T, Action>
 }
-export const useStore = <SliceType>({key, reducer}: Props<SliceType>) => {
+export const useReduxSlice = <SliceType>({key, reducer}: Props<SliceType>) => {
   useEffect(() => {
     store.reducerManager.add(key, reducer);
   }, []);

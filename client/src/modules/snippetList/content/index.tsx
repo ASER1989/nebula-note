@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Tabs, TabPane} from "@client/components/tabs";
-import {useStore} from "@client/utils/hooks/useStore";
+import {useReduxSlice} from "@client/store/hooks/useReduxSlice";
 import {
   reducer,
   sliceName,
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export const Content = () => {
-  const [state, dispatch] = useStore({key: sliceName, reducer});
+  const [state, dispatch] = useReduxSlice({key: sliceName, reducer});
   const [saveShown, setSaveShown] = useState(false);
 
   const handleSaveShown = () => {

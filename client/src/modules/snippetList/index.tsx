@@ -11,7 +11,7 @@ export const SnippetList = () => {
     <>
       <ResizableSplit percentage={20} minWidth={270}>
         <List templateList={templateConfig}/>
-        <Content config={'{}'}/>
+        <Content/>
       </ResizableSplit>
 
     </>
