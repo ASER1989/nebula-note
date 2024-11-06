@@ -55,7 +55,7 @@ export default function BuildForm(
                   <Button
                     onClick={handleSubmit}
                     type='primary'
-                    disabeld={isSubmitDisabled}
+                    disabled={isSubmitDisabled}
                   >
                     {submitText ?? '提交'}
                   </Button>

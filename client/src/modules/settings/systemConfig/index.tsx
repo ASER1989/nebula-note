@@ -66,7 +66,7 @@ export default function SystemConfig() {
                 />
             </div>
             <div className='footer'>
-                <Button onClick={handleSave} type='primary' disabeld={!newConfig}><FiSave/>保存</Button>
+                <Button onClick={handleSave} type='primary' disabled={!newConfig}><FiSave/>保存</Button>
             </div>
         </div>
     );

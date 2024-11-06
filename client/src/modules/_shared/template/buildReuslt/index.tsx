@@ -4,6 +4,7 @@ import {useRedux} from "@client/store/hooks/useRedux";
 import {StateName} from "@client/modules/_shared/template/buildReuslt/constants";
 import {BuildResultState} from "@client/modules/_shared/template/buildReuslt/types";
 import CodeEditor from "@client/components/codeEditor";
+import Copy from "@client/molecules/copy";
 
 export const BuildResult = () => {
   const [state, setState] = useRedux(StateName, {} as BuildResultState);
@@ -15,6 +16,7 @@ export const BuildResult = () => {
   return (
     <SidePage visible={state?.visible} onVisibleChange={handlePanelHide}>
       <CodeEditor value={state?.content}/>
+      <Copy code={state?.content}/>
     </SidePage>
   )
 }
