@@ -5,6 +5,13 @@ export const getTemplateList = () => {
   return request.get<Array<TemplateConfig>>('/template/list');
 }
 
+export const getTemplateContent =(filePath:string)=>{
+  return request.get<string>('/template/content', {path: filePath})
+}
+export const getTemplateMeta =(filePath:string)=>{
+  return request.get<string>('/template/meta', {path: filePath})
+}
+
 export const templateUpdate = () => {
   return request.get('/template/store/update');
 }

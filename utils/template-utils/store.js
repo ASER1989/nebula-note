@@ -12,7 +12,7 @@ const storeSync = async () => {
         await initialiseRepo(git);
     }
     await git.pull('origin','master');
-    await templateUtils.reoladTemplateConfig();
+    await templateUtils.reloadTemplateConfig();
 }
 
 const initialiseRepo = async (git) => {

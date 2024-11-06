@@ -1,7 +1,12 @@
 import React, {useState} from "react";
 import {Tabs, TabPane} from "@client/components/tabs";
 import {useStore} from "@client/utils/hooks/useStore";
-import {reducer, sliceName, updateTemplateContentAction} from "@client/modules/snippetList/storeSlice";
+import {
+  reducer,
+  sliceName,
+  updateTemplateContentAction,
+  updateTemplateMetaAction
+} from "@client/modules/snippetList/storeSlice";
 import CodeEditor from "@client/components/codeEditor";
 import {Dialog} from "@client/atoms/dialog";
 import SaveForm from "@client/modules/_shared/template/saveForm";
@@ -11,7 +16,7 @@ type Props = {
 
 }
 
-export const Content = ({config}: Props) => {
+export const Content = () => {
   const [state, dispatch] = useStore({key: sliceName, reducer});
   const [saveShown, setSaveShown] = useState(false);
 
@@ -22,18 +27,22 @@ export const Content = ({config}: Props) => {
     setSaveShown(false);
   }
 
-  const handleTemplateChange = (editorValue: string) => {
+  const handleContentChange = (editorValue: string) => {
     dispatch(updateTemplateContentAction(editorValue));
+  }
+
+  const handleMetaChange = (editorValue: string) => {
+    dispatch(updateTemplateMetaAction(editorValue));
   }
 
   return (
     <>
       <Tabs>
         <TabPane id='code' key='code' title='模板编辑'>
-          <CodeEditor value={state?.template?.content} onChange={handleTemplateChange} onSave={handleSaveShown}/>
+          <CodeEditor value={state?.template?.content} onChange={handleContentChange} onSave={handleSaveShown}/>
         </TabPane>
-        <TabPane id='config' key='config' title='模板运行参数配置'>
-          <CodeEditor value={config}/>
+        <TabPane id='meta' key='meta' title='模板运行参数配置'>
+          <CodeEditor value={state?.template?.meta ??'{}'} onChange={handleMetaChange} onSave={handleSaveShown}/>
         </TabPane>
       </Tabs>
       <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>

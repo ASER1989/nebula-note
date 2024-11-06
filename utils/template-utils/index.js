@@ -18,7 +18,7 @@ const getTemplateConfigPath = async () => {
     return path.join(folder, 'config.json');
 }
 
-const reoladTemplateConfig = async () => {
+const reloadTemplateConfig = async () => {
     templateConfigs = [];
     const customConfigPath = await getTemplateConfigPath();
 
@@ -32,7 +32,7 @@ const getTemplateConfigs = async () => {
     if (templateConfigs) {
         return templateConfigs;
     }
-    await reoladTemplateConfig();
+    await reloadTemplateConfig();
 
     return templateConfigs;
 }
@@ -43,12 +43,14 @@ const updateTemplateConfigs = async (config) => {
     }
     const configPath = await getTemplateConfigPath();
     await fileUtils.writeFile(configPath, JSON.stringify(config, null, '\t'));
-    await reoladTemplateConfig();
+    await reloadTemplateConfig();
 }
 
 const saveTemplateFile = async (content, filePath) => {
-    const configPath = await getTemplateFolder();
-    return await fileUtils.writeFile(path.join(configPath, filePath), content);
+    if(content){
+        const configPath =  getTemplateFolder();
+        return await fileUtils.writeFile(path.join(configPath, filePath), content);
+    }
 }
 
 const getTemplateFile = async (filePath) => {
@@ -56,7 +58,10 @@ const getTemplateFile = async (filePath) => {
     return await fileUtils.readFile(path.join(configPath, filePath));
 }
 
-systemConfig.subscribe(reoladTemplateConfig);
+const filePathToMetaPath = (filePath)=>{
+    return  filePath.replace('.ejs','_meta.json');
+}
+systemConfig.subscribe(reloadTemplateConfig);
 
 module.exports = {
     getTemplateConfigs,
@@ -64,5 +69,6 @@ module.exports = {
     saveTemplateFile,
     getTemplateFile,
     getTemplateFolder,
-    reoladTemplateConfig
+    reloadTemplateConfig,
+    filePathToMetaPath
 }

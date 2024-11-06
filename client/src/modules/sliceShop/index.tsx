@@ -17,10 +17,10 @@ export default function SliceShop() {
         setIsLoading(true);
         const schemaFields = getFieldFlatArrayHighPerformance(extraState.schema);
         const schemaList = schemaFields.filter((item) => item?.isChecked);
-        const template = extraState.customerTemplate?.template;
+        const template = extraState.customerTemplate?.content;
 
         request
-            .post('/slice/code', {formState, schemaList, template})
+            .post('/slice/build/form', {formState, schemaList, template})
             .then((resp) => {
                 if (resp.success) {
                     setRespData(resp.data);

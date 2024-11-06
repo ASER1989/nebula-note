@@ -24,7 +24,7 @@ type FormState = {
 }
 
 export default function Index({templateOption, onClose}: Props) {
-  const {content} = templateOption ?? {};
+  const {content,meta} = templateOption ?? {};
   const {showMessage} = useMessage();
   const [isSaveAs, setIsSaveAs] = useState(false);
   const [formState, setFormState] = useState<FormState>({});
@@ -48,7 +48,8 @@ export default function Index({templateOption, onClose}: Props) {
   const handleSaveAsSubmit = () => {
     const postData = {
       ...formState,
-      content
+      content,
+      meta
     }
     TemplateApi.createTemplate(postData).then(resp => {
       if (resp.success) {
@@ -62,7 +63,8 @@ export default function Index({templateOption, onClose}: Props) {
   const handleTemplateUpdate = () => {
     const postData = {
       filePath: templateOption?.filePath,
-      content
+      content,
+      meta
     }
     TemplateApi.updateTemplate(postData).then(resp => {
       if (resp.success) {

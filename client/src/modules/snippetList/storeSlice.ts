@@ -36,12 +36,32 @@ export const storeSlice = createSlice({
         }
       };
     },
+    setTemplateMeta: (state, action: { payload: string }) => {
+      return {
+        fetchStatus: 'None',
+        template: {
+          ...state.template,
+          meta: action.payload,
+          editStatus: 'None'
+        }
+      };
+    },
     updateTemplateContent: (state, action: { payload: string }) => {
       return {
         fetchStatus: 'None',
         template: {
           ...state.template,
           content: action.payload,
+          editStatus: 'Edited'
+        }
+      };
+    },
+    updateTemplateMeta: (state, action: { payload: string }) => {
+      return {
+        fetchStatus: 'None',
+        template: {
+          ...state.template,
+          meta: action.payload,
           editStatus: 'Edited'
         }
       };
@@ -61,7 +81,9 @@ export const storeSlice = createSlice({
 export const {
   setTemplateFilePath: setTemplateAction,
   setTemplateContent: setTemplateContentAction,
+  setTemplateMeta: setTemplateMetaAction,
   updateTemplateContent: updateTemplateContentAction,
+  updateTemplateMeta: updateTemplateMetaAction,
   saveTemplateContent: saveTemplateContentAction
 } = storeSlice.actions;
 

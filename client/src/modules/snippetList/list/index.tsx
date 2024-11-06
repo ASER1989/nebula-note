@@ -3,8 +3,14 @@ import './index.styl';
 import {ListItem} from "./item";
 import {TemplateConfig} from "@client/models/template/types";
 import {useStore} from "@client/utils/hooks/useStore";
-import {reducer, sliceName, setTemplateAction, setTemplateContentAction} from "@client/modules/snippetList/storeSlice";
-import {fetchTemplateContent} from "@client/models/apis/templateApi";
+import {
+  reducer,
+  sliceName,
+  setTemplateAction,
+  setTemplateContentAction,
+  setTemplateMetaAction
+} from "@client/modules/snippetList/storeSlice";
+import * as templateApi from "@client/models/template/api";
 import {ConfirmContext} from "@client/components/confirm/context";
 
 type Props = {
@@ -17,11 +23,22 @@ export const List = ({templateList}: Props) => {
 
   const changeSelectedItem = (templateConfig: TemplateConfig) => {
     dispatch(setTemplateAction(templateConfig));
-    fetchTemplateContent(templateConfig.filePath).then(resp => {
-      if (resp?.success) {
-        dispatch(setTemplateContentAction(resp.data));
-      }
-    })
+    templateApi
+      .getTemplateContent(templateConfig.filePath as string)
+      .then(
+        resp => {
+          if (resp?.success) {
+            dispatch(setTemplateContentAction(resp.data));
+          }
+        }
+      )
+
+    templateApi.getTemplateMeta(templateConfig.filePath as string)
+      .then(resp=>{
+        if(resp.success){
+          dispatch(setTemplateMetaAction(resp.data));
+        }
+      })
   }
 
   const handleClick = (templateConfig: TemplateConfig) => {
@@ -44,7 +61,7 @@ export const List = ({templateList}: Props) => {
         templateList.map(template => {
           return <ListItem isChecked={template.filePath === state?.template.filePath}
                            key={template.name}
-                           name={template.name} onClick={() => handleClick(template)}/>
+                           name={template.name as string} onClick={() => handleClick(template)}/>
         })
       }
     </div>

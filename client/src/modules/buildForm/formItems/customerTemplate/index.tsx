@@ -43,7 +43,7 @@ export default function CustomerTemplate() {
   };
 
   const handleTemplateTypeChange = (option: DropdownOption) => {
-    request.get<string>('/template/detail', {path: option.value})
+    request.get<string>('/template/content', {path: option.value})
       .then((resp) => {
         if (!resp.success) {
           return showMessage(

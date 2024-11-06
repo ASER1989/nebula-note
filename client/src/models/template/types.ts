@@ -8,4 +8,5 @@ export type TemplateRecord = {
 
 export type TemplateConfig = Partial<TemplateRecord> & {
   content?: string
+  meta?:string
 }
