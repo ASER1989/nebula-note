@@ -5,10 +5,10 @@ export const getTemplateList = () => {
   return request.get<Array<TemplateConfig>>('/template/list');
 }
 
-export const getTemplateContent =(filePath:string)=>{
+export const getTemplateContent = (filePath: string) => {
   return request.get<string>('/template/content', {path: filePath})
 }
-export const getTemplateMeta =(filePath:string)=>{
+export const getTemplateMeta = (filePath: string) => {
   return request.get<string>('/template/meta', {path: filePath})
 }
 
@@ -22,4 +22,8 @@ export const createTemplate = (postData: TemplateConfig) => {
 
 export const updateTemplate = (postData: TemplateConfig) => {
   return request.post('/template/update', postData)
+}
+
+export const buildTemplate = (postData: Pick<TemplateConfig, 'meta' | 'content'>) => {
+  return request.post<string>('/slice/build/meta', postData)
 }

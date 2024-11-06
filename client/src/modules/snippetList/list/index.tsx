@@ -13,6 +13,10 @@ import {
 import * as templateApi from "@client/models/template/api";
 import {ConfirmContext} from "@client/components/confirm/context";
 import {useRedux} from "@client/store/hooks/useRedux";
+import {StateName as BuildResultStateName} from '@client/modules/_shared/template/buildReuslt/constants';
+import {BuildResultState} from '@client/modules/_shared/template/buildReuslt/types';
+import useMessage from "@client/atoms/message/useMessage";
+
 
 type Props = {
   templateList: Array<TemplateConfig>
@@ -20,8 +24,9 @@ type Props = {
 export const List = ({templateList}: Props) => {
 
   const [state, dispatch] = useReduxSlice({key: sliceName, reducer});
-  const [, setCode] = useRedux('codeSpace', '')
+  const [, setBuildResult] = useRedux(BuildResultStateName, {} as BuildResultState)
   const {showConfirm} = useContext(ConfirmContext);
+  const {showMessage} = useMessage();
 
   const changeSelectedItem = (templateConfig: TemplateConfig) => {
     dispatch(setTemplateAction(templateConfig));
@@ -29,18 +34,14 @@ export const List = ({templateList}: Props) => {
       .getTemplateContent(templateConfig.filePath as string)
       .then(
         resp => {
-          if (resp?.success) {
-            dispatch(setTemplateContentAction(resp.data));
-          }
+          dispatch(setTemplateContentAction(resp.data));
         }
-      )
+      );
 
     templateApi.getTemplateMeta(templateConfig.filePath as string)
       .then(resp => {
-        if (resp.success) {
-          dispatch(setTemplateMetaAction(resp.data));
-        }
-      })
+        dispatch(setTemplateMetaAction(resp.data ?? '{}'));
+      });
   }
 
   const handleClick = (templateConfig: TemplateConfig) => {
@@ -58,7 +59,13 @@ export const List = ({templateList}: Props) => {
   }
 
   const handleRunBuild = () => {
-    setCode('1232132');
+    templateApi.buildTemplate({content: state?.template.content, meta: state?.template.meta})
+      .then(resp => {
+        setBuildResult({content: resp.data, visible: true});
+      })
+      .catch(ex => {
+        showMessage(ex.toString())
+      })
   }
 
   return (

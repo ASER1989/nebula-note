@@ -16,6 +16,7 @@ import routeConfig from "@client/routeConfig";
 import Confirm from "@client/components/confirm";
 import {ConfirmContext} from "@client/components/confirm/context";
 import useConfirmContext from "@client/components/confirm/useConfirmContext";
+import {BuildResult} from "@client/modules/_shared/template/buildReuslt";
 
 function App() {
   const [messageContent, setMessageContent] = useState<string | null>(null);
@@ -47,6 +48,7 @@ function App() {
             <SidePage visible={settingsVisible} onVisibleChange={() => setSettingsVisible(false)}>
               <Settings/>
             </SidePage>
+            <BuildResult />
           </div>
           <div className='app_layout_footer'>
             <div className='app_layout_footer_copyright'>

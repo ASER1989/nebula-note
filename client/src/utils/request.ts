@@ -19,7 +19,11 @@ export default {
                 }
             ).then((resp) =>
                 resp.json().then((res) => {
+                  if(res.success){
                     resolve(res);
+                  }else {
+                    reject(res.error)
+                  }
                 }),
             ).catch((ex) => reject(ex));
         });
@@ -44,7 +48,11 @@ export default {
                 ...initOptions
             }).then((resp) =>
                 resp.json().then((res) => {
+                  if(res.success){
                     resolve(res);
+                  }else {
+                    reject(res.error)
+                  }
                 }),
             ).catch((ex) => reject(ex));
         });

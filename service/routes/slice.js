@@ -22,7 +22,8 @@ module.exports = (prefix, opts) => {
   router.post('/build/meta', async (ctx) => {
     const reqParams = ctx.request.body;
     const {meta, content} = reqParams;
-    return codeBuilder.build(meta, content);
+    const metaJson = JSON.parse(meta);
+    return codeBuilder.build(metaJson, content);
   })
   
   return router.routes();

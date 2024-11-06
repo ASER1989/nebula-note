@@ -21,7 +21,7 @@ export const ListItem = ({name, isChecked, onClick, onBuild}: Props) => {
     <div onClick={handleClick} className={className}>
       <div className='item-name'> {name}</div>
       <div className='item-operation'>
-        <FaPlayCircle color='#009688' size={23} onClick={onBuild}/>
+        {isChecked && <FaPlayCircle color='#009688' size={23} onClick={onBuild}/>}
       </div>
     </div>
   )
