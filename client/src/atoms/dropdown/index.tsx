@@ -11,7 +11,7 @@ type TagItem = {
     tag: string,
     color: string
 }
-type Props = {
+export type Props = {
     options: Array<DropdownOption>;
     onChange?: (option: DropdownOption) => void;
     onFocus?: () => void;
@@ -23,7 +23,7 @@ type Props = {
     onSearch?: (keyword: string | undefined) => void;
 }
 
-const Dropdown = (
+export const Dropdown = (
     {
         options,
         onFocus,

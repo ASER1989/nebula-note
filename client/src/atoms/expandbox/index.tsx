@@ -2,13 +2,13 @@ import './index.styl';
 import React from 'react';
 import classNames from 'classnames';
 
-type Props = {
+export type Props = {
     value?: boolean;
     label?: string;
     onChange?: (value: boolean) => void;
 };
 
-export default function Expandbox({ value, label, onChange }: Props) {
+export default function ExpandBox({ value, label, onChange }: Props) {
     const handleChange = () => {
         onChange?.(!value);
     };

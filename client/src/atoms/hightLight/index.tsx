@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 
-type Props = {
+export type Props = {
   keywords: string | Array<string> | undefined;
   children: string;
   focusId: string | undefined;

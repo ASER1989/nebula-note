@@ -2,7 +2,7 @@ import './index.styl';
 import React from 'react';
 import classNames from 'classnames';
 
-type Props = {
+export type Props = {
     value?: boolean;
     label?: string;
     onChange?: (value: boolean) => void;

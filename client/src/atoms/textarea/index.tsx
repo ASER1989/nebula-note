@@ -4,7 +4,7 @@ import type { FocusEvent } from 'react';
 import classNames from 'classnames';
 
 type InputType = string | number | undefined;
-type Props<T> = {
+export type Props<T> = {
     value?: T;
     border?: boolean;
     placeholder?: string;
@@ -27,7 +27,7 @@ export default function Textarea<T extends InputType>(
     const handleChange = (e: any) => {
         onChange?.(e.target.value, value, e);
     };
-    
+
     return (
         <textarea
             className={classNames('textarea',

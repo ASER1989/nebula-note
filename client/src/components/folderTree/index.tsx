@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { Folder } from './types';
 import Input from '@client/atoms/input';
 import Checkbox from '@client/atoms/checkbox';
-import Expandbox from '@client/atoms/expandbox';
+import ExpandBox from '@client/atoms/expandbox';
 import classNames from 'classnames';
 
 type Props = {
@@ -29,7 +29,7 @@ export const FolderTreeNode = ({ folder, checkedPath, onChange, onCheck }: NodeP
         folder.isExpanded = value;
         onChange?.();
     };
-    
+
     return (
         <>
             <div
@@ -45,10 +45,10 @@ export const FolderTreeNode = ({ folder, checkedPath, onChange, onCheck }: NodeP
                         label={folder.name}
                     />
                 </div>
-                
+
                 {folder.children.length > 0 && (
                     <div>
-                        <Expandbox value={folder.isExpanded} onChange={handleExpanded}/>
+                        <ExpandBox value={folder.isExpanded} onChange={handleExpanded}/>
                     </div>
                 )}
             </div>
@@ -77,19 +77,19 @@ export default function FolderTree({
     if (!folder) {
         return null;
     }
-    
+
     const handleChange = () => {
         onChange?.(folder);
     };
-    
+
     const handleSearch = (key: string) => {
         const loopSearch = (destFolder: Folder, searchKey: string) => {
             const isMatch =
                 ![null, undefined, ''].includes(searchKey) &&
                 destFolder.name.toLowerCase().includes(searchKey);
-            
+
             destFolder.isMatch = isMatch;
-            
+
             if (destFolder.children.length > 0) {
                 destFolder.children.forEach((item) => {
                     loopSearch(item, searchKey);
@@ -98,13 +98,13 @@ export default function FolderTree({
                     (item) => item.isMatch || item.isExpanded,
                 );
             }
-            
+
             return destFolder;
         };
         loopSearch(folder, key.toLowerCase());
         onChange?.(folder);
     };
-    
+
     return (
         <div className='folderTree'>
             {!isChildTree && (
@@ -117,7 +117,7 @@ export default function FolderTree({
                     </div>
                 </div>
             )}
-            
+
             <div className='treeRoot'>
                 {folder?.children?.map((item, idx) => {
                     return (

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import Button from '@client/atoms/button';
 import {ConfirmContext} from './context';
-import {Dialog} from "@client/atoms/dialog";
+import {Dialog} from "@client/molecules/dialog";
 import './index.styl'
 
 export default function Confirm() {

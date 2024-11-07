@@ -9,18 +9,27 @@ export default {
   tags: ['autodocs'],
   argTypes: {},
   args: {},
+  parameters: {
+    docs: {
+      description: {
+        component: 'Used for quickly implementing flex layouts.',
+      },
+    },
+  },
 } as Meta<StackProps>;
 
 export type Story = StoryObj<StackProps>
 export const Primary: Story = {
   args: {
-    direction:'row'
+    direction:'row',
+    justify: 'space-around',
   },
   render: (args) => {
     return (
       <Stack {...args}>
-        <StackItem>1</StackItem>
-        <StackItem>2</StackItem>
+        <StackItem>first</StackItem>
+        <StackItem>second</StackItem>
+        <StackItem>third</StackItem>
       </Stack>
     )
   }

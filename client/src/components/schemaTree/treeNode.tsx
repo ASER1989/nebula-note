@@ -3,7 +3,7 @@ import React from 'react';
 import type {GraphqlSchema} from '@client/models/graphql/type';
 import Input from '@client/atoms/input';
 import Checkbox from '@client/atoms/checkbox';
-import Expandbox from '@client/atoms/expandbox';
+import ExpandBox from '@client/atoms/expandbox';
 import classNames from 'classnames';
 import {deepthCheck} from '@client/models/graphql';
 import FieldTags from './fieldTags';
@@ -98,7 +98,7 @@ const SchemaTreeNode = (
                 </div>
                 {field.fields && (
                     <div>
-                        <Expandbox value={field.isExpanded} onChange={handleExpanded}/>
+                        <ExpandBox value={field.isExpanded} onChange={handleExpanded}/>
                     </div>
                 )}
             </div>

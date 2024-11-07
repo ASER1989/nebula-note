@@ -8,13 +8,8 @@ import {
   updateTemplateMetaAction
 } from "@client/modules/snippetList/storeSlice";
 import CodeEditor from "@client/components/codeEditor";
-import {Dialog} from "@client/atoms/dialog";
+import {Dialog} from "@client/molecules/dialog";
 import SaveForm from "@client/modules/_shared/template/saveForm";
-
-type Props = {
-  config: string;
-
-}
 
 export const Content = () => {
   const [state, dispatch] = useReduxSlice({key: sliceName, reducer});

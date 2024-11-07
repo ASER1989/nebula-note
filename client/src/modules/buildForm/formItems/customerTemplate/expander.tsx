@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dialog} from "@client/atoms/dialog";
+import {Dialog} from "@client/molecules/dialog";
 import CodeEditor from "@client/components/codeEditor";
 import SaveForm from '../../../_shared/template/saveForm';
 import {TemplateConfig} from "@client/models/template/types";
