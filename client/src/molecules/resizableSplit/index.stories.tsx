@@ -5,6 +5,7 @@ import React from 'react';
 export default {
   title: 'Components/ResizableSplit',
   component: ResizableSplit,
+  tags: ['autodocs'],
   argTypes: {
     direction: {
       control: {
@@ -14,15 +15,30 @@ export default {
     },
   },
   args: {
-    children: [<div key='left' style={{backgroundColor: 'lightblue'}}>left</div>, <div key='left' style={{backgroundColor: 'lightgreen'}} >right</div>]
+    children: [<div key='left' style={{padding: '20px'}}>left</div>,
+      <div key='left' style={{padding: '20px'}}>right</div>]
   },
   decorators: [
     (Story) => (
-      <div style={{height: 'calc(100vh - 2rem)', width: 'calc(100vw - 2rem)'}}>
+      <div style={{
+        height: '300px',
+        width: '100%',
+        border: '1px solid #f0f0f0',
+        boxShadow: '0 0 6px 3px #f0f0f0',
+        borderRadius: '5px',
+        overflow: 'hidden'
+      }}>
         <Story/>
       </div>
     ),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component: 'ResizableSplit can be used to split two components horizontally or vertically.'
+      }
+    }
+  },
 } as Meta;
 
 type Story = StoryObj<typeof ResizableSplit>
@@ -30,13 +46,13 @@ type Story = StoryObj<typeof ResizableSplit>
 export const Horizontal: Story = {
   args: {
     direction: 'horizontal',
-    children: [<div key='left'>left</div>, <div key='left'>right</div>]
-  }
+  },
+
 };
 
 export const Vertical = {
   args: {
     direction: 'vertical',
-    children: [<div key='left'>top</div>, <div key='left'>bottom</div>]
+    children: [<div key='top' style={{padding: '20px'}}>top</div>, <div key='bottom' style={{padding: '20px'}}>bottom</div>]
   }
 };
