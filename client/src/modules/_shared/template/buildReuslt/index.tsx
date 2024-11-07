@@ -6,7 +6,7 @@ import {BuildResultState} from "@client/modules/_shared/template/buildReuslt/typ
 import CodeEditor from "@client/components/codeEditor";
 import Copy from "@client/molecules/copy";
 import {Stack, StackItem} from "@client/molecules/stack";
-import ResizableBox from "@client/molecules/resizeableBox";
+import ResizableBox from "@client/molecules/resizableBox";
 
 export const BuildResult = () => {
   const [state, setState] = useRedux(StateName, {visible: false} as BuildResultState);
