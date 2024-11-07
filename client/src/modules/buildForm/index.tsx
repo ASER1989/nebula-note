@@ -1,10 +1,10 @@
 import React, {useState, useCallback, useRef} from 'react';
 import './index.styl';
-import Form, {FormItem} from '@client/components/form';
+import Form, {FormItem} from '@client/molecules/form';
 import Button from '@client/atoms/button';
 import {BuildFormContext} from './context';
 import type {FormState, ExtraState, ExtraRender} from './types';
-import ResizableSplit from "@client/components/resizableSplit";
+import ResizableSplit from "@client/molecules/resizableSplit";
 
 type Props = {
   children: React.ReactNode;

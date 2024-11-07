@@ -3,7 +3,7 @@ import '../index.styl';
 import request from "@client/utils/request";
 import Button from "@client/atoms/button";
 import {FiSave} from 'react-icons/fi';
-import useMessage from "@client/atoms/message/useMessage";
+import useMessage from "@client/components/message/useMessage";
 import CodeEditor from "@client/components/codeEditor";
 
 export default function SystemConfig() {

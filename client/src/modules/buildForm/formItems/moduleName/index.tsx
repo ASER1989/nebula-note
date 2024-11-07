@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Input from '@client/atoms/input';
 import './index.styl';
-import { FormItem } from '@client/components/form';
+import { FormItem } from '@client/molecules/form';
 import { BuildFormContext } from '@client/modules/buildForm/context';
 
 export default function ModuleName() {

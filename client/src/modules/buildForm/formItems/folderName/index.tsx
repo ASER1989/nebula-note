@@ -5,7 +5,7 @@ import './index.styl';
 import FolderTree from '@client/components/folderTree';
 import request from '@client/utils/request';
 import type { Folder } from '@client/components/folderTree/types';
-import { FormItem } from '@client/components/form';
+import { FormItem } from '@client/molecules/form';
 import { BuildFormContext } from '../../context';
 
 export default function FolderName() {

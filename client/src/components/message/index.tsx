@@ -1,7 +1,7 @@
 import './index.styl';
 import React, { useContext } from 'react';
-import Button from '../button';
-import { MessageContext } from '@client/atoms/message/context';
+import Button from '../../atoms/button';
+import { MessageContext } from '@client/components/message/context';
 
 type Props = {
     content: string | null;

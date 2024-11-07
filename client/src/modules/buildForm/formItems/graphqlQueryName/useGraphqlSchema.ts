@@ -1,7 +1,7 @@
 import React, {useState, useContext, useMemo, useRef, useEffect} from 'react';
 import request from "@client/utils/request";
 import {GraphqlSchema} from "@client/models/graphql/type";
-import useMessage from "@client/atoms/message/useMessage";
+import useMessage from "@client/components/message/useMessage";
 import {buildSchemaTree, getSchemaByQueryName} from "@client/utils/graphql/schema";
 import {IntrospectionQuery} from "graphql";
 

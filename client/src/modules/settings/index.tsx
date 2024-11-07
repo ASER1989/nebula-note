@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.styl';
-import {Tabs, TabPane} from "@client/components/tabs";
+import {Tabs, TabPane} from "@client/molecules/tabs";
 import SystemConfig from "@client/modules/settings/systemConfig";
 import TemplateConfig from "@client/modules/settings/templateConfig";
 

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import useMessage from "@client/atoms/message/useMessage";
+import useMessage from "@client/components/message/useMessage";
 import {useTemplateConfig} from "@client/models/template/index";
 import {templateUpdate} from "@client/models/template/api";
 

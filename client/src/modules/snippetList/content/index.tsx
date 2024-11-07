@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Tabs, TabPane} from "@client/components/tabs";
+import {Tabs, TabPane} from "@client/molecules/tabs";
 import {useReduxSlice} from "@client/store/hooks/useReduxSlice";
 import {
   reducer,

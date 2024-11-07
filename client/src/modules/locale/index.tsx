@@ -5,7 +5,7 @@ import {ModuleName, GraphqlTypeName, FolderName} from '../buildForm/formItems';
 import type {ExtraState, FormState} from '../buildForm/types';
 import {getFieldFlatArrayHighPerformance} from '@client/models/graphql';
 import request from '@client/utils/request';
-import useMessage from '@client/atoms/message/useMessage';
+import useMessage from '@client/components/message/useMessage';
 
 export default function Locale() {
     const {showMessage} = useMessage();

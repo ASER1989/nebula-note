@@ -5,7 +5,7 @@ import {GraphqlQueryName, CustomerTemplate, FieldsOrder} from '../buildForm/form
 import type {ExtraState, FormState} from '../buildForm/types';
 import {getFieldFlatArrayHighPerformance} from '@client/models/graphql';
 import request from '@client/utils/request';
-import useMessage from '@client/atoms/message/useMessage';
+import useMessage from '@client/components/message/useMessage';
 import CodeEditor from "@client/components/codeEditor";
 import {useRedux} from "@client/store/hooks/useRedux";
 import {StateName as BuildResultStateName} from "@client/modules/_shared/template/buildReuslt/constants";

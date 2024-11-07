@@ -5,20 +5,20 @@ import type { GraphqlSchema } from '@client/models/graphql/type';
 import request from '@client/utils/request';
 import { getSchemaRepeatMark } from '@client/models/graphql';
 import SchemaTree from '@client/components/schemaTree';
-import { FormItem } from '@client/components/form';
+import { FormItem } from '@client/molecules/form';
 import { BuildFormContext } from '../../context';
-import useMessage from '@client/atoms/message/useMessage';
+import useMessage from '@client/components/message/useMessage';
 
 export default function GraphqlTypeName() {
     const { formState, setFormState, setExtraState, setExtraRender } =
         useContext(BuildFormContext);
     const { showMessage } = useMessage();
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const hightLightKeys = useMemo(() => {
         return formState?.columnSortNames?.split(/[,\s]+/);
     }, [formState])
-    
+
     const setSchema = (schema: GraphqlSchema) => {
         setExtraState?.((ownState) => {
             return {
@@ -27,12 +27,12 @@ export default function GraphqlTypeName() {
             };
         });
     };
-    
+
     const handleSchemaChange = (newSchema: GraphqlSchema) => {
         const markedSchema = getSchemaRepeatMark(newSchema);
         setSchema(markedSchema);
     };
-    
+
     const handleRequestSchema = (typeName: string) => {
         setIsLoading(true);
         request
@@ -47,8 +47,8 @@ export default function GraphqlTypeName() {
                 setSchema(resp.data);
             });
     };
-    
-    
+
+
     const expandRender = ({ schema }: ExtraState) => {
         if (isLoading) {
             return <div className='none_tip'>莫急，Schema解析中！</div>;
@@ -78,16 +78,16 @@ export default function GraphqlTypeName() {
             />
         );
     };
-    
+
     const handleModuleNameFocus = () => {
         setExtraRender('graphqlModuleName', expandRender);
     };
-    
+
     const handleChange = (val: string) => {
         handleRequestSchema(val);
         setFormState?.((ownstate) => ({ ...ownstate, graphqlModuleName: val }));
     };
-    
+
     return (
         <FormItem label='类型名称'>
             <Input

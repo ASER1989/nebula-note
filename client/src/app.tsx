@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import './app.styl';
-import Menu, {MenuConfigObject} from './atoms/menu';
-import {MessageContext} from '@client/atoms/message/context';
-import Message from '@client/atoms/message';
+import Menu, {MenuConfigObject} from '@client/components/menu';
+import {MessageContext} from '@client/components/message/context';
+import Message from '@client/components/message';
 import packageConfig from '../../package.json';
 import {LuSettings} from 'react-icons/lu';
 import {FaAppStore} from 'react-icons/fa';
-import {SidePage} from "@client/components/sidePage";
+import {SidePage} from "@client/molecules/sidePage";
 import Settings from "@client/modules/settings";
 import classNames from 'classnames';
 import {useStoreUpdate} from "@client/models/template";

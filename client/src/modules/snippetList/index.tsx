@@ -1,7 +1,7 @@
 import React from "react";
 import {List} from './list';
 import {Content} from './content';
-import ResizableSplit from "@client/components/resizableSplit";
+import ResizableSplit from "@client/molecules/resizableSplit";
 import {useTemplateConfig} from "@client/models/template";
 
 export const SnippetList = () => {

@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useMemo} from 'react';
 import './index.styl';
-import type {ExtraState, FormState} from '../../types';
-import {FormItem} from '@client/components/form';
+import type {ExtraState} from '../../types';
+import {FormItem} from '@client/molecules/form';
 import {BuildFormContext} from '../../context';
 import Dropdown, {DropdownOption} from "@client/atoms/dropdown";
 import request from '@client/utils/request';
-import useMessage from '@client/atoms/message/useMessage';
+import useMessage from '@client/components/message/useMessage';
 import Expander from "./expander";
 import {useTemplateConfig} from "@client/models/template";
 import {TemplateConfig} from "@client/models/template/types";

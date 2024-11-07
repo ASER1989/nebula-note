@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import './index.styl';
-import {FormItem} from '@client/components/form';
+import {FormItem} from '@client/molecules/form';
 import {BuildFormContext} from '@client/modules/buildForm/context';
 import {ExtraState} from "@client/modules/buildForm/types";
 import Textarea from "@client/atoms/textarea";

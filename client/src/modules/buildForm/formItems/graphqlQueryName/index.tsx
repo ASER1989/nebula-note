@@ -4,7 +4,7 @@ import Input from '@client/atoms/input';
 import type {GraphqlSchema} from '@client/models/graphql/type';
 import {getSchemaRepeatMark} from '@client/models/graphql';
 import SchemaTree from '@client/components/schemaTree';
-import {FormItem} from '@client/components/form';
+import {FormItem} from '@client/molecules/form';
 import {BuildFormContext} from '../../context';
 import {TagType} from "@client/components/schemaTree/types";
 import useGraphqlSchema from "./useGraphqlSchema";
