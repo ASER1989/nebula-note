@@ -16,6 +16,7 @@ export interface Props extends ReactCodeMirrorProps  {
   showHeader?: boolean;
   lang?: typeof SupportedLang[number];
   onSave?: () => void;
+  disableLangChange?: boolean;
 }
 
 export default function CodeEditor(props: Props) {
@@ -24,6 +25,7 @@ export default function CodeEditor(props: Props) {
     showExpand,
     showHeader = true,
     lang = 'tsx',
+    disableLangChange=false,
     onSave
   } = props;
 
@@ -68,7 +70,10 @@ export default function CodeEditor(props: Props) {
           <div className='editor-title-bars'>
             <div className='editor-title-bar'>
               <div className='lang-selector'>
-                <Dropdown options={getLangOptions()} size='tiny' value={lang} themeColor='#fff8dc'
+                <Dropdown options={getLangOptions()} size='tiny'
+                          value={lang}
+                          themeColor='#fff8dc'
+                          disabled={disableLangChange}
                           onChange={handleLangTemplateChange}/>
               </div>
             </div>

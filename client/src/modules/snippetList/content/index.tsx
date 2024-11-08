@@ -37,7 +37,11 @@ export const Content = () => {
           <CodeEditor value={state?.template?.content} onChange={handleContentChange} onSave={handleSaveShown}/>
         </TabPane>
         <TabPane id='meta' key='meta' title='模板运行参数配置'>
-          <CodeEditor value={state?.template?.meta ??'{}'} onChange={handleMetaChange} onSave={handleSaveShown}/>
+          <CodeEditor value={state?.template?.meta ?? '{}'}
+                      lang='json'
+                      disableLangChange
+                      onChange={handleMetaChange}
+                      onSave={handleSaveShown}/>
         </TabPane>
       </Tabs>
       <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>

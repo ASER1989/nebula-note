@@ -75,6 +75,17 @@ export default {
         type: 'text',
       },
     },
+    disabled: {
+      description: 'Whether the dropdown is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+      control: {
+        type: 'boolean',
+      },
+    },
   },
   args: {
     options: []

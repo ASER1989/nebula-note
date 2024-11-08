@@ -21,6 +21,7 @@ export type Props = {
     value?: string;
     themeColor?: string;
     onSearch?: (keyword: string | undefined) => void;
+    disabled?: boolean;
 }
 
 export const Dropdown = (
@@ -33,6 +34,7 @@ export const Dropdown = (
         size,
         value,
         themeColor,
+        disabled,
         onSearch
     }: Props) => {
 
@@ -147,7 +149,7 @@ export const Dropdown = (
         <div className={dropdownClass} style={cssVariables} ref={dropdownRef}>
             {
                 !searchEnable &&
-                <button className="dropdown-toggle" onClick={handleToggle}>
+                <button className="dropdown-toggle" onClick={handleToggle} disabled={disabled}>
                     {selectedItem ? renderTags(selectedItem.label, enableTags) : placeholder}
                 </button>
             }
@@ -159,6 +161,7 @@ export const Dropdown = (
                     onBlur={handleSearchBlur}
                     autoFocus={isSearchFocus}
                     onKeyDown={(event) => handleSearchKeyDown(event)}
+                    disabled={disabled}
                 />
             }
 
