@@ -1,0 +1,16 @@
+.icon-button
+  display inline-flex
+  align-items center
+  justify-content center
+  cursor pointer
+  user-select none
+  --btn-color blue
+
+  &:not(.disabled):active
+    svg
+      fill: #b9b9b9;
+      filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3)), drop-shadow(-2px -2px 2px rgba(255, 255, 255, 0.7));
+
+  &.disabled
+    --btn-color #e6e6e6
+    cursor not-allowed

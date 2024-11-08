@@ -3,6 +3,7 @@ import classNames from "classnames";
 import {FaPlayCircle} from "react-icons/fa";
 
 import './index.styl';
+import IconButton from "@client/atoms/iconButton";
 
 export type Props = {
   name: string,
@@ -21,7 +22,11 @@ export const ListItem = ({name, isChecked, onClick, onBuild}: Props) => {
     <div onClick={handleClick} className={className}>
       <div className='item-name'> {name}</div>
       <div className='item-operation'>
-        {isChecked && <FaPlayCircle color='#009688' size={23} onClick={onBuild}/>}
+        {isChecked &&
+          <IconButton onClick={onBuild}>
+            <FaPlayCircle color='#009688' size={23} />
+          </IconButton>
+        }
       </div>
     </div>
   )

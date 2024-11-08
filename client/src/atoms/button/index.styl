@@ -16,7 +16,7 @@
   font-size 14px
   gap 5px
 
-  &:active
+  &:not(.disabled):active
     box-shadow 1px 1px 15px 1px #d0d0d0 inset
 
   &.primary
@@ -25,8 +25,9 @@
     text-shadow 0px 0px 20px #fffbfb
 
   &.disabled
-    --btn-color #e6e6e6
     cursor not-allowed
 
+    &:is(.primary)
+    --btn-color #e6e6e6
     &:active
       box-shadow 1px 1px 5px 1px #c0c0c0
