@@ -32,6 +32,25 @@ const meta: Meta<Props> = {
           summary:"() => void",
         }
       }
+    },
+    onLangChange:{
+      type:'function',
+      description:'Trigger this event when the language changes',
+      table:{
+        subcategory:'Events',
+        type:{
+          summary:"(lang:string) => void",
+        }
+      }
+    },
+    editable:{
+      type:'boolean',
+      description:'Whether the editor is editable',
+      table:{
+        type:{
+          summary:"boolean"
+        }
+      }
     }
   },
 

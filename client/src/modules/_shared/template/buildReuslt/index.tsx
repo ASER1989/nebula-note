@@ -16,8 +16,8 @@ export const BuildResult = () => {
     setState({content: '', visible: false})
   }
 
-  if(!state?.visible){
-    return ;
+  if (!state?.visible) {
+    return;
   }
 
   return (
@@ -26,7 +26,7 @@ export const BuildResult = () => {
         <SidePage style={style} visible={state?.visible} onVisibleChange={handlePanelHide} ref={sidePageRef}>
           <Stack direction='column'>
             <StackItem flex style={{overflow: 'auto'}}>
-              <CodeEditor value={state?.content} showHeader={true}/>
+              <CodeEditor value={state?.content} showHeader={true} editable={false} lang={state?.language}/>
             </StackItem>
             <StackItem style={{height: 20, textAlign: 'right', padding: 5}}>
               <Copy code={state?.content}/>

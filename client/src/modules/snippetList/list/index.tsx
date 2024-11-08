@@ -61,7 +61,7 @@ export const List = ({templateList}: Props) => {
   const handleRunBuild = () => {
     templateApi.buildTemplate({content: state?.template.content, meta: state?.template.meta})
       .then(resp => {
-        setBuildResult({content: resp.data, visible: true});
+        setBuildResult({content: resp.data, visible: true, language: state?.template.language});
       })
       .catch(ex => {
         showMessage(ex.toString())

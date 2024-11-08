@@ -1,10 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {FetchStatus} from "@client/types";
 import {TemplateConfig} from "@client/models/template/types";
+import {SupportedLang} from "@client/components/codeEditor/queries";
 
 export type SliceType = {
   fetchStatus: FetchStatus;
   template: Partial<TemplateConfig> & {
+    language?: typeof SupportedLang[number];
     editStatus?: 'Edited' | 'Saved' | 'None'
   }
 }
@@ -46,6 +48,15 @@ export const storeSlice = createSlice({
         }
       };
     },
+    setTemplateLanguage: (state, action: { payload: typeof SupportedLang[number] | undefined }) => {
+      return {
+        fetchStatus: 'None',
+        template: {
+          ...state.template,
+          language: action.payload
+        }
+      };
+    },
     updateTemplateContent: (state, action: { payload: string }) => {
       return {
         fetchStatus: 'None',
@@ -82,6 +93,7 @@ export const {
   setTemplateFilePath: setTemplateAction,
   setTemplateContent: setTemplateContentAction,
   setTemplateMeta: setTemplateMetaAction,
+  setTemplateLanguage: setTemplateLanguageAction,
   updateTemplateContent: updateTemplateContentAction,
   updateTemplateMeta: updateTemplateMetaAction,
   saveTemplateContent: saveTemplateContentAction

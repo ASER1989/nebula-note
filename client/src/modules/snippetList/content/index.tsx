@@ -1,15 +1,18 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import {Tabs, TabPane} from "@client/molecules/tabs";
 import {useReduxSlice} from "@client/store/hooks/useReduxSlice";
 import {
   reducer,
   sliceName,
   updateTemplateContentAction,
-  updateTemplateMetaAction
+  updateTemplateMetaAction,
+  setTemplateLanguageAction
 } from "@client/modules/snippetList/storeSlice";
 import CodeEditor from "@client/components/codeEditor";
+import type {Props as EditorProps} from "@client/components/codeEditor";
 import {Dialog} from "@client/molecules/dialog";
 import SaveForm from "@client/modules/_shared/template/saveForm";
+
 
 export const Content = () => {
   const [state, dispatch] = useReduxSlice({key: sliceName, reducer});
@@ -29,12 +32,16 @@ export const Content = () => {
   const handleMetaChange = (editorValue: string) => {
     dispatch(updateTemplateMetaAction(editorValue));
   }
+  const handleCodeLangChange = (lang: EditorProps['lang']) => {
+    dispatch(setTemplateLanguageAction(lang));
+  }
 
   return (
     <>
       <Tabs>
         <TabPane id='code' key='code' title='模板编辑'>
-          <CodeEditor value={state?.template?.content} onChange={handleContentChange} onSave={handleSaveShown}/>
+          <CodeEditor value={state?.template?.content} onChange={handleContentChange} onSave={handleSaveShown}
+                      onLangChange={handleCodeLangChange}/>
         </TabPane>
         <TabPane id='meta' key='meta' title='模板运行参数配置'>
           <CodeEditor value={state?.template?.meta ?? '{}'}

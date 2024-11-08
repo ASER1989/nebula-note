@@ -15,8 +15,9 @@ export interface Props extends ReactCodeMirrorProps  {
   showExpand?: boolean;
   showHeader?: boolean;
   lang?: typeof SupportedLang[number];
-  onSave?: () => void;
   disableLangChange?: boolean;
+  onLangChange?: (lang: typeof SupportedLang[number]) => void;
+  onSave?: () => void;
 }
 
 export default function CodeEditor(props: Props) {
@@ -26,6 +27,7 @@ export default function CodeEditor(props: Props) {
     showHeader = true,
     lang = 'tsx',
     disableLangChange=false,
+    onLangChange,
     onSave
   } = props;
 
@@ -42,8 +44,9 @@ export default function CodeEditor(props: Props) {
     return langs.tsx();
   }, [langTemplate]);
 
-  const handleLangTemplateChange = (option: DropdownOption) => {
-    setLangTemplate(option.value as keyof typeof langs);
+  const handleLangTemplateChange = (option: DropdownOption<typeof SupportedLang[number]>) => {
+    setLangTemplate(option.value);
+    onLangChange?.(option.value);
   }
 
   const eventExt = events.content({
