@@ -48,6 +48,7 @@ const MarkdownEditor: React.FC<Props> = ({ initialMarkdown = '', onChange }) => 
                     onChange={handleEditorChange}
                     showHeader={false}
                     lang='markdown'
+                    lineNumbers={false}
                 />
             ) : (
                 <ReactMarkdown>{markdownContent}</ReactMarkdown>

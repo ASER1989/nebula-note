@@ -5,6 +5,9 @@ export const getTemplateList = () => {
     return request.get<Array<TemplateConfig>>('/template/list');
 };
 
+export const getTemplateDocument = (filePath: string) => {
+    return request.get<string>('/template/doc', { path: filePath });
+};
 export const getTemplateContent = (filePath: string) => {
     return request.get<string>('/template/content', { path: filePath });
 };

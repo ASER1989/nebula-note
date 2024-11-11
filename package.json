@@ -1,5 +1,5 @@
 {
-    "name": "Nebula",
+    "name": "chopped-scallions",
     "private": true,
     "version": "0.4.9",
     "description": "It refers to a tool to optimize efficiency ",
@@ -11,6 +11,9 @@
         "yarn": ">=1.22"
     },
     "scripts": {
+        "dev": "yarn client:dev & yarn serve & yarn client:storyBook",
+        "client:storyBook": "yarn workspace  @Nebula/Client storybook",
+        "client:dev": "yarn workspace  @Nebula/Client dev",
         "client:cypress:run": "yarn workspace  @Nebula/Client cyperss:run:component",
         "serve": "node ./service/index.js"
     },

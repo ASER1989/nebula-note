@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { Tabs, TabPane } from '@client/molecules/tabs';
 import { useReduxSlice } from '@client/store/hooks/useReduxSlice';
 import {
@@ -8,11 +7,14 @@ import {
     updateTemplateContentAction,
     updateTemplateMetaAction,
     setTemplateLanguageAction,
+    updateTemplateDocumentAction,
 } from '@client/modules/snippetList/storeSlice';
 import CodeEditor from '@client/components/codeEditor';
 import type { Props as EditorProps } from '@client/components/codeEditor';
 import { Dialog } from '@client/molecules/dialog';
 import SaveForm from '@client/modules/_shared/template/saveForm';
+import MarkdownEditor from '@client/components/markdownEditor';
+import ShortcutKeys from '@client/modules/shortcutKeys';
 
 export const Content = () => {
     const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
@@ -25,6 +27,9 @@ export const Content = () => {
         setSaveShown(false);
     };
 
+    const handleDocumentChange = (value?: string) => {
+        dispatch(updateTemplateDocumentAction(value));
+    };
     const handleContentChange = (editorValue: string) => {
         dispatch(updateTemplateContentAction(editorValue));
     };
@@ -38,34 +43,37 @@ export const Content = () => {
 
     return (
         <>
-            <Tabs>
-                <TabPane key='readme' title='模板介绍'>
-                    <ReactMarkdown>{state?.template?.description}</ReactMarkdown>
-                </TabPane>
-                <TabPane id='code' key='code' title='模板编辑'>
-                    <CodeEditor
-                        value={state?.template?.content}
-                        onChange={handleContentChange}
-                        onSave={handleSaveShown}
-                        onLangChange={handleCodeLangChange}
-                    />
-                </TabPane>
-                <TabPane id='meta' key='meta' title='模板运行参数配置'>
-                    <CodeEditor
-                        value={state?.template?.meta ?? '{}'}
-                        lang='json'
-                        disableLangChange
-                        onChange={handleMetaChange}
-                        onSave={handleSaveShown}
-                    />
-                </TabPane>
-            </Tabs>
+            <ShortcutKeys onSave={handleSaveShown}>
+                <Tabs>
+                    <TabPane key='readme' title='模板介绍'>
+                        <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
+                            {state?.template?.document}
+                        </MarkdownEditor>
+                    </TabPane>
+                    <TabPane id='code' key='code' title='模板编辑'>
+                        <CodeEditor
+                            value={state?.template?.content}
+                            onChange={handleContentChange}
+                            onLangChange={handleCodeLangChange}
+                        />
+                    </TabPane>
+                    <TabPane id='meta' key='meta' title='模板运行参数配置'>
+                        <CodeEditor
+                            value={state?.template?.meta ?? '{}'}
+                            lang='json'
+                            disableLangChange
+                            onChange={handleMetaChange}
+                        />
+                    </TabPane>
+                </Tabs>
+            </ShortcutKeys>
             <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
                 <SaveForm
                     templateOption={{
                         ...state?.template,
                         filePath: state?.template?.filePath,
                         content: state?.template?.content,
+                        document:state?.template?.document
                     }}
                     onClose={handleSaveClose}
                 />

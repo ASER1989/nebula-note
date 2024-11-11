@@ -61,6 +61,10 @@ const getTemplateFile = async (filePath) => {
 const filePathToMetaPath = (filePath) => {
     return filePath.replace('.ejs', '_meta.json');
 };
+
+const filePathToDocPath = (filePath) => {
+    return filePath.replace('.ejs', '_doc.md');
+}
 systemConfig.subscribe(reloadTemplateConfig);
 
 module.exports = {
@@ -71,4 +75,5 @@ module.exports = {
     getTemplateFolder,
     reloadTemplateConfig,
     filePathToMetaPath,
+    filePathToDocPath
 };

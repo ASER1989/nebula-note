@@ -28,6 +28,16 @@ export const storeSlice = createSlice({
                 },
             };
         },
+        setTemplateDocument: (state, action: { payload: string }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    document: action.payload,
+                    editStatus: 'None',
+                },
+            };
+        },
         setTemplateContent: (state, action: { payload: string }) => {
             return {
                 fetchStatus: 'None',
@@ -80,7 +90,17 @@ export const storeSlice = createSlice({
                 },
             };
         },
-        saveTemplateContent: (state) => {
+        updateTemplateDocument: (state, action: { payload: string | undefined }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    document: action.payload,
+                    editStatus: 'Edited',
+                },
+            };
+        },
+        saveTemplate: (state) => {
             return {
                 fetchStatus: 'None',
                 template: {
@@ -94,12 +114,14 @@ export const storeSlice = createSlice({
 
 export const {
     setTemplateFilePath: setTemplateAction,
+    setTemplateDocument: setTemplateDocumentAction,
     setTemplateContent: setTemplateContentAction,
     setTemplateMeta: setTemplateMetaAction,
     setTemplateLanguage: setTemplateLanguageAction,
     updateTemplateContent: updateTemplateContentAction,
     updateTemplateMeta: updateTemplateMetaAction,
-    saveTemplateContent: saveTemplateContentAction,
+    updateTemplateDocument: updateTemplateDocumentAction,
+    saveTemplate: saveTemplateAction,
 } = storeSlice.actions;
 
 export const reducer = storeSlice.reducer;

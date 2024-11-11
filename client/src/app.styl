@@ -6,10 +6,8 @@
   display: flex;
 }
 
-
 .card
   padding: 2em;
-
 
 .app_layout
   flex: 1;
@@ -21,7 +19,6 @@
   --layout-header-height: 50px;
   --layout-footer-height: 25px;
   --layout-content-height: calc(100vh - var(--layout-header-height) - var(--layout-footer-height));
-
 
 .app_layout_header
   display: flex;
@@ -80,9 +77,11 @@
       color #545454
       animation operate-active 6s infinite linear;
       animation-play-state paused
+
       &.filecode
         animation operate-breathe 1s infinite cubic-bezier(0.77, 0.02, 0.34, 0.85)
         animation-play-state paused
+
       &:hover
         filter drop-shadow(1px 1px 1px #7e7e7e)
 
