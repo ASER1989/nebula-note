@@ -4,8 +4,6 @@ import React, {
     useEffect,
     KeyboardEvent,
     forwardRef,
-    useRef,
-    useImperativeHandle,
 } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames';
@@ -19,19 +17,7 @@ export type SidePageProps = {
     style?: React.CSSProperties;
 };
 
-interface SidePageDOM {
-    getBoundingClientRect: () => DOMRect;
-    addEventListener: (
-        type: string,
-        callback: EventListenerOrEventListenerObject,
-    ) => void;
-    removeEventListener: (
-        type: string,
-        callback: EventListenerOrEventListenerObject,
-    ) => void;
-}
-
-export const SidePage = forwardRef<SidePageDOM | undefined, SidePageProps>(
+export const SidePage = forwardRef<HTMLDivElement, SidePageProps>(
     (props: SidePageProps, ref) => {
         const {
             children,
@@ -42,7 +28,6 @@ export const SidePage = forwardRef<SidePageDOM | undefined, SidePageProps>(
             onVisibleChange,
         } = props;
 
-        const boxRef = useRef<HTMLDivElement>(null);
         const [hide, setHide] = useState(true);
         const handleClose = () => {
             setHide(true);
@@ -50,31 +35,6 @@ export const SidePage = forwardRef<SidePageDOM | undefined, SidePageProps>(
                 onVisibleChange?.(false);
             }, 400);
         };
-
-        useImperativeHandle(ref, () => {
-            if (boxRef.current) {
-                return {
-                    getBoundingClientRect: () => {
-                        return (
-                            boxRef.current?.getBoundingClientRect() ??
-                            new DOMRect(0, 0, 0, 0)
-                        );
-                    },
-                    addEventListener: (
-                        type: string,
-                        callback: EventListenerOrEventListenerObject,
-                    ) => {
-                        return boxRef.current?.addEventListener(type, callback);
-                    },
-                    removeEventListener: (
-                        type: string,
-                        callback: EventListenerOrEventListenerObject,
-                    ) => {
-                        return boxRef.current?.removeEventListener(type, callback);
-                    },
-                };
-            }
-        });
 
         useEffect(() => {
             setTimeout(() => setHide(!visible), 0);
@@ -102,7 +62,7 @@ export const SidePage = forwardRef<SidePageDOM | undefined, SidePageProps>(
                     className={classNames('component-side-page side-pane', {
                         hide: hide,
                     })}
-                    ref={boxRef}
+                    ref={ref}
                     style={style}
                 >
                     {showTitle && (
