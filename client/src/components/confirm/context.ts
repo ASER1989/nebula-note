@@ -2,14 +2,20 @@ import React from 'react';
 import _ from 'lodash';
 
 export type EventCallback = (confirm?: boolean) => void;
+export type Options = {
+    content: string | undefined;
+    cancelText?: string;
+    confirmText?: string;
+    callback?: EventCallback;
+};
 export type Props = {
-    content: string | null;
-    showConfirm: (newContent: string, callback?: EventCallback) => void;
+    options: Options | null;
+    showConfirm: (arg1: string | Options, callback?: EventCallback) => void;
     onClose: (confirm?: boolean) => void;
 };
 
-const defaultContext: Props = {
-    content: null,
+export const defaultContext: Props = {
+    options: { content: undefined, cancelText: '取消', confirmText: '确定' },
     showConfirm: _.noop,
     onClose: _.noop,
 };

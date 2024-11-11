@@ -5,9 +5,9 @@ import { Dialog } from '@client/molecules/dialog';
 import './index.styl';
 
 export default function Confirm() {
-    const { content, onClose } = useContext(ConfirmContext);
+    const { options, onClose } = useContext(ConfirmContext);
 
-    if (!content) {
+    if (!options) {
         return null;
     }
 
@@ -20,13 +20,13 @@ export default function Confirm() {
     };
 
     return (
-        <Dialog visible={content != null} onClose={handleClose}>
+        <Dialog visible={options != null} onClose={handleClose}>
             <div className='confirm'>
-                <div className='content'>{content}</div>
+                <div className='content'>{options.content}</div>
                 <div className='bottom'>
-                    <Button onClick={handleClose}>取消</Button>
+                    <Button onClick={handleClose}>{options.cancelText}</Button>
                     <Button type='primary' onClick={handleConfirm}>
-                        确定
+                        {options.confirmText}
                     </Button>
                 </div>
             </div>

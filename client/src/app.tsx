@@ -21,7 +21,7 @@ import { BuildResult } from '@client/modules/_shared/template/buildReuslt';
 function App() {
     const [messageContent, setMessageContent] = useState<string | null>(null);
     const {
-        content: confirmContent,
+        options: confirmOptions,
         showConfirm,
         onClose: onConfirmClose,
     } = useConfirmContext();
@@ -43,7 +43,7 @@ function App() {
             value={{ content: messageContent, setContent: setMessageContent }}
         >
             <ConfirmContext.Provider
-                value={{ content: confirmContent, showConfirm, onClose: onConfirmClose }}
+                value={{ options: confirmOptions, showConfirm, onClose: onConfirmClose }}
             >
                 <div className='app_layout'>
                     <div className='app_layout_header'>

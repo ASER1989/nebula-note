@@ -1,34 +1,35 @@
-import { useState } from 'react';
-import type { Props, EventCallback } from './context';
-
-type MessageObject = {
-    message: string;
-    callback?: EventCallback;
-};
+import { useState, useRef } from 'react';
+import _ from 'lodash';
+import type { EventCallback, Options, Props } from './context';
+import { defaultContext } from './context';
 
 export default function useConfirmContext() {
-    const [, setMessageArray] = useState<Array<MessageObject>>([]);
-    const [message, setMessage] = useState<string | null>(null);
+    const messageQueueRef = useRef<Array<Options>>([]);
+    const [options, setOptions] = useState<Options | null>(null);
 
-    const showConfirm = (newMessage: string, callback?: EventCallback) => {
-        setMessageArray((messages) => {
-            messages.push({ message: newMessage, callback });
-            return [...messages];
-        });
-        setMessage(newMessage);
+    const showConfirm = (arg1: Options | string, callback?: EventCallback) => {
+        let newOptions: Options = arg1 as Options;
+        if (typeof arg1 === 'string') {
+            newOptions = {
+                content: arg1,
+                callback,
+            };
+        }
+        _.defaults(newOptions, defaultContext.options);
+        messageQueueRef.current.push(newOptions);
+        setOptions(newOptions);
     };
+
     const onClose = (confirm?: boolean) => {
-        setMessageArray((messages) => {
-            const deleteObj = messages.pop();
-            const idx = messages.length;
-            const newObj = messages[idx - 1];
-            setMessage(newObj?.message);
-            deleteObj?.callback?.(confirm);
-            return [...messages];
-        });
+        const deleteOptions = messageQueueRef.current.pop();
+        const idx = messageQueueRef.current.length;
+        const newOptions = messageQueueRef.current[idx - 1];
+        setOptions(newOptions);
+        deleteOptions?.callback?.(confirm);
     };
+
     return {
-        content: message,
+        options,
         showConfirm,
         onClose,
     } as Props;

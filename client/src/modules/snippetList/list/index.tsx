@@ -9,7 +9,7 @@ import {
     setTemplateAction,
     setTemplateContentAction,
     setTemplateMetaAction,
-    setTemplateDocumentAction
+    setTemplateDocumentAction,
 } from '@client/modules/snippetList/storeSlice';
 import * as templateApi from '@client/models/template/api';
 import { ConfirmContext } from '@client/components/confirm/context';
@@ -29,9 +29,11 @@ export const List = ({ templateList }: Props) => {
 
     const changeSelectedItem = (templateConfig: TemplateConfig) => {
         dispatch(setTemplateAction(templateConfig));
-        templateApi.getTemplateDocument(templateConfig.filePath as string).then((resp) => {
-            dispatch(setTemplateDocumentAction(resp.data));
-        });
+        templateApi
+            .getTemplateDocument(templateConfig.filePath as string)
+            .then((resp) => {
+                dispatch(setTemplateDocumentAction(resp.data));
+            });
         templateApi.getTemplateContent(templateConfig.filePath as string).then((resp) => {
             dispatch(setTemplateContentAction(resp.data));
         });
@@ -46,10 +48,13 @@ export const List = ({ templateList }: Props) => {
             return;
         }
         if (state?.template?.editStatus === 'Edited') {
-            return showConfirm('当前模板尚未保存，是否放弃保存？', (confirm) => {
-                if (confirm) {
-                    changeSelectedItem(templateConfig);
-                }
+            return showConfirm({
+                content: '当前模板尚未保存，是否放弃保存？',
+                callback: (confirm) => {
+                    if (confirm) {
+                        changeSelectedItem(templateConfig);
+                    }
+                },
             });
         }
         changeSelectedItem(templateConfig);
