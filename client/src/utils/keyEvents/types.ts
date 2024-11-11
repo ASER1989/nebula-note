@@ -1,1 +1,1 @@
-export type EventListener = (event: DocumentEventMap["keydown"]) => void;
+export type EventListener = (event: DocumentEventMap['keydown']) => void;

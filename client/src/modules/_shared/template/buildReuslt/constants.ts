@@ -1,1 +1,1 @@
-export const StateName='templateBuildResult';
+export const StateName = 'templateBuildResult';

@@ -1,20 +1,22 @@
-import type {GraphqlSchema} from './type';
+import type { GraphqlSchema } from './type';
 import _ from 'lodash';
 
-export const getFieldFlatArrayHighPerformance = (schema?: GraphqlSchema, prevResult?: Array<GraphqlSchema>): Array<GraphqlSchema> => {
+export const getFieldFlatArrayHighPerformance = (
+    schema?: GraphqlSchema,
+    prevResult?: Array<GraphqlSchema>,
+): Array<GraphqlSchema> => {
     const fields: Array<GraphqlSchema> = prevResult ?? [];
     if (!schema) {
         return fields;
     }
     schema.fields?.forEach((item) => {
         if (item.fields) {
-            getFieldFlatArrayHighPerformance(item, fields)
+            getFieldFlatArrayHighPerformance(item, fields);
         }
         fields.push(_.omit(item, ['fields', 'deprecationReason']));
     });
     return fields;
 };
-
 
 export const getSchemaKeyRepeatMap = (
     schema: GraphqlSchema,

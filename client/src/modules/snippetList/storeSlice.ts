@@ -1,102 +1,105 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {FetchStatus} from "@client/types";
-import {TemplateConfig} from "@client/models/template/types";
-import {SupportedLang} from "@client/components/codeEditor/queries";
+import { createSlice } from '@reduxjs/toolkit';
+import { FetchStatus } from '@client/types';
+import { TemplateConfig } from '@client/models/template/types';
+import { SupportedLang } from '@client/components/codeEditor/queries';
 
 export type SliceType = {
-  fetchStatus: FetchStatus;
-  template: Partial<TemplateConfig> & {
-    language?: typeof SupportedLang[number];
-    editStatus?: 'Edited' | 'Saved' | 'None'
-  }
-}
+    fetchStatus: FetchStatus;
+    template: Partial<TemplateConfig> & {
+        language?: (typeof SupportedLang)[number];
+        editStatus?: 'Edited' | 'Saved' | 'None';
+    };
+};
 
-export const sliceName = "snippetList";
+export const sliceName = 'snippetList';
 export const storeSlice = createSlice({
-  name: sliceName,
-  initialState: {
-    fetchStatus: 'None',
-    template: {} as SliceType['template'],
-  },
-  reducers: {
-    setTemplateFilePath: (state, action: { payload: TemplateConfig }) => {
-      return {
+    name: sliceName,
+    initialState: {
         fetchStatus: 'None',
-        template: {
-          ...action.payload,
-          editStatus: 'None'
+        template: {} as SliceType['template'],
+    },
+    reducers: {
+        setTemplateFilePath: (state, action: { payload: TemplateConfig }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...action.payload,
+                    editStatus: 'None',
+                },
+            };
         },
-      };
+        setTemplateContent: (state, action: { payload: string }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    content: action.payload,
+                    editStatus: 'None',
+                },
+            };
+        },
+        setTemplateMeta: (state, action: { payload: string }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    meta: action.payload,
+                    editStatus: 'None',
+                },
+            };
+        },
+        setTemplateLanguage: (
+            state,
+            action: { payload: (typeof SupportedLang)[number] | undefined },
+        ) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    language: action.payload,
+                },
+            };
+        },
+        updateTemplateContent: (state, action: { payload: string }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    content: action.payload,
+                    editStatus: 'Edited',
+                },
+            };
+        },
+        updateTemplateMeta: (state, action: { payload: string }) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    meta: action.payload,
+                    editStatus: 'Edited',
+                },
+            };
+        },
+        saveTemplateContent: (state) => {
+            return {
+                fetchStatus: 'None',
+                template: {
+                    ...state.template,
+                    editStatus: 'Saved',
+                },
+            };
+        },
     },
-    setTemplateContent: (state, action: { payload: string }) => {
-      return {
-        fetchStatus: 'None',
-        template: {
-          ...state.template,
-          content: action.payload,
-          editStatus: 'None'
-        }
-      };
-    },
-    setTemplateMeta: (state, action: { payload: string }) => {
-      return {
-        fetchStatus: 'None',
-        template: {
-          ...state.template,
-          meta: action.payload,
-          editStatus: 'None'
-        }
-      };
-    },
-    setTemplateLanguage: (state, action: { payload: typeof SupportedLang[number] | undefined }) => {
-      return {
-        fetchStatus: 'None',
-        template: {
-          ...state.template,
-          language: action.payload
-        }
-      };
-    },
-    updateTemplateContent: (state, action: { payload: string }) => {
-      return {
-        fetchStatus: 'None',
-        template: {
-          ...state.template,
-          content: action.payload,
-          editStatus: 'Edited'
-        }
-      };
-    },
-    updateTemplateMeta: (state, action: { payload: string }) => {
-      return {
-        fetchStatus: 'None',
-        template: {
-          ...state.template,
-          meta: action.payload,
-          editStatus: 'Edited'
-        }
-      };
-    },
-    saveTemplateContent: (state) => {
-      return {
-        fetchStatus: 'None',
-        template: {
-          ...state.template,
-          editStatus: 'Saved'
-        }
-      };
-    },
-  }
-})
+});
 
 export const {
-  setTemplateFilePath: setTemplateAction,
-  setTemplateContent: setTemplateContentAction,
-  setTemplateMeta: setTemplateMetaAction,
-  setTemplateLanguage: setTemplateLanguageAction,
-  updateTemplateContent: updateTemplateContentAction,
-  updateTemplateMeta: updateTemplateMetaAction,
-  saveTemplateContent: saveTemplateContentAction
+    setTemplateFilePath: setTemplateAction,
+    setTemplateContent: setTemplateContentAction,
+    setTemplateMeta: setTemplateMetaAction,
+    setTemplateLanguage: setTemplateLanguageAction,
+    updateTemplateContent: updateTemplateContentAction,
+    updateTemplateMeta: updateTemplateMetaAction,
+    saveTemplateContent: saveTemplateContentAction,
 } = storeSlice.actions;
 
 export const reducer = storeSlice.reducer;

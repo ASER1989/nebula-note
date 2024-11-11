@@ -1,166 +1,169 @@
-import React,{useEffect} from "react";
-import {Meta, StoryObj} from '@storybook/react';
-import Dropdown, {Props} from './index';
-import {useArgs} from "@storybook/addons";
+import React, { useEffect } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
+import Dropdown, { Props } from './index';
+import { useArgs } from '@storybook/addons';
 
 export default {
-  title: 'Atoms/Dropdown',
-  component: Dropdown,
-  tags: ['autodocs'],
-  argTypes: {
-    options: {
-      description: 'Options to be displayed in the dropdown',
-      table: {
-        type: {
-          summary: 'Array<{value: string, label: string, keyword?: string}>',
+    title: 'Atoms/Dropdown',
+    component: Dropdown,
+    tags: ['autodocs'],
+    argTypes: {
+        options: {
+            description: 'Options to be displayed in the dropdown',
+            table: {
+                type: {
+                    summary: 'Array<{value: string, label: string, keyword?: string}>',
+                },
+            },
+            control: {
+                type: 'object',
+            },
         },
-      },
-      control: {
-        type: 'object',
-      },
-    },
-    enableTags: {
-      description: 'Tags to be displayed in the dropdown',
-      table: {
-        type: {
-          summary: 'Array<{tag: string, color: string}>',
+        enableTags: {
+            description: 'Tags to be displayed in the dropdown',
+            table: {
+                type: {
+                    summary: 'Array<{tag: string, color: string}>',
+                },
+            },
+            control: {
+                type: 'object',
+            },
         },
-      },
-      control: {
-        type: 'object',
-      },
-    },
-    size: {
-      description: 'Size of the dropdown',
-      table: {
-        type: {
-          summary: 'default | tiny | small',
+        size: {
+            description: 'Size of the dropdown',
+            table: {
+                type: {
+                    summary: 'default | tiny | small',
+                },
+            },
+            control: {
+                type: 'radio',
+            },
+            options: ['default', 'tiny', 'small'],
         },
-      },
-      control: {
-        type: 'radio',
-      },
-      options: ['default', 'tiny', 'small'],
-    },
-    value: {
-      description: 'Value of the dropdown',
-      table: {
-        type: {
-          summary: 'string',
+        value: {
+            description: 'Value of the dropdown',
+            table: {
+                type: {
+                    summary: 'string',
+                },
+            },
+            control: {
+                type: 'text',
+            },
         },
-      },
-      control: {
-        type: 'text',
-      },
-    },
-    themeColor: {
-      description: 'Color of the dropdown',
-      table: {
-        type: {
-          summary: 'string',
+        themeColor: {
+            description: 'Color of the dropdown',
+            table: {
+                type: {
+                    summary: 'string',
+                },
+            },
+            control: {
+                type: 'color',
+            },
         },
-      },
-      control: {
-        type: 'color',
-      },
-    },
-    placeholder: {
-      description: 'Placeholder of the dropdown',
-      table: {
-        type: {
-          summary: 'string',
+        placeholder: {
+            description: 'Placeholder of the dropdown',
+            table: {
+                type: {
+                    summary: 'string',
+                },
+            },
+            control: {
+                type: 'text',
+            },
         },
-      },
-      control: {
-        type: 'text',
-      },
-    },
-    disabled: {
-      description: 'Whether the dropdown is disabled',
-      table: {
-        type: {
-          summary: 'boolean',
+        disabled: {
+            description: 'Whether the dropdown is disabled',
+            table: {
+                type: {
+                    summary: 'boolean',
+                },
+            },
+            control: {
+                type: 'boolean',
+            },
         },
-      },
-      control: {
-        type: 'boolean',
-      },
     },
-  },
-  args: {
-    options: []
-  },
-  parameters: {
-    docs: {
-      description: {
-        component: 'An interesting dropdown component that supports keyword filtering, coloring, and other features. Simple and easy to use.',
-      },
+    args: {
+        options: [],
     },
-  },
-  decorators: [
-    (Story) => (
-      <div style={{
-        height: '200px',
-      }}>
-        <Story/>
-      </div>
-    ),
-  ],
+    parameters: {
+        docs: {
+            description: {
+                component:
+                    'An interesting dropdown component that supports keyword filtering, coloring, and other features. Simple and easy to use.',
+            },
+        },
+    },
+    decorators: [
+        (Story) => (
+            <div
+                style={{
+                    height: '200px',
+                }}
+            >
+                <Story />
+            </div>
+        ),
+    ],
 } as Meta<Props>;
 
-export type Story = StoryObj<Props>
+export type Story = StoryObj<Props>;
 export const Primary: Story = {
-  args: {
-    enableTags: [
-      {
-        tag: 'two',
-        color: '#ff0000',
-      },
-      {
-        tag: 'four',
-        color: 'orange',
-      },
-    ],
-    options:[],
+    args: {
+        enableTags: [
+            {
+                tag: 'two',
+                color: '#ff0000',
+            },
+            {
+                tag: 'four',
+                color: 'orange',
+            },
+        ],
+        options: [],
+    },
+    render: () => {
+        const options = [
+            {
+                value: '1',
+                label: 'Option one',
+                keyword: '1',
+            },
+            {
+                value: '2',
+                label: 'Option two',
+                keyword: '2',
+            },
+            {
+                value: '3',
+                label: 'Option three',
+                keyword: '3',
+            },
+            {
+                value: '4',
+                label: 'Option four',
+                keyword: '4',
+            },
+        ];
+        const [args, updateArgs] = useArgs<Props>();
+        useEffect(() => {
+            updateArgs({ options });
+        }, []);
+        const handleSearch = (keyword?: string) => {
+            if (keyword) {
+                const newOptions = options.filter((option) =>
+                    option.label?.includes(keyword),
+                );
+                updateArgs({ options: newOptions });
+            } else {
+                updateArgs({ options });
+            }
+        };
 
-  },
-  render: () => {
-    const options = [
-      {
-        value: '1',
-        label: 'Option one',
-        keyword: '1',
-      },
-      {
-        value: '2',
-        label: 'Option two',
-        keyword: '2',
-      },
-      {
-        value: '3',
-        label: 'Option three',
-        keyword: '3',
-      },
-      {
-        value: '4',
-        label: 'Option four',
-        keyword: '4',
-      }
-    ]
-    const [args, updateArgs] = useArgs<Props>();
-    useEffect(()=>{
-      updateArgs({options});
-    },[]);
-    const handleSearch = (keyword?: string) => {
-      if (keyword) {
-        const newOptions = options.filter(option => option.label?.includes(keyword))
-        updateArgs({options: newOptions});
-      } else {
-        updateArgs({options});
-      }
-
-    }
-
-    return <Dropdown {...args} onSearch={handleSearch}/>
-  },
-}
+        return <Dropdown {...args} onSearch={handleSearch} />;
+    },
+};

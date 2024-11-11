@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import {EventListener} from './types';
+import { EventListener } from './types';
 
 export type Props = {
     addListener: (listener: EventListener) => symbol;

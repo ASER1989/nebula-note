@@ -1,7 +1,7 @@
-import {Meta, Story, Canvas, ArgTypes} from '@storybook/addon-docs';
-import Confirm,{Primary} from './confirm.stories'
+import { Meta, Story, Canvas, ArgTypes } from '@storybook/addon-docs';
+import Confirm, { Primary } from './confirm.stories';
 
-<Meta title="Components/Confirm" of={Confirm}/>
+<Meta title='Components/Confirm' of={Confirm} />
 
 # Confirm Component
 
@@ -9,29 +9,27 @@ Global component ，that provides secondary validation and retrieves results thr
 When multiple simultaneous calls occur, the last content is shown first.
 
 ## Code Usage
-``` tsx
-import {ConfirmContext} from '@client/components/confirm/context';
 
-export const Example=()=>{
-  const {showConfirm} = useContext(ConfirmContext);
+```tsx
+import { ConfirmContext } from '@client/components/confirm/context';
 
-  const handleShowConfirm = ()=>{
-    showConfirm('confirm message',(confirm)=>{
-      if(confirm){
-        console.log('confirmed');
-      }
-      else{
-        console.log('canceled');
-      }
-    });
-  }
-}
+export const Example = () => {
+    const { showConfirm } = useContext(ConfirmContext);
+
+    const handleShowConfirm = () => {
+        showConfirm('confirm message', (confirm) => {
+            if (confirm) {
+                console.log('confirmed');
+            } else {
+                console.log('canceled');
+            }
+        });
+    };
+};
 ```
 
 ## Example Usage
 
 <Canvas>
-  <Story of={Primary}/>
+    <Story of={Primary} />
 </Canvas>
-
-

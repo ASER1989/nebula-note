@@ -1,16 +1,16 @@
 {
-  "name": "elastic-strategy-drip-lzhkv",
-  "productName": "elastic-strategy-drip-lzhkv",
-  "description": "My Electron application description",
-  "keywords": [],
-  "main": "./main.js",
-  "version": "1.0.0",
-  "author": "xu.huang",
-  "scripts": {
-    "start": "electron ."
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "electron": "25.4.0"
-  }
+    "name": "elastic-strategy-drip-lzhkv",
+    "productName": "elastic-strategy-drip-lzhkv",
+    "description": "My Electron application description",
+    "keywords": [],
+    "main": "./main.js",
+    "version": "1.0.0",
+    "author": "xu.huang",
+    "scripts": {
+        "start": "electron ."
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "electron": "25.4.0"
+    }
 }

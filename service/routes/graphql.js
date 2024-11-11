@@ -8,7 +8,7 @@ const {
 } = require('../../utils/graphql-helper/index.js');
 
 module.exports = (prefix, opts) => {
-    const router = new Router({prefix});
+    const router = new Router({ prefix });
     router.get('/querySchemaByType', async (ctx) => {
         const params = ctx.query;
         const schema = await getSchema();
@@ -26,7 +26,11 @@ module.exports = (prefix, opts) => {
             return getAllQueriesSchema(schema);
         }
 
-        const querySchema = getSchemaByQueryName(schema, params?.queryName, params?.preciseMatch);
+        const querySchema = getSchemaByQueryName(
+            schema,
+            params?.queryName,
+            params?.preciseMatch,
+        );
         return querySchema;
         if (querySchema) {
             const queryFullSchema = loopFindSchemaTypeChild(schema, querySchema);
@@ -36,7 +40,7 @@ module.exports = (prefix, opts) => {
 
     router.get('/schema', async (ctx) => {
         return await getSchema();
-    })
+    });
 
     return router.routes();
 };

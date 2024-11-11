@@ -9,7 +9,7 @@ const filters = ['.', 'node_modules', 'cypress', 'dist', 'build', 'deploy'];
 
 const loopFolder = (folderName, basePath) => {
     const readPath = path.join(basePath, folderName);
-    const files = fs.readdirSync(readPath, {withFileTypes: true});
+    const files = fs.readdirSync(readPath, { withFileTypes: true });
     const folderList = files
         .filter((item) => item.isDirectory())
         .filter((item) => {
@@ -28,12 +28,14 @@ const loopFolder = (folderName, basePath) => {
 };
 
 module.exports = (prefix, opts) => {
-    const router = new Router({prefix});
+    const router = new Router({ prefix });
     router.get('/folder', async (ctx) => {
         ctx.type = 'text/json';
         try {
-            const config =  systemConfig.getConfig();
-            const readPath = config?.folder?.localeRoot ?? __dirname.substring(0, __dirname.indexOf(projectPath));
+            const config = systemConfig.getConfig();
+            const readPath =
+                config?.folder?.localeRoot ??
+                __dirname.substring(0, __dirname.indexOf(projectPath));
 
             const folderList = loopFolder('', readPath);
             ctx.body = respModel(folderList);

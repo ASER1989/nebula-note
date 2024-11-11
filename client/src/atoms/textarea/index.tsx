@@ -11,30 +11,28 @@ export type Props<T> = {
     onChange?: (newValue: T, value?: T, event?: Event) => void;
     onFocus?: (e: FocusEvent<HTMLTextAreaElement, Element>) => void;
     rows?: number;
-    resize?: 'default' | 'vertical' | 'horizontal' | 'none'
+    resize?: 'default' | 'vertical' | 'horizontal' | 'none';
 };
 
-export default function Textarea<T extends InputType>(
-    {
-        value,
-        border = true,
-        onChange,
-        placeholder,
-        onFocus,
-        rows = 6,
-        resize
-    }: Props<T>) {
+export default function Textarea<T extends InputType>({
+    value,
+    border = true,
+    onChange,
+    placeholder,
+    onFocus,
+    rows = 6,
+    resize,
+}: Props<T>) {
     const handleChange = (e: any) => {
         onChange?.(e.target.value, value, e);
     };
 
     return (
         <textarea
-            className={classNames('textarea',
-                {
-                    'border-none': !border,
-                    [resize ?? '']: resize
-                })}
+            className={classNames('textarea', {
+                'border-none': !border,
+                [resize ?? '']: resize,
+            })}
             value={value}
             onChange={handleChange}
             onFocus={onFocus}

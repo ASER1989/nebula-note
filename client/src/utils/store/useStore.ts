@@ -1,21 +1,24 @@
-import React, {useContext, useMemo, useCallback} from 'react';
+import React, { useContext, useMemo, useCallback } from 'react';
 import _ from 'lodash';
-import {StoreContext} from "./storeContext";
+import { StoreContext } from './storeContext';
 
 export default function useStore<T>(defaultValue: T, path?: string) {
-    const {store, setStore} = useContext(StoreContext);
+    const { store, setStore } = useContext(StoreContext);
 
-    const updateState = useCallback((newState: T) => {
-        setStore((ownState: Record<string, unknown>) => {
-            if (path) {
-                return _.set(ownState, path, newState);
-            }
-            return {
-                ...ownState,
-                ...newState
-            }
-        });
-    }, [setStore]);
+    const updateState = useCallback(
+        (newState: T) => {
+            setStore((ownState: Record<string, unknown>) => {
+                if (path) {
+                    return _.set(ownState, path, newState);
+                }
+                return {
+                    ...ownState,
+                    ...newState,
+                };
+            });
+        },
+        [setStore],
+    );
 
     const storeSlice = useMemo(() => {
         if (path) {
@@ -26,4 +29,3 @@ export default function useStore<T>(defaultValue: T, path?: string) {
 
     return [storeSlice, updateState] as const;
 }
-

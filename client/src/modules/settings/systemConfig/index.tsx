@@ -1,47 +1,47 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../index.styl';
-import request from "@client/utils/request";
-import Button from "@client/atoms/button";
-import {FiSave} from 'react-icons/fi';
-import useMessage from "@client/components/message/useMessage";
-import CodeEditor from "@client/components/codeEditor";
+import request from '@client/utils/request';
+import Button from '@client/atoms/button';
+import { FiSave } from 'react-icons/fi';
+import useMessage from '@client/components/message/useMessage';
+import CodeEditor from '@client/components/codeEditor';
 
 export default function SystemConfig() {
-
-    const {showMessage} = useMessage();
+    const { showMessage } = useMessage();
     const [config, setConfig] = useState<unknown>();
     const [newConfig, setNewConfig] = useState<string>();
     const loadSettings = () => {
-        request.get('/settings')
-            .then((resp) => {
-                if (resp.success) {
-                    setConfig(resp.data);
-                }
-            })
-    }
+        request.get('/settings').then((resp) => {
+            if (resp.success) {
+                setConfig(resp.data);
+            }
+        });
+    };
     useEffect(() => {
         loadSettings();
     }, []);
 
-    const configString = useMemo(() => config ? JSON.stringify(config, null, '\t') : '', [config]);
+    const configString = useMemo(
+        () => (config ? JSON.stringify(config, null, '\t') : ''),
+        [config],
+    );
 
     const handleSettingsChange = (value: string) => {
         setNewConfig(value);
-    }
+    };
 
     const onConfigSave = (newSettings: Record<string, unknown>) => {
         try {
-            request.post('/settings', {settings: newSettings})
-                .then((resp) => {
-                    if (resp.success) {
-                        return showMessage("保存成功！");
-                    }
-                    showMessage(resp.error.toString());
-                })
+            request.post('/settings', { settings: newSettings }).then((resp) => {
+                if (resp.success) {
+                    return showMessage('保存成功！');
+                }
+                showMessage(resp.error.toString());
+            });
         } catch (ex: any) {
             showMessage(ex.message.toString());
         }
-    }
+    };
     const handleSave = () => {
         if (!newConfig) {
             return;
@@ -50,9 +50,9 @@ export default function SystemConfig() {
             const newSettings = JSON.parse(newConfig);
             onConfigSave(newSettings);
         } catch (ex) {
-            showMessage("配置反序列化失败，请检查文件格式！");
+            showMessage('配置反序列化失败，请检查文件格式！');
         }
-    }
+    };
 
     return (
         <div className='module-settings'>
@@ -62,11 +62,14 @@ export default function SystemConfig() {
                     onChange={handleSettingsChange}
                     minHeight={'500px'}
                     showHeader={false}
-                    lang="json"
+                    lang='json'
                 />
             </div>
             <div className='footer'>
-                <Button onClick={handleSave} type='primary' disabled={!newConfig}><FiSave/>保存</Button>
+                <Button onClick={handleSave} type='primary' disabled={!newConfig}>
+                    <FiSave />
+                    保存
+                </Button>
             </div>
         </div>
     );

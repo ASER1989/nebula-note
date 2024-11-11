@@ -1,24 +1,29 @@
-import React, {useContext, useMemo} from 'react';
-import type {ExtraState, FormState} from '../../types';
+import React, { useContext, useMemo } from 'react';
+import type { ExtraState, FormState } from '../../types';
 import Input from '@client/atoms/input';
-import type {GraphqlSchema} from '@client/models/graphql/type';
-import {getSchemaRepeatMark} from '@client/models/graphql';
+import type { GraphqlSchema } from '@client/models/graphql/type';
+import { getSchemaRepeatMark } from '@client/models/graphql';
 import SchemaTree from '@client/components/schemaTree';
-import {FormItem} from '@client/molecules/form';
-import {BuildFormContext} from '../../context';
-import {TagType} from "@client/components/schemaTree/types";
-import useGraphqlSchema from "./useGraphqlSchema";
+import { FormItem } from '@client/molecules/form';
+import { BuildFormContext } from '../../context';
+import { TagType } from '@client/components/schemaTree/types';
+import useGraphqlSchema from './useGraphqlSchema';
 
 export default function GraphqlQueryName() {
     const currentExtraName = 'graphqlModuleName';
-    const {formState, extraState, setFormState, setExtraState, setExtraRender, extraName} =
-        useContext(BuildFormContext);
+    const {
+        formState,
+        extraState,
+        setFormState,
+        setExtraState,
+        setExtraRender,
+        extraName,
+    } = useContext(BuildFormContext);
     const schemaQuery = useGraphqlSchema();
-
 
     const hightLightKeys = useMemo(() => {
         return formState?.columnSortNames?.split(/[,\s]+/);
-    }, [formState])
+    }, [formState]);
 
     const setIsLoading = (loading: boolean) => {
         setExtraState?.((ownState) => {
@@ -27,10 +32,10 @@ export default function GraphqlQueryName() {
                 loading,
             };
         });
-    }
+    };
 
     const setSchema = (newSchema: GraphqlSchema) => {
-        const schema = newSchema ? {...newSchema} : newSchema;
+        const schema = newSchema ? { ...newSchema } : newSchema;
 
         setExtraState?.((ownState) => {
             return {
@@ -38,7 +43,6 @@ export default function GraphqlQueryName() {
                 schema,
             };
         });
-
     };
 
     const handleSchemaChange = (newSchema: GraphqlSchema) => {
@@ -46,7 +50,10 @@ export default function GraphqlQueryName() {
         setSchema(markedSchema);
     };
 
-    const handleRequestSchema = (queryName: string | null, preciseMatch: boolean = false) => {
+    const handleRequestSchema = (
+        queryName: string | null,
+        preciseMatch: boolean = false,
+    ) => {
         setIsLoading(true);
         const schema = schemaQuery(queryName, preciseMatch);
         setSchema(schema as unknown as GraphqlSchema);
@@ -62,17 +69,19 @@ export default function GraphqlQueryName() {
 
     const handleChange = (val: string, preciseMatch = false) => {
         handleRequestSchema(val, preciseMatch);
-        setFormState?.((ownstate) => ({...ownstate, graphqlQueryName: val}));
+        setFormState?.((ownstate) => ({ ...ownstate, graphqlQueryName: val }));
     };
-
 
     const handleSchemaTagClick = (type: TagType, field: GraphqlSchema) => {
         if (['query', 'mutation'].includes(type) && !field.fields) {
             handleChange(field.name, true);
         }
-    }
+    };
 
-    const expandRender = ({schema, loading}: ExtraState, {graphqlQueryName}: FormState) => {
+    const expandRender = (
+        { schema, loading }: ExtraState,
+        { graphqlQueryName }: FormState,
+    ) => {
         if (loading) {
             return <div className='none_tip'>莫急，Schema解析中！</div>;
         }
@@ -94,13 +103,14 @@ export default function GraphqlQueryName() {
             <SchemaTree
                 schema={schema}
                 onSchemaChange={handleSchemaChange}
-                onTagClick={(type: TagType, field: GraphqlSchema) => handleSchemaTagClick(type, field)}
+                onTagClick={(type: TagType, field: GraphqlSchema) =>
+                    handleSchemaTagClick(type, field)
+                }
                 lightKeys={hightLightKeys}
                 enableRepeatMark
             />
         );
     };
-
 
     return (
         <FormItem label='查询名称'>

@@ -1,16 +1,15 @@
 import './index.styl';
 import React from 'react';
-import type {GraphqlSchema} from '@client/models/graphql/type';
+import type { GraphqlSchema } from '@client/models/graphql/type';
 import Input from '@client/atoms/input';
 import Checkbox from '@client/atoms/checkbox';
 import ExpandBox from '@client/atoms/expandbox';
 import classNames from 'classnames';
-import {deepthCheck} from '@client/models/graphql';
+import { deepthCheck } from '@client/models/graphql';
 import FieldTags from './fieldTags';
-import SchemaTree from "./index";
-import {TagType} from "@client/components/schemaTree/types";
-import FieldType from "@client/components/schemaTree/fieldType";
-
+import SchemaTree from './index';
+import { TagType } from '@client/components/schemaTree/types';
+import FieldType from '@client/components/schemaTree/fieldType';
 
 type NodeProps = {
     key: string;
@@ -21,15 +20,13 @@ type NodeProps = {
     lightKeys?: Array<string>;
 };
 
-const SchemaTreeNode = (
-    {
-        field,
-        onFieldChange,
-        enableRepeatMark,
-        lightKeys,
-        onTagClick
-    }: NodeProps) => {
-
+const SchemaTreeNode = ({
+    field,
+    onFieldChange,
+    enableRepeatMark,
+    lightKeys,
+    onTagClick,
+}: NodeProps) => {
     const handleNameChange = (value: string) => {
         const newState = {
             ...field,
@@ -62,15 +59,15 @@ const SchemaTreeNode = (
 
     const isHeightLight = (word: string) => {
         if (word && Array.isArray(lightKeys) && lightKeys.length > 0) {
-            return lightKeys?.some(key => key.length > 0 && word?.indexOf(key) >= 0);
+            return lightKeys?.some((key) => key.length > 0 && word?.indexOf(key) >= 0);
         }
         return false;
-    }
+    };
 
     return (
         <>
-            <div className={classNames('tree_node', {expanded: field.isExpanded})}>
-                <Checkbox value={field.isChecked} onChange={handleCheck}/>
+            <div className={classNames('tree_node', { expanded: field.isExpanded })}>
+                <Checkbox value={field.isChecked} onChange={handleCheck} />
                 <div
                     className={classNames('tree_node_name', {
                         repeatMark: enableRepeatMark && field.isRepeat,
@@ -85,8 +82,8 @@ const SchemaTreeNode = (
                         light={isHeightLight(field.name)}
                         onChange={handleNameChange}
                     />
-                    <FieldType field={field}/>
-                    <FieldTags field={field} onTagClick={onTagClick}/>
+                    <FieldType field={field} />
+                    <FieldTags field={field} onTagClick={onTagClick} />
                 </div>
                 <div className='tree_node_descrption'>
                     <Input
@@ -98,7 +95,7 @@ const SchemaTreeNode = (
                 </div>
                 {field.fields && (
                     <div>
-                        <ExpandBox value={field.isExpanded} onChange={handleExpanded}/>
+                        <ExpandBox value={field.isExpanded} onChange={handleExpanded} />
                     </div>
                 )}
             </div>
@@ -117,6 +114,5 @@ const SchemaTreeNode = (
         </>
     );
 };
-
 
 export default SchemaTreeNode;

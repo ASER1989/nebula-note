@@ -1,5 +1,5 @@
 import React from 'react';
-import type {FormState, ExtraState, ExtraRender} from '@client/modules/buildForm/types';
+import type { FormState, ExtraState, ExtraRender } from '@client/modules/buildForm/types';
 import _ from 'lodash';
 
 export type Props = {

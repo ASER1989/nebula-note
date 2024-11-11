@@ -48,7 +48,7 @@ export const FolderTreeNode = ({ folder, checkedPath, onChange, onCheck }: NodeP
 
                 {folder.children.length > 0 && (
                     <div>
-                        <ExpandBox value={folder.isExpanded} onChange={handleExpanded}/>
+                        <ExpandBox value={folder.isExpanded} onChange={handleExpanded} />
                     </div>
                 )}
             </div>
@@ -68,12 +68,12 @@ export const FolderTreeNode = ({ folder, checkedPath, onChange, onCheck }: NodeP
 };
 
 export default function FolderTree({
-                                       folder,
-                                       isChildTree,
-                                       checkedPath,
-                                       onChange,
-                                       onCheck,
-                                   }: Props) {
+    folder,
+    isChildTree,
+    checkedPath,
+    onChange,
+    onCheck,
+}: Props) {
     if (!folder) {
         return null;
     }

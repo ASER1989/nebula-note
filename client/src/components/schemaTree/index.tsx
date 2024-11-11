@@ -1,10 +1,10 @@
 import './index.styl';
-import React, {useMemo} from 'react';
-import type {GraphqlSchema} from '@client/models/graphql/type';
+import React, { useMemo } from 'react';
+import type { GraphqlSchema } from '@client/models/graphql/type';
 import Checkbox from '@client/atoms/checkbox';
-import {deepthCheck} from '@client/models/graphql';
-import SchemaTreeNode from "@client/components/schemaTree/treeNode";
-import {TagType} from "@client/components/schemaTree/types";
+import { deepthCheck } from '@client/models/graphql';
+import SchemaTreeNode from '@client/components/schemaTree/treeNode';
+import { TagType } from '@client/components/schemaTree/types';
 
 type Props = {
     schema?: GraphqlSchema;
@@ -15,16 +15,14 @@ type Props = {
     lightKeys?: Array<string>;
 };
 
-export default function SchemaTree(
-    {
-        schema,
-        onSchemaChange,
-        isToolbarVisible = true,
-        enableRepeatMark,
-        lightKeys,
-        onTagClick
-    }: Props) {
-
+export default function SchemaTree({
+    schema,
+    onSchemaChange,
+    isToolbarVisible = true,
+    enableRepeatMark,
+    lightKeys,
+    onTagClick,
+}: Props) {
     if (!schema) {
         return null;
     }
@@ -47,7 +45,7 @@ export default function SchemaTree(
     const handleCheckAll = (isChecked: boolean) => {
         const newFields = schema.fields?.map((field) => deepthCheck(field, isChecked));
 
-        onSchemaChange?.({...schema, fields: newFields});
+        onSchemaChange?.({ ...schema, fields: newFields });
     };
 
     return (

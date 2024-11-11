@@ -9,26 +9,35 @@ const headers = {
 };
 
 export default {
-    post<T>(url: string, dataObj: Record<string, unknown>, initOptions?: Record<string, unknown>) {
+    post<T>(
+        url: string,
+        dataObj: Record<string, unknown>,
+        initOptions?: Record<string, unknown>,
+    ) {
         return new Promise<Response<T>>((resolve, reject) => {
             fetch('/api' + url, {
-                    method: 'POST',
-                    headers,
-                    body: JSON.stringify(dataObj),
-                    ...initOptions
-                }
-            ).then((resp) =>
-                resp.json().then((res) => {
-                  if(res.success){
-                    resolve(res);
-                  }else {
-                    reject(res.error)
-                  }
-                }),
-            ).catch((ex) => reject(ex));
+                method: 'POST',
+                headers,
+                body: JSON.stringify(dataObj),
+                ...initOptions,
+            })
+                .then((resp) =>
+                    resp.json().then((res) => {
+                        if (res.success) {
+                            resolve(res);
+                        } else {
+                            reject(res.error);
+                        }
+                    }),
+                )
+                .catch((ex) => reject(ex));
         });
     },
-    get<T>(url: string, params?: Record<string, unknown>, initOptions?: Record<string, unknown>) {
+    get<T>(
+        url: string,
+        params?: Record<string, unknown>,
+        initOptions?: Record<string, unknown>,
+    ) {
         const paramsStr = Object.keys(params ?? {})
             .map((key) => {
                 const value =
@@ -39,22 +48,26 @@ export default {
             })
             .join('&');
 
-        const reqUrl = ['/api' + url, paramsStr].filter((item) => item !== undefined).join('?');
+        const reqUrl = ['/api' + url, paramsStr]
+            .filter((item) => item !== undefined)
+            .join('?');
 
         return new Promise<Response<T>>((resolve, reject) => {
             fetch(reqUrl, {
                 method: 'GET',
                 headers,
-                ...initOptions
-            }).then((resp) =>
-                resp.json().then((res) => {
-                  if(res.success){
-                    resolve(res);
-                  }else {
-                    reject(res.error)
-                  }
-                }),
-            ).catch((ex) => reject(ex));
+                ...initOptions,
+            })
+                .then((resp) =>
+                    resp.json().then((res) => {
+                        if (res.success) {
+                            resolve(res);
+                        } else {
+                            reject(res.error);
+                        }
+                    }),
+                )
+                .catch((ex) => reject(ex));
         });
     },
 };

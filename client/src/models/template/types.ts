@@ -1,12 +1,12 @@
 export type TemplateRecord = {
-  description: string;
-  filePath: string;
-  keyword: string;
-  name: string;
-  version: number;
-}
+    description: string;
+    filePath: string;
+    keyword: string;
+    name: string;
+    version: number;
+};
 
 export type TemplateConfig = Partial<TemplateRecord> & {
-  content?: string
-  meta?:string
-}
+    content?: string;
+    meta?: string;
+};

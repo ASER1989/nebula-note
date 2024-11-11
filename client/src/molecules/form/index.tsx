@@ -28,11 +28,14 @@ type Props = {
     labelWidth?: string;
 };
 
-export default function Form({children, labelWidth}: Props) {
-
+export default function Form({ children, labelWidth }: Props) {
     const styleVariables = {
-        '--form-label-width': labelWidth ?? 'auto'
+        '--form-label-width': labelWidth ?? 'auto',
     } as any;
 
-    return <div className='form' style={styleVariables}>{children}</div>;
+    return (
+        <div className='form' style={styleVariables}>
+            {children}
+        </div>
+    );
 }

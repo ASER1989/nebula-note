@@ -1,11 +1,11 @@
 import React from 'react';
 
 export type TabPaneProps = {
-    id: string;
+    id?: string;
     title: string;
     children: React.ReactNode | Array<React.ReactNode>;
 };
-const TabPane = ({children}: TabPaneProps) => {
+const TabPane = ({ children }: TabPaneProps) => {
     return children;
 };
 

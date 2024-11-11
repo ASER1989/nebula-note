@@ -17,7 +17,7 @@ export default function GraphqlTypeName() {
 
     const hightLightKeys = useMemo(() => {
         return formState?.columnSortNames?.split(/[,\s]+/);
-    }, [formState])
+    }, [formState]);
 
     const setSchema = (schema: GraphqlSchema) => {
         setExtraState?.((ownState) => {
@@ -47,7 +47,6 @@ export default function GraphqlTypeName() {
                 setSchema(resp.data);
             });
     };
-
 
     const expandRender = ({ schema }: ExtraState) => {
         if (isLoading) {

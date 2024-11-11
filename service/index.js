@@ -1,7 +1,7 @@
 const config = require('../config.json');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
-const middlewares  =require('./utils/middlewares');
+const middlewares = require('./utils/middlewares');
 
 const indexRoute = require('./routes/index');
 const localeRoute = require('./routes/locale');
@@ -13,10 +13,12 @@ const templatesRoute = require('./routes/template');
 
 const app = new Koa();
 
-app.use(bodyParser({
-    formLimit: '10mb',
-    jsonLimit: '10mb'
-}));
+app.use(
+    bodyParser({
+        formLimit: '10mb',
+        jsonLimit: '10mb',
+    }),
+);
 app.use(middlewares.setDefaultResponseType());
 app.use(middlewares.formatResponse());
 app.use(indexRoute('/'));

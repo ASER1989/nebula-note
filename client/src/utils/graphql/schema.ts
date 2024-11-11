@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 import {
     buildClientSchema,
     GraphQLSchema,
@@ -6,7 +6,7 @@ import {
     IntrospectionType,
     IntrospectionField,
     IntrospectionEnumValue,
-} from "graphql";
+} from 'graphql';
 
 type SchemaNode = Omit<IntrospectionType, 'enumValues'> & {
     type: IntrospectionField['type'];
@@ -22,10 +22,13 @@ type SchemaNode = Omit<IntrospectionType, 'enumValues'> & {
     isArgumentObject?: boolean;
     sortId?: number;
     enumValues?: Array<IntrospectionEnumValue>;
+};
 
-}
-
-export const getSchemaByQueryName = (schemaIntrospection: IntrospectionQuery | undefined, queryName: string | null, preciseMatch: boolean = false) => {
+export const getSchemaByQueryName = (
+    schemaIntrospection: IntrospectionQuery | undefined,
+    queryName: string | null,
+    preciseMatch: boolean = false,
+) => {
     if (!schemaIntrospection) {
         return undefined;
     }
@@ -42,19 +45,22 @@ export const getSchemaByQueryName = (schemaIntrospection: IntrospectionQuery | u
         item.isMutationObject = true;
         item.sortId = 1;
         return item;
-    })
+    });
 
     const operations = _.chain([...queries, ...mutations])
-        .filter(item => {
+        .filter((item) => {
             if (preciseMatch) {
                 return item?.name === queryName;
             }
-            return item?.name?.toLowerCase()?.includes(queryName?.toLowerCase()) || item?.description?.toLowerCase()?.includes(queryName?.toLowerCase());
+            return (
+                item?.name?.toLowerCase()?.includes(queryName?.toLowerCase()) ||
+                item?.description?.toLowerCase()?.includes(queryName?.toLowerCase())
+            );
         })
         .sortBy(['sortId'])
         .value();
-    return {fields: operations};
-}
+    return { fields: operations };
+};
 
 export const getAllQueriesSchema = (schemaIntrospection: IntrospectionQuery) => {
     const schema = buildClientSchema(schemaIntrospection);
@@ -62,14 +68,16 @@ export const getAllQueriesSchema = (schemaIntrospection: IntrospectionQuery) => 
     const fields = _.toArray(queries as any).map((item: SchemaNode) => {
         item.isQueryObject = true;
         return item;
-    })
-    return {fields};
-}
-
-export const getSchemaByTypeName = (schema: IntrospectionQuery, typeName: string): IntrospectionType | undefined => {
-    return schema?.__schema.types.find((item) => item.name === typeName);
+    });
+    return { fields };
 };
 
+export const getSchemaByTypeName = (
+    schema: IntrospectionQuery,
+    typeName: string,
+): IntrospectionType | undefined => {
+    return schema?.__schema.types.find((item) => item.name === typeName);
+};
 
 const resolveHelper = (type: any): string => {
     if (type.name) {
@@ -80,13 +88,16 @@ const resolveHelper = (type: any): string => {
     return 'undefined';
 };
 
-
 export const resolveNamedType = (fieldType: any) => {
-
     return resolveHelper(fieldType);
 };
 
-export const buildSchemaTree = (schema: IntrospectionQuery | undefined, node: SchemaNode | undefined, parentKey: string | undefined, typeChain: Array<string> | undefined) => {
+export const buildSchemaTree = (
+    schema: IntrospectionQuery | undefined,
+    node: SchemaNode | undefined,
+    parentKey: string | undefined,
+    typeChain: Array<string> | undefined,
+) => {
     if (!schema) {
         return;
     }
@@ -116,26 +127,42 @@ export const buildSchemaTree = (schema: IntrospectionQuery | undefined, node: Sc
                     field.fields = child.enumValues as any;
                     return;
                 }
-                if (field.type?.kind === 'LIST' || (field.type?.kind === 'NON_NULL' && field.type?.ofType?.kind === 'LIST')) {
+                if (
+                    field.type?.kind === 'LIST' ||
+                    (field.type?.kind === 'NON_NULL' &&
+                        field.type?.ofType?.kind === 'LIST')
+                ) {
                     field.isArrayObject = true;
                 }
                 if (field.isMutationObject) {
-                    debugger
-                    const childNode = buildSchemaTree(schema, {
-                        fields: _.cloneDeep(field.args)
-                    } as SchemaNode, field.key, fieldTypeChain,);
+                    debugger;
+                    const childNode = buildSchemaTree(
+                        schema,
+                        {
+                            fields: _.cloneDeep(field.args),
+                        } as SchemaNode,
+                        field.key,
+                        fieldTypeChain,
+                    );
                     if (childNode && childNode.fields) {
-                        field.fields = childNode?.fields?.map(item => {
+                        field.fields = childNode?.fields?.map((item) => {
                             item.isArgumentObject = true;
                             return item;
                         });
                     }
                 } else if (child) {
-                    const fields = child.inputFields ? _.cloneDeep(child.inputFields) : _.cloneDeep(child.fields);
-                    const childNode = buildSchemaTree(schema, {
-                        ...child,
-                        fields
-                    } as SchemaNode, field.key, fieldTypeChain,);
+                    const fields = child.inputFields
+                        ? _.cloneDeep(child.inputFields)
+                        : _.cloneDeep(child.fields);
+                    const childNode = buildSchemaTree(
+                        schema,
+                        {
+                            ...child,
+                            fields,
+                        } as SchemaNode,
+                        field.key,
+                        fieldTypeChain,
+                    );
                     if (childNode && childNode.fields) {
                         field.fields = childNode?.fields;
                     }
