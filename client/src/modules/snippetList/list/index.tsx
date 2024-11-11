@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React, { Dispatch, useContext } from 'react';
 import './index.styl';
 import { ListItem } from './item';
 import { TemplateConfig } from '@client/models/template/types';
 import { useReduxSlice } from '@client/store/hooks/useReduxSlice';
 import {
-    reducer,
-    sliceName,
     setTemplateAction,
     setTemplateContentAction,
     setTemplateMetaAction,
     setTemplateDocumentAction,
+    SliceType,
 } from '@client/modules/snippetList/storeSlice';
 import * as templateApi from '@client/models/template/api';
 import { ConfirmContext } from '@client/components/confirm/context';
@@ -17,12 +16,15 @@ import { useRedux } from '@client/store/hooks/useRedux';
 import { StateName as BuildResultStateName } from '@client/modules/_shared/template/buildReuslt/constants';
 import { BuildResultState } from '@client/modules/_shared/template/buildReuslt/types';
 import useMessage from '@client/components/message/useMessage';
+import { useDispatch } from 'react-redux';
 
 type Props = {
+    state: SliceType;
     templateList: Array<TemplateConfig>;
+    onSave?: () => void;
 };
-export const List = ({ templateList }: Props) => {
-    const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
+export const List = ({ state, templateList, onSave }: Props) => {
+    const dispatch = useDispatch();
     const [, setBuildResult] = useRedux(BuildResultStateName, {} as BuildResultState);
     const { showConfirm } = useContext(ConfirmContext);
     const { showMessage } = useMessage();
@@ -49,11 +51,14 @@ export const List = ({ templateList }: Props) => {
         }
         if (state?.template?.editStatus === 'Edited') {
             return showConfirm({
-                content: '当前模板尚未保存，是否放弃保存？',
+                content: '当前模板尚未保存，是否保存？',
+                confirmText: '保存',
+                cancelText: '不保存',
                 callback: (confirm) => {
                     if (confirm) {
-                        changeSelectedItem(templateConfig);
+                        return onSave?.();
                     }
+                    changeSelectedItem(templateConfig);
                 },
             });
         }

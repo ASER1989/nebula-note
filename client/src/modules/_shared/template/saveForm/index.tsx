@@ -8,11 +8,10 @@ import Textarea from '@client/atoms/textarea';
 import useMessage from '@client/components/message/useMessage';
 import { TemplateConfig } from '@client/models/template/types';
 import * as TemplateApi from '@client/models/template/api';
-import { createTemplate } from '@client/models/template/api';
 
 type Props = {
     templateOption: TemplateConfig;
-    onClose?: () => void;
+    onClose?: (success: boolean) => void;
 };
 
 type FormState = {
@@ -23,7 +22,7 @@ type FormState = {
 };
 
 export default function Index({ templateOption, onClose }: Props) {
-    const { content, meta,document: doc } = templateOption ?? {};
+    const { content, meta, document: doc } = templateOption ?? {};
     const { showMessage } = useMessage();
     const [isSaveAs, setIsSaveAs] = useState(false);
     const [formState, setFormState] = useState<FormState>({});
@@ -49,11 +48,11 @@ export default function Index({ templateOption, onClose }: Props) {
             ...formState,
             content,
             meta,
-            document:doc
+            document: doc,
         };
         TemplateApi.createTemplate(postData).then((resp) => {
+            onClose?.(resp.success);
             if (resp.success) {
-                onClose?.();
                 return showMessage('保存成功！');
             }
             showMessage(resp.error.toString());
@@ -65,11 +64,11 @@ export default function Index({ templateOption, onClose }: Props) {
             filePath: templateOption?.filePath,
             content,
             meta,
-            document:doc
+            document: doc,
         };
         TemplateApi.updateTemplate(postData).then((resp) => {
+            onClose?.(resp.success);
             if (resp.success) {
-                onClose?.();
                 return showMessage('保存成功！');
             }
             showMessage(resp.error.toString());
