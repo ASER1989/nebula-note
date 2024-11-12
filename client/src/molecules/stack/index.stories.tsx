@@ -7,8 +7,45 @@ export default {
     title: 'Molecules/Stack',
     component: Stack,
     tags: ['autodocs'],
-    argTypes: {},
-    args: {},
+    argTypes: {
+        type: {
+            control: 'select',
+            options: ['flex', 'inline-flex'],
+            table: {
+                defaultValue: { summary: 'flex' },
+            },
+        },
+        direction: {
+            control: 'select',
+            options: ['horizontal', 'vertical'],
+        },
+        spacing: {
+            control: 'number',
+        },
+        align: {
+            control: 'select',
+            options: ['stretch', 'center', 'flex-start', 'flex-end'],
+        },
+        justify: {
+            control: 'select',
+            options: ['flex-start', 'center', 'space-between', 'space-around', 'flex-end'],
+        },
+        overflow: {
+            control: 'select',
+            options: ['auto', 'hidden'],
+            table: {
+                defaultValue: { summary: 'hidden' },
+            },
+        },
+        children: {
+            control: false,
+        },
+
+    },
+    args: {
+        type: 'flex',
+        direction: 'horizontal',
+    },
     parameters: {
         docs: {
             description: {
@@ -21,7 +58,7 @@ export default {
 export type Story = StoryObj<StackProps>;
 export const Primary: Story = {
     args: {
-        direction: 'row',
+        direction: 'horizontal',
         justify: 'space-around',
     },
     render: (args) => {
