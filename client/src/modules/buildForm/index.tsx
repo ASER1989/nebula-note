@@ -4,7 +4,7 @@ import Form, { FormItem } from '@client/molecules/form';
 import Button from '@client/atoms/button';
 import { BuildFormContext } from './context';
 import type { FormState, ExtraState, ExtraRender } from './types';
-import ResizableSplit from '@client/molecules/resizableSplit';
+import SplitPanel from '@client/molecules/splitPanel';
 
 type Props = {
     children: React.ReactNode;
@@ -52,7 +52,7 @@ export default function BuildForm({
             }}
         >
             <div className='build-form'>
-                <ResizableSplit>
+                <SplitPanel>
                     <div className='form-container'>
                         <div className='form-body'>
                             <Form>
@@ -71,7 +71,7 @@ export default function BuildForm({
                         <div className='form-footer'>{footer}</div>
                     </div>
                     {getExtraRender()}
-                </ResizableSplit>
+                </SplitPanel>
             </div>
         </BuildFormContext.Provider>
     );

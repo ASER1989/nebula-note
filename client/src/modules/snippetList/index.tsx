@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { List } from './list';
 import { Content } from './content';
-import ResizableSplit from '@client/molecules/resizableSplit';
 import { useTemplateConfig } from '@client/models/template';
 import SaveForm from '@client/modules/_shared/template/saveForm';
 import { Dialog } from '@client/molecules/dialog';
@@ -12,6 +11,7 @@ import {
     sliceName,
     SliceType,
 } from '@client/modules/snippetList/storeSlice';
+import SplitPanel from "@client/molecules/splitPanel";
 
 export const SnippetList = () => {
     const { templateConfig } = useTemplateConfig();
@@ -29,14 +29,14 @@ export const SnippetList = () => {
 
     return (
         <>
-            <ResizableSplit percentage={20} minWidth={270}>
+            <SplitPanel percentage={20} minWidth={270}>
                 <List
                     state={state as SliceType}
                     templateList={templateConfig}
                     onSave={handleSaveShown}
                 />
                 <Content state={state as SliceType} onSave={handleSaveShown} />
-            </ResizableSplit>
+            </SplitPanel>
             <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
                 <SaveForm
                     templateOption={{

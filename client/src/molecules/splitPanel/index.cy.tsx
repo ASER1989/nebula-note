@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 import React from 'react';
-import ResizableSplit from './index';
+import SplitPanel from './index';
 import { expect } from 'chai';
 
 describe('ResizableSplit Component', () => {
@@ -8,14 +8,14 @@ describe('ResizableSplit Component', () => {
         beforeEach(() => {
             cy.viewport(1000, 1000);
             cy.mount(
-                <ResizableSplit direction='horizontal'>
+                <splitPanel direction='horizontal'>
                     <div style={{ backgroundColor: 'lightblue', height: '100%' }}>
                         Left Panel
                     </div>
                     <div style={{ backgroundColor: 'lightgreen', height: '100%' }}>
                         Right Panel
                     </div>
-                </ResizableSplit>,
+                </splitPanel>,
             );
         });
 
@@ -99,14 +99,14 @@ describe('ResizableSplit Component', () => {
         beforeEach(() => {
             cy.viewport(1000, 1000);
             cy.mount(
-                <ResizableSplit direction='vertical'>
+                <splitPanel direction='vertical'>
                     <div style={{ backgroundColor: 'lightblue', height: '100%' }}>
                         Top Panel
                     </div>
                     <div style={{ backgroundColor: 'lightgreen', height: '100%' }}>
                         Bottom Panel
                     </div>
-                </ResizableSplit>,
+                </splitPanel>,
             );
         });
 

@@ -1,16 +1,24 @@
 import { Meta, StoryObj } from '@storybook/react';
-import ResizableSplit from './index';
+import SplitPanel from './index';
 import React from 'react';
 
 export default {
-    title: 'Components/ResizableSplit',
-    component: ResizableSplit,
+    title: 'Components/SplitPanel',
+    component: SplitPanel,
     tags: ['autodocs'],
     argTypes: {
         direction: {
             control: {
                 type: 'select',
                 options: ['horizontal', 'vertical'],
+            },
+        },
+        dividerWidth: {
+            control: {
+                type: 'range',
+                min: 0,
+                max: 50,
+                step: 1,
             },
         },
     },
@@ -23,6 +31,7 @@ export default {
                 right
             </div>,
         ],
+        dividerWidth:5
     },
     decorators: [
         (Story) => (
@@ -50,7 +59,7 @@ export default {
     },
 } as Meta;
 
-type Story = StoryObj<typeof ResizableSplit>;
+type Story = StoryObj<typeof SplitPanel>;
 
 export const Horizontal: Story = {
     args: {

@@ -1,17 +1,20 @@
 import React, { MouseEvent, useState, useMemo } from 'react';
+import _ from 'lodash';
 import './index.styl';
 
-export interface ResizableSplitProps {
+export interface SplitPanelProps {
     direction?: 'horizontal' | 'vertical';
     children?: [React.ReactNode, React.ReactNode];
+    dividerWidth?: number;
     percentage?: number;
     minWidth?: number;
 }
 
-const ResizableSplit: React.FC<ResizableSplitProps> = ({
+const SplitPanel: React.FC<SplitPanelProps> = ({
     direction = 'horizontal',
     children,
     percentage = 50,
+    dividerWidth = 5,
     minWidth,
 }) => {
     const [size, setSize] = useState<number>(percentage); // 默认分割比率为50%
@@ -27,11 +30,15 @@ const ResizableSplit: React.FC<ResizableSplitProps> = ({
             realSize = `${firstPanelSize < minWidth ? minWidth : firstPanelSize}px`;
         }
 
-        const attrVal = `calc(${realSize} - 10px) 10px auto`;
-        const result = isHorizontal
+        const attrVal = `calc(${realSize} - ${dividerWidth}px) ${dividerWidth}px auto`;
+        const result = {
+            '--divider-width': `${dividerWidth}px`,
+        };
+        const gridStyle = isHorizontal
             ? { gridTemplateColumns: attrVal } // 只设置水平方向的列布局
             : { gridTemplateRows: attrVal }; // 只设置垂直方向的行布局
-        return result;
+
+        return _.defaults(gridStyle, result);
     }, [size, minWidth]);
 
     const limitQuery = (newSize: number) => {
@@ -65,7 +72,7 @@ const ResizableSplit: React.FC<ResizableSplitProps> = ({
     };
 
     return (
-        <div className='resizable-split' style={style}>
+        <div className='split-panel' style={style}>
             <div className='panel panel-1'>{children?.[0]}</div>
             <div className='divider' onMouseDown={handleMouseDown} />
             <div className='panel panel-2'>{children?.[1]}</div>
@@ -73,4 +80,4 @@ const ResizableSplit: React.FC<ResizableSplitProps> = ({
     );
 };
 
-export default ResizableSplit;
+export default SplitPanel;
