@@ -58,6 +58,22 @@ export default {
             },
         },
     },
+    decorators: [
+        (Story) => (
+            <div
+                style={{
+                    width: '100%',
+                    height: '300px',
+                }}
+            >
+                <div style={{ marginBottom: '10px', color: '#797979' }}>
+                    Hover over the box and try resizing it:
+                </div>
+
+                <Story />
+            </div>
+        ),
+    ],
 } as Meta<ResizableBoxProps>;
 
 export type Story = StoryObj<ResizableBoxProps>;
@@ -70,27 +86,40 @@ export const Primary: Story = {
         initialHeight: 100,
         initialWidth: 100,
     },
-    render: () => {
-        const [args] = useArgs();
+    render: (args) => {
         const anchorRef = useRef<HTMLDivElement>(null);
         return (
             <ResizeBox {...args} anchor={anchorRef}>
                 {(style) => (
                     <div
-                        style={{
-                            height: 300,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
-                        }}
-                    >
-                        <div
-                            style={{ border: 'solid 1px red', ...style }}
-                            ref={anchorRef}
-                        ></div>
-                    </div>
+                        style={{ border: 'solid 1px red', ...style }}
+                        ref={anchorRef}
+                    ></div>
                 )}
             </ResizeBox>
         );
+    },
+    parameters: {
+        docs: {
+            source: {
+                code: `
+import React,{useRef} from 'react';
+
+export default Example = ()=> {
+    const anchorRef = useRef<HTMLDivElement>(null);
+    return (
+        <ResizeBox  initialHeight={100} initialWidth={100} right left bottom top anchor={anchorRef} >
+         {(style) => (
+            <div
+                style={{ border: 'solid 1px red', ...style }}
+                ref={anchorRef}
+            ></div>
+        )}
+        </ResizeBox>
+    )
+}
+                    `,
+            },
+        },
     },
 };
