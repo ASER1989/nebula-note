@@ -1,5 +1,5 @@
 export type TemplateRecord = {
-    document: string;
+    description: string;
     filePath: string;
     keyword: string;
     name: string;

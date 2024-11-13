@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { LuPencilLine } from 'react-icons/lu';
 import classNames from 'classnames';
+import Input from "@client/atoms/input";
 
 export type Props = {
     state: SliceType;
