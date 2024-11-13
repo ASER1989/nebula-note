@@ -6,9 +6,19 @@ export type Props = {
     onClick?: () => void;
     children: React.ReactNode | string | Array<React.ReactNode | string>;
     disabled?: boolean;
+    type?: 'circle' | 'normal';
+    hoverEnabled?: boolean;
+    className?: string;
 };
 
-export default function IconButton({ onClick, children, disabled }: Props) {
+export default function IconButton({
+    onClick,
+    children,
+    disabled,
+    type,
+    hoverEnabled,
+    className,
+}: Props) {
     const handleClick = () => {
         if (!disabled) {
             onClick?.();
@@ -17,8 +27,10 @@ export default function IconButton({ onClick, children, disabled }: Props) {
 
     return (
         <div
-            className={classNames('icon-button', {
+            className={classNames(className, 'icon-button', {
                 disabled: disabled,
+                circle: type === 'circle',
+                hover: hoverEnabled,
             })}
             onClick={handleClick}
         >

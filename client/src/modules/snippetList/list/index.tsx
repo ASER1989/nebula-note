@@ -1,8 +1,7 @@
-import React, { Dispatch, useContext } from 'react';
-import './index.styl';
+import React, { useContext } from 'react';
+import '../index.styl'
 import { ListItem } from './item';
 import { TemplateConfig } from '@client/models/template/types';
-import { useReduxSlice } from '@client/store/hooks/useReduxSlice';
 import {
     setTemplateAction,
     setTemplateContentAction,

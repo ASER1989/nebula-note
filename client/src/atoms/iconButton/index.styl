@@ -5,6 +5,13 @@
   cursor pointer
   user-select none
 
+  &.circle
+    border-radius 50%
+
+  &.hover:hover
+    background rgba(0, 0, 0, 0.25)
+    opacity 0.7
+
   &:not(.disabled):active
     svg
       opacity 0.7
@@ -12,5 +19,6 @@
 
   &.disabled
     cursor not-allowed
+
     svg
       fill: #b9b9b9;

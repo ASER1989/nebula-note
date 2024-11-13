@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { FaPlayCircle } from 'react-icons/fa';
 
-import './index.styl';
+import '../../index.styl';
 import IconButton from '@client/atoms/iconButton';
 
 export type Props = {

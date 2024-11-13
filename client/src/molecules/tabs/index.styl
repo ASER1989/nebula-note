@@ -13,7 +13,6 @@
     position relative
 
     .tabs-pane-item
-      padding 5px 20px
       font-size 13px
       cursor pointer
       color #c9dbfc
@@ -35,6 +34,7 @@
 
       &.active, &:hover
         --pseudo-visible initial
+
         &:before
           left: -10px;
           clip-path: inset(50% -10px 0 50%);
@@ -56,3 +56,16 @@
         --pseudo-color @background-color
         z-index 1
 
+
+    .tabs-pane-title
+      padding 5px 20px
+
+    .tabs-pane-plus
+      border-radius 50%
+      width 26px
+      height 26px
+      box-sizing border-box
+      margin 0 5px
+
+      &:hover
+        background #11111133

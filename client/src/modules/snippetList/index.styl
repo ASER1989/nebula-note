@@ -1,0 +1,36 @@
+.snippet-list
+  display flex
+  flex-direction column
+  overflow-y auto
+  max-height 100vh
+
+  .snippet-list-item
+    border-bottom solid 1px #cccccc
+    padding 12px
+    cursor pointer
+    display flex
+    justify-content flex-start
+    align-items center
+
+    &:hover, &.checked
+      background-color #eeeeee
+
+    .item-name
+      font-weight bold
+      text-align left
+      flex 1
+
+    .item-operation
+      width 30px
+      display flex
+      align-items center
+
+.snippet-tabs-title
+  padding 5px 20px
+
+  &.editable
+    padding 5px 20px 5px 10px
+
+  .snippet-editable-title
+    outline none
+    min-width 20px
