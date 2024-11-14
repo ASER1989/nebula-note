@@ -55,16 +55,26 @@ const saveTemplateFile = async (content, filePath) => {
 
 const getTemplateFile = async (filePath) => {
     const configPath = await getTemplateFolder();
-    return await fileUtils.readFile(path.join(configPath, filePath));
+    const targetPath = path.join(configPath, filePath);
+    const isExisted = await fileUtils.isFileExisted(targetPath);
+    if (isExisted) {
+        return await fileUtils.readFile(path.join(configPath, filePath));
+    }
+    return null;
 };
 
 const filePathToMetaPath = (filePath) => {
-    return filePath.replace('.ejs', '_meta.json');
+    return path.join(filePath, 'meta.json');
 };
 
 const filePathToDocPath = (filePath) => {
-    return filePath.replace('.ejs', '_doc.md');
-}
+    return path.join(filePath, 'doc.md');
+};
+
+const filePathToSnippetPath = (filePath, title) => {
+    return path.join(filePath, 'snippet', `${title}.ejs`);
+};
+
 systemConfig.subscribe(reloadTemplateConfig);
 
 module.exports = {
@@ -75,5 +85,6 @@ module.exports = {
     getTemplateFolder,
     reloadTemplateConfig,
     filePathToMetaPath,
-    filePathToDocPath
+    filePathToDocPath,
+    filePathToSnippetPath,
 };

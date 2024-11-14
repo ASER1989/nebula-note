@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { FetchStatus } from '@client/types';
-import { TemplateConfig } from '@client/models/template/types';
+import { SnippetRecord, TemplateRecord } from '@client/models/template/types';
 import { SupportedLang } from '@client/components/codeEditor/queries';
+import _ from 'lodash';
 
 export type SliceType = {
     fetchStatus: FetchStatus;
-    template: Partial<TemplateConfig> & {
-        language?: (typeof SupportedLang)[number];
+    template: Partial<TemplateRecord> & {
         editStatus?: 'Edited' | 'Saved' | 'None';
     };
 };
@@ -19,7 +19,7 @@ export const storeSlice = createSlice({
         template: {} as SliceType['template'],
     },
     reducers: {
-        setTemplateFilePath: (state, action: { payload: TemplateConfig }) => {
+        setTemplateFilePath: (state, action: { payload: TemplateRecord }) => {
             return {
                 fetchStatus: 'None',
                 template: {
@@ -38,15 +38,37 @@ export const storeSlice = createSlice({
                 },
             };
         },
-        setTemplateContent: (state, action: { payload: string }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    content: action.payload,
-                    editStatus: 'None',
-                },
-            };
+        setSnippetContent: (state, action: { payload: SnippetRecord }) => {
+            const snippet = state.template.snippetList?.find(
+                (item) => item.title === action.payload.title,
+            );
+            if (snippet) {
+                snippet.content = action.payload.content;
+            }
+        },
+        createSnippet: (state, action: { payload: SnippetRecord }) => {
+            state.template.snippetList?.push(action.payload);
+            state.template.editStatus = 'Edited';
+        },
+        removeSnippet: (state, action: { payload: { index: number } }) => {
+            const {
+                payload: { index },
+            } = action;
+            state.template.snippetList?.splice(index, 1);
+            state.template.editStatus = 'Edited';
+        },
+        updateSnippet: (
+            state,
+            action: { payload: { snippet: Partial<SnippetRecord>; index: number } },
+        ) => {
+            const {
+                payload: { index, snippet },
+            } = action;
+            const ownSnippet = state.template.snippetList?.[index];
+            if (ownSnippet) {
+                _.assign(ownSnippet, snippet);
+                state.template.editStatus = 'Edited';
+            }
         },
         setTemplateMeta: (state, action: { payload: string }) => {
             return {
@@ -67,16 +89,6 @@ export const storeSlice = createSlice({
                 template: {
                     ...state.template,
                     language: action.payload,
-                },
-            };
-        },
-        updateTemplateContent: (state, action: { payload: string }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    content: action.payload,
-                    editStatus: 'Edited',
                 },
             };
         },
@@ -112,16 +124,6 @@ export const storeSlice = createSlice({
     },
 });
 
-export const {
-    setTemplateFilePath: setTemplateAction,
-    setTemplateDocument: setTemplateDocumentAction,
-    setTemplateContent: setTemplateContentAction,
-    setTemplateMeta: setTemplateMetaAction,
-    setTemplateLanguage: setTemplateLanguageAction,
-    updateTemplateContent: updateTemplateContentAction,
-    updateTemplateMeta: updateTemplateMetaAction,
-    updateTemplateDocument: updateTemplateDocumentAction,
-    saveTemplate: saveTemplateAction,
-} = storeSlice.actions;
+export const actions = storeSlice.actions;
 
 export const reducer = storeSlice.reducer;

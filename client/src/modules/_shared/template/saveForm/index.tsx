@@ -6,11 +6,11 @@ import Form, { FormItem } from '@client/molecules/form';
 import Input from '@client/atoms/input';
 import Textarea from '@client/atoms/textarea';
 import useMessage from '@client/components/message/useMessage';
-import { TemplateConfig } from '@client/models/template/types';
+import { TemplateRecord } from '@client/models/template/types';
 import * as TemplateApi from '@client/models/template/api';
 
 type Props = {
-    templateOption: TemplateConfig;
+    templateOption: TemplateRecord;
     onClose?: (success: boolean) => void;
 };
 

@@ -1,12 +1,12 @@
 import { useMemo, useState, useEffect } from 'react';
 import useMessage from '@client/components/message/useMessage';
 import { getTemplateList } from '@client/models/template/api';
-import { TemplateConfig } from '@client/models/template/types';
+import { TemplateRecord } from '@client/models/template/types';
 
 const useTemplateConfig = () => {
     const [keyword, setKeyword] = useState<string>();
     const [loading, setLoading] = useState(false);
-    const [templateConfig, setTemplateConfig] = useState<Array<TemplateConfig>>([]);
+    const [templateConfig, setTemplateConfig] = useState<Array<TemplateRecord>>([]);
     const { showMessage } = useMessage();
 
     const reloadTemplateConfig = () => {

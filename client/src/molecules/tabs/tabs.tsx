@@ -8,6 +8,7 @@ import IconButton from '@client/atoms/iconButton';
 import { LuX, LuPlus } from 'react-icons/lu';
 
 type childType = React.ReactElement<TabPaneProps, typeof TabPane>;
+
 export type Props = {
     showPlus?: boolean;
     onPlusClick?: () => void;
@@ -38,7 +39,7 @@ const Tabs = ({ showPlus, onPlusClick, children, onRemoveClick, labelRender }: P
                 removable: item.props.removable,
             };
         });
-    }, []);
+    }, [childList]);
 
     const content = useMemo(() => {
         return childList.find(

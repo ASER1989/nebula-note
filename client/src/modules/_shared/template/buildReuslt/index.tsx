@@ -29,7 +29,7 @@ export const BuildResult = () => {
                     onVisibleChange={handlePanelHide}
                     ref={sidePageRef}
                 >
-                    <Stack direction='column'>
+                    <Stack direction='vertical'>
                         <StackItem flex style={{ overflow: 'auto' }}>
                             <CodeEditor
                                 value={state?.content}

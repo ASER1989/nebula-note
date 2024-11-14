@@ -109,9 +109,9 @@ export default {
             </div>
         ),
     ],
-} as Meta<Props>;
+} as Meta<Props<string>>;
 
-export type Story = StoryObj<Props>;
+export type Story = StoryObj<Props<string>>;
 export const Primary: Story = {
     args: {
         enableTags: [
@@ -149,7 +149,7 @@ export const Primary: Story = {
                 keyword: '4',
             },
         ];
-        const [args, updateArgs] = useArgs<Props>();
+        const [args, updateArgs] = useArgs<Props<string>>();
         useEffect(() => {
             updateArgs({ options });
         }, []);

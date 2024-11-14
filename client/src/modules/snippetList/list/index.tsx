@@ -1,14 +1,8 @@
 import React, { useContext } from 'react';
-import '../index.styl'
+import '../index.styl';
 import { ListItem } from './item';
-import { TemplateConfig } from '@client/models/template/types';
-import {
-    setTemplateAction,
-    setTemplateContentAction,
-    setTemplateMetaAction,
-    setTemplateDocumentAction,
-    SliceType,
-} from '@client/modules/snippetList/storeSlice';
+import { TemplateRecord } from '@client/models/template/types';
+import { actions, SliceType } from '@client/modules/snippetList/storeSlice';
 import * as templateApi from '@client/models/template/api';
 import { ConfirmContext } from '@client/components/confirm/context';
 import { useRedux } from '@client/store/hooks/useRedux';
@@ -19,7 +13,7 @@ import { useDispatch } from 'react-redux';
 
 type Props = {
     state: SliceType;
-    templateList: Array<TemplateConfig>;
+    templateList: Array<TemplateRecord>;
     onSave?: () => void;
 };
 export const List = ({ state, templateList, onSave }: Props) => {
@@ -28,23 +22,32 @@ export const List = ({ state, templateList, onSave }: Props) => {
     const { showConfirm } = useContext(ConfirmContext);
     const { showMessage } = useMessage();
 
-    const changeSelectedItem = (templateConfig: TemplateConfig) => {
-        dispatch(setTemplateAction(templateConfig));
+    const changeSelectedItem = (templateConfig: TemplateRecord) => {
+        dispatch(actions.setTemplateFilePath(templateConfig));
         templateApi
             .getTemplateDocument(templateConfig.filePath as string)
             .then((resp) => {
-                dispatch(setTemplateDocumentAction(resp.data));
+                dispatch(actions.setTemplateDocument(resp.data));
             });
-        templateApi.getTemplateContent(templateConfig.filePath as string).then((resp) => {
-            dispatch(setTemplateContentAction(resp.data));
-        });
 
         templateApi.getTemplateMeta(templateConfig.filePath as string).then((resp) => {
-            dispatch(setTemplateMetaAction(resp.data ?? '{}'));
+            dispatch(actions.setTemplateMeta(resp.data ?? '{}'));
+        });
+
+        templateConfig.snippetList?.forEach((snippet) => {
+            templateApi
+                .getTemplateContent(templateConfig.filePath, snippet.title)
+                .then((resp) => {
+                    const newSnippet = {
+                        ...snippet,
+                        content: resp.data,
+                    };
+                    dispatch(actions.setSnippetContent(newSnippet));
+                });
         });
     };
 
-    const handleClick = (templateConfig: TemplateConfig) => {
+    const handleClick = (templateConfig: TemplateRecord) => {
         if (state?.template?.filePath === templateConfig.filePath) {
             return;
         }
@@ -66,15 +69,11 @@ export const List = ({ state, templateList, onSave }: Props) => {
 
     const handleRunBuild = () => {
         templateApi
-            .buildTemplate({
-                content: state?.template.content,
-                meta: state?.template.meta,
-            })
+            .buildTemplate(state?.template)
             .then((resp) => {
                 setBuildResult({
                     content: resp.data,
                     visible: true,
-                    language: state?.template.language,
                 });
             })
             .catch((ex) => {

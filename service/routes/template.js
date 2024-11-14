@@ -18,35 +18,67 @@ module.exports = (prefix, opts) => {
         if (configOption) {
             return Error('模板名称已存在');
         }
-        const newConfig = _.omit(reqParams, ['content', 'meta', 'document']);
+        const newConfig = _.omit(reqParams, ['meta', 'document']);
         newConfig.version = +new Date();
-        newConfig.filePath = newConfig.filePath || [name, 'ejs'].join('.');
+        newConfig.filePath = newConfig.filePath || [name, '/'].join('');
         newConfig.metaPath = templateUtils.filePathToMetaPath(newConfig.filePath);
         newConfig.docPath = templateUtils.filePathToDocPath(newConfig.filePath);
-
+        newConfig.snippetList = _.map(reqParams.snippetList, (item)=>_.omit(item,'content'));
+        
         templateConfigs.push(newConfig);
 
         await templateUtils.updateTemplateConfigs(templateConfigs);
-        await templateUtils.saveTemplateFile(reqParams.content, newConfig.filePath);
         await templateUtils.saveTemplateFile(reqParams.meta, newConfig.metaPath);
         await templateUtils.saveTemplateFile(reqParams.document, newConfig.docPath);
+
+        while (reqParams.snippetList.length > 0) {
+            const item = reqParams.snippetList.shift();
+            const itemPath = templateUtils.filePathToSnippetPath(
+                newConfig.filePath,
+                item.title,
+            );
+            await templateUtils.saveTemplateFile(item.content, itemPath);
+        }
     });
 
     router.post('/update', async (ctx) => {
         const reqParams = ctx.request.body;
-        const { filePath, content, meta, document } = reqParams;
-        const metaPath = templateUtils.filePathToMetaPath(filePath);
-        const docPath = templateUtils.filePathToDocPath(filePath);
-
-        await templateUtils.saveTemplateFile(content, filePath);
-        await templateUtils.saveTemplateFile(meta, metaPath);
-        await templateUtils.saveTemplateFile(document, docPath);
+        const { name } = reqParams;
+        const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
+        const configIndex = templateConfigs.findIndex((item) => item.name === name);
+        if (configIndex<0) {
+            return Error('模板不存在');
+        }
+        if(templateConfigs[configIndex].version>reqParams.version){
+            return Error('模板版本号不一致');
+        }
+        const newConfig = _.omit(reqParams, ['meta', 'document']);
+        newConfig.version = +new Date();
+        newConfig.filePath = newConfig.filePath || [name, '/'].join('');
+        newConfig.metaPath = templateUtils.filePathToMetaPath(newConfig.filePath);
+        newConfig.docPath = templateUtils.filePathToDocPath(newConfig.filePath);
+        newConfig.snippetList = _.map(reqParams.snippetList, (item)=>_.omit(item,'content'));
+        templateConfigs[configIndex] = newConfig;
+        
+        await templateUtils.updateTemplateConfigs(templateConfigs);
+        await templateUtils.saveTemplateFile(reqParams.meta, newConfig.metaPath);
+        await templateUtils.saveTemplateFile(reqParams.document, newConfig.docPath);
+        
+        while (reqParams.snippetList.length > 0) {
+            const item = reqParams.snippetList.shift();
+            const itemPath = templateUtils.filePathToSnippetPath(
+              newConfig.filePath,
+              item.title,
+            );
+            await templateUtils.saveTemplateFile(item.content, itemPath);
+        }
     });
 
     router.get('/content', async (ctx) => {
-        const { path } = ctx.query;
-        if (!_.isEmpty(path)) {
-            return templateUtils.getTemplateFile(path);
+        const { path ,title} = ctx.query;
+        const targetPath = templateUtils.filePathToSnippetPath(path,title);
+        if (!_.isEmpty(targetPath)) {
+            return templateUtils.getTemplateFile(targetPath);
         }
     });
 
@@ -57,7 +89,7 @@ module.exports = (prefix, opts) => {
             return templateUtils.getTemplateFile(metaPath);
         }
     });
-    
+
     router.get('/doc', async (ctx) => {
         const { path } = ctx.query;
         if (!_.isEmpty(path)) {

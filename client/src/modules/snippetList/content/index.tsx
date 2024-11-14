@@ -1,13 +1,8 @@
 import React, { FC } from 'react';
+import _ from 'lodash';
 import '../index.styl';
 import { Tabs, TabPane, TabOption } from '@client/molecules/tabs';
-import {
-    updateTemplateContentAction,
-    updateTemplateMetaAction,
-    setTemplateLanguageAction,
-    updateTemplateDocumentAction,
-    SliceType,
-} from '@client/modules/snippetList/storeSlice';
+import { actions, SliceType } from '@client/modules/snippetList/storeSlice';
 import CodeEditor from '@client/components/codeEditor';
 import type { Props as EditorProps } from '@client/components/codeEditor';
 import MarkdownEditor from '@client/components/markdownEditor';
@@ -16,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { LuPencilLine } from 'react-icons/lu';
 import classNames from 'classnames';
-import Input from "@client/atoms/input";
 
 export type Props = {
     state: SliceType;
@@ -26,17 +20,17 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     const dispatch = useDispatch();
 
     const handleDocumentChange = (value?: string) => {
-        dispatch(updateTemplateDocumentAction(value));
+        dispatch(actions.updateTemplateDocument(value));
     };
-    const handleContentChange = (editorValue: string) => {
-        dispatch(updateTemplateContentAction(editorValue));
+    const handleContentChange = (editorValue: string, index: number) => {
+        dispatch(actions.updateSnippet({ snippet: { content: editorValue }, index }));
     };
 
     const handleMetaChange = (editorValue: string) => {
-        dispatch(updateTemplateMetaAction(editorValue));
+        dispatch(actions.updateTemplateMeta(editorValue));
     };
-    const handleCodeLangChange = (lang: EditorProps['lang']) => {
-        dispatch(setTemplateLanguageAction(lang));
+    const handleCodeLangChange = (language: EditorProps['lang'], index: number) => {
+        dispatch(actions.updateSnippet({ snippet: { language }, index }));
     };
 
     const handleAddSnippet = () => {};
@@ -86,13 +80,21 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         onChange={handleMetaChange}
                     />
                 </TabPane>
-                <TabPane id='code' key='code' title='模板编辑' removable>
-                    <CodeEditor
-                        value={state?.template?.content}
-                        onChange={handleContentChange}
-                        onLangChange={handleCodeLangChange}
-                    />
-                </TabPane>
+                {
+                    state?.template?.snippetList?.map((snippet, index) => (
+                        <TabPane
+                            id='code'
+                            key={`code_${index}`}
+                            title={snippet.title}
+                            removable
+                        >
+                            <CodeEditor
+                                value={snippet?.content}
+                                onChange={_.partial(handleContentChange, _, index)}
+                                onLangChange={_.partial(handleCodeLangChange, _, index)}
+                            />
+                        </TabPane>
+                    )) as never}
             </Tabs>
         </ShortcutKeys>
     );

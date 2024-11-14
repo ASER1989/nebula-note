@@ -6,12 +6,12 @@ import SaveForm from '@client/modules/_shared/template/saveForm';
 import { Dialog } from '@client/molecules/dialog';
 import { useReduxSlice } from '@client/store/hooks/useReduxSlice';
 import {
+    actions,
     reducer,
-    saveTemplateAction,
     sliceName,
     SliceType,
 } from '@client/modules/snippetList/storeSlice';
-import SplitPanel from "@client/molecules/splitPanel";
+import SplitPanel from '@client/molecules/splitPanel';
 
 export const SnippetList = () => {
     const { templateConfig } = useTemplateConfig();
@@ -20,12 +20,12 @@ export const SnippetList = () => {
     const handleSaveShown = () => {
         setSaveShown(true);
     };
-    const handleSaveClose = (success: boolean) => {
-        if (success) {
-            dispatch(saveTemplateAction());
-        }
-        setSaveShown(false);
-    };
+    // const handleSaveClose = (success: boolean) => {
+    //     if (success) {
+    //         dispatch(saveTemplateAction());
+    //     }
+    //     setSaveShown(false);
+    // };
 
     return (
         <>
@@ -37,17 +37,17 @@ export const SnippetList = () => {
                 />
                 <Content state={state as SliceType} onSave={handleSaveShown} />
             </SplitPanel>
-            <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
-                <SaveForm
-                    templateOption={{
-                        ...state?.template,
-                        filePath: state?.template?.filePath,
-                        content: state?.template?.content,
-                        document: state?.template?.document,
-                    }}
-                    onClose={handleSaveClose}
-                />
-            </Dialog>
+            {/*<Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>*/}
+            {/*    <SaveForm*/}
+            {/*        templateOption={{*/}
+            {/*            ...state?.template,*/}
+            {/*            filePath: state?.template?.filePath,*/}
+            {/*            content: state?.template?.content,*/}
+            {/*            document: state?.template?.document,*/}
+            {/*        }}*/}
+            {/*        onClose={handleSaveClose}*/}
+            {/*    />*/}
+            {/*</Dialog>*/}
         </>
     );
 };
