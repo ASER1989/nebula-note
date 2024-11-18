@@ -20,7 +20,8 @@ const config: StorybookConfig = {
     ],
     framework: {
         name: getAbsolutePath('@storybook/react-vite'),
-        options: {},
+        options: {
+        },
     },
     core: {
         builder: '@storybook/builder-vite', // 👈 The builder enabled here.

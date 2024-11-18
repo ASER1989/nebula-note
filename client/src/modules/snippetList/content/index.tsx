@@ -72,7 +72,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         {state?.template?.document}
                     </MarkdownEditor>
                 </TabPane>
-                <TabPane id='meta' key='meta' title='模板运行参数配置'>
+                <TabPane id='meta' key='meta' title='参数配置'>
                     <CodeEditor
                         value={state?.template?.meta ?? '{}'}
                         lang='json'
@@ -81,9 +81,9 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                     />
                 </TabPane>
                 {
-                    state?.template?.snippetList?.map((snippet, index) => (
+                    (state?.template?.snippetList ?? []).map((snippet, index) => (
                         <TabPane
-                            id='code'
+                            id={`code_${index}`}
                             key={`code_${index}`}
                             title={snippet.title}
                             removable
@@ -94,7 +94,8 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                                 onLangChange={_.partial(handleCodeLangChange, _, index)}
                             />
                         </TabPane>
-                    )) as never}
+                    )) as never
+                }
             </Tabs>
         </ShortcutKeys>
     );

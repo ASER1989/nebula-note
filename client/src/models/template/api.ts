@@ -8,8 +8,8 @@ export const getTemplateList = () => {
 export const getTemplateDocument = (filePath: string) => {
     return request.get<string>('/template/doc', { path: filePath });
 };
-export const getTemplateContent = (filePath: string,title:string) => {
-    return request.get<string>('/template/content', { path: filePath ,title});
+export const getTemplateContent = (filePath: string, title: string) => {
+    return request.get<string>('/template/content', { path: filePath, title });
 };
 export const getTemplateMeta = (filePath: string) => {
     return request.get<string>('/template/meta', { path: filePath });
@@ -27,7 +27,7 @@ export const updateTemplate = (postData: TemplateRecord) => {
     return request.post('/template/update', postData);
 };
 
-export const buildTemplate = (postData: Pick<TemplateRecord, 'meta' | 'document'>) => {
+export const buildTemplate = (postData: { meta?: string; content: string }) => {
     return request.post<string>('/slice/build/meta', postData);
 };
 

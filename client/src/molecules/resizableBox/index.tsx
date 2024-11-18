@@ -63,7 +63,6 @@ const ResizableBox: React.FC<ResizableBoxProps> = (props) => {
             if (props.bottom) {
                 const topToBottomOffset = e.clientY - anchorReact.bottom;
                 isOverBottom = topToBottomOffset < 1 && topToBottomOffset > -5;
-                console.log(anchorReact, e.clientY, topToBottomOffset, isOverBottom);
                 isNsResize = isNsResize || isOverBottom;
             }
             setCursorType(

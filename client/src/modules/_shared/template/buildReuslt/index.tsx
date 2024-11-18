@@ -2,23 +2,68 @@ import React from 'react';
 import { SidePage } from '@client/molecules/sidePage';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { StateName } from '@client/modules/_shared/template/buildReuslt/constants';
-import { BuildResultState } from '@client/modules/_shared/template/buildReuslt/types';
+import {
+    BuildResultState,
+    CodeSnippet,
+} from '@client/modules/_shared/template/buildReuslt/types';
 import CodeEditor from '@client/components/codeEditor';
 import Copy from '@client/molecules/copy';
 import { Stack, StackItem } from '@client/molecules/stack';
 import ResizableBox from '@client/molecules/resizableBox';
+import { TabPane, Tabs } from '@client/molecules/tabs';
 
 export const BuildResult = () => {
     const [state, setState] = useRedux(StateName, { visible: false } as BuildResultState);
     const sidePageRef = React.useRef<HTMLDivElement>(null);
 
     const handlePanelHide = () => {
-        setState({ content: '', visible: false });
+        setState({ codeList: [], visible: false });
     };
 
     if (!state?.visible) {
         return;
     }
+
+    const renderCodeBlock = (item: CodeSnippet) => {
+        return (
+            <Stack direction='vertical'>
+                <StackItem flex style={{ overflow: 'auto' }}>
+                    <CodeEditor
+                        value={item.content}
+                        showHeader={true}
+                        editable={false}
+                        lang={item.language}
+                    />
+                </StackItem>
+                <StackItem
+                    style={{
+                        height: 20,
+                        textAlign: 'right',
+                        padding: 5,
+                    }}
+                >
+                    <Copy code={item.content} />
+                </StackItem>
+            </Stack>
+        );
+    };
+    const renderErrorBlock = (item: CodeSnippet) => {
+        return (
+            <>
+                <CodeEditor
+                    value={item.content}
+                    showHeader={false}
+                    editable={false}
+                    lang={item.language}
+                    basicSetup={{
+                        lineNumbers: false,
+                        foldGutter: false,
+                        highlightActiveLine: false,
+                    }}
+                />
+            </>
+        );
+    };
 
     return (
         <ResizableBox anchor={sidePageRef} initialWidth='50%' left={state?.visible}>
@@ -29,19 +74,15 @@ export const BuildResult = () => {
                     onVisibleChange={handlePanelHide}
                     ref={sidePageRef}
                 >
-                    <Stack direction='vertical'>
-                        <StackItem flex style={{ overflow: 'auto' }}>
-                            <CodeEditor
-                                value={state?.content}
-                                showHeader={true}
-                                editable={false}
-                                lang={state?.language}
-                            />
-                        </StackItem>
-                        <StackItem style={{ height: 20, textAlign: 'right', padding: 5 }}>
-                            <Copy code={state?.content} />
-                        </StackItem>
-                    </Stack>
+                    <Tabs>
+                        {state?.codeList?.map((item, index) => (
+                            <TabPane key={index} id={item.title} title={item.title}>
+                                {item.status === 'success'
+                                    ? renderCodeBlock(item)
+                                    : renderErrorBlock(item)}
+                            </TabPane>
+                        ))}
+                    </Tabs>
                 </SidePage>
             )}
         </ResizableBox>

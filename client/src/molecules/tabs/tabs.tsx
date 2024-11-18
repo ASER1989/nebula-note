@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, ReactElement } from 'react';
 import _ from 'lodash';
 import TabPane, { TabPaneProps } from './tabPane';
 import './index.styl';
@@ -7,14 +7,14 @@ import Position from '@client/molecules/position';
 import IconButton from '@client/atoms/iconButton';
 import { LuX, LuPlus } from 'react-icons/lu';
 
-type childType = React.ReactElement<TabPaneProps, typeof TabPane>;
+type TabPaneType = React.ReactElement<TabPaneProps, typeof TabPane>;
 
 export type Props = {
     showPlus?: boolean;
     onPlusClick?: () => void;
     onRemoveClick?: (id: string) => void;
     labelRender?: (option: TabOption, isActive: boolean) => React.ReactNode;
-    children: childType | Array<childType>;
+    children: ReactElement<TabPaneProps>[] | ReactElement<TabPaneProps>;
 };
 export type TabOption = {
     id: string;
@@ -27,7 +27,8 @@ export type TabOption = {
  * 处理页面中诸多类似tabs，但风格与常规tabs设计不同的多页签布局
  * */
 const Tabs = ({ showPlus, onPlusClick, children, onRemoveClick, labelRender }: Props) => {
-    const childList = _.castArray<React.ReactElement>(children);
+    const childList = React.Children.toArray(children) as ReactElement<TabPaneProps>[];
+
     const firstPanel = _.head(childList);
     const [checkedKey, setCheckedKey] = useState<string>(firstPanel?.props.id ?? '0');
 
@@ -41,24 +42,37 @@ const Tabs = ({ showPlus, onPlusClick, children, onRemoveClick, labelRender }: P
         });
     }, [childList]);
 
-    const content = useMemo(() => {
+    const activeContent = useMemo(() => {
         return childList.find(
             (item, index) => (item.props.id ?? `${index}`) === checkedKey,
         );
     }, [checkedKey, childList]);
 
-    const handleRadioChange = (checkedKey: string) => {
-        setCheckedKey(checkedKey);
+    const defaultLabelRender = (option: TabOption) => {
+        return <div className='tabs-pane-title'>{option.label}</div>;
     };
+    const renderTabs = () =>
+        options.map((option) => {
+            const isActive = option.id === checkedKey;
+            return (
+                <div
+                    key={option.id}
+                    className={classNames('tabs-pane-item', { active: isActive })}
+                    onClick={() => setCheckedKey(option.id)}
+                >
+                    {labelRender
+                        ? labelRender(option, isActive)
+                        : defaultLabelRender(option)}
+                    {option.removable && isActive && renderRemoveButton(option.id)}
+                </div>
+            );
+        });
 
-    const renderRemoveButton = (option: TabOption) => {
-        if (!option.removable || option.id !== checkedKey) {
-            return;
-        }
+    const renderRemoveButton = (id: string) => {
         return (
             <Position type='absolute' right={3} top={3}>
                 <IconButton
-                    onClick={() => onRemoveClick?.(option.id)}
+                    onClick={() => onRemoveClick?.(id)}
                     type='circle'
                     hoverEnabled
                 >
@@ -78,34 +92,13 @@ const Tabs = ({ showPlus, onPlusClick, children, onRemoveClick, labelRender }: P
         }
     };
 
-    const renderLabel = (option: TabOption, isActive: boolean) => {
-        if (labelRender) {
-            return labelRender(option, isActive);
-        }
-        return <div className='tabs-pane-title'>{option.label}</div>;
-    };
-
     return (
         <div className='components-tabs'>
             <div className='tabs-pane-list'>
-                {options.map((item, idx) => {
-                    const isActive = item.id === checkedKey;
-                    return (
-                        <div
-                            key={idx}
-                            className={classNames('tabs-pane-item', {
-                                active: isActive,
-                            })}
-                            onClick={() => handleRadioChange(item.id)}
-                        >
-                            {renderLabel(item, isActive)}
-                            {renderRemoveButton(item)}
-                        </div>
-                    );
-                })}
+                {renderTabs()}
                 {renderPlusButton()}
             </div>
-            {content}
+            {activeContent}
         </div>
     );
 };

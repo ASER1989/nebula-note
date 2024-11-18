@@ -68,7 +68,9 @@ export default function CodeEditor(props: Props) {
         'showExpand',
         'showHeader',
         'lang',
+        'disableLangChange',
         'onSave',
+        'onLangChange'
     ]);
 
     return (

@@ -18,7 +18,11 @@ type Props = {
 };
 export const List = ({ state, templateList, onSave }: Props) => {
     const dispatch = useDispatch();
-    const [, setBuildResult] = useRedux(BuildResultStateName, {} as BuildResultState);
+    const [, setBuildResult] = useRedux<BuildResultState>(BuildResultStateName, {
+        visible: false,
+        codeList: [],
+    });
+
     const { showConfirm } = useContext(ConfirmContext);
     const { showMessage } = useMessage();
 
@@ -68,17 +72,28 @@ export const List = ({ state, templateList, onSave }: Props) => {
     };
 
     const handleRunBuild = () => {
-        templateApi
-            .buildTemplate(state?.template)
-            .then((resp) => {
-                setBuildResult({
-                    content: resp.data,
-                    visible: true,
-                });
-            })
-            .catch((ex) => {
-                showMessage(ex.toString());
-            });
+        const { meta, snippetList } = state.template;
+        const codeList: Array<BuildResultState['codeList'][0]> = [];
+        snippetList?.forEach((snippet) => {
+            templateApi
+                .buildTemplate({ meta, content: snippet.content ?? '' })
+                .then((resp) => {
+                    codeList.push({
+                        title: snippet.title,
+                        content: resp.data,
+                        language: snippet.language,
+                        status: 'success',
+                    });
+                })
+                .catch((ex) => {
+                    codeList.push({
+                        title: snippet.title,
+                        content: ex.toString(),
+                        status: 'error',
+                    });
+                })
+                .finally(() => setBuildResult({ codeList, visible: true }));
+        });
     };
 
     return (
