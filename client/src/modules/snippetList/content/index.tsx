@@ -66,7 +66,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     };
     return (
         <ShortcutKeys onSave={onSave}>
-            <Tabs showPlus onPlusClick={handleAddSnippet} labelRender={tabsRender}>
+            <Tabs showPlus onPlusClick={handleAddSnippet} labelRender={tabsRender} activePaneId='code_0'>
                 <TabPane id='docs' key='docs' title='模板介绍'>
                     <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
                         {state?.template?.document}
