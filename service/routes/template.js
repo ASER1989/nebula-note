@@ -10,26 +10,36 @@ module.exports = (prefix, opts) => {
         return await templateUtils.getTemplateConfigs();
     });
 
-    router.post('/add', async (ctx) => {
+    router.post('/upsert', async (ctx) => {
         const reqParams = ctx.request.body;
         const { name } = reqParams;
         const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
-        const configOption = templateConfigs.find((item) => item.name === name);
-        if (configOption) {
-            return Error('模板名称已存在');
+        const configIndex = templateConfigs.findIndex((item) => item.name === name);
+        const configOption = configIndex >= 0 ? templateConfigs[configIndex] : undefined;
+        if (configOption && configOption.version > reqParams.version) {
+            return Error('模板版本号不一致');
         }
         const newConfig = _.omit(reqParams, ['meta', 'document']);
         newConfig.version = +new Date();
         newConfig.filePath = newConfig.filePath || [name, '/'].join('');
         newConfig.metaPath = templateUtils.filePathToMetaPath(newConfig.filePath);
         newConfig.docPath = templateUtils.filePathToDocPath(newConfig.filePath);
-        newConfig.snippetList = _.map(reqParams.snippetList, (item)=>_.omit(item,'content'));
-        
-        templateConfigs.push(newConfig);
+        newConfig.snippetList = _.map(reqParams.snippetList, (item) =>
+            _.omit(item, 'content'),
+        );
+        if (configOption) {
+            templateConfigs[configIndex] = newConfig;
+        } else {
+            templateConfigs.push(newConfig);
+        }
 
         await templateUtils.updateTemplateConfigs(templateConfigs);
         await templateUtils.saveTemplateFile(reqParams.meta, newConfig.metaPath);
         await templateUtils.saveTemplateFile(reqParams.document, newConfig.docPath);
+        const snippetFolderPath = templateUtils.filePathToSnippetFolderPath(
+            newConfig.filePath,
+        );
+        await templateUtils.clearFolder(snippetFolderPath);
 
         while (reqParams.snippetList.length > 0) {
             const item = reqParams.snippetList.shift();
@@ -39,44 +49,12 @@ module.exports = (prefix, opts) => {
             );
             await templateUtils.saveTemplateFile(item.content, itemPath);
         }
-    });
-
-    router.post('/update', async (ctx) => {
-        const reqParams = ctx.request.body;
-        const { name } = reqParams;
-        const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
-        const configIndex = templateConfigs.findIndex((item) => item.name === name);
-        if (configIndex<0) {
-            return Error('模板不存在');
-        }
-        if(templateConfigs[configIndex].version>reqParams.version){
-            return Error('模板版本号不一致');
-        }
-        const newConfig = _.omit(reqParams, ['meta', 'document']);
-        newConfig.version = +new Date();
-        newConfig.filePath = newConfig.filePath || [name, '/'].join('');
-        newConfig.metaPath = templateUtils.filePathToMetaPath(newConfig.filePath);
-        newConfig.docPath = templateUtils.filePathToDocPath(newConfig.filePath);
-        newConfig.snippetList = _.map(reqParams.snippetList, (item)=>_.omit(item,'content'));
-        templateConfigs[configIndex] = newConfig;
-        
-        await templateUtils.updateTemplateConfigs(templateConfigs);
-        await templateUtils.saveTemplateFile(reqParams.meta, newConfig.metaPath);
-        await templateUtils.saveTemplateFile(reqParams.document, newConfig.docPath);
-        
-        while (reqParams.snippetList.length > 0) {
-            const item = reqParams.snippetList.shift();
-            const itemPath = templateUtils.filePathToSnippetPath(
-              newConfig.filePath,
-              item.title,
-            );
-            await templateUtils.saveTemplateFile(item.content, itemPath);
-        }
+        return newConfig.version;
     });
 
     router.get('/content', async (ctx) => {
-        const { path ,title} = ctx.query;
-        const targetPath = templateUtils.filePathToSnippetPath(path,title);
+        const { path, title } = ctx.query;
+        const targetPath = templateUtils.filePathToSnippetPath(path, title);
         if (!_.isEmpty(targetPath)) {
             return templateUtils.getTemplateFile(targetPath);
         }

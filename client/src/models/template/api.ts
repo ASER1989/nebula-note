@@ -19,12 +19,8 @@ export const templateUpdate = () => {
     return request.get('/template/store/update');
 };
 
-export const createTemplate = (postData: TemplateRecord) => {
-    return request.post('/template/add', postData);
-};
-
-export const updateTemplate = (postData: TemplateRecord) => {
-    return request.post('/template/update', postData);
+export const saveTemplate = (postData: TemplateRecord) => {
+    return request.post<number>('/template/upsert', postData);
 };
 
 export const buildTemplate = (postData: { meta?: string; content: string }) => {

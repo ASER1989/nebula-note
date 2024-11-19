@@ -27,6 +27,7 @@
         "koa-bodyparser": "4.4.1",
         "lodash": "4.17.21",
         "node-fetch": "2",
+        "rimraf": "^6.0.1",
         "simple-git": "^3.20.0"
     },
     "workspaces": [

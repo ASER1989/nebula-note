@@ -6,10 +6,10 @@ export type SnippetRecord = {
     content?: string;
 };
 export type TemplateRecord = {
-    filePath: string;
-    keyword: string;
+    filePath?: string;
+    keyword?: string;
     name: string;
-    version: number;
+    version?: number;
     document?: string;
     meta?: string;
     snippetList?: Array<SnippetRecord>;

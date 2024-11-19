@@ -4,13 +4,12 @@ import classNames from 'classnames';
 import Button from '@client/atoms/button';
 import Form, { FormItem } from '@client/molecules/form';
 import Input from '@client/atoms/input';
-import Textarea from '@client/atoms/textarea';
 import useMessage from '@client/components/message/useMessage';
 import { TemplateRecord } from '@client/models/template/types';
 import * as TemplateApi from '@client/models/template/api';
 
 type Props = {
-    templateOption: TemplateRecord;
+    templateOption: Partial<TemplateRecord>;
     onClose?: (success: boolean) => void;
 };
 
@@ -22,7 +21,6 @@ type FormState = {
 };
 
 export default function Index({ templateOption, onClose }: Props) {
-    const { content, meta, document: doc } = templateOption ?? {};
     const { showMessage } = useMessage();
     const [isSaveAs, setIsSaveAs] = useState(false);
     const [formState, setFormState] = useState<FormState>({});
@@ -43,30 +41,9 @@ export default function Index({ templateOption, onClose }: Props) {
         });
     };
 
-    const handleSaveAsSubmit = () => {
-        const postData = {
-            ...formState,
-            content,
-            meta,
-            document: doc,
-        };
-        TemplateApi.createTemplate(postData).then((resp) => {
-            onClose?.(resp.success);
-            if (resp.success) {
-                return showMessage('保存成功！');
-            }
-            showMessage(resp.error.toString());
-        });
-    };
-
     const handleTemplateUpdate = () => {
-        const postData = {
-            filePath: templateOption?.filePath,
-            content,
-            meta,
-            document: doc,
-        };
-        TemplateApi.updateTemplate(postData).then((resp) => {
+
+        TemplateApi.saveTemplate(templateOption).then((resp) => {
             onClose?.(resp.success);
             if (resp.success) {
                 return showMessage('保存成功！');
@@ -109,27 +86,10 @@ export default function Index({ templateOption, onClose }: Props) {
                                 placeholder='方便搜索，分隔符随意'
                             />
                         </FormItem>
-                        <FormItem label='文件路径'>
-                            <Input
-                                onChange={(value: string) =>
-                                    handleFieldChange('filePath', value)
-                                }
-                                placeholder='templateRoot相对路径，便于文件引用及管理。eg：table/xxx.ejs'
-                            />
-                        </FormItem>
-                        <FormItem label='模板描述'>
-                            <Textarea
-                                resize='none'
-                                onChange={(value: string) =>
-                                    handleFieldChange('description', value)
-                                }
-                                placeholder='留给健忘的自己，建议写详细些'
-                            />
-                        </FormItem>
                     </Form>
                     <div className='button-group'>
                         <Button onClick={handleSaveAsCancel}>取消</Button>
-                        <Button onClick={handleSaveAsSubmit} type='primary'>
+                        <Button onClick={()=>0} type='primary'>
                             保存
                         </Button>
                     </div>

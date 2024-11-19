@@ -12,20 +12,33 @@ import {
     SliceType,
 } from '@client/modules/snippetList/storeSlice';
 import SplitPanel from '@client/molecules/splitPanel';
-
+import * as TemplateApi from "@client/models/template/api";
+import useMessage from '@client/components/message/useMessage';
 export const SnippetList = () => {
     const { templateConfig } = useTemplateConfig();
+    const { showMessage } = useMessage();
     const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
     const [saveShown, setSaveShown] = useState(false);
+
+    const handleSave = () => {
+        TemplateApi.saveTemplate(state.template).then((resp) => {
+            if (resp.success) {
+                dispatch(actions.templateSaved({version: resp.data}));
+                return showMessage('保存成功！');
+            }
+            showMessage(resp.error.toString());
+        });
+    };
     const handleSaveShown = () => {
         setSaveShown(true);
     };
-    // const handleSaveClose = (success: boolean) => {
-    //     if (success) {
-    //         dispatch(saveTemplateAction());
-    //     }
-    //     setSaveShown(false);
-    // };
+
+    const handleSaveClose = (success: boolean) => {
+        if (success) {
+            dispatch(actions.templateSaved());
+        }
+        setSaveShown(false);
+    };
 
     return (
         <>
@@ -33,21 +46,13 @@ export const SnippetList = () => {
                 <List
                     state={state as SliceType}
                     templateList={templateConfig}
-                    onSave={handleSaveShown}
+                    onSave={handleSave}
                 />
-                <Content state={state as SliceType} onSave={handleSaveShown} />
+                <Content state={state as SliceType} onSave={handleSave} />
             </SplitPanel>
-            {/*<Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>*/}
-            {/*    <SaveForm*/}
-            {/*        templateOption={{*/}
-            {/*            ...state?.template,*/}
-            {/*            filePath: state?.template?.filePath,*/}
-            {/*            content: state?.template?.content,*/}
-            {/*            document: state?.template?.document,*/}
-            {/*        }}*/}
-            {/*        onClose={handleSaveClose}*/}
-            {/*    />*/}
-            {/*</Dialog>*/}
+            <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
+                <SaveForm templateOption={state?.template} onClose={handleSaveClose} />
+            </Dialog>
         </>
     );
 };

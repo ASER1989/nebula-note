@@ -112,11 +112,12 @@ export const storeSlice = createSlice({
                 },
             };
         },
-        saveTemplate: (state) => {
+        templateSaved: (state, action: { payload: { version: number } }) => {
             return {
                 fetchStatus: 'None',
                 template: {
                     ...state.template,
+                    ...action.payload,
                     editStatus: 'Saved',
                 },
             };
