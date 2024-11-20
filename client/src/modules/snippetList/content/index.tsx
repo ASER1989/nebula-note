@@ -44,6 +44,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     };
     const handleRemoveSnippet = (index: number) => {
         dispatch(actions.removeSnippet({ index }));
+        setActivePaneId(index === 0 ? 'meta' : `code_${index - 1}`);
     };
 
     const handleTabTitleChange = (title: string, newTitle: string) => {
