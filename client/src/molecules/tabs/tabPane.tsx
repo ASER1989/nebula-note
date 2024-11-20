@@ -3,7 +3,7 @@ import React from 'react';
 export type TabPaneProps = {
     id?: string;
     title: string;
-    removable?: boolean;
+    onRemoveClick?: ()=>void;
     children: React.ReactNode | Array<React.ReactNode>;
 };
 const TabPane = ({ children }: TabPaneProps) => {

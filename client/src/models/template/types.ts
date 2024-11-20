@@ -6,7 +6,7 @@ export type SnippetRecord = {
     content?: string;
 };
 export type TemplateRecord = {
-    filePath?: string;
+    filePath: string;
     keyword?: string;
     name: string;
     version?: number;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './app.styl';
 import Menu, { MenuConfigObject } from '@client/components/menu';
 import { MessageContext } from '@client/components/message/context';
-import Message from '@client/components/message';
+import { MessageBox, useMessageContext } from '@client/components/message';
 import packageConfig from '../../package.json';
 import { LuSettings } from 'react-icons/lu';
 import { FaAppStore } from 'react-icons/fa';
@@ -19,7 +19,7 @@ import useConfirmContext from '@client/components/confirm/useConfirmContext';
 import { BuildResult } from '@client/modules/_shared/template/buildReuslt';
 
 function App() {
-    const [messageContent, setMessageContent] = useState<string | null>(null);
+    const messageContextValue = useMessageContext();
     const {
         options: confirmOptions,
         showConfirm,
@@ -39,9 +39,7 @@ function App() {
     const routes = useRoutes(routeConfig);
 
     return (
-        <MessageContext.Provider
-            value={{ content: messageContent, setContent: setMessageContent }}
-        >
+        <MessageContext.Provider value={messageContextValue}>
             <ConfirmContext.Provider
                 value={{ options: confirmOptions, showConfirm, onClose: onConfirmClose }}
             >
@@ -86,7 +84,7 @@ function App() {
                             />
                         </div>
                     </div>
-                    <Message content={messageContent} />
+                    <MessageBox key={messageContextValue.lastUpdateTime} />
                     <Confirm />
                 </div>
             </ConfirmContext.Provider>

@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 export type SliceType = {
     fetchStatus: FetchStatus;
-    template: Partial<TemplateRecord> & {
+    template: TemplateRecord & {
         editStatus?: 'Edited' | 'Saved' | 'None';
     };
 };
@@ -46,7 +46,7 @@ export const storeSlice = createSlice({
                 snippet.content = action.payload.content;
             }
         },
-        createSnippet: (state, action: { payload: SnippetRecord }) => {
+        addSnippet: (state, action: { payload: SnippetRecord }) => {
             state.template.snippetList?.push(action.payload);
             state.template.editStatus = 'Edited';
         },

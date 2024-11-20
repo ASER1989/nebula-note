@@ -1,13 +1,22 @@
 import React from 'react';
 import _ from 'lodash';
 
-export type Props = {
-    content: string | null;
-    setContent: React.Dispatch<React.SetStateAction<string | null>>;
+export type MessageInstance = {
+    content: string;
+    onClose: () => void;
 };
 
-const defaultContext: Props = {
-    content: null,
-    setContent: _.noop,
+export interface IMessageContext {
+    setContent: (content: string, onClose?: () => void) => number;
+    removeContent: (id: number) => void;
+    messageList: Array<MessageInstance>;
+    lastUpdateTime: number
+}
+
+const defaultContext: IMessageContext = {
+    setContent: () => -1,
+    removeContent: _.noop,
+    messageList: [],
+    lastUpdateTime:0
 };
-export const MessageContext = React.createContext<Props>(defaultContext);
+export const MessageContext = React.createContext<IMessageContext>(defaultContext);

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import _ from 'lodash';
 import '../index.styl';
 import { Tabs, TabPane, TabOption } from '@client/molecules/tabs';
@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { LuPencilLine } from 'react-icons/lu';
 import classNames from 'classnames';
+import { EditableContent } from '@client/atoms/editableContent';
+import useMessage from '@client/components/message/useMessage';
 
 export type Props = {
     state: SliceType;
@@ -18,6 +20,9 @@ export type Props = {
 };
 export const Content: FC<Props> = ({ state, onSave }) => {
     const dispatch = useDispatch();
+    const { showMessage } = useMessage();
+    const [activePaneId, setActivePaneId] = useState('document');
+    const [titleFocus, setTitleFocus] = useState(false);
 
     const handleDocumentChange = (value?: string) => {
         dispatch(actions.updateTemplateDocument(value));
@@ -33,10 +38,34 @@ export const Content: FC<Props> = ({ state, onSave }) => {
         dispatch(actions.updateSnippet({ snippet: { language }, index }));
     };
 
-    const handleAddSnippet = () => {};
+    const handleAddSnippet = () => {
+        dispatch(actions.addSnippet({ title: '' }));
+        setActivePaneId(`code_${state.template?.snippetList?.length ?? 1 - 1}`);
+    };
+    const handleRemoveSnippet = (index: number) => {
+        dispatch(actions.removeSnippet({ index }));
+    };
 
-    const handleTabTitleChange = (event: React.FormEvent<HTMLDivElement>) => {
-        const content = event.currentTarget.innerText;
+    const handleTabTitleChange = (title: string, newTitle: string) => {
+        if (title !== newTitle) {
+            const isExist = state.template?.snippetList?.some(
+                (snippet) => snippet.title === newTitle,
+            );
+            if (isExist && !titleFocus) {
+                return;
+            }
+            if (isExist) {
+                setTitleFocus(false);
+                return showMessage('snippet title is exist').then(() => {
+                    setTitleFocus(true);
+                });
+            }
+            const index =
+                state.template?.snippetList?.findIndex(
+                    (snippet) => snippet.title === title,
+                ) ?? -1;
+            dispatch(actions.updateSnippet({ snippet: { title: newTitle }, index }));
+        }
     };
 
     const tabsRender = (option: TabOption, isActive: boolean) => {
@@ -53,12 +82,17 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         <></>
                     )}
                     <StackItem>
-                        <div
+                        <EditableContent
+                            editable={editable}
+                            focus={isActive && titleFocus}
                             className='snippet-editable-title'
-                            contentEditable={editable}
-                            onInput={handleTabTitleChange}
-                            dangerouslySetInnerHTML={{ __html: option.label }}
-                        />
+                            onClick={() => setTitleFocus(isActive)}
+                            onBlur={(newText) =>
+                                handleTabTitleChange(option.label, newText)
+                            }
+                        >
+                            {option.label}
+                        </EditableContent>
                     </StackItem>
                 </Stack>
             </div>
@@ -70,7 +104,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 showPlus
                 onPlusClick={handleAddSnippet}
                 labelRender={tabsRender}
-                activePaneId='code_0'
+                activePaneId={activePaneId}
             >
                 <TabPane id='docs' key='docs' title='模板介绍'>
                     <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
@@ -91,7 +125,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                             id={`code_${index}`}
                             key={`code_${index}`}
                             title={snippet.title}
-                            removable
+                            onRemoveClick={() => handleRemoveSnippet(index)}
                         >
                             <CodeEditor
                                 value={snippet?.content ?? ''}

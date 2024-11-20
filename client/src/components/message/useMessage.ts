@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { MessageContext } from './context';
 
 export default function useMessage() {
     const { setContent } = useContext(MessageContext);
     const showMessage = (message: string) => {
-        setContent(message);
+        return new Promise<void>((resolve) => {
+            setContent(message, () => resolve());
+        });
     };
-    const hideMessage = () => {
-        setContent(null);
-    };
-    return { showMessage, hideMessage } as const;
+
+    return { showMessage } as const;
 }

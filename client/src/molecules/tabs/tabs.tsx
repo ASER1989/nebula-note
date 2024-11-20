@@ -11,7 +11,6 @@ export type Props = {
     activePaneId?: string;
     showPlus?: boolean;
     onPlusClick?: () => void;
-    onRemoveClick?: (id: string) => void;
     labelRender?: (option: TabOption, isActive: boolean) => React.ReactNode;
     children: ReactElement<TabPaneProps>[] | ReactElement<TabPaneProps>;
 };
@@ -19,28 +18,21 @@ export type Props = {
 export type TabOption = {
     id: string;
     label: string;
-    removable?: boolean;
+    onRemove?: () => void;
 };
 
 /*
  * 简易tabs
  * 处理页面中诸多类似tabs，但风格与常规tabs设计不同的多页签布局
  * */
-const Tabs = ({
-    activePaneId,
-    showPlus,
-    onPlusClick,
-    children,
-    onRemoveClick,
-    labelRender,
-}: Props) => {
+const Tabs = ({ activePaneId, showPlus, onPlusClick, children, labelRender }: Props) => {
     const childList = React.Children.toArray(children) as ReactElement<TabPaneProps>[];
     const options = useMemo<Array<TabOption>>(() => {
         return childList.map((item, itemIndex) => {
             return {
                 id: item.props.id ?? `tabPane_${itemIndex}`,
                 label: item.props.title,
-                removable: item.props.removable,
+                onRemove: item.props.onRemoveClick,
             };
         });
     }, [childList]);
@@ -75,16 +67,16 @@ const Tabs = ({
                     {labelRender
                         ? labelRender(option, isActive)
                         : defaultLabelRender(option)}
-                    {option.removable && isActive && renderRemoveButton(option.id)}
+                    {option.onRemove && isActive && renderRemoveButton(option.onRemove)}
                 </div>
             );
         });
 
-    const renderRemoveButton = (id: string) => {
+    const renderRemoveButton = (handleRemoveClick: () => void) => {
         return (
             <Position type='absolute' right={3} top={3}>
                 <IconButton
-                    onClick={() => onRemoveClick?.(id)}
+                    onClick={handleRemoveClick}
                     type='circle'
                     hoverEnabled
                 >

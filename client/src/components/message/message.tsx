@@ -1,22 +1,22 @@
 import './index.styl';
-import React, { useContext } from 'react';
-import Button from '../../atoms/button';
-import { MessageContext } from '@client/components/message/context';
+import React, {FC, useContext } from 'react';
+import Button from '@client/atoms/button';
+import { MessageContext } from './context';
 
-type Props = {
+export type Props = {
     content: string | null;
-    onConfirm?: () => void;
+    onClose?: () => void;
 };
 
-export default function Message({ content, onConfirm }: Props) {
+export const Message:FC<Props> =({ content, onClose }) => {
     const { setContent } = useContext(MessageContext);
     if (!content) {
         return null;
     }
 
     const handleClose = () => {
-        if (onConfirm) {
-            return onConfirm();
+        if (onClose) {
+            return onClose();
         }
         setContent?.(null);
     };
@@ -34,3 +34,5 @@ export default function Message({ content, onConfirm }: Props) {
         </div>
     );
 }
+
+export default Message;

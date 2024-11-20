@@ -35,7 +35,7 @@ export const SnippetList = () => {
 
     const handleSaveClose = (success: boolean) => {
         if (success) {
-            dispatch(actions.templateSaved());
+            // dispatch(actions.templateSaved());
         }
         setSaveShown(false);
     };
