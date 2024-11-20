@@ -73,24 +73,30 @@ export const List = ({ state, templateList, onSave }: Props) => {
 
     const handleRunBuild = () => {
         const { meta, snippetList } = state.template;
-        const codeList: Array<BuildResultState['codeList'][0]> = [];
+        let codeList: Array<BuildResultState['codeList'][0]> = [];
         snippetList?.forEach((snippet) => {
             templateApi
                 .buildTemplate({ meta, content: snippet.content ?? '' })
                 .then((resp) => {
-                    codeList.push({
-                        title: snippet.title,
-                        content: resp.data,
-                        language: snippet.language,
-                        status: 'success',
-                    });
+                    codeList = [
+                        ...codeList,
+                        {
+                            title: snippet.title,
+                            content: resp.data,
+                            language: snippet.language,
+                            status: 'success',
+                        },
+                    ];
                 })
                 .catch((ex) => {
-                    codeList.push({
-                        title: snippet.title,
-                        content: ex.toString(),
-                        status: 'error',
-                    });
+                    codeList = [
+                        ...codeList,
+                        {
+                            title: snippet.title,
+                            content: ex.toString(),
+                            status: 'error',
+                        },
+                    ];
                 })
                 .finally(() => setBuildResult({ codeList, visible: true }));
         });
