@@ -7,8 +7,10 @@ import * as templateApi from '@client/models/template/api';
 import { ConfirmContext } from '@client/components/confirm/context';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { StateName as BuildResultStateName } from '@client/modules/_shared/template/buildReuslt/constants';
-import { BuildResultState } from '@client/modules/_shared/template/buildReuslt/types';
-import useMessage from '@client/components/message/useMessage';
+import {
+    BuildResultState,
+    CodeSnippet,
+} from '@client/modules/_shared/template/buildReuslt/types';
 import { useDispatch } from 'react-redux';
 
 type Props = {
@@ -24,7 +26,6 @@ export const List = ({ state, templateList, onSave }: Props) => {
     });
 
     const { showConfirm } = useContext(ConfirmContext);
-    const { showMessage } = useMessage();
 
     const changeSelectedItem = (templateConfig: TemplateRecord) => {
         dispatch(actions.setTemplateFilePath(templateConfig));
@@ -71,35 +72,40 @@ export const List = ({ state, templateList, onSave }: Props) => {
         changeSelectedItem(templateConfig);
     };
 
-    const handleRunBuild = () => {
-        const { meta, snippetList } = state.template;
-        let codeList: Array<BuildResultState['codeList'][0]> = [];
-        snippetList?.forEach((snippet) => {
-            templateApi
-                .buildTemplate({ meta, content: snippet.content ?? '' })
-                .then((resp) => {
-                    codeList = [
-                        ...codeList,
-                        {
-                            title: snippet.title,
-                            content: resp.data,
-                            language: snippet.language,
-                            status: 'success',
-                        },
-                    ];
-                })
-                .catch((ex) => {
-                    codeList = [
-                        ...codeList,
-                        {
-                            title: snippet.title,
-                            content: ex.toString(),
-                            status: 'error',
-                        },
-                    ];
-                })
-                .finally(() => setBuildResult({ codeList, visible: true }));
-        });
+    const handleRunBuild = async () => {
+        const { meta, snippetList, filePath } = state.template;
+
+        const codeList: Array<CodeSnippet> = await Promise.all(
+            snippetList?.map(async (snippet) => {
+                try {
+                    const resp = await templateApi.buildTemplate({
+                        meta,
+                        content: snippet.content ?? '',
+                        filePath,
+                    });
+                    return {
+                        title: snippet.title,
+                        content: resp.data,
+                        language: snippet.language,
+                        status: 'success',
+                    };
+                } catch (ex) {
+                    let content = '';
+                    if (ex instanceof Error) {
+                        content = ex.message; // 安全访问 Error 的 message 属性
+                    } else {
+                        content = String(ex); // 其他类型的异常
+                    }
+                    return {
+                        title: snippet.title,
+                        content,
+                        status: 'error',
+                    };
+                }
+            }) || [],
+        );
+
+        setBuildResult({ codeList, visible: true });
     };
 
     return (

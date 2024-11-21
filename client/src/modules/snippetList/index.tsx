@@ -15,7 +15,7 @@ import SplitPanel from '@client/molecules/splitPanel';
 import * as TemplateApi from "@client/models/template/api";
 import useMessage from '@client/components/message/useMessage';
 export const SnippetList = () => {
-    const { templateConfig } = useTemplateConfig();
+    const { templateConfig,reloadTemplateConfig } = useTemplateConfig();
     const { showMessage } = useMessage();
     const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
     const [saveShown, setSaveShown] = useState(false);
@@ -24,6 +24,7 @@ export const SnippetList = () => {
         TemplateApi.saveTemplate(state.template).then((resp) => {
             if (resp.success) {
                 dispatch(actions.templateSaved({version: resp.data}));
+                reloadTemplateConfig();
                 return showMessage('保存成功！');
             }
             showMessage(resp.error.toString());

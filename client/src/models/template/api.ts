@@ -23,7 +23,7 @@ export const saveTemplate = (postData: TemplateRecord) => {
     return request.post<number>('/template/upsert', postData);
 };
 
-export const buildTemplate = (postData: { meta?: string; content: string }) => {
+export const buildTemplate = (postData: { meta?: string; content: string,filePath?: string }) => {
     return request.post<string>('/slice/build/meta', postData);
 };
 

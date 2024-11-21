@@ -46,11 +46,6 @@ function App() {
                 <div className='app_layout'>
                     <div className='app_layout_header'>
                         <div className='logo'>Nebula</div>
-                        <Menu
-                            checkedKey={selectedMenu}
-                            onChange={handleMenuChange}
-                            menuConfig={routeConfig as Array<MenuConfigObject>}
-                        />
                     </div>
                     <div className='app_layout_content'>
                         {routes}
