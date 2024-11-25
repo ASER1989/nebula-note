@@ -6,7 +6,7 @@ export type StackProps = {
     type?: 'flex' | 'inline-flex';
     direction?: 'vertical' | 'horizontal';
     spacing?: number;
-    align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
+    align?:  React.CSSProperties['alignItems'];
     justify?: 'flex-start' | 'center' | 'space-between' | 'space-around' | 'flex-end';
     overflow?: 'auto' | 'hidden';
     children: ReactElement<typeof StackItem> | ReactElement<typeof StackItem>[];

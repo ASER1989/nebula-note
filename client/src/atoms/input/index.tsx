@@ -1,48 +1,66 @@
 import './index.styl';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, forwardRef } from 'react';
 import type { FocusEvent } from 'react';
 import classNames from 'classnames';
 
-type InputType = string | undefined;
-export type Props<T extends InputType> = {
-    value?: T;
+type InputType = string | undefined | number;
+export type InputProps = {
+    value?: InputType;
     border?: boolean;
     placeholder?: string;
-    onChange?: (newValue: T, value?: T, event?: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (
+        newValue: InputType,
+        value?: InputType,
+        event?: ChangeEvent<HTMLInputElement>,
+    ) => void;
     onFocus?: (e: FocusEvent<HTMLInputElement, Element>) => void;
+    onBlur?: (e: FocusEvent<HTMLInputElement, Element>) => void;
     light?: boolean;
+    size?: 'tiny' | 'small' | 'medium' | 'large';
+    type?: HTMLInputElement['type'];
     className?: string;
     testId?: string;
 };
 
-export default function Input<T extends InputType>({
-    value,
-    border = true,
-    onChange,
-    placeholder,
-    onFocus,
-    light,
-    className,
-    testId,
-}: Props<T>) {
+const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
+    const {
+        value,
+        border = true,
+        onChange,
+        placeholder,
+        onFocus,
+        onBlur,
+        light,
+        size,
+        type = 'text',
+        className,
+        testId,
+    } = props;
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const input = e.target as HTMLInputElement;
-        onChange?.(input.value as T, value, e);
+        onChange?.(input.value, value, e);
     };
 
-    const classes = classNames(className, 'input', {
+    const classes = classNames(className, 'input', size, {
         'border-none': !border,
         'height-light': light,
     });
 
     return (
         <input
+            ref={ref}
             data-testid={testId}
             className={classes}
             value={value}
             onChange={handleChange}
             onFocus={onFocus}
+            onBlur={onBlur}
             placeholder={placeholder}
+            type={type}
         />
     );
-}
+};
+
+export const Input = forwardRef(InputBase);
+export default Input;

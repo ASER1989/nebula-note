@@ -1,12 +1,20 @@
 .input
   outline 0
+  box-sizing border-box
   width 100%
   border solid 1px #777777
   border-radius 3px
   padding 0 10px
-  height 100%
   position relative
-  min-height 30px
+  height var(--input-height)
+  &.tiny
+    --input-height 20px
+  &.small
+    --input-height 25px
+  &.medium
+    --input-height 30px
+  &.large
+    --input-height 35px
 
   &.height-light
     text-shadow 0 0 5px yellow, 0 0 10px yellow, 0 0 15px yellow
@@ -14,6 +22,7 @@
   &:focus
     color black
     text-shadow: 0 0 0 #000000, 0 0 0 #777777
-
+    box-shadow: 0 0 1px 0px #ffffff
+    border solid 1px var(--border-color)
 &.border-none
   border 0

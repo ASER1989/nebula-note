@@ -12,10 +12,13 @@ import {
     SliceType,
 } from '@client/modules/snippetList/storeSlice';
 import SplitPanel from '@client/molecules/splitPanel';
-import * as TemplateApi from "@client/models/template/api";
+import * as TemplateApi from '@client/models/template/api';
 import useMessage from '@client/components/message/useMessage';
+import { SnippetListContext } from '@client/modules/snippetList/context';
+
 export const SnippetList = () => {
-    const { templateConfig,reloadTemplateConfig } = useTemplateConfig();
+    const { templateConfig, reloadTemplateConfig, templateKeyword, setTemplateKeyword } =
+        useTemplateConfig();
     const { showMessage } = useMessage();
     const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
     const [saveShown, setSaveShown] = useState(false);
@@ -23,7 +26,7 @@ export const SnippetList = () => {
     const handleSave = () => {
         TemplateApi.saveTemplate(state.template).then((resp) => {
             if (resp.success) {
-                dispatch(actions.templateSaved({version: resp.data}));
+                dispatch(actions.templateSaved({ version: resp.data }));
                 reloadTemplateConfig();
                 return showMessage('保存成功！');
             }
@@ -42,8 +45,10 @@ export const SnippetList = () => {
     };
 
     return (
-        <>
-            <SplitPanel percentage={20} minWidth={270}>
+        <SnippetListContext.Provider
+            value={{ keyword: templateKeyword, setKeyword: setTemplateKeyword }}
+        >
+            <SplitPanel percentage={20} minWidth={270} dividerWidth={1}>
                 <List
                     state={state as SliceType}
                     templateList={templateConfig}
@@ -54,7 +59,7 @@ export const SnippetList = () => {
             <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
                 <SaveForm templateOption={state?.template} onClose={handleSaveClose} />
             </Dialog>
-        </>
+        </SnippetListContext.Provider>
     );
 };
 

@@ -45,6 +45,7 @@ const useTemplateConfig = () => {
         loading,
         templateConfig: filteredConfigs,
         reloadTemplateConfig,
+        templateKeyword: keyword,
         setTemplateKeyword: setKeyword,
     };
 };

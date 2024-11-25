@@ -44,9 +44,9 @@ function App() {
                 value={{ options: confirmOptions, showConfirm, onClose: onConfirmClose }}
             >
                 <div className='app_layout'>
-                    <div className='app_layout_header'>
-                        <div className='logo'>Nebula</div>
-                    </div>
+                    {/*<div className='app_layout_header'>*/}
+                    {/*    <div className='logo'>Nebula Note</div>*/}
+                    {/*</div>*/}
                     <div className='app_layout_content'>
                         {routes}
                         <SidePage
@@ -59,8 +59,8 @@ function App() {
                     </div>
                     <div className='app_layout_footer'>
                         <div className='app_layout_footer_copyright'>
-                            <div>v{packageConfig.version}</div>
-                            <Performance />
+                            <div>Nebula Note v{packageConfig.version}</div>
+                            <div>aser1989.cn&copy;2024</div>
                         </div>
                         <div className='app_layout_footer_operation'>
                             <FaAppStore

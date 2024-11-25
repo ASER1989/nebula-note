@@ -1,9 +1,6 @@
 .snippet-list
   display flex
   flex-direction column
-  overflow-y auto
-  max-height 100vh
-
   .snippet-list-item
     border-bottom solid 1px #cccccc
     padding 12px
@@ -24,6 +21,11 @@
       width 30px
       display flex
       align-items center
+.snippet-list-header
+  height 35px
+  box-sizing border-box
+  background var(--content-head-bg)
+  padding 5px 10px
 
 .snippet-tabs-title
   padding 5px 20px

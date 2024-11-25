@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 
 export type Props = {
-    top?: number;
-    left?: number;
-    right?: number;
-    bottom?: number;
+    top?: number | string;
+    left?: number | string;
+    right?: number | string;
+    bottom?: number | string;
+    zIndex?: number;
     style?: React.CSSProperties;
     children?: React.ReactNode;
     className?: string;
@@ -20,6 +21,8 @@ export const Position = (props: Props) => {
             right: props.right,
             bottom: props.bottom,
             position: props.type,
+            zIndex: props.zIndex,
+            fontSize: 0,
             ...props.style,
         };
     }, [props]);

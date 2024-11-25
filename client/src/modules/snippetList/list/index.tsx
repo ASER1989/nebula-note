@@ -12,6 +12,8 @@ import {
     CodeSnippet,
 } from '@client/modules/_shared/template/buildReuslt/types';
 import { useDispatch } from 'react-redux';
+import { Stack, StackItem } from '@client/molecules/stack';
+import {Header} from "./header";
 
 type Props = {
     state: SliceType;
@@ -109,18 +111,58 @@ export const List = ({ state, templateList, onSave }: Props) => {
     };
 
     return (
-        <div className='snippet-list'>
-            {templateList.map((template) => {
-                return (
-                    <ListItem
-                        isChecked={template.filePath === state?.template.filePath}
-                        key={template.name}
-                        name={template.name as string}
-                        onClick={() => handleClick(template)}
-                        onBuild={handleRunBuild}
-                    />
-                );
-            })}
-        </div>
+        <Stack direction='vertical'>
+            <StackItem>
+                <Header></Header>
+            </StackItem>
+            <StackItem flex style={{overflowY:'auto'}}>
+                <div className='snippet-list'>
+                    {templateList.map((template) => {
+                        return (
+                            <ListItem
+                                isChecked={template.filePath === state?.template.filePath}
+                                key={template.name}
+                                name={template.name as string}
+                                onClick={() => handleClick(template)}
+                                onBuild={handleRunBuild}
+                            />
+                        );
+                    })}
+                    {templateList.map((template) => {
+                        return (
+                          <ListItem
+                            isChecked={template.filePath === state?.template.filePath}
+                            key={template.name}
+                            name={template.name as string}
+                            onClick={() => handleClick(template)}
+                            onBuild={handleRunBuild}
+                          />
+                        );
+                    })}
+                    {templateList.map((template) => {
+                        return (
+                          <ListItem
+                            isChecked={template.filePath === state?.template.filePath}
+                            key={template.name}
+                            name={template.name as string}
+                            onClick={() => handleClick(template)}
+                            onBuild={handleRunBuild}
+                          />
+                        );
+                    })}
+                    {templateList.map((template) => {
+                        return (
+                          <ListItem
+                            isChecked={template.filePath === state?.template.filePath}
+                            key={template.name}
+                            name={template.name as string}
+                            onClick={() => handleClick(template)}
+                            onBuild={handleRunBuild}
+                          />
+                        );
+                    })}
+                </div>
+            </StackItem>
+        </Stack>
     );
 };
