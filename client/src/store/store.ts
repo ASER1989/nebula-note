@@ -18,5 +18,6 @@ export const store = configureStore({
     reducer: reducerManager.reduce as Reducer<RootState>,
 }) as Store;
 
+export type AppDispatch = typeof store.dispatch;
 // 将 reducerManager 绑定到 store 上
 store.reducerManager = reducerManager;

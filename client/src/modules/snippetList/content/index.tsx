@@ -21,7 +21,7 @@ export type Props = {
 export const Content: FC<Props> = ({ state, onSave }) => {
     const dispatch = useDispatch();
     const { showMessage } = useMessage();
-    const [activePaneId, setActivePaneId] = useState('document');
+    const [activePaneId, setActivePaneId] = useState('docs');
     const [titleFocus, setTitleFocus] = useState(false);
 
     const handleDocumentChange = (value?: string) => {
@@ -107,7 +107,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 labelRender={tabsRender}
                 activePaneId={activePaneId}
             >
-                <TabPane id='docs' key='docs' title='模板介绍'>
+                <TabPane id='docs' key='docs' title='文档'>
                     <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
                         {state?.template?.document}
                     </MarkdownEditor>

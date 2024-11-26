@@ -1,28 +1,63 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import useMessage from '@client/components/message/useMessage';
 import { getTemplateList } from '@client/models/template/api';
 import { TemplateRecord } from '@client/models/template/types';
+import { useRedux } from '@client/store/hooks/useRedux';
+import { FetchStatus } from '@client/types';
+import { queryErrorMessage } from '@client/utils/queries';
 
+export type TemplateConfigState = {
+    templateConfig: Array<TemplateRecord>;
+    keyword?: string;
+    fetchStatus?: FetchStatus;
+};
+
+let isInitialized = false;
 const useTemplateConfig = () => {
-    const [keyword, setKeyword] = useState<string>();
-    const [loading, setLoading] = useState(false);
-    const [templateConfig, setTemplateConfig] = useState<Array<TemplateRecord>>([]);
     const { showMessage } = useMessage();
+    const [templateState, , updateTemplateState] = useRedux<TemplateConfigState>(
+        'templateConfigState',
+        {
+            fetchStatus: 'None',
+            templateConfig: [],
+        },
+    );
+    const { templateConfig, keyword, fetchStatus } = templateState;
+    const setKeyword = (keyword?: string) => {
+        updateTemplateState({ keyword });
+    };
+    const setFetchStatus = (fetchStatus: FetchStatus) => {
+        updateTemplateState({ fetchStatus });
+    };
+    const setTemplateConfig = (templateConfig: Array<TemplateRecord>) => {
+        updateTemplateState({ templateConfig });
+    };
+
+    const fetchTemplateConfig = async (reload?: boolean) => {
+        if (fetchStatus !== 'None' && !reload) {
+            return;
+        }
+        try {
+            setFetchStatus('Pending');
+            const resp = await getTemplateList();
+
+            if (!resp.success) {
+                setFetchStatus('Error');
+                showMessage(resp.error?.toString() ?? '发生未知错误，Schema拉取失败！');
+                return;
+            }
+
+            setTemplateConfig(resp.data);
+            setFetchStatus('Success');
+        } catch (ex) {
+            const content = queryErrorMessage(ex);
+            setFetchStatus('Error');
+            showMessage(content);
+        }
+    };
 
     const reloadTemplateConfig = () => {
-        setLoading(true);
-        getTemplateList()
-            .then((resp) => {
-                if (!resp.success) {
-                    return showMessage(
-                        resp.error?.toString() ?? '发生未知错误，Schema拉取失败！',
-                    );
-                }
-                setTemplateConfig(resp.data);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        return fetchTemplateConfig(true);
     };
     const filteredConfigs = useMemo(() => {
         if (keyword) {
@@ -38,11 +73,14 @@ const useTemplateConfig = () => {
     }, [templateConfig, keyword]);
 
     useEffect(() => {
-        reloadTemplateConfig();
+        if (!isInitialized) {
+            isInitialized = true;
+            fetchTemplateConfig();
+        }
     }, []);
 
     return {
-        loading,
+        fetchStatus,
         templateConfig: filteredConfigs,
         reloadTemplateConfig,
         templateKeyword: keyword,

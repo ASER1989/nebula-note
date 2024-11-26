@@ -9,13 +9,13 @@ import { SnippetListContext } from '../../context';
 export const Header = () => {
     const [searchBoxShown, setSearchBoxShown] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const { keyword, setKeyword } = useContext(SnippetListContext);
+    const { keyword, setKeyword, createSnippet } = useContext(SnippetListContext);
 
-    useEffect(()=>{
-        if(searchInputRef.current && searchBoxShown){
+    useEffect(() => {
+        if (searchInputRef.current && searchBoxShown) {
             searchInputRef.current.focus();
         }
-    }, [searchBoxShown])
+    }, [searchBoxShown]);
     const handleClean = () => {
         if (keyword === undefined || keyword === '') {
             setSearchBoxShown(false);
@@ -43,7 +43,7 @@ export const Header = () => {
         <div className='snippet-list-header'>
             <Stack justify='flex-end' align='center' spacing={10}>
                 <StackItem>
-                    <IconButton>
+                    <IconButton onClick={createSnippet}>
                         <FiEdit size={20} color={'#FFFFFF'} />
                     </IconButton>
                 </StackItem>

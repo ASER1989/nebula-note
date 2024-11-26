@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import '../index.styl';
 import { ListItem } from './item';
 import { TemplateRecord } from '@client/models/template/types';
-import { actions, SliceType } from '@client/modules/snippetList/storeSlice';
+import { SliceType } from '@client/modules/snippetList/storeSlice';
 import * as templateApi from '@client/models/template/api';
 import { ConfirmContext } from '@client/components/confirm/context';
 import { useRedux } from '@client/store/hooks/useRedux';
@@ -13,7 +13,9 @@ import {
 } from '@client/modules/_shared/template/buildReuslt/types';
 import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
-import {Header} from "./header";
+import { Header } from './header';
+import { queryErrorMessage } from '@client/utils/queries';
+import { changeSelectedItem } from '@client/modules/snippetList/asyncThunks';
 
 type Props = {
     state: SliceType;
@@ -29,29 +31,9 @@ export const List = ({ state, templateList, onSave }: Props) => {
 
     const { showConfirm } = useContext(ConfirmContext);
 
-    const changeSelectedItem = (templateConfig: TemplateRecord) => {
-        dispatch(actions.setTemplateFilePath(templateConfig));
-        templateApi
-            .getTemplateDocument(templateConfig.filePath as string)
-            .then((resp) => {
-                dispatch(actions.setTemplateDocument(resp.data));
-            });
-
-        templateApi.getTemplateMeta(templateConfig.filePath as string).then((resp) => {
-            dispatch(actions.setTemplateMeta(resp.data ?? '{}'));
-        });
-
-        templateConfig.snippetList?.forEach((snippet) => {
-            templateApi
-                .getTemplateContent(templateConfig.filePath, snippet.title)
-                .then((resp) => {
-                    const newSnippet = {
-                        ...snippet,
-                        content: resp.data,
-                    };
-                    dispatch(actions.setSnippetContent(newSnippet));
-                });
-        });
+    const handleChangeSelectedItem = (templateConfig: TemplateRecord) => {
+        // TODO: Fix dispatch type
+        dispatch(changeSelectedItem(templateConfig) as never);
     };
 
     const handleClick = (templateConfig: TemplateRecord) => {
@@ -67,11 +49,11 @@ export const List = ({ state, templateList, onSave }: Props) => {
                     if (confirm) {
                         return onSave?.();
                     }
-                    changeSelectedItem(templateConfig);
+                    handleChangeSelectedItem(templateConfig);
                 },
             });
         }
-        changeSelectedItem(templateConfig);
+        handleChangeSelectedItem(templateConfig);
     };
 
     const handleRunBuild = async () => {
@@ -92,12 +74,7 @@ export const List = ({ state, templateList, onSave }: Props) => {
                         status: 'success',
                     };
                 } catch (ex) {
-                    let content = '';
-                    if (ex instanceof Error) {
-                        content = ex.message; // 安全访问 Error 的 message 属性
-                    } else {
-                        content = String(ex); // 其他类型的异常
-                    }
+                    const content = queryErrorMessage(ex);
                     return {
                         title: snippet.title,
                         content,
@@ -115,50 +92,17 @@ export const List = ({ state, templateList, onSave }: Props) => {
             <StackItem>
                 <Header></Header>
             </StackItem>
-            <StackItem flex style={{overflowY:'auto'}}>
+            <StackItem flex style={{ overflowY: 'auto' }}>
                 <div className='snippet-list'>
                     {templateList.map((template) => {
                         return (
                             <ListItem
-                                isChecked={template.filePath === state?.template.filePath}
+                                isChecked={template.name === state?.template.name}
                                 key={template.name}
                                 name={template.name as string}
                                 onClick={() => handleClick(template)}
                                 onBuild={handleRunBuild}
                             />
-                        );
-                    })}
-                    {templateList.map((template) => {
-                        return (
-                          <ListItem
-                            isChecked={template.filePath === state?.template.filePath}
-                            key={template.name}
-                            name={template.name as string}
-                            onClick={() => handleClick(template)}
-                            onBuild={handleRunBuild}
-                          />
-                        );
-                    })}
-                    {templateList.map((template) => {
-                        return (
-                          <ListItem
-                            isChecked={template.filePath === state?.template.filePath}
-                            key={template.name}
-                            name={template.name as string}
-                            onClick={() => handleClick(template)}
-                            onBuild={handleRunBuild}
-                          />
-                        );
-                    })}
-                    {templateList.map((template) => {
-                        return (
-                          <ListItem
-                            isChecked={template.filePath === state?.template.filePath}
-                            key={template.name}
-                            name={template.name as string}
-                            onClick={() => handleClick(template)}
-                            onBuild={handleRunBuild}
-                          />
                         );
                     })}
                 </div>

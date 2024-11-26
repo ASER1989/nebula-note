@@ -8,9 +8,8 @@ export type InputProps = {
     value?: InputType;
     border?: boolean;
     placeholder?: string;
-    onChange?: (
-        newValue: InputType,
-        value?: InputType,
+    onChange?: <T extends string>(
+        newValue: T,
         event?: ChangeEvent<HTMLInputElement>,
     ) => void;
     onFocus?: (e: FocusEvent<HTMLInputElement, Element>) => void;
@@ -39,7 +38,7 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const input = e.target as HTMLInputElement;
-        onChange?.(input.value, value, e);
+        onChange?.(input.value, e);
     };
 
     const classes = classNames(className, 'input', size, {

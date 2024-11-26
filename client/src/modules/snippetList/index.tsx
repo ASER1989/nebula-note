@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { List } from './list';
 import { Content } from './content';
 import { useTemplateConfig } from '@client/models/template';
-import SaveForm from '@client/modules/_shared/template/saveForm';
+import SaveForm from './saveForm';
 import { Dialog } from '@client/molecules/dialog';
 import { useReduxSlice } from '@client/store/hooks/useReduxSlice';
 import {
@@ -37,16 +37,20 @@ export const SnippetList = () => {
         setSaveShown(true);
     };
 
-    const handleSaveClose = (success: boolean) => {
+    const handleSaveClose = (success?: boolean) => {
         if (success) {
-            // dispatch(actions.templateSaved());
+            reloadTemplateConfig();
         }
         setSaveShown(false);
     };
 
     return (
         <SnippetListContext.Provider
-            value={{ keyword: templateKeyword, setKeyword: setTemplateKeyword }}
+            value={{
+                keyword: templateKeyword,
+                setKeyword: setTemplateKeyword,
+                createSnippet: handleSaveShown,
+            }}
         >
             <SplitPanel percentage={20} minWidth={270} dividerWidth={1}>
                 <List
@@ -56,9 +60,7 @@ export const SnippetList = () => {
                 />
                 <Content state={state as SliceType} onSave={handleSave} />
             </SplitPanel>
-            <Dialog visible={saveShown} onClose={() => setSaveShown(false)} title='模板'>
-                <SaveForm templateOption={state?.template} onClose={handleSaveClose} />
-            </Dialog>
+            <SaveForm visible={saveShown} onHide={handleSaveClose} />
         </SnippetListContext.Provider>
     );
 };

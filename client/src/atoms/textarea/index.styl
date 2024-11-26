@@ -7,10 +7,11 @@
   height 100%
   position relative
   box-sizing border-box
+  transition border-color linear .35s
 
   &:focus
     color black
-    text-shadow: 0 0 0 #000000, 0 0 0 #777777
+    border-color var(--border-color)
 
   &.horizontal
     height 100% !important

@@ -4,6 +4,7 @@ import React from 'react';
 type FormItemProps = {
     label?: string;
     children: JSX.Element | React.ReactElement;
+    alignItems?: React.CSSProperties['alignItems'];
 };
 
 export function FormItem(props: FormItemProps) {
@@ -16,7 +17,7 @@ export function FormItem(props: FormItemProps) {
     }
 
     return (
-        <div className='form-item'>
+        <div className='form-item' style={{alignItems: props.alignItems}}>
             <div className='form-item-label'>{props.label}</div>
             <div className='form-item-content'>{props.children}</div>
         </div>

@@ -6,23 +6,28 @@
   padding 3px 15px
   justify-content center
   border-radius 5px
-  box-shadow 1px 1px 5px 1px #c0c0c0
+  box-shadow 1px 1px 3px 1px #e0e0e0
   box-sizing border-box
   cursor pointer
   user-select none
-  border solid 1px var(--btn-bg-color)
+  border solid 1px #aaaaaa
   background var(--btn-bg-color)
   color var(--btn-color)
   font-size 14px
   gap 5px
+
+  &:hover
+    font-weight 500
 
   &:not(.disabled):active
     box-shadow 1px 1px 15px 1px #d0d0d0 inset
 
   &.primary
     --btn-bg-color #007ac1
-    --btn-color #FFFFFF
+    --btn-color #ffffff
+    border-color #6a6a6a
     text-shadow 0px 0px 20px #fffbfb
+
 
   &.disabled
     cursor not-allowed
