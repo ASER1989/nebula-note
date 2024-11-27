@@ -8,6 +8,7 @@ export type SliceType = {
     fetchStatus: FetchStatus;
     template: TemplateRecord & {
         editStatus?: 'Edited' | 'Saved' | 'None';
+        activeProperty?: string;
     };
 };
 
@@ -16,27 +17,18 @@ export const storeSlice = createSlice({
     name: sliceName,
     initialState: {
         fetchStatus: 'None',
-        template: {} as SliceType['template'],
+        template: { activeProperty: 'document' } as SliceType['template'],
     },
     reducers: {
         setTemplateFilePath: (state, action: { payload: TemplateRecord }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...action.payload,
-                    editStatus: 'None',
-                },
+            state.template = {
+                ...action.payload,
+                editStatus: 'None',
+                activeProperty: 'document',
             };
         },
         setTemplateDocument: (state, action: { payload: string }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    document: action.payload,
-                    editStatus: 'None',
-                },
-            };
+            state.template.document = action.payload;
         },
         setSnippetContent: (state, action: { payload: SnippetRecord }) => {
             const snippet = state.template.snippetList?.find(
@@ -71,56 +63,22 @@ export const storeSlice = createSlice({
             }
         },
         setTemplateMeta: (state, action: { payload: string }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    meta: action.payload,
-                    editStatus: 'None',
-                },
-            };
-        },
-        setTemplateLanguage: (
-            state,
-            action: { payload: (typeof SupportedLang)[number] | undefined },
-        ) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    language: action.payload,
-                },
-            };
+            state.template.meta = action.payload;
         },
         updateTemplateMeta: (state, action: { payload: string }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    meta: action.payload,
-                    editStatus: 'Edited',
-                },
-            };
+            state.template.meta = action.payload;
+            state.template.editStatus = 'Edited';
         },
         updateTemplateDocument: (state, action: { payload: string | undefined }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    document: action.payload,
-                    editStatus: 'Edited',
-                },
-            };
+            state.template.document = action.payload;
+            state.template.editStatus = 'Edited';
         },
         templateSaved: (state, action: { payload: { version: number } }) => {
-            return {
-                fetchStatus: 'None',
-                template: {
-                    ...state.template,
-                    ...action.payload,
-                    editStatus: 'Saved',
-                },
-            };
+            state.template.version = action.payload.version;
+            state.template.editStatus = 'Saved';
+        },
+        setActiveProperty: (state, action: { payload: string }) => {
+            state.template.activeProperty = action.payload;
         },
     },
 });

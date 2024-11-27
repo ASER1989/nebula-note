@@ -11,6 +11,7 @@ export type Props = {
     activePaneId?: string;
     showPlus?: boolean;
     onPlusClick?: () => void;
+    onTabChange?: (id: string) => void;
     labelRender?: (option: TabOption, isActive: boolean) => React.ReactNode;
     children: ReactElement<TabPaneProps>[] | ReactElement<TabPaneProps>;
 };
@@ -25,7 +26,14 @@ export type TabOption = {
  * 简易tabs
  * 处理页面中诸多类似tabs，但风格与常规tabs设计不同的多页签布局
  * */
-const Tabs = ({ activePaneId, showPlus, onPlusClick, children, labelRender }: Props) => {
+const Tabs = ({
+    activePaneId,
+    showPlus,
+    onPlusClick,
+    children,
+    labelRender,
+    onTabChange,
+}: Props) => {
     const childList = React.Children.toArray(children) as ReactElement<TabPaneProps>[];
     const options = useMemo<Array<TabOption>>(() => {
         return childList.map((item, itemIndex) => {
@@ -42,16 +50,20 @@ const Tabs = ({ activePaneId, showPlus, onPlusClick, children, labelRender }: Pr
         activePaneId ?? firstPanel?.id ?? '',
     );
 
-    useEffect(() => {
-        setCheckedKey(activePaneId ?? firstPanel?.id ?? '');
-    }, [activePaneId]);
-
     const activeContent = useMemo(() => {
         return childList.find(
             (item, index) => (item.props.id ?? `${index}`) === checkedKey,
         );
     }, [checkedKey, childList]);
 
+    useEffect(() => {
+        setCheckedKey(activePaneId ?? firstPanel?.id ?? '');
+    }, [activePaneId]);
+
+    const handleTabChange = (id: string) => {
+        setCheckedKey(id);
+        onTabChange?.(id);
+    };
     const defaultLabelRender = (option: TabOption) => {
         return <div className='tabs-pane-title'>{option.label}</div>;
     };
@@ -62,7 +74,7 @@ const Tabs = ({ activePaneId, showPlus, onPlusClick, children, labelRender }: Pr
                 <div
                     key={option.id}
                     className={classNames('tabs-pane-item', { active: isActive })}
-                    onClick={() => setCheckedKey(option.id)}
+                    onClick={() => handleTabChange(option.id)}
                 >
                     {labelRender
                         ? labelRender(option, isActive)
@@ -75,11 +87,7 @@ const Tabs = ({ activePaneId, showPlus, onPlusClick, children, labelRender }: Pr
     const renderRemoveButton = (handleRemoveClick: () => void) => {
         return (
             <Position type='absolute' right={3} top={3}>
-                <IconButton
-                    onClick={handleRemoveClick}
-                    type='circle'
-                    hoverEnabled
-                >
+                <IconButton onClick={handleRemoveClick} type='circle' hoverEnabled>
                     <LuX></LuX>
                 </IconButton>
             </Position>
