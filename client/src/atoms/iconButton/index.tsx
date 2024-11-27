@@ -7,7 +7,7 @@ export type Props = {
     children: React.ReactNode | string | Array<React.ReactNode | string>;
     disabled?: boolean;
     type?: 'circle' | 'normal';
-    hoverEnabled?: boolean;
+    hoverMode?: 'zoomOut' | 'highlight';
     className?: string;
 };
 
@@ -16,7 +16,7 @@ export default function IconButton({
     children,
     disabled,
     type,
-    hoverEnabled,
+    hoverMode,
     className,
 }: Props) {
     const handleClick = () => {
@@ -30,7 +30,8 @@ export default function IconButton({
             className={classNames(className, 'icon-button', {
                 disabled: disabled,
                 circle: type === 'circle',
-                hover: hoverEnabled,
+                highlight: hoverMode === 'highlight',
+                zoomOut: hoverMode === 'zoomOut',
             })}
             onClick={handleClick}
         >

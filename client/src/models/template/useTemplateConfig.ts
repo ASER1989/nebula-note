@@ -72,6 +72,9 @@ const useTemplateConfig = () => {
         return templateConfig;
     }, [templateConfig, keyword]);
 
+    const isTemplateExist = (templateName: string) => {
+        return templateConfig.some((item) => item.name === templateName);
+    };
     useEffect(() => {
         if (!isInitialized) {
             isInitialized = true;
@@ -85,7 +88,8 @@ const useTemplateConfig = () => {
         reloadTemplateConfig,
         templateKeyword: keyword,
         setTemplateKeyword: setKeyword,
-    };
+        isTemplateExist,
+    } as const;
 };
 
 export default useTemplateConfig;

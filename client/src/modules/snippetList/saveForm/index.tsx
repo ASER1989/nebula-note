@@ -11,6 +11,7 @@ import Textarea from '@client/atoms/textarea';
 import { TemplateRecord } from '@client/models/template/types';
 import { useDispatch } from 'react-redux';
 import { changeSelectedItem } from '@client/modules/snippetList/asyncThunks';
+import {useTemplateConfig} from "@client/models/template";
 
 type Props = {
     visible: boolean;
@@ -26,6 +27,7 @@ const initialState: TemplateRecord = {
 export default function Index({ visible, onHide }: Props) {
     const { showMessage } = useMessage();
     const dispatch = useDispatch();
+    const {isTemplateExist} = useTemplateConfig();
 
     const [formState, setFormState] = useState<TemplateRecord>(initialState);
     const handleFieldChange = (key: string, value: string) => {
@@ -37,7 +39,10 @@ export default function Index({ visible, onHide }: Props) {
         });
     };
 
-    const handleTemplateUpdate = () => {
+    const handleTemplateSave = () => {
+        if(isTemplateExist(formState.name)){
+            return;
+        }
         TemplateApi.saveTemplate(formState).then((resp) => {
             if (resp.success) {
                 return showMessage('保存成功！').then(() => {
@@ -73,7 +78,7 @@ export default function Index({ visible, onHide }: Props) {
                     </Form>
                     <div className='button-group'>
                         <Button onClick={() => onHide?.()}>取消</Button>
-                        <Button onClick={handleTemplateUpdate} type='primary'>
+                        <Button onClick={handleTemplateSave} type='primary'>
                             保存
                         </Button>
                     </div>

@@ -87,8 +87,8 @@ const Tabs = ({
     const renderRemoveButton = (handleRemoveClick: () => void) => {
         return (
             <Position type='absolute' right={3} top={3}>
-                <IconButton onClick={handleRemoveClick} type='circle' hoverEnabled>
-                    <LuX></LuX>
+                <IconButton onClick={handleRemoveClick} type='circle' hoverMode='highlight'>
+                    <LuX size={14} />
                 </IconButton>
             </Position>
         );
