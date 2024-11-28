@@ -9,6 +9,7 @@ export type Props = {
     type?: 'circle' | 'normal';
     hoverMode?: 'zoomOut' | 'highlight' | 'opacity';
     className?: string;
+    title?: string;
 };
 
 export default function IconButton({
@@ -18,6 +19,7 @@ export default function IconButton({
     type,
     hoverMode,
     className,
+    title,
 }: Props) {
     const handleClick = () => {
         if (!disabled) {
@@ -27,6 +29,7 @@ export default function IconButton({
 
     return (
         <div
+            title={title}
             className={classNames(className, 'icon-button', {
                 disabled: disabled,
                 circle: type === 'circle',

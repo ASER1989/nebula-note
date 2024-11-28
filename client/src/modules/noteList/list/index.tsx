@@ -17,6 +17,7 @@ import { Header } from './header';
 import { queryErrorMessage } from '@client/utils/queries';
 import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
 import { useNoteConfig } from '@client/models/noteModel';
+import { actions } from '@client/modules/noteList/storeSlice';
 
 type Props = {
     state: SliceType;
@@ -24,7 +25,7 @@ type Props = {
 };
 export const List = ({ state, onSave }: Props) => {
     const dispatch = useDispatch();
-    const { templateConfig, reloadTemplateConfig } = useNoteConfig();
+    const { noteList, reload, rename } = useNoteConfig();
     const [, setBuildResult] = useRedux<BuildResultState>(BuildResultStateName, {
         visible: false,
         codeList: [],
@@ -41,7 +42,7 @@ export const List = ({ state, onSave }: Props) => {
         if (state?.note?.filePath === templateConfig.filePath) {
             return;
         }
-        if (state?.note?.editStatus === 'Edited') {
+        if (state?.editStatus === 'Edited') {
             return showConfirm({
                 content: '当前模板尚未保存，是否保存？',
                 confirmText: '保存',
@@ -61,7 +62,7 @@ export const List = ({ state, onSave }: Props) => {
         const { meta, templateList, filePath } = state.note;
 
         const codeList: Array<CodeSnippet> = await Promise.all(
-          templateList?.map(async (template) => {
+            templateList?.map(async (template) => {
                 try {
                     const resp = await noteApi.buildTemplate({
                         meta,
@@ -98,11 +99,21 @@ export const List = ({ state, onSave }: Props) => {
                 if (confirm) {
                     const result = await noteApi.noteRemove(state.note.name);
                     if (result.success) {
-                        await reloadTemplateConfig();
+                        await reload();
                     }
                 }
             },
         });
+    };
+
+    const handleRename = async (name: string, newName: string) => {
+        const newNoteRecord = await rename(name, newName);
+        if (newNoteRecord) {
+            await reload();
+            dispatch(actions.updateNote(newNoteRecord));
+            return true;
+        }
+        return false;
     };
 
     return (
@@ -112,7 +123,7 @@ export const List = ({ state, onSave }: Props) => {
             </StackItem>
             <StackItem flex style={{ overflowY: 'auto' }}>
                 <div className='note-list'>
-                    {templateConfig.map((note) => {
+                    {noteList.map((note) => {
                         return (
                             <ListItem
                                 isChecked={note.name === state?.note.name}
@@ -121,6 +132,7 @@ export const List = ({ state, onSave }: Props) => {
                                 onClick={() => handleClick(note)}
                                 onBuild={handleRunBuild}
                                 onRemove={handleRemove}
+                                onRename={handleRename}
                             />
                         );
                     })}

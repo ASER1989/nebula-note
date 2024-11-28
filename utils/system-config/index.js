@@ -24,7 +24,7 @@ const mergeConfig = (defaultConfig, customConfig) => {
 };
 
 const reloadConfig = () => {
-    const isConfigExisted = fileUtils.isFileExistedSync(configPath);
+    const isConfigExisted = fileUtils.isPathExistedSync(configPath);
     if (isConfigExisted) {
         const configFileContent = fileUtils.readFileSync(configPath);
         const customConfig = JSON.parse(configFileContent);

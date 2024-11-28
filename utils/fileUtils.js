@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-function isFileExisted(filePath) {
+function isPathExisted(filePath) {
     return new Promise((resolve, reject) => {
         fs.access(filePath, (err) => {
             if (err) {
@@ -13,9 +13,10 @@ function isFileExisted(filePath) {
     });
 }
 
-function isFileExistedSync(filePath) {
+function isPathExistedSync(filePath) {
     try {
-        return fs.accessSync(filePath);
+        fs.accessSync(filePath);
+        return true;
     } catch (ex) {
         return false;
     }
@@ -23,7 +24,7 @@ function isFileExistedSync(filePath) {
 
 function mkdir(destPath) {
     return new Promise((resolve, reject) => {
-        isFileExisted(destPath).then((isExist) => {
+        isPathExisted(destPath).then((isExist) => {
             if (!isExist) {
                 fs.mkdirSync(destPath);
             }
@@ -35,7 +36,7 @@ function mkdir(destPath) {
 function writeFile(filePath, content) {
     return new Promise((resolve, reject) => {
         const dirname = path.dirname(filePath);
-        isFileExisted(dirname).then((isExist) => {
+        isPathExisted(dirname).then((isExist) => {
             if (!isExist) {
                 fs.mkdirSync(dirname);
             }
@@ -71,12 +72,24 @@ function getFileList(dirPath) {
     return fileList;
 }
 
+function rename(oldPath, newPath) {
+    return new Promise((resolve, reject) => {
+        fs.rename(oldPath, newPath, (error) => {
+            if (error) {
+                reject(error);
+            }
+            resolve('success');
+        });
+    });
+}
+
 module.exports = {
-    isFileExisted,
-    isFileExistedSync,
+    isPathExisted,
+    isPathExistedSync,
     writeFile,
     readFile,
     readFileSync,
     getFileList,
+    rename,
     mkdir,
 };

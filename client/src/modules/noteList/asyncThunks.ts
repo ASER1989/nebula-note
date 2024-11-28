@@ -11,20 +11,20 @@ export const changeSelectedItem = createAsyncThunk(
         const { dispatch } = thunkAPI;
 
         // 更新模板路径
-        dispatch(actions.setTemplateFilePath(templateConfig));
+        dispatch(actions.setNote(templateConfig));
 
         try {
             // 请求模板文档
             const documentResp = await noteApi.getNoteDocument(
                 templateConfig.filePath as string,
             );
-            dispatch(actions.setTemplateDocument(documentResp.data));
+            dispatch(actions.setDocument(documentResp.data));
 
             // 请求模板元数据
             const metaResp = await noteApi.getNoteMeta(
                 templateConfig.filePath as string,
             );
-            dispatch(actions.setTemplateMeta(metaResp.data ?? '{}'));
+            dispatch(actions.setMeta(metaResp.data ?? '{}'));
 
             // 遍历 snippetList 并请求每个片段的内容
             if (templateConfig.templateList) {
@@ -37,7 +37,7 @@ export const changeSelectedItem = createAsyncThunk(
                         ...snippet,
                         content: snippetResp.data,
                     };
-                    dispatch(actions.setSnippetContent(newSnippet));
+                    dispatch(actions.setTemplateContent(newSnippet));
                 }
             }
         } catch (error) {

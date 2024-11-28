@@ -10,7 +10,7 @@ import {useNoteConfig} from "@client/models/noteModel";
 export const Header = () => {
     const [searchBoxShown, setSearchBoxShown] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const { templateKeyword, setTemplateKeyword } = useNoteConfig();
+    const { keyword, setKeyword } = useNoteConfig();
     const { createSnippet } = useContext(SnippetListContext);
 
     useEffect(() => {
@@ -19,13 +19,13 @@ export const Header = () => {
         }
     }, [searchBoxShown]);
     const handleClean = () => {
-        if (templateKeyword === undefined || templateKeyword === '') {
+        if (keyword === undefined || keyword === '') {
             setSearchBoxShown(false);
         }
-        setTemplateKeyword('');
+        setKeyword('');
     };
     const handleChange = (newValue?: string | number) => {
-        setTemplateKeyword(newValue as string);
+        setKeyword(newValue as string);
     };
 
     if (searchBoxShown) {
@@ -35,7 +35,7 @@ export const Header = () => {
                     ref={searchInputRef}
                     size='small'
                     onClean={handleClean}
-                    value={templateKeyword}
+                    value={keyword}
                     onChange={handleChange}
                 />
             </div>
@@ -51,7 +51,7 @@ export const Header = () => {
                 </StackItem>
                 <StackItem>
                     <IconButton onClick={() => setSearchBoxShown(true)}>
-                        <MdManageSearch color={'#FFFFFF'} size={25} />
+                        <MdManageSearch color={'#FFFFFF'} size={27} />
                     </IconButton>
                 </StackItem>
             </Stack>

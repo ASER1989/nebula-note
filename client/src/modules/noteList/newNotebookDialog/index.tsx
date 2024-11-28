@@ -27,7 +27,7 @@ const initialState: NoteRecord = {
 export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
     const { showMessage } = useMessage();
     const dispatch = useDispatch();
-    const {isTemplateExist} = useNoteConfig();
+    const {isNoteExist} = useNoteConfig();
 
     const [formState, setFormState] = useState<NoteRecord>(initialState);
     const handleFieldChange = (key: string, value: string) => {
@@ -40,7 +40,7 @@ export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
     };
 
     const handleTemplateSave = () => {
-        if(isTemplateExist(formState.name)){
+        if(isNoteExist(formState.name)){
             return;
         }
         noteApi.noteUpsert(formState).then((resp) => {

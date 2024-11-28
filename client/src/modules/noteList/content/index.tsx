@@ -24,27 +24,27 @@ export const Content: FC<Props> = ({state, onSave}) => {
   const [titleFocus, setTitleFocus] = useState(false);
 
   const handleDocumentChange = (value?: string) => {
-    dispatch(actions.updateTemplateDocument(value));
+    dispatch(actions.updateDocument(value));
   };
   const handleContentChange = (editorValue: string, index: number) => {
-    dispatch(actions.updateSnippet({template: {content: editorValue}, index}));
+    dispatch(actions.updateTemplate({template: {content: editorValue}, index}));
   };
 
   const handleMetaChange = (editorValue: string) => {
-    dispatch(actions.updateTemplateMeta(editorValue));
+    dispatch(actions.updateMeta(editorValue));
   };
   const handleCodeLangChange = (language: EditorProps['lang'], index: number) => {
-    dispatch(actions.updateSnippet({template: {language}, index}));
+    dispatch(actions.updateTemplate({template: {language}, index}));
   };
   const handleTabChange = (tabId: string) => {
     dispatch(actions.setActiveProperty(tabId));
   };
   const handleAddSnippet = () => {
-    dispatch(actions.addSnippet({title: ''}));
+    dispatch(actions.addTemplate({title: ''}));
     handleTabChange(`code_${state.note?.templateList?.length ?? 1 - 1}`);
   };
   const handleRemoveSnippet = (index: number) => {
-    dispatch(actions.removeSnippet({index}));
+    dispatch(actions.removeTemplate({index}));
     handleTabChange(index === 0 ? 'meta' : `code_${index - 1}`);
   };
 
@@ -66,7 +66,7 @@ export const Content: FC<Props> = ({state, onSave}) => {
         state.note?.templateList?.findIndex(
           (template) => template.title === title,
         ) ?? -1;
-      dispatch(actions.updateSnippet({template: {title: newTitle}, index}));
+      dispatch(actions.updateTemplate({template: {title: newTitle}, index}));
     }
   };
 
@@ -107,7 +107,7 @@ export const Content: FC<Props> = ({state, onSave}) => {
         onPlusClick={handleAddSnippet}
         labelRender={tabsRender}
         onTabChange={handleTabChange}
-        activePaneId={state?.note?.activeProperty ?? 'document'}
+        activePaneId={state?.activeProperty ?? 'document'}
       >
         <TabPane id='document' key='document' title='文档'>
           <MarkdownEditor onChange={handleDocumentChange} preview='preview'>

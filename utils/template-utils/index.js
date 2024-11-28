@@ -23,7 +23,7 @@ const reloadTemplateConfig = async () => {
     templateConfigs = [];
     const customConfigPath = await getTemplateConfigPath();
 
-    if (await fileUtils.isFileExisted(customConfigPath)) {
+    if (await fileUtils.isPathExisted(customConfigPath)) {
         const configStr = await fileUtils.readFile(customConfigPath);
         templateConfigs = JSON.parse(configStr);
     }
@@ -57,11 +57,15 @@ const saveTemplateFile = async (content, filePath) => {
 const getTemplateFile = async (filePath) => {
     const configPath = await getTemplateFolder();
     const targetPath = path.join(configPath, filePath);
-    const isExisted = await fileUtils.isFileExisted(targetPath);
+    const isExisted = await fileUtils.isPathExisted(targetPath);
     if (isExisted) {
         return await fileUtils.readFile(path.join(configPath, filePath));
     }
     return null;
+};
+
+const nameToPath = (name) => {
+    return [name, '/'].join('');
 };
 
 const filePathToMetaPath = (filePath) => {
@@ -85,6 +89,16 @@ const clearFolder = async (folderPath) => {
     return await rimraf.rimraf(targetPath);
 };
 
+const folderRename = async (oldName, newName) => {
+    const configPath = getTemplateFolder();
+    const oldPath = path.join(configPath, oldName);
+    const newPath = path.join(configPath, newName);
+    if (fileUtils.isPathExistedSync(oldPath)) {
+        return await fileUtils.rename(oldPath, newPath);
+    }
+    return true;
+};
+
 systemConfig.subscribe(reloadTemplateConfig);
 
 module.exports = {
@@ -99,4 +113,6 @@ module.exports = {
     filePathToTemplatePath,
     filePathToTemplateFolderPath,
     clearFolder,
+    folderRename,
+    nameToPath,
 };

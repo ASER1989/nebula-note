@@ -5,31 +5,52 @@ import _ from 'lodash';
 
 export type SliceType = {
     fetchStatus: FetchStatus;
-    note: NoteRecord & {
-        editStatus?: 'Edited' | 'Saved' | 'None';
-        activeProperty?: string;
-    };
+    note: NoteRecord;
+    editStatus?: 'Edited' | 'Saved' | 'None';
+    activeProperty?: string;
 };
 
-export const sliceName = 'snippetList';
+export const sliceName = 'noteList';
 export const storeSlice = createSlice({
     name: sliceName,
     initialState: {
         fetchStatus: 'None',
-        note: { activeProperty: 'document' } as SliceType['note'],
+        note: {} as SliceType['note'],
+        editStatus: 'None',
+        activeProperty: 'document',
     },
     reducers: {
-        setTemplateFilePath: (state, action: { payload: NoteRecord }) => {
-            state.note = {
-                ...action.payload,
+        setNote: (state, action: { payload: NoteRecord }) => {
+            return {
+                fetchStatus: 'None',
+                note: {
+                    ...action.payload,
+                },
                 editStatus: 'None',
                 activeProperty: 'document',
             };
         },
-        setTemplateDocument: (state, action: { payload: string }) => {
+        updateNote: (state, action: { payload: Partial<SliceType['note']> }) => {
+            state.note = {
+                ...state.note,
+                ...action.payload,
+            };
+        },
+        setMeta: (state, action: { payload: string }) => {
+            state.note.meta = action.payload;
+        },
+        updateMeta: (state, action: { payload: string }) => {
+            state.note.meta = action.payload;
+            state.editStatus = 'Edited';
+        },
+        setDocument: (state, action: { payload: string }) => {
             state.note.document = action.payload;
         },
-        setSnippetContent: (state, action: { payload: TemplateRecord }) => {
+        updateDocument: (state, action: { payload: string | undefined }) => {
+            state.note.document = action.payload;
+            state.editStatus = 'Edited';
+        },
+        setTemplateContent: (state, action: { payload: TemplateRecord }) => {
             const template = state.note.templateList?.find(
                 (item) => item.title === action.payload.title,
             );
@@ -37,18 +58,18 @@ export const storeSlice = createSlice({
                 template.content = action.payload.content;
             }
         },
-        addSnippet: (state, action: { payload: TemplateRecord }) => {
+        addTemplate: (state, action: { payload: TemplateRecord }) => {
             state.note.templateList?.push(action.payload);
-            state.note.editStatus = 'Edited';
+            state.editStatus = 'Edited';
         },
-        removeSnippet: (state, action: { payload: { index: number } }) => {
+        removeTemplate: (state, action: { payload: { index: number } }) => {
             const {
                 payload: { index },
             } = action;
             state.note.templateList?.splice(index, 1);
-            state.note.editStatus = 'Edited';
+            state.editStatus = 'Edited';
         },
-        updateSnippet: (
+        updateTemplate: (
             state,
             action: { payload: { template: Partial<TemplateRecord>; index: number } },
         ) => {
@@ -58,26 +79,15 @@ export const storeSlice = createSlice({
             const ownTemplate = state.note.templateList?.[index];
             if (ownTemplate) {
                 _.assign(ownTemplate, template);
-                state.note.editStatus = 'Edited';
+                state.editStatus = 'Edited';
             }
         },
-        setTemplateMeta: (state, action: { payload: string }) => {
-            state.note.meta = action.payload;
-        },
-        updateTemplateMeta: (state, action: { payload: string }) => {
-            state.note.meta = action.payload;
-            state.note.editStatus = 'Edited';
-        },
-        updateTemplateDocument: (state, action: { payload: string | undefined }) => {
-            state.note.document = action.payload;
-            state.note.editStatus = 'Edited';
-        },
-        templateSaved: (state, action: { payload: { version: number } }) => {
+        setNoteSaved: (state, action: { payload: { version: number } }) => {
             state.note.version = action.payload.version;
-            state.note.editStatus = 'Saved';
+            state.editStatus = 'Saved';
         },
         setActiveProperty: (state, action: { payload: string }) => {
-            state.note.activeProperty = action.payload;
+            state.activeProperty = action.payload;
         },
     },
 });

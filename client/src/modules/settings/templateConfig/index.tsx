@@ -11,7 +11,7 @@ export default function TemplateConfig() {
     const { showMessage } = useMessage();
     const [config, setConfig] = useState<unknown>();
     const [newConfig, setNewConfig] = useState<string>();
-    const { reloadTemplateConfig } = useNoteConfig();
+    const { reload } = useNoteConfig();
 
     const loadSettings = () => {
         request.get('/template/config').then((resp) => {
@@ -37,7 +37,7 @@ export default function TemplateConfig() {
         try {
             request.post('/template/config', { settings: newSettings }).then((resp) => {
                 if (resp.success) {
-                    reloadTemplateConfig();
+                    reload();
                     return showMessage('保存成功！');
                 }
                 showMessage(resp.error.toString());

@@ -16,7 +16,7 @@ import useMessage from '@client/components/message/useMessage';
 import { SnippetListContext } from '@client/modules/noteList/context';
 
 export const NoteList = () => {
-    const { reloadTemplateConfig } = useNoteConfig();
+    const { reload } = useNoteConfig();
     const { showMessage } = useMessage();
     const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
     const [saveShown, setSaveShown] = useState(false);
@@ -24,8 +24,8 @@ export const NoteList = () => {
     const handleSave = async () => {
         const resp = await noteApi.noteUpsert(state.note);
         if (resp.success) {
-            dispatch(actions.templateSaved({ version: resp.data }));
-            await reloadTemplateConfig();
+            dispatch(actions.setNoteSaved({ version: resp.data }));
+            await reload();
             return showMessage('保存成功！');
         }
         await showMessage(resp.error.toString());
@@ -36,7 +36,7 @@ export const NoteList = () => {
 
     const handleCreateDialogClose = async (success?: boolean) => {
         if (success) {
-            await reloadTemplateConfig();
+            await reload();
         }
         setSaveShown(false);
     };

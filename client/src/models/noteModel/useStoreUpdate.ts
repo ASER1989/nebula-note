@@ -5,7 +5,7 @@ import { noteStoreUpdate } from './api';
 
 const useStoreUpdate = () => {
     const [loading, setLoading] = useState(false);
-    const { reloadTemplateConfig } = useNoteConfig();
+    const { reload } = useNoteConfig();
     const { showMessage } = useMessage();
     const refreshStore = () => {
         setLoading(true);
@@ -14,7 +14,7 @@ const useStoreUpdate = () => {
                 if (!resp.success) {
                     return showMessage(resp.error.toString());
                 }
-                reloadTemplateConfig();
+                reload();
             })
             .finally(() => {
                 setLoading(false);

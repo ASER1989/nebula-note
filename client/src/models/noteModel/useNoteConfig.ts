@@ -1,24 +1,26 @@
 import { useMemo, useEffect } from 'react';
 import useMessage from '@client/components/message/useMessage';
-import { getNoteList } from './api';
+import { getNoteList, noteRename } from './api';
 import { NoteConfigState, NoteRecord } from './types';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
 
 export interface IUseNoteConfig {
-    templateConfig: Array<NoteRecord>;
-    reloadTemplateConfig: () => Promise<void>;
-    templateKeyword?: string;
-    setTemplateKeyword: (keyword?: string) => void;
-    isTemplateExist: (templateName: string) => boolean;
+    keyword?: string;
+    setKeyword: (keyword?: string) => void;
+    noteList: Array<NoteRecord>;
+    reload: () => Promise<void>;
+    // create: () => void;
+    rename: (name: string, newName: string) => Promise<NoteRecord | undefined>;
+    isNoteExist: (templateName: string) => boolean;
 }
 
 let isInitialized = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();
     const [templateState, setTemplateState, updateTemplateState] =
-        useRedux<NoteConfigState>('templateConfigState', {
+        useRedux<NoteConfigState>('noteConfig', {
             fetchStatus: 'None',
             noteList: [],
         });
@@ -33,7 +35,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         setTemplateState({ noteList: templateConfig });
     };
 
-    const fetchTemplateConfig = async (reload?: boolean) => {
+    const fetchNoteConfig = async (reload?: boolean) => {
         if (fetchStatus !== 'None' && !reload) {
             return;
         }
@@ -56,10 +58,37 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         }
     };
 
-    const reloadTemplateConfig = () => {
-        return fetchTemplateConfig(true);
+    const reload = async () => {
+        return await fetchNoteConfig(true);
     };
-    const filteredConfigs = useMemo(() => {
+
+    const rename = async (name: string, newName: string) => {
+        try {
+            if (isNoteExist(newName)) {
+                throw new Error('该名称已存在，请更换名称！');
+            }
+            const resp = await noteRename(name, newName);
+            if (!resp.success) {
+                throw new Error(resp.error?.toString() ?? '发生未知错误，重命名失败！');
+            }
+            return resp.data;
+        } catch (ex) {
+            const content = queryErrorMessage(ex);
+            await showMessage(content);
+        }
+    };
+
+    const isNoteExist = (templateName: string) => {
+        return noteList.some((item) => item.name === templateName);
+    };
+    useEffect(() => {
+        if (!isInitialized) {
+            isInitialized = true;
+            fetchNoteConfig();
+        }
+    }, []);
+
+    const filteredList = useMemo(() => {
         if (keyword) {
             const searchKeyword = keyword.toLocaleLowerCase();
             return noteList.filter((item) => {
@@ -72,22 +101,13 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         return noteList;
     }, [noteList, keyword]);
 
-    const isTemplateExist = (templateName: string) => {
-        return noteList.some((item) => item.name === templateName);
-    };
-    useEffect(() => {
-        if (!isInitialized) {
-            isInitialized = true;
-            fetchTemplateConfig();
-        }
-    }, []);
-
     return {
-        templateConfig: filteredConfigs,
-        reloadTemplateConfig,
-        templateKeyword: keyword,
-        setTemplateKeyword: setKeyword,
-        isTemplateExist,
+        noteList: filteredList,
+        reload,
+        rename,
+        keyword,
+        setKeyword,
+        isNoteExist,
     };
 };
 

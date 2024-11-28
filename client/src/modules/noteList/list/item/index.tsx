@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { FaPlayCircle } from 'react-icons/fa';
-import { MdClose, MdCheck,MdDeleteForever } from 'react-icons/md';
+import { MdClose, MdCheck, MdDeleteForever } from 'react-icons/md';
 
 import '../../index.styl';
 import IconButton from '@client/atoms/iconButton';
@@ -16,11 +16,20 @@ export type Props = {
     onClick?: () => void;
     onBuild?: () => void;
     onRemove?: () => void;
+    onRename: (name: string, newName: string) => Promise<boolean>;
 };
-export const ListItem = ({ name, isChecked, onClick, onBuild, onRemove }: Props) => {
+export const ListItem = ({
+    name,
+    isChecked,
+    onClick,
+    onBuild,
+    onRemove,
+    onRename,
+}: Props) => {
     const className = classNames({ checked: isChecked }, 'note-list-item');
     const [renameEnabled, setRenameEnabled] = useState(false);
     const [renameFocused, setRenameFocused] = useState(false);
+    const [mutableName, setMutableName] = useState(name);
     const handleClick = () => {
         onClick?.();
     };
@@ -32,16 +41,44 @@ export const ListItem = ({ name, isChecked, onClick, onBuild, onRemove }: Props)
         setRenameEnabled(true);
     };
 
+    const handleRename = async () => {
+        const result = await onRename(name, mutableName);
+        if (result) {
+            setRenameEnabled(false);
+            setRenameFocused(false);
+        }
+    };
+
+    const handleRenameCancel = () => {
+        setMutableName(name);
+        setRenameEnabled(false);
+        setRenameFocused(false);
+    };
+
+    const handleRenameBlur = (newName: string) => {
+        setMutableName(newName);
+        setRenameFocused(false);
+    };
     const renameOperationsRender = () => {
         return (
             <Stack spacing={1}>
-                <StackItem>
-                    <IconButton onClick={onRemove} type='circle' hoverMode='highlight'>
+                <StackItem style={{ display: 'flex' }}>
+                    <IconButton
+                        onClick={handleRename}
+                        type='circle'
+                        hoverMode='highlight'
+                        title='save'
+                    >
                         <MdCheck color='green' size={20} />
                     </IconButton>
                 </StackItem>
-                <StackItem>
-                    <IconButton onClick={onRemove} type='circle' hoverMode='highlight'>
+                <StackItem style={{ display: 'flex' }}>
+                    <IconButton
+                        onClick={handleRenameCancel}
+                        type='circle'
+                        hoverMode='highlight'
+                        title='cancel'
+                    >
                         <MdClose color='#606060' size={20} />
                     </IconButton>
                 </StackItem>
@@ -62,8 +99,13 @@ export const ListItem = ({ name, isChecked, onClick, onBuild, onRemove }: Props)
                 <IconButton onClick={onBuild}>
                     <FaPlayCircle color='#009688' size={20} />
                 </IconButton>
-                <Position type='absolute' right={1} top={'50%'} style={{transform: 'translateY(-50%)'}}>
-                    <IconButton onClick={onRemove} hoverMode={'opacity'}>
+                <Position
+                    type='absolute'
+                    right={1}
+                    top={'50%'}
+                    style={{ transform: 'translateY(-50%)' }}
+                >
+                    <IconButton onClick={onRemove} hoverMode='opacity' title='remove'>
                         <MdDeleteForever color='red' size={23} />
                     </IconButton>
                 </Position>
@@ -74,7 +116,7 @@ export const ListItem = ({ name, isChecked, onClick, onBuild, onRemove }: Props)
         <div onClick={handleClick} className={className}>
             <div className='item-tag'>
                 {isChecked && (
-                    <IconButton onClick={handleRenameFocus}>
+                    <IconButton onClick={handleRenameFocus} title='rename'>
                         <LuPencilLine size={10} />
                     </IconButton>
                 )}
@@ -84,9 +126,9 @@ export const ListItem = ({ name, isChecked, onClick, onBuild, onRemove }: Props)
                     editable={isChecked}
                     focus={renameFocused}
                     onFocus={handleRenameEnabled}
-                    onBlur={() => setRenameFocused(false)}
+                    onBlur={handleRenameBlur}
                 >
-                    {name}
+                    {mutableName}
                 </EditableContent>
             </div>
             <div className='item-operation'>{operationsRender()}</div>

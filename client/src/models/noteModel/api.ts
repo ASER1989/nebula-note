@@ -27,6 +27,10 @@ export const noteRemove = (name: string) => {
     return request.post<string>('/note/remove', { name });
 };
 
+export const noteRename = (name: string, newName: string) => {
+    return request.post<NoteRecord>('/note/rename', { name, newName });
+};
+
 export const buildTemplate = (postData: {
     meta?: string;
     content: string;
