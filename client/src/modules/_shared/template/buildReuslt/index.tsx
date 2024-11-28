@@ -37,7 +37,7 @@ export const BuildResult = () => {
                 </StackItem>
                 <StackItem
                     style={{
-                        height: 20,
+                        height: 30,
                         textAlign: 'right',
                         padding: 5,
                     }}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,FC } from 'react';
 import './index.styl';
 import Button from '@client/atoms/button';
 import Form, { FormItem } from '@client/molecules/form';
@@ -24,7 +24,7 @@ const initialState: TemplateRecord = {
     filePath: '',
     snippetList: [],
 };
-export default function Index({ visible, onHide }: Props) {
+export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
     const { showMessage } = useMessage();
     const dispatch = useDispatch();
     const {isTemplateExist} = useTemplateConfig();
@@ -87,3 +87,5 @@ export default function Index({ visible, onHide }: Props) {
         </Dialog>
     );
 }
+
+export default NewNotebookDialog;

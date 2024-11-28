@@ -90,5 +90,21 @@ module.exports = (prefix, opts) => {
         return await templateUtils.updateTemplateConfigs(settings);
     });
 
+    router.post('/remove', async (ctx) => {
+        const { name } = ctx.request.body;
+        const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
+        const configIndex = templateConfigs.findIndex((item) => item.name === name);
+        if (configIndex >= 0) {
+            const filePath = templateConfigs[configIndex]?.filePath;
+            await templateUtils.clearFolder(
+                templateUtils.filePathToSnippetFolderPath(filePath),
+            );
+            templateConfigs.splice(configIndex, 1);
+            await templateUtils.updateTemplateConfigs(templateConfigs);
+            return true;
+        }
+        return false;
+    });
+
     return router.routes();
 };

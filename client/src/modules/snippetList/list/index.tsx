@@ -16,14 +16,15 @@ import { Stack, StackItem } from '@client/molecules/stack';
 import { Header } from './header';
 import { queryErrorMessage } from '@client/utils/queries';
 import { changeSelectedItem } from '@client/modules/snippetList/asyncThunks';
+import { useTemplateConfig } from '@client/models/template';
 
 type Props = {
     state: SliceType;
-    templateList: Array<TemplateRecord>;
     onSave?: () => void;
 };
-export const List = ({ state, templateList, onSave }: Props) => {
+export const List = ({ state, onSave }: Props) => {
     const dispatch = useDispatch();
+    const { templateConfig, reloadTemplateConfig } = useTemplateConfig();
     const [, setBuildResult] = useRedux<BuildResultState>(BuildResultStateName, {
         visible: false,
         codeList: [],
@@ -32,7 +33,7 @@ export const List = ({ state, templateList, onSave }: Props) => {
     const { showConfirm } = useContext(ConfirmContext);
 
     const handleChangeSelectedItem = (templateConfig: TemplateRecord) => {
-        // TODO: Fix dispatch type
+        // FIXME: dispatch type
         dispatch(changeSelectedItem(templateConfig) as never);
     };
 
@@ -87,6 +88,23 @@ export const List = ({ state, templateList, onSave }: Props) => {
         setBuildResult({ codeList, visible: true });
     };
 
+    const handleRemove = () => {
+        showConfirm({
+            title: '提示',
+            content: '确定要删除该记录及相关文档内容吗？',
+            confirmText: '删除',
+            cancelText: '取消',
+            callback: async (confirm) => {
+                if (confirm) {
+                    const result = await templateApi.removeTemplate(state.template.name);
+                    if (result.success) {
+                        await reloadTemplateConfig();
+                    }
+                }
+            },
+        });
+    };
+
     return (
         <Stack direction='vertical'>
             <StackItem>
@@ -94,7 +112,7 @@ export const List = ({ state, templateList, onSave }: Props) => {
             </StackItem>
             <StackItem flex style={{ overflowY: 'auto' }}>
                 <div className='snippet-list'>
-                    {templateList.map((template) => {
+                    {templateConfig.map((template) => {
                         return (
                             <ListItem
                                 isChecked={template.name === state?.template.name}
@@ -102,6 +120,7 @@ export const List = ({ state, templateList, onSave }: Props) => {
                                 name={template.name as string}
                                 onClick={() => handleClick(template)}
                                 onBuild={handleRunBuild}
+                                onRemove={handleRemove}
                             />
                         );
                     })}

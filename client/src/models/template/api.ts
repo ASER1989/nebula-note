@@ -23,12 +23,14 @@ export const saveTemplate = (postData: TemplateRecord) => {
     return request.post<number>('/template/upsert', postData);
 };
 
-export const buildTemplate = (postData: { meta?: string; content: string,filePath?: string }) => {
-    return request.post<string>('/slice/build/meta', postData);
+export const removeTemplate = (name: string) => {
+    return request.post<string>('/template/remove', { name });
 };
 
-export const buildTemplateWithFormData = <T extends Record<string, unknown>>(
-    postData: T,
-) => {
-    return request.post<string>('/slice/build/form', { ...postData });
+export const buildTemplate = (postData: {
+    meta?: string;
+    content: string;
+    filePath?: string;
+}) => {
+    return request.post<string>('/slice/build/meta', postData);
 };

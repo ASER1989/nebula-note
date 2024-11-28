@@ -12,8 +12,9 @@ export type Props = {
     isChecked: boolean;
     onClick?: () => void;
     onBuild?: () => void;
+    onRemove?: () => void;
 };
-export const ListItem = ({ name, isChecked, onClick, onBuild }: Props) => {
+export const ListItem = ({ name, isChecked, onClick, onBuild, onRemove }: Props) => {
     const className = classNames({ checked: isChecked }, 'snippet-list-item');
     const handleClick = () => {
         onClick?.();
@@ -29,7 +30,7 @@ export const ListItem = ({ name, isChecked, onClick, onBuild }: Props) => {
                             <FaPlayCircle color='#009688' size={23} />
                         </IconButton>
                         <Position type='absolute' right={1} top={1}>
-                            <IconButton>
+                            <IconButton onClick={onRemove}>
                                 <MdClose color='#606060' size={15} />
                             </IconButton>
                         </Position>

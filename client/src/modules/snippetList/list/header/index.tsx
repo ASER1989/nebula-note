@@ -5,11 +5,13 @@ import IconButton from '@client/atoms/iconButton';
 import { MdManageSearch } from 'react-icons/md';
 import SearchInput from '@client/atoms/searchInput';
 import { SnippetListContext } from '../../context';
+import {useTemplateConfig} from "@client/models/template";
 
 export const Header = () => {
     const [searchBoxShown, setSearchBoxShown] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const { keyword, setKeyword, createSnippet } = useContext(SnippetListContext);
+    const { templateKeyword, setTemplateKeyword } = useTemplateConfig();
+    const { createSnippet } = useContext(SnippetListContext);
 
     useEffect(() => {
         if (searchInputRef.current && searchBoxShown) {
@@ -17,13 +19,13 @@ export const Header = () => {
         }
     }, [searchBoxShown]);
     const handleClean = () => {
-        if (keyword === undefined || keyword === '') {
+        if (templateKeyword === undefined || templateKeyword === '') {
             setSearchBoxShown(false);
         }
-        setKeyword('');
+        setTemplateKeyword('');
     };
     const handleChange = (newValue?: string | number) => {
-        setKeyword(newValue as string);
+        setTemplateKeyword(newValue as string);
     };
 
     if (searchBoxShown) {
@@ -33,7 +35,7 @@ export const Header = () => {
                     ref={searchInputRef}
                     size='small'
                     onClean={handleClean}
-                    value={keyword}
+                    value={templateKeyword}
                     onChange={handleChange}
                 />
             </div>

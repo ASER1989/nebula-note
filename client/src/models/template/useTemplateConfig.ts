@@ -15,7 +15,7 @@ export type TemplateConfigState = {
 let isInitialized = false;
 const useTemplateConfig = () => {
     const { showMessage } = useMessage();
-    const [templateState, , updateTemplateState] = useRedux<TemplateConfigState>(
+    const [templateState,setTemplateState , updateTemplateState] = useRedux<TemplateConfigState>(
         'templateConfigState',
         {
             fetchStatus: 'None',
@@ -30,7 +30,7 @@ const useTemplateConfig = () => {
         updateTemplateState({ fetchStatus });
     };
     const setTemplateConfig = (templateConfig: Array<TemplateRecord>) => {
-        updateTemplateState({ templateConfig });
+        setTemplateState({ templateConfig });
     };
 
     const fetchTemplateConfig = async (reload?: boolean) => {

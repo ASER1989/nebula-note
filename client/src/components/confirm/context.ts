@@ -3,7 +3,8 @@ import _ from 'lodash';
 
 export type EventCallback = (confirm?: boolean) => void;
 export type Options = {
-    content: string | undefined;
+    title?: string;
+    content?: string;
     cancelText?: string;
     confirmText?: string;
     callback?: EventCallback;

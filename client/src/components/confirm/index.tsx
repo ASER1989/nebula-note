@@ -20,7 +20,7 @@ export default function Confirm() {
     };
 
     return (
-        <Dialog visible={options != null} onClose={handleClose}>
+        <Dialog visible={options != null} onClose={handleClose} title={options.title}>
             <div className='confirm'>
                 <div className='content'>{options.content}</div>
                 <div className='bottom'>
