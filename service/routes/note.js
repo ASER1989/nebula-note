@@ -36,14 +36,14 @@ module.exports = (prefix, opts) => {
         await templateUtils.updateTemplateConfigs(templateConfigs);
         await templateUtils.saveTemplateFile(reqParams.meta, newConfig.metaPath);
         await templateUtils.saveTemplateFile(reqParams.document, newConfig.docPath);
-        const snippetFolderPath = templateUtils.filePathToSnippetFolderPath(
+        const snippetFolderPath = templateUtils.filePathToTemplateFolderPath(
             newConfig.filePath,
         );
         await templateUtils.clearFolder(snippetFolderPath);
 
         while (reqParams.templateList.length > 0) {
             const item = reqParams.templateList.shift();
-            const itemPath = templateUtils.filePathToSnippetPath(
+            const itemPath = templateUtils.filePathToTemplatePath(
                 newConfig.filePath,
                 item.title,
             );
@@ -54,7 +54,7 @@ module.exports = (prefix, opts) => {
 
     router.get('/content', async (ctx) => {
         const { path, title } = ctx.query;
-        const targetPath = templateUtils.filePathToSnippetPath(path, title);
+        const targetPath = templateUtils.filePathToTemplatePath(path, title);
         if (!_.isEmpty(targetPath)) {
             return templateUtils.getTemplateFile(targetPath);
         }
@@ -96,9 +96,7 @@ module.exports = (prefix, opts) => {
         const configIndex = templateConfigs.findIndex((item) => item.name === name);
         if (configIndex >= 0) {
             const filePath = templateConfigs[configIndex]?.filePath;
-            await templateUtils.clearFolder(
-                templateUtils.filePathToSnippetFolderPath(filePath),
-            );
+            await templateUtils.clearFolder(filePath);
             templateConfigs.splice(configIndex, 1);
             await templateUtils.updateTemplateConfigs(templateConfigs);
             return true;

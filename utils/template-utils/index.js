@@ -5,7 +5,7 @@ const _ = require('lodash');
 const rimraf = require('rimraf');
 
 const userFolderPath = process.env.HOME || process.env.USERPROFILE;
-const configFolder = path.join(userFolderPath, 'Nebula/Templates');
+const configFolder = path.join(userFolderPath, 'Nebula/Notes');
 
 let templateConfigs;
 
@@ -71,11 +71,11 @@ const filePathToMetaPath = (filePath) => {
 const filePathToDocPath = (filePath) => {
     return path.join(filePath, 'doc.md');
 };
-const filePathToSnippetFolderPath = (filePath) => {
-    return path.join(filePath, 'snippet');
+const filePathToTemplateFolderPath = (filePath) => {
+    return path.join(filePath, 'template');
 };
-const filePathToSnippetPath = (filePath, title) => {
-    const folderPath = filePathToSnippetFolderPath(filePath);
+const filePathToTemplatePath = (filePath, title) => {
+    const folderPath = filePathToTemplateFolderPath(filePath);
     return path.join(folderPath, `${title}.ejs`);
 };
 
@@ -96,7 +96,7 @@ module.exports = {
     reloadTemplateConfig,
     filePathToMetaPath,
     filePathToDocPath,
-    filePathToSnippetPath,
-    filePathToSnippetFolderPath,
+    filePathToTemplatePath,
+    filePathToTemplateFolderPath,
     clearFolder,
 };

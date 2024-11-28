@@ -45,6 +45,7 @@ export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
         }
         noteApi.noteUpsert(formState).then((resp) => {
             if (resp.success) {
+                onHide?.(true);
                 return showMessage('保存成功！').then(() => {
                     dispatch(
                         changeSelectedItem({
@@ -52,7 +53,6 @@ export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
                             filePath: `${formState.name}/`,
                         }) as never,
                     );
-                    onHide?.(true);
                 });
             }
             showMessage(resp.error.toString());
