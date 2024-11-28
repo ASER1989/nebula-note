@@ -5,12 +5,12 @@ import IconButton from '@client/atoms/iconButton';
 import { MdManageSearch } from 'react-icons/md';
 import SearchInput from '@client/atoms/searchInput';
 import { SnippetListContext } from '../../context';
-import {useTemplateConfig} from "@client/models/template";
+import {useNoteConfig} from "@client/models/noteModel";
 
 export const Header = () => {
     const [searchBoxShown, setSearchBoxShown] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const { templateKeyword, setTemplateKeyword } = useTemplateConfig();
+    const { templateKeyword, setTemplateKeyword } = useNoteConfig();
     const { createSnippet } = useContext(SnippetListContext);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export const Header = () => {
 
     if (searchBoxShown) {
         return (
-            <div className='snippet-list-header'>
+            <div className='note-list-header'>
                 <SearchInput
                     ref={searchInputRef}
                     size='small'
@@ -42,7 +42,7 @@ export const Header = () => {
         );
     }
     return (
-        <div className='snippet-list-header'>
+        <div className='note-list-header'>
             <Stack justify='flex-end' align='center' spacing={10}>
                 <StackItem>
                     <IconButton onClick={createSnippet}>

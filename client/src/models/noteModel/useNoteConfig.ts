@@ -1,36 +1,36 @@
 import { useMemo, useEffect } from 'react';
 import useMessage from '@client/components/message/useMessage';
-import { getTemplateList } from '@client/models/template/api';
-import { TemplateRecord } from '@client/models/template/types';
+import { getNoteList } from './api';
+import { NoteConfigState, NoteRecord } from './types';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
 
-export type TemplateConfigState = {
-    templateConfig: Array<TemplateRecord>;
-    keyword?: string;
-    fetchStatus?: FetchStatus;
-};
+export interface IUseNoteConfig {
+    templateConfig: Array<NoteRecord>;
+    reloadTemplateConfig: () => Promise<void>;
+    templateKeyword?: string;
+    setTemplateKeyword: (keyword?: string) => void;
+    isTemplateExist: (templateName: string) => boolean;
+}
 
 let isInitialized = false;
-const useTemplateConfig = () => {
+const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();
-    const [templateState,setTemplateState , updateTemplateState] = useRedux<TemplateConfigState>(
-        'templateConfigState',
-        {
+    const [templateState, setTemplateState, updateTemplateState] =
+        useRedux<NoteConfigState>('templateConfigState', {
             fetchStatus: 'None',
-            templateConfig: [],
-        },
-    );
-    const { templateConfig, keyword, fetchStatus } = templateState;
+            noteList: [],
+        });
+    const { noteList, keyword, fetchStatus } = templateState;
     const setKeyword = (keyword?: string) => {
         updateTemplateState({ keyword });
     };
     const setFetchStatus = (fetchStatus: FetchStatus) => {
         updateTemplateState({ fetchStatus });
     };
-    const setTemplateConfig = (templateConfig: Array<TemplateRecord>) => {
-        setTemplateState({ templateConfig });
+    const setTemplateConfig = (templateConfig: Array<NoteRecord>) => {
+        setTemplateState({ noteList: templateConfig });
     };
 
     const fetchTemplateConfig = async (reload?: boolean) => {
@@ -39,7 +39,7 @@ const useTemplateConfig = () => {
         }
         try {
             setFetchStatus('Pending');
-            const resp = await getTemplateList();
+            const resp = await getNoteList();
 
             if (!resp.success) {
                 setFetchStatus('Error');
@@ -62,18 +62,18 @@ const useTemplateConfig = () => {
     const filteredConfigs = useMemo(() => {
         if (keyword) {
             const searchKeyword = keyword.toLocaleLowerCase();
-            return templateConfig.filter((item) => {
+            return noteList.filter((item) => {
                 if (item.keyword && item.keyword.length > 0) {
                     return item.keyword.toLocaleLowerCase().includes(searchKeyword);
                 }
                 return item.name?.toLocaleLowerCase()?.includes(searchKeyword);
             });
         }
-        return templateConfig;
-    }, [templateConfig, keyword]);
+        return noteList;
+    }, [noteList, keyword]);
 
     const isTemplateExist = (templateName: string) => {
-        return templateConfig.some((item) => item.name === templateName);
+        return noteList.some((item) => item.name === templateName);
     };
     useEffect(() => {
         if (!isInitialized) {
@@ -83,13 +83,12 @@ const useTemplateConfig = () => {
     }, []);
 
     return {
-        fetchStatus,
         templateConfig: filteredConfigs,
         reloadTemplateConfig,
         templateKeyword: keyword,
         setTemplateKeyword: setKeyword,
         isTemplateExist,
-    } as const;
+    };
 };
 
-export default useTemplateConfig;
+export default useNoteConfig;

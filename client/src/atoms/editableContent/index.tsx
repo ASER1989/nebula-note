@@ -1,4 +1,6 @@
+import './index.styl';
 import React, { useRef, FC, useEffect } from 'react';
+import classNames from 'classnames';
 
 export type Props = {
     children: string | TrustedHTML;
@@ -6,6 +8,7 @@ export type Props = {
     focus?: boolean;
     className?: string;
     onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+    onFocus?: (e: React.FormEvent<HTMLDivElement>) => void;
     onChange?: (newText: string, newHtml: string) => void;
     onBlur?: (newText: string, newHtml: string) => void;
 };
@@ -16,10 +19,12 @@ export const EditableContent: FC<Props> = ({
     className,
     focus,
     onClick,
+    onFocus,
     onChange,
     onBlur,
 }) => {
     const boxRef = useRef<HTMLDivElement>(null);
+    const classnames = classNames('editable-content', className);
 
     useEffect(() => {
         if (boxRef.current && focus) {
@@ -45,10 +50,11 @@ export const EditableContent: FC<Props> = ({
     return (
         <div
             ref={boxRef}
-            className={className}
+            className={classnames}
             contentEditable={editable}
             onInput={handleContentChange}
             onBlur={handleBlur}
+            onFocus={onFocus}
             onClick={onClick}
             dangerouslySetInnerHTML={{ __html: children }}
         />

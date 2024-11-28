@@ -4,32 +4,32 @@ import Button from '@client/atoms/button';
 import Form, { FormItem } from '@client/molecules/form';
 import Input from '@client/atoms/input';
 import useMessage from '@client/components/message/useMessage';
-import * as TemplateApi from '@client/models/template/api';
+import * as noteApi from '@client/models/noteModel/api';
 import Dialog from '@client/molecules/dialog';
 import _ from 'lodash';
 import Textarea from '@client/atoms/textarea';
-import { TemplateRecord } from '@client/models/template/types';
+import { NoteRecord } from '@client/models/noteModel/types';
 import { useDispatch } from 'react-redux';
-import { changeSelectedItem } from '@client/modules/snippetList/asyncThunks';
-import {useTemplateConfig} from "@client/models/template";
+import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
+import {useNoteConfig} from "@client/models/noteModel";
 
 type Props = {
     visible: boolean;
     onHide?: (success?: boolean) => void;
 };
 
-const initialState: TemplateRecord = {
+const initialState: NoteRecord = {
     name: '',
     keyword: '',
     filePath: '',
-    snippetList: [],
+    templateList: [],
 };
 export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
     const { showMessage } = useMessage();
     const dispatch = useDispatch();
-    const {isTemplateExist} = useTemplateConfig();
+    const {isTemplateExist} = useNoteConfig();
 
-    const [formState, setFormState] = useState<TemplateRecord>(initialState);
+    const [formState, setFormState] = useState<NoteRecord>(initialState);
     const handleFieldChange = (key: string, value: string) => {
         setFormState((ownState) => {
             return {
@@ -43,7 +43,7 @@ export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
         if(isTemplateExist(formState.name)){
             return;
         }
-        TemplateApi.saveTemplate(formState).then((resp) => {
+        noteApi.noteUpsert(formState).then((resp) => {
             if (resp.success) {
                 return showMessage('保存成功！').then(() => {
                     dispatch(

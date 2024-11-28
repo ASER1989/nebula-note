@@ -1,5 +1,5 @@
 import React from 'react';
-import SnippetList from './modules/snippetList';
+import NoteList from './modules/noteList';
 
 import type { RouteObject } from 'react-router-dom';
 import _ from 'lodash';
@@ -7,14 +7,14 @@ import _ from 'lodash';
 type RouteConfig = RouteObject & { label: string };
 
 
-const SNIPPET_LIST: RouteConfig = {
+const NOTE_LIST: RouteConfig = {
     path: '/',
-    element: <SnippetList />,
-    label: '片段管理',
+    element: <NoteList />,
+    label: '首页',
 };
 
 export const Routings: Record<string, RouteConfig> = {
-    SNIPPET_LIST,
+    NOTE_LIST,
 };
 const RoutingList: Array<RouteConfig> = _.values(Routings);
 export default RoutingList;

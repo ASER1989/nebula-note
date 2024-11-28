@@ -7,7 +7,7 @@ export type Props = {
     children: React.ReactNode | string | Array<React.ReactNode | string>;
     disabled?: boolean;
     type?: 'circle' | 'normal';
-    hoverMode?: 'zoomOut' | 'highlight';
+    hoverMode?: 'zoomOut' | 'highlight' | 'opacity';
     className?: string;
 };
 
@@ -32,6 +32,7 @@ export default function IconButton({
                 circle: type === 'circle',
                 highlight: hoverMode === 'highlight',
                 zoomOut: hoverMode === 'zoomOut',
+                opacity: hoverMode === 'opacity',
             })}
             onClick={handleClick}
         >

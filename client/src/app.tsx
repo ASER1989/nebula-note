@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './app.styl';
-import Menu, { MenuConfigObject } from '@client/components/menu';
 import { MessageContext } from '@client/components/message/context';
 import { MessageBox, useMessageContext } from '@client/components/message';
 import packageConfig from '../../package.json';
@@ -9,9 +8,8 @@ import { FaAppStore } from 'react-icons/fa';
 import { SidePage } from '@client/molecules/sidePage';
 import Settings from '@client/modules/settings';
 import classNames from 'classnames';
-import { useStoreUpdate } from '@client/models/template';
-import Performance from '@client/modules/tools/performance';
-import { useRoutes, useNavigate } from 'react-router-dom';
+import { useStoreUpdate } from '@client/models/noteModel';
+import { useRoutes } from 'react-router-dom';
 import routeConfig from '@client/routeConfig';
 import Confirm from '@client/components/confirm';
 import { ConfirmContext } from '@client/components/confirm/context';
@@ -27,14 +25,7 @@ function App() {
     } = useConfirmContext();
     const [settingsVisible, setSettingsVisible] = useState(false);
 
-    const [selectedMenu, setSelectedMenu] = useState<string>('sliceShop');
     const storeTools = useStoreUpdate();
-    const navigate = useNavigate();
-
-    const handleMenuChange = (path: string) => {
-        setSelectedMenu(path);
-        navigate(path);
-    };
 
     const routes = useRoutes(routeConfig);
 

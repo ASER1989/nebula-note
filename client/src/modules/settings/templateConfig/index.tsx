@@ -5,13 +5,13 @@ import Button from '@client/atoms/button';
 import { FiSave } from 'react-icons/fi';
 import useMessage from '@client/components/message/useMessage';
 import CodeEditor from '@client/components/codeEditor';
-import { useTemplateConfig } from '@client/models/template';
+import { useNoteConfig } from '@client/models/noteModel';
 
 export default function TemplateConfig() {
     const { showMessage } = useMessage();
     const [config, setConfig] = useState<unknown>();
     const [newConfig, setNewConfig] = useState<string>();
-    const { reloadTemplateConfig } = useTemplateConfig();
+    const { reloadTemplateConfig } = useNoteConfig();
 
     const loadSettings = () => {
         request.get('/template/config').then((resp) => {

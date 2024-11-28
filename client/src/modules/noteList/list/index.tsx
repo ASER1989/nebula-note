@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import '../index.styl';
 import { ListItem } from './item';
-import { TemplateRecord } from '@client/models/template/types';
-import { SliceType } from '@client/modules/snippetList/storeSlice';
-import * as templateApi from '@client/models/template/api';
+import { NoteRecord } from '@client/models/noteModel/types';
+import { SliceType } from '@client/modules/noteList/storeSlice';
+import * as noteApi from '@client/models/noteModel/api';
 import { ConfirmContext } from '@client/components/confirm/context';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { StateName as BuildResultStateName } from '@client/modules/_shared/template/buildReuslt/constants';
@@ -15,8 +15,8 @@ import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { Header } from './header';
 import { queryErrorMessage } from '@client/utils/queries';
-import { changeSelectedItem } from '@client/modules/snippetList/asyncThunks';
-import { useTemplateConfig } from '@client/models/template';
+import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
+import { useNoteConfig } from '@client/models/noteModel';
 
 type Props = {
     state: SliceType;
@@ -24,7 +24,7 @@ type Props = {
 };
 export const List = ({ state, onSave }: Props) => {
     const dispatch = useDispatch();
-    const { templateConfig, reloadTemplateConfig } = useTemplateConfig();
+    const { templateConfig, reloadTemplateConfig } = useNoteConfig();
     const [, setBuildResult] = useRedux<BuildResultState>(BuildResultStateName, {
         visible: false,
         codeList: [],
@@ -32,16 +32,16 @@ export const List = ({ state, onSave }: Props) => {
 
     const { showConfirm } = useContext(ConfirmContext);
 
-    const handleChangeSelectedItem = (templateConfig: TemplateRecord) => {
+    const handleChangeSelectedItem = (templateConfig: NoteRecord) => {
         // FIXME: dispatch type
         dispatch(changeSelectedItem(templateConfig) as never);
     };
 
-    const handleClick = (templateConfig: TemplateRecord) => {
-        if (state?.template?.filePath === templateConfig.filePath) {
+    const handleClick = (templateConfig: NoteRecord) => {
+        if (state?.note?.filePath === templateConfig.filePath) {
             return;
         }
-        if (state?.template?.editStatus === 'Edited') {
+        if (state?.note?.editStatus === 'Edited') {
             return showConfirm({
                 content: '当前模板尚未保存，是否保存？',
                 confirmText: '保存',
@@ -58,26 +58,26 @@ export const List = ({ state, onSave }: Props) => {
     };
 
     const handleRunBuild = async () => {
-        const { meta, snippetList, filePath } = state.template;
+        const { meta, templateList, filePath } = state.note;
 
         const codeList: Array<CodeSnippet> = await Promise.all(
-            snippetList?.map(async (snippet) => {
+          templateList?.map(async (template) => {
                 try {
-                    const resp = await templateApi.buildTemplate({
+                    const resp = await noteApi.buildTemplate({
                         meta,
-                        content: snippet.content ?? '',
+                        content: template.content ?? '',
                         filePath,
                     });
                     return {
-                        title: snippet.title,
+                        title: template.title,
                         content: resp.data,
-                        language: snippet.language,
+                        language: template.language,
                         status: 'success',
                     };
                 } catch (ex) {
                     const content = queryErrorMessage(ex);
                     return {
-                        title: snippet.title,
+                        title: template.title,
                         content,
                         status: 'error',
                     };
@@ -96,7 +96,7 @@ export const List = ({ state, onSave }: Props) => {
             cancelText: '取消',
             callback: async (confirm) => {
                 if (confirm) {
-                    const result = await templateApi.removeTemplate(state.template.name);
+                    const result = await noteApi.noteRemove(state.note.name);
                     if (result.success) {
                         await reloadTemplateConfig();
                     }
@@ -111,14 +111,14 @@ export const List = ({ state, onSave }: Props) => {
                 <Header></Header>
             </StackItem>
             <StackItem flex style={{ overflowY: 'auto' }}>
-                <div className='snippet-list'>
-                    {templateConfig.map((template) => {
+                <div className='note-list'>
+                    {templateConfig.map((note) => {
                         return (
                             <ListItem
-                                isChecked={template.name === state?.template.name}
-                                key={template.name}
-                                name={template.name as string}
-                                onClick={() => handleClick(template)}
+                                isChecked={note.name === state?.note.name}
+                                key={note.name}
+                                name={note.name as string}
+                                onClick={() => handleClick(note)}
                                 onBuild={handleRunBuild}
                                 onRemove={handleRemove}
                             />

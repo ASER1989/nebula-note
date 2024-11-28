@@ -14,9 +14,10 @@
     -webkit-text-size-adjust: 100%;
 
     /* color variables */
-    --border-color:orange;
-    --input-height:30px;
-    --search-input-height:30px;
+    --border-radius: 3px;
+    --border-color: orange;
+    --input-height: 30px;
+    --search-input-height: 30px;
     --content-head-bg: #3d526c;
 }
 

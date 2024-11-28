@@ -80,7 +80,7 @@ const filePathToSnippetPath = (filePath, title) => {
 };
 
 const clearFolder = async (folderPath) => {
-    const configPath = await getTemplateFolder();
+    const configPath = getTemplateFolder();
     const targetPath = path.join(configPath, folderPath);
     return await rimraf.rimraf(targetPath);
 };

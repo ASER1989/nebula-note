@@ -1,0 +1,36 @@
+import request from '@client/utils/request';
+import { NoteRecord } from './types';
+
+export const getNoteList = () => {
+    return request.get<Array<NoteRecord>>('/note/list');
+};
+
+export const getNoteDocument = (filePath: string) => {
+    return request.get<string>('/note/doc', { path: filePath });
+};
+export const getNoteContent = (filePath: string, title: string) => {
+    return request.get<string>('/note/content', { path: filePath, title });
+};
+export const getNoteMeta = (filePath: string) => {
+    return request.get<string>('/note/meta', { path: filePath });
+};
+
+export const noteStoreUpdate = () => {
+    return request.get('/note/store/update');
+};
+
+export const noteUpsert = (postData: NoteRecord) => {
+    return request.post<number>('/note/upsert', postData);
+};
+
+export const noteRemove = (name: string) => {
+    return request.post<string>('/note/remove', { name });
+};
+
+export const buildTemplate = (postData: {
+    meta?: string;
+    content: string;
+    filePath?: string;
+}) => {
+    return request.post<string>('/slice/build/meta', postData);
+};

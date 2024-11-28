@@ -1,11 +1,13 @@
-.snippet-list
+.note-list
   display flex
   flex-direction column
   max-height 100vh
+  >*
+    box-sizing border-box
 
-  .snippet-list-item
+  .note-list-item
     border-bottom solid 1px #cccccc
-    padding 12px
+    padding 12px 3px 12px 0
     cursor pointer
     display flex
     justify-content flex-start
@@ -14,28 +16,30 @@
 
     &:hover, &.checked
       background-color #eeeeee
-
+    .item-tag
+      width 20px
     .item-name
       font-weight bold
       text-align left
       flex 1
 
     .item-operation
-      width 30px
+      width 42px
       display flex
       align-items center
-.snippet-list-header
+      padding-left 5px
+.note-list-header
   height 35px
   box-sizing border-box
   background var(--content-head-bg)
   padding 5px 10px
 
-.snippet-tabs-title
+.note-tabs-title
   padding 5px 20px
 
   &.editable
     padding 5px 20px 5px 10px
 
-  .snippet-editable-title
+  .note-editable-title
     outline none
     min-width 20px

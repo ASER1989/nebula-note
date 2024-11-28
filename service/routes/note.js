@@ -24,7 +24,7 @@ module.exports = (prefix, opts) => {
         newConfig.filePath = newConfig.filePath || [name, '/'].join('');
         newConfig.metaPath = templateUtils.filePathToMetaPath(newConfig.filePath);
         newConfig.docPath = templateUtils.filePathToDocPath(newConfig.filePath);
-        newConfig.snippetList = _.map(reqParams.snippetList, (item) =>
+        newConfig.templateList = _.map(reqParams.templateList, (item) =>
             _.omit(item, 'content'),
         );
         if (configOption) {
@@ -41,8 +41,8 @@ module.exports = (prefix, opts) => {
         );
         await templateUtils.clearFolder(snippetFolderPath);
 
-        while (reqParams.snippetList.length > 0) {
-            const item = reqParams.snippetList.shift();
+        while (reqParams.templateList.length > 0) {
+            const item = reqParams.templateList.shift();
             const itemPath = templateUtils.filePathToSnippetPath(
                 newConfig.filePath,
                 item.title,

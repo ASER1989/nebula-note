@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { List } from './list';
 import { Content } from './content';
-import { useTemplateConfig } from '@client/models/template';
+import { useNoteConfig } from '@client/models/noteModel';
 import NewNotebookDialog from './newNotebookDialog';
 import { useReduxSlice } from '@client/store/hooks/useReduxSlice';
 import {
@@ -9,20 +9,20 @@ import {
     reducer,
     sliceName,
     SliceType,
-} from '@client/modules/snippetList/storeSlice';
+} from '@client/modules/noteList/storeSlice';
 import SplitPanel from '@client/molecules/splitPanel';
-import * as templateApi from '@client/models/template/api';
+import * as noteApi from '@client/models/noteModel/api';
 import useMessage from '@client/components/message/useMessage';
-import { SnippetListContext } from '@client/modules/snippetList/context';
+import { SnippetListContext } from '@client/modules/noteList/context';
 
-export const SnippetList = () => {
-    const { reloadTemplateConfig } = useTemplateConfig();
+export const NoteList = () => {
+    const { reloadTemplateConfig } = useNoteConfig();
     const { showMessage } = useMessage();
     const [state, dispatch] = useReduxSlice({ key: sliceName, reducer });
     const [saveShown, setSaveShown] = useState(false);
 
     const handleSave = async () => {
-        const resp = await templateApi.saveTemplate(state.template);
+        const resp = await noteApi.noteUpsert(state.note);
         if (resp.success) {
             dispatch(actions.templateSaved({ version: resp.data }));
             await reloadTemplateConfig();
@@ -56,4 +56,4 @@ export const SnippetList = () => {
     );
 };
 
-export default SnippetList;
+export default NoteList;

@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import _ from 'lodash';
 import '../index.styl';
 import {Tabs, TabPane, TabOption} from '@client/molecules/tabs';
-import {actions, SliceType} from '@client/modules/snippetList/storeSlice';
+import {actions, SliceType} from '@client/modules/noteList/storeSlice';
 import CodeEditor from '@client/components/codeEditor';
 import type {Props as EditorProps} from '@client/components/codeEditor';
 import MarkdownEditor from '@client/components/markdownEditor';
@@ -27,21 +27,21 @@ export const Content: FC<Props> = ({state, onSave}) => {
     dispatch(actions.updateTemplateDocument(value));
   };
   const handleContentChange = (editorValue: string, index: number) => {
-    dispatch(actions.updateSnippet({snippet: {content: editorValue}, index}));
+    dispatch(actions.updateSnippet({template: {content: editorValue}, index}));
   };
 
   const handleMetaChange = (editorValue: string) => {
     dispatch(actions.updateTemplateMeta(editorValue));
   };
   const handleCodeLangChange = (language: EditorProps['lang'], index: number) => {
-    dispatch(actions.updateSnippet({snippet: {language}, index}));
+    dispatch(actions.updateSnippet({template: {language}, index}));
   };
   const handleTabChange = (tabId: string) => {
     dispatch(actions.setActiveProperty(tabId));
   };
   const handleAddSnippet = () => {
     dispatch(actions.addSnippet({title: ''}));
-    handleTabChange(`code_${state.template?.snippetList?.length ?? 1 - 1}`);
+    handleTabChange(`code_${state.note?.templateList?.length ?? 1 - 1}`);
   };
   const handleRemoveSnippet = (index: number) => {
     dispatch(actions.removeSnippet({index}));
@@ -50,8 +50,8 @@ export const Content: FC<Props> = ({state, onSave}) => {
 
   const handleTabTitleChange = (title: string, newTitle: string) => {
     if (title !== newTitle) {
-      const isExist = state.template?.snippetList?.some(
-        (snippet) => snippet.title === newTitle,
+      const isExist = state.note?.templateList?.some(
+        (template) => template.title === newTitle,
       );
       if (isExist && !titleFocus) {
         return;
@@ -63,16 +63,16 @@ export const Content: FC<Props> = ({state, onSave}) => {
         });
       }
       const index =
-        state.template?.snippetList?.findIndex(
-          (snippet) => snippet.title === title,
+        state.note?.templateList?.findIndex(
+          (template) => template.title === title,
         ) ?? -1;
-      dispatch(actions.updateSnippet({snippet: {title: newTitle}, index}));
+      dispatch(actions.updateSnippet({template: {title: newTitle}, index}));
     }
   };
 
   const tabsRender = (option: TabOption, isActive: boolean) => {
     const editable = !['document', 'meta'].includes(option.id) && isActive;
-    const className = classNames('snippet-tabs-title', {editable: editable});
+    const className = classNames('note-tabs-title', {editable: editable});
     return (
       <div className={className}>
         <Stack align='flex-end'>
@@ -87,7 +87,7 @@ export const Content: FC<Props> = ({state, onSave}) => {
             <EditableContent
               editable={editable}
               focus={isActive && titleFocus}
-              className='snippet-editable-title'
+              className='note-editable-title'
               onClick={() => setTitleFocus(isActive)}
               onBlur={(newText) =>
                 handleTabTitleChange(option.label, newText)
@@ -107,23 +107,23 @@ export const Content: FC<Props> = ({state, onSave}) => {
         onPlusClick={handleAddSnippet}
         labelRender={tabsRender}
         onTabChange={handleTabChange}
-        activePaneId={state?.template?.activeProperty ?? 'document'}
+        activePaneId={state?.note?.activeProperty ?? 'document'}
       >
         <TabPane id='document' key='document' title='文档'>
           <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
-            {state?.template?.document}
+            {state?.note?.document}
           </MarkdownEditor>
         </TabPane>
         <TabPane id='meta' key='meta' title='参数配置'>
           <CodeEditor
-            value={state?.template?.meta ?? '{}'}
+            value={state?.note?.meta ?? '{}'}
             lang='json'
             disableLangChange
             onChange={handleMetaChange}
           />
         </TabPane>
         {
-          (state?.template?.snippetList ?? []).map((snippet, index) => (
+          (state?.note?.templateList ?? []).map((snippet, index) => (
             <TabPane
               id={`code_${index}`}
               key={`code_${index}`}

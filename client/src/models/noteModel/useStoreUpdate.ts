@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import useMessage from '@client/components/message/useMessage';
-import { useTemplateConfig } from '@client/models/template/index';
-import { templateUpdate } from '@client/models/template/api';
+import { useNoteConfig } from './index';
+import { noteStoreUpdate } from './api';
 
 const useStoreUpdate = () => {
     const [loading, setLoading] = useState(false);
-    const { reloadTemplateConfig } = useTemplateConfig();
+    const { reloadTemplateConfig } = useNoteConfig();
     const { showMessage } = useMessage();
     const refreshStore = () => {
         setLoading(true);
-        templateUpdate()
+        noteStoreUpdate()
             .then((resp) => {
                 if (!resp.success) {
                     return showMessage(resp.error.toString());
