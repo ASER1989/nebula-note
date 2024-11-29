@@ -25,21 +25,24 @@ type Props = {
 };
 export const List = ({ state, onSave }: Props) => {
     const dispatch = useDispatch();
-    const { noteList, reload, rename } = useNoteConfig();
-    const [, setBuildResult] = useRedux<BuildResultState>(BuildResultStateName, {
-        visible: false,
-        codeList: [],
-    });
+    const { noteList, reload, rename, remove } = useNoteConfig();
+    const { setState: setBuildResult } = useRedux<BuildResultState>(
+        BuildResultStateName,
+        {
+            visible: false,
+            codeList: [],
+        },
+    );
 
     const { showConfirm } = useContext(ConfirmContext);
 
-    const handleChangeSelectedItem = (templateConfig: NoteRecord) => {
+    const handleChangeSelectedItem = (noteRecord: NoteRecord) => {
         // FIXME: dispatch type
-        dispatch(changeSelectedItem(templateConfig) as never);
+        dispatch(changeSelectedItem(noteRecord) as never);
     };
 
-    const handleClick = (templateConfig: NoteRecord) => {
-        if (state?.note?.filePath === templateConfig.filePath) {
+    const handleClick = (noteRecord: NoteRecord) => {
+        if (state?.note?.filePath === noteRecord.filePath) {
             return;
         }
         if (state?.editStatus === 'Edited') {
@@ -51,11 +54,11 @@ export const List = ({ state, onSave }: Props) => {
                     if (confirm) {
                         return onSave?.();
                     }
-                    handleChangeSelectedItem(templateConfig);
+                    handleChangeSelectedItem(noteRecord);
                 },
             });
         }
-        handleChangeSelectedItem(templateConfig);
+        handleChangeSelectedItem(noteRecord);
     };
 
     const handleRunBuild = async () => {
@@ -97,9 +100,13 @@ export const List = ({ state, onSave }: Props) => {
             cancelText: '取消',
             callback: async (confirm) => {
                 if (confirm) {
-                    const result = await noteApi.noteRemove(state.note.name);
+                    const index = noteList.findIndex(
+                        (item) => item.name === state.note.name,
+                    );
+                    const nextNote = noteList[index + 1] || noteList[index - 1];
+                    const result = await remove(state.note.name);
                     if (result.success) {
-                        await reload();
+                        handleChangeSelectedItem(nextNote);
                     }
                 }
             },

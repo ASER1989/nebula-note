@@ -5,6 +5,8 @@ import { NoteConfigState, NoteRecord } from './types';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
+import * as noteApi from '@client/models/noteModel/api';
+import { Response } from '@client/utils/request';
 
 export interface IUseNoteConfig {
     keyword?: string;
@@ -13,26 +15,29 @@ export interface IUseNoteConfig {
     reload: () => Promise<void>;
     // create: () => void;
     rename: (name: string, newName: string) => Promise<NoteRecord | undefined>;
+    remove: (name: string) => Promise<Response<string>>;
     isNoteExist: (templateName: string) => boolean;
 }
 
 let isInitialized = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();
-    const [templateState, setTemplateState, updateTemplateState] =
-        useRedux<NoteConfigState>('noteConfig', {
+    const { state, setState, updateState } = useRedux<NoteConfigState>(
+        'noteConfig',
+        {
             fetchStatus: 'None',
             noteList: [],
-        });
-    const { noteList, keyword, fetchStatus } = templateState;
+        },
+    );
+    const { noteList, keyword, fetchStatus } = state;
     const setKeyword = (keyword?: string) => {
-        updateTemplateState({ keyword });
+        updateState({ keyword });
     };
     const setFetchStatus = (fetchStatus: FetchStatus) => {
-        updateTemplateState({ fetchStatus });
+        updateState({ fetchStatus });
     };
     const setTemplateConfig = (templateConfig: Array<NoteRecord>) => {
-        setTemplateState({ noteList: templateConfig });
+        setState({ noteList: templateConfig });
     };
 
     const fetchNoteConfig = async (reload?: boolean) => {
@@ -78,6 +83,12 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         }
     };
 
+    const remove = async (name: string) => {
+        const result = await noteApi.noteRemove(name);
+        await reload();
+        return result;
+    };
+
     const isNoteExist = (templateName: string) => {
         return noteList.some((item) => item.name === templateName);
     };
@@ -105,6 +116,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         noteList: filteredList,
         reload,
         rename,
+        remove,
         keyword,
         setKeyword,
         isNoteExist,

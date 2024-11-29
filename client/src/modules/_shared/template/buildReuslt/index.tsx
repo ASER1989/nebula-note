@@ -13,7 +13,9 @@ import ResizableBox from '@client/molecules/resizableBox';
 import { TabPane, Tabs } from '@client/molecules/tabs';
 
 export const BuildResult = () => {
-    const [state, setState] = useRedux(StateName, { visible: false } as BuildResultState);
+    const { state, setState } = useRedux(StateName, {
+        visible: false,
+    } as BuildResultState);
     const sidePageRef = React.useRef<HTMLDivElement>(null);
 
     const handlePanelHide = () => {

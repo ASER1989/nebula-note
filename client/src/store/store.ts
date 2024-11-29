@@ -1,23 +1,27 @@
 import { configureStore, EnhancedStore, Reducer } from '@reduxjs/toolkit';
 import { createReducerManager, ReducerManager } from './reducerManager';
+import {
+    enhanceStoreWithTakeOnce,
+    takeOnceMiddleware,
+    TakeOnceStore,
+} from './middlewares/takeOnce';
 
-// 定义初始的状态类型
 export type RootState = Record<string, unknown>;
 type Store = EnhancedStore<RootState> & {
     reducerManager: ReducerManager<RootState>;
-};
+} & TakeOnceStore;
 
-// 定义静态 reducers
 const staticReducers = {};
 
-// 创建 reducer manager
 export const reducerManager = createReducerManager<RootState>(staticReducers);
 
-// 配置 store，传入 reducerManager 的 reduce 方法
-export const store = configureStore({
+const defaultStore = configureStore({
     reducer: reducerManager.reduce as Reducer<RootState>,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(takeOnceMiddleware),
 }) as Store;
 
+defaultStore.reducerManager = reducerManager;
+
+export const store = enhanceStoreWithTakeOnce(defaultStore) as Store;
 export type AppDispatch = typeof store.dispatch;
-// 将 reducerManager 绑定到 store 上
-store.reducerManager = reducerManager;

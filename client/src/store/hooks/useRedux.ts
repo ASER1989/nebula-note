@@ -27,5 +27,12 @@ export const useRedux = <SliceType>(stateName: string, initialState: SliceType) 
         dispatch(reducerInstance.actions.updateState(payload));
     };
 
-    return [state, setState, updateState] as const;
+    const takeOnce = (
+        actionType: 'setState' | 'updateState',
+        callback: <T>(state: T) => void,
+    ) => {
+        store.takeOnce(`${stateName}/${actionType}`, callback);
+    };
+
+    return { state, setState, updateState, takeOnce } as const;
 };
