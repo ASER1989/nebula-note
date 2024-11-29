@@ -1,17 +1,16 @@
-import React, { useState,FC } from 'react';
+import React, { useState, FC } from 'react';
 import './index.styl';
 import Button from '@client/atoms/button';
 import Form, { FormItem } from '@client/molecules/form';
 import Input from '@client/atoms/input';
 import useMessage from '@client/components/message/useMessage';
-import * as noteApi from '@client/models/noteModel/api';
 import Dialog from '@client/molecules/dialog';
 import _ from 'lodash';
 import Textarea from '@client/atoms/textarea';
 import { NoteRecord } from '@client/models/noteModel/types';
 import { useDispatch } from 'react-redux';
 import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
-import {useNoteConfig} from "@client/models/noteModel";
+import { useNoteConfig } from '@client/models/noteModel';
 
 type Props = {
     visible: boolean;
@@ -24,10 +23,9 @@ const initialState: NoteRecord = {
     filePath: '',
     templateList: [],
 };
-export const CreateForm:FC<Props> =({ visible, onHide }) =>{
-    const { showMessage } = useMessage();
+export const CreateForm: FC<Props> = ({ visible, onHide }) => {
     const dispatch = useDispatch();
-    const {isNoteExist} = useNoteConfig();
+    const { create } = useNoteConfig();
 
     const [formState, setFormState] = useState<NoteRecord>(initialState);
     const handleFieldChange = (key: string, value: string) => {
@@ -40,21 +38,16 @@ export const CreateForm:FC<Props> =({ visible, onHide }) =>{
     };
 
     const handleTemplateSave = () => {
-        if(isNoteExist(formState.name)){
-            return;
-        }
-        noteApi.noteUpsert(formState).then((resp) => {
-            if (resp.success) {
+        create(formState).then((resp) => {
+            if (resp?.success) {
                 onHide?.(true);
                 dispatch(
-                  changeSelectedItem({
-                      ...formState,
-                      filePath: `${formState.name}/`,
-                  }) as never,
+                    changeSelectedItem({
+                        ...formState,
+                        filePath: `${formState.name}/`,
+                    }) as never,
                 );
-                return;
             }
-            showMessage(resp.error.toString());
         });
     };
 
@@ -85,6 +78,6 @@ export const CreateForm:FC<Props> =({ visible, onHide }) =>{
             </div>
         </Dialog>
     );
-}
+};
 
 export default CreateForm;

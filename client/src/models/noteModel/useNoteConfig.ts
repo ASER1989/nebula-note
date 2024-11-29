@@ -1,11 +1,10 @@
 import { useMemo, useEffect } from 'react';
 import useMessage from '@client/components/message/useMessage';
-import { getNoteList, noteRename } from './api';
+import { getNoteList, noteRemove, noteRename, noteUpsert } from './api';
 import { NoteConfigState, NoteRecord } from './types';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
-import * as noteApi from '@client/models/noteModel/api';
 import { Response } from '@client/utils/request';
 
 export interface IUseNoteConfig {
@@ -13,7 +12,7 @@ export interface IUseNoteConfig {
     setKeyword: (keyword?: string) => void;
     noteList: Array<NoteRecord>;
     reload: () => Promise<void>;
-    // create: () => void;
+    create: (newRecord: NoteRecord) => Promise<Response<number> | undefined>;
     rename: (name: string, newName: string) => Promise<NoteRecord | undefined>;
     remove: (name: string) => Promise<Response<string>>;
     isNoteExist: (templateName: string) => boolean;
@@ -22,13 +21,10 @@ export interface IUseNoteConfig {
 let isInitialized = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();
-    const { state, setState, updateState } = useRedux<NoteConfigState>(
-        'noteConfig',
-        {
-            fetchStatus: 'None',
-            noteList: [],
-        },
-    );
+    const { state, setState, updateState } = useRedux<NoteConfigState>('noteConfig', {
+        fetchStatus: 'None',
+        noteList: [],
+    });
     const { noteList, keyword, fetchStatus } = state;
     const setKeyword = (keyword?: string) => {
         updateState({ keyword });
@@ -67,6 +63,21 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         return await fetchNoteConfig(true);
     };
 
+    const create = async (newRecord: NoteRecord) => {
+        try {
+            if (isNoteExist(newRecord.name)) {
+                return;
+            }
+            const resp = await noteUpsert(newRecord);
+            if (!resp.success) {
+                throw new Error(resp.error?.toString() ?? '发生未知错误，操作失败！');
+            }
+            return resp;
+        } catch (ex) {
+            const content = queryErrorMessage(ex);
+            await showMessage(content);
+        }
+    };
     const rename = async (name: string, newName: string) => {
         try {
             if (isNoteExist(newName)) {
@@ -84,7 +95,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     };
 
     const remove = async (name: string) => {
-        const result = await noteApi.noteRemove(name);
+        const result = await noteRemove(name);
         await reload();
         return result;
     };
@@ -115,6 +126,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     return {
         noteList: filteredList,
         reload,
+        create,
         rename,
         remove,
         keyword,
