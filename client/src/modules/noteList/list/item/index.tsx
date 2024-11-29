@@ -99,9 +99,11 @@ export const ListItem = ({
 
         return (
             <>
-                <IconButton onClick={onBuild}>
-                    <FaPlayCircle color='#009688' size={20} />
-                </IconButton>
+                {onBuild && (
+                  <IconButton onClick={onBuild}>
+                      <FaPlayCircle color='#009688' size={20} />
+                  </IconButton>
+                )}
                 <Position
                     type='absolute'
                     right={1}

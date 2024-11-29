@@ -137,7 +137,11 @@ export const List = ({ state, onSave }: Props) => {
                                 key={note.name}
                                 name={note.name as string}
                                 onClick={() => handleClick(note)}
-                                onBuild={handleRunBuild}
+                                onBuild={
+                                    (note.templateList?.length ?? 0 > 0)
+                                        ? handleRunBuild
+                                        : undefined
+                                }
                                 onRemove={handleRemove}
                                 onRename={handleRename}
                             />
