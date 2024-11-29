@@ -3,7 +3,6 @@ import './index.styl';
 import Button from '@client/atoms/button';
 import Form, { FormItem } from '@client/molecules/form';
 import Input from '@client/atoms/input';
-import useMessage from '@client/components/message/useMessage';
 import Dialog from '@client/molecules/dialog';
 import _ from 'lodash';
 import Textarea from '@client/atoms/textarea';
@@ -52,7 +51,7 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
     };
 
     return (
-        <Dialog visible={visible} onClose={onHide} title='新建笔记'>
+        <Dialog visible={visible} onClose={onHide} title='新建'>
             <div className='shared-template-save'>
                 <div className='save-as-form'>
                     <Form labelWidth='50px'>

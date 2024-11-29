@@ -17,7 +17,7 @@ const build = (meta, templateString, dirPath) => {
         null,
         (includePath, includeParams) => {
             const includeTemp = getIncludeTemplateContent(includePath, dirPath);
-            return ejs.render(includeTemp, _.defaults(includeParams, providerData));
+            return ejs.render(includeTemp, _.defaults(includeParams,{meta}, providerData));
         },
     );
 };
