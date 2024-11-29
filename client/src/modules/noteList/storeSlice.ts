@@ -8,16 +8,18 @@ export type SliceType = {
     note: NoteRecord;
     editStatus?: 'Edited' | 'Saved' | 'None';
     activeProperty?: string;
+    isCreateFormShown: boolean;
 };
 
-export const sliceName = 'noteList';
+export const SLICE_NAME = 'noteList';
 export const storeSlice = createSlice({
-    name: sliceName,
+    name: SLICE_NAME,
     initialState: {
         fetchStatus: 'None',
         note: {} as SliceType['note'],
         editStatus: 'None',
         activeProperty: 'document',
+        isCreateFormShown: false,
     },
     reducers: {
         setNote: (state, action: { payload: NoteRecord }) => {
@@ -28,6 +30,7 @@ export const storeSlice = createSlice({
                 },
                 editStatus: 'None',
                 activeProperty: 'document',
+                isCreateFormShown: false,
             };
         },
         updateNote: (state, action: { payload: Partial<SliceType['note']> }) => {
@@ -88,6 +91,9 @@ export const storeSlice = createSlice({
         },
         setActiveProperty: (state, action: { payload: string }) => {
             state.activeProperty = action.payload;
+        },
+        setCreateFormShown: (state, action: { payload: boolean }) => {
+            state.isCreateFormShown = action.payload;
         },
     },
 });

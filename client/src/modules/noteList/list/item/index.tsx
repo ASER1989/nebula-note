@@ -58,6 +58,9 @@ export const ListItem = ({
     const handleRenameBlur = (newName: string) => {
         setMutableName(newName);
         setRenameFocused(false);
+        if (newName === name) {
+            setRenameEnabled(false);
+        }
     };
     const renameOperationsRender = () => {
         return (

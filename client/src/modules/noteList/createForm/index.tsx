@@ -24,7 +24,7 @@ const initialState: NoteRecord = {
     filePath: '',
     templateList: [],
 };
-export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
+export const CreateForm:FC<Props> =({ visible, onHide }) =>{
     const { showMessage } = useMessage();
     const dispatch = useDispatch();
     const {isNoteExist} = useNoteConfig();
@@ -46,14 +46,13 @@ export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
         noteApi.noteUpsert(formState).then((resp) => {
             if (resp.success) {
                 onHide?.(true);
-                return showMessage('保存成功！').then(() => {
-                    dispatch(
-                        changeSelectedItem({
-                            ...formState,
-                            filePath: `${formState.name}/`,
-                        }) as never,
-                    );
-                });
+                dispatch(
+                  changeSelectedItem({
+                      ...formState,
+                      filePath: `${formState.name}/`,
+                  }) as never,
+                );
+                return;
             }
             showMessage(resp.error.toString());
         });
@@ -88,4 +87,4 @@ export const NewNotebookDialog:FC<Props> =({ visible, onHide }) =>{
     );
 }
 
-export default NewNotebookDialog;
+export default CreateForm;

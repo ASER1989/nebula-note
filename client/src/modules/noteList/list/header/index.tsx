@@ -1,17 +1,18 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { FiEdit } from 'react-icons/fi';
 import IconButton from '@client/atoms/iconButton';
 import { MdManageSearch } from 'react-icons/md';
 import SearchInput from '@client/atoms/searchInput';
-import { SnippetListContext } from '../../context';
 import {useNoteConfig} from "@client/models/noteModel";
+import {actions} from "@client/modules/noteList/storeSlice";
+import {useDispatch} from "react-redux";
 
 export const Header = () => {
+    const dispatch = useDispatch();
     const [searchBoxShown, setSearchBoxShown] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
     const { keyword, setKeyword } = useNoteConfig();
-    const { createSnippet } = useContext(SnippetListContext);
 
     useEffect(() => {
         if (searchInputRef.current && searchBoxShown) {
@@ -26,6 +27,10 @@ export const Header = () => {
     };
     const handleChange = (newValue?: string | number) => {
         setKeyword(newValue as string);
+    };
+
+    const handleCreateNote= () => {
+        dispatch(actions.setCreateFormShown(true));
     };
 
     if (searchBoxShown) {
@@ -45,7 +50,7 @@ export const Header = () => {
         <div className='note-list-header'>
             <Stack justify='flex-end' align='center' spacing={10}>
                 <StackItem>
-                    <IconButton onClick={createSnippet}>
+                    <IconButton onClick={handleCreateNote}>
                         <FiEdit size={20} color={'#FFFFFF'} />
                     </IconButton>
                 </StackItem>
