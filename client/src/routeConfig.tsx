@@ -8,7 +8,7 @@ type RouteConfig = RouteObject & { label: string };
 
 
 const NOTE_LIST: RouteConfig = {
-    path: '/',
+    path: '/:name',
     element: <NoteList />,
     label: '首页',
 };

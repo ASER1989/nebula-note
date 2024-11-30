@@ -1,11 +1,11 @@
 import React from 'react';
 import { SidePage } from '@client/molecules/sidePage';
 import { useRedux } from '@client/store/hooks/useRedux';
-import { StateName } from '@client/modules/_shared/template/buildReuslt/constants';
+import { StateName } from '@client/modules/noteList/buildReuslt/constants';
 import {
     BuildResultState,
     CodeSnippet,
-} from '@client/modules/_shared/template/buildReuslt/types';
+} from '@client/modules/noteList/buildReuslt/types';
 import CodeEditor from '@client/components/codeEditor';
 import Copy from '@client/molecules/copy';
 import { Stack, StackItem } from '@client/molecules/stack';

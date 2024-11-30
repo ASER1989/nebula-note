@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import useMessage from '@client/components/message/useMessage';
 import { getNoteList, noteRemove, noteRename, noteUpsert } from './api';
 import { NoteConfigState, NoteRecord } from './types';
@@ -6,6 +6,8 @@ import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
 import { Response } from '@client/utils/request';
+
+type ReadyCallback = () => void;
 
 export interface IUseNoteConfig {
     keyword?: string;
@@ -16,16 +18,38 @@ export interface IUseNoteConfig {
     rename: (name: string, newName: string) => Promise<NoteRecord | undefined>;
     remove: (name: string) => Promise<Response<string>>;
     isNoteExist: (templateName: string) => boolean;
+    onReady: (callback: ReadyCallback) => void;
 }
 
 let isInitialized = false;
+let isInitialStateReady = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();
-    const { state, setState, updateState } = useRedux<NoteConfigState>('noteConfig', {
-        fetchStatus: 'None',
-        noteList: [],
-    });
+    const { state, setState, updateState, takeOnce } = useRedux<NoteConfigState>(
+        'noteConfig',
+        {
+            fetchStatus: 'None',
+            noteList: [],
+        },
+    );
     const { noteList, keyword, fetchStatus } = state;
+    const readyCallbacksRef = useRef<Array<ReadyCallback>>([]);
+    const onReady = (callback: ReadyCallback) => {
+        if (isInitialStateReady) {
+            callback();
+        } else {
+            readyCallbacksRef.current.push(callback);
+        }
+    };
+
+    const readyBroadcast =()=>{
+        isInitialStateReady = true;
+        readyCallbacksRef.current.forEach((callback) => {
+            callback();
+        });
+        readyCallbacksRef.current = [];
+    }
+
     const setKeyword = (keyword?: string) => {
         updateState({ keyword });
     };
@@ -106,6 +130,9 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     useEffect(() => {
         if (!isInitialized) {
             isInitialized = true;
+            takeOnce('setState', () => {
+               readyBroadcast()
+            });
             fetchNoteConfig();
         }
     }, []);
@@ -124,12 +151,13 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     }, [noteList, keyword]);
 
     return {
+        keyword,
         noteList: filteredList,
+        onReady,
         reload,
         create,
         rename,
         remove,
-        keyword,
         setKeyword,
         isNoteExist,
     };

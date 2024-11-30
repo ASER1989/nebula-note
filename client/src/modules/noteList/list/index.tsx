@@ -6,11 +6,11 @@ import { SliceType } from '@client/modules/noteList/storeSlice';
 import * as noteApi from '@client/models/noteModel/api';
 import { ConfirmContext } from '@client/components/confirm/context';
 import { useRedux } from '@client/store/hooks/useRedux';
-import { StateName as BuildResultStateName } from '@client/modules/_shared/template/buildReuslt/constants';
+import { StateName as BuildResultStateName } from '@client/modules/noteList/buildReuslt/constants';
 import {
     BuildResultState,
     CodeSnippet,
-} from '@client/modules/_shared/template/buildReuslt/types';
+} from '@client/modules/noteList/buildReuslt/types';
 import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { Header } from './header';

@@ -15,7 +15,6 @@ export const takeOnceMiddleware: Middleware = (store) => (next) => (action) => {
 
     takeOnceCallbacks.forEach(({ actionType, callback }) => {
         if (actionType === (action as AnyAction).type) {
-            debugger;
             callback(state);
         }
     });

@@ -1,4 +1,11 @@
-import React, { useMemo, useState, ReactElement, useEffect } from 'react';
+import React, {
+    useMemo,
+    useState,
+    ReactElement,
+    ForwardedRef,
+    useEffect,
+    forwardRef,
+} from 'react';
 import _ from 'lodash';
 import { TabPaneProps } from './tabPane';
 import './index.styl';
@@ -26,14 +33,10 @@ export type TabOption = {
  * 简易tabs
  * 处理页面中诸多类似tabs，但风格与常规tabs设计不同的多页签布局
  * */
-const Tabs = ({
-    activePaneId,
-    showPlus,
-    onPlusClick,
-    children,
-    labelRender,
-    onTabChange,
-}: Props) => {
+const TabBase = (
+    { activePaneId, showPlus, onPlusClick, children, labelRender, onTabChange }: Props,
+    ref: ForwardedRef<HTMLDivElement>,
+) => {
     const childList = React.Children.toArray(children) as ReactElement<TabPaneProps>[];
     const options = useMemo<Array<TabOption>>(() => {
         return childList.map((item, itemIndex) => {
@@ -87,7 +90,11 @@ const Tabs = ({
     const renderRemoveButton = (handleRemoveClick: () => void) => {
         return (
             <Position type='absolute' right={3} top={3}>
-                <IconButton onClick={handleRemoveClick} type='circle' hoverMode='highlight'>
+                <IconButton
+                    onClick={handleRemoveClick}
+                    type='circle'
+                    hoverMode='highlight'
+                >
                     <LuX size={14} />
                 </IconButton>
             </Position>
@@ -105,7 +112,7 @@ const Tabs = ({
     };
 
     return (
-        <div className='components-tabs'>
+        <div className='components-tabs' ref={ref}>
             <div className='tabs-pane-list'>
                 {renderTabs()}
                 {renderPlusButton()}
@@ -114,5 +121,5 @@ const Tabs = ({
         </div>
     );
 };
-
+export const Tabs = forwardRef(TabBase);
 export default Tabs;

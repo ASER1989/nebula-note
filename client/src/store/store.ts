@@ -11,7 +11,11 @@ type Store = EnhancedStore<RootState> & {
     reducerManager: ReducerManager<RootState>;
 } & TakeOnceStore;
 
-const staticReducers = {};
+const emptyReducer = (state = {}) => state;
+
+const staticReducers = {
+    placeholder: emptyReducer,
+};
 
 export const reducerManager = createReducerManager<RootState>(staticReducers);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { List } from './list';
 import { Content } from './content';
 import { useNoteConfig } from '@client/models/noteModel';
@@ -13,11 +13,22 @@ import SplitPanel from '@client/molecules/splitPanel';
 import * as noteApi from '@client/models/noteModel/api';
 import useMessage from '@client/components/message/useMessage';
 import CreateForm from './createForm';
+import {BuildResult} from "@client/modules/noteList/buildReuslt";
+import { useParams } from 'react-router-dom';
+
 
 export const NoteList = () => {
-    const { reload } = useNoteConfig();
+    const { reload,onReady} = useNoteConfig();
     const { showMessage } = useMessage();
     const [state, dispatch] = useReduxSlice({ key: SLICE_NAME, reducer });
+
+    const {name} =useParams();
+    useEffect(() => {
+        onReady(()=>{
+            debugger
+            console.log('Ready:',name)
+        })
+    }, []);
 
     const handleSave = async () => {
         const resp = await noteApi.noteUpsert(state.note);
@@ -44,6 +55,7 @@ export const NoteList = () => {
                 <Content state={state as SliceType} onSave={handleSave} />
             </SplitPanel>
             <CreateForm visible={state?.isCreateFormShown} onHide={handleCreateDialogClose} />
+            <BuildResult />
         </>
     );
 };
