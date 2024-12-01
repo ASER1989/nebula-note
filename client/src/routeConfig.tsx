@@ -6,15 +6,14 @@ import _ from 'lodash';
 
 type RouteConfig = RouteObject & { label: string };
 
-
 const NOTE_LIST: RouteConfig = {
-    path: '/:name',
+    path: '/:navigateNoteName?',
     element: <NoteList />,
     label: '首页',
 };
 
-export const Routings: Record<string, RouteConfig> = {
+export const Routes: Record<string, RouteConfig> = {
     NOTE_LIST,
 };
-const RoutingList: Array<RouteConfig> = _.values(Routings);
-export default RoutingList;
+const RouteList: Array<RouteConfig> = _.values(Routes);
+export default RouteList;

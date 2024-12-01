@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import '../index.styl';
 import { ListItem } from './item';
 import { NoteRecord } from '@client/models/noteModel/types';
@@ -18,6 +18,7 @@ import { queryErrorMessage } from '@client/utils/queries';
 import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
 import { useNoteConfig } from '@client/models/noteModel';
 import { actions } from '@client/modules/noteList/storeSlice';
+import { useParams } from 'react-router-dom';
 
 type Props = {
     state: SliceType;
@@ -25,7 +26,8 @@ type Props = {
 };
 export const List = ({ state, onSave }: Props) => {
     const dispatch = useDispatch();
-    const { noteList, reload, rename, remove } = useNoteConfig();
+    const { showConfirm } = useContext(ConfirmContext);
+    const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
         BuildResultStateName,
         {
@@ -34,7 +36,17 @@ export const List = ({ state, onSave }: Props) => {
         },
     );
 
-    const { showConfirm } = useContext(ConfirmContext);
+    const { navigateNoteName } = useParams();
+    useEffect(() => {
+        if (fetchStatus === 'Success' && navigateNoteName) {
+            const targetNote = noteList.find(
+                (note) => note.name.toLowerCase() === navigateNoteName.toLowerCase(),
+            );
+            if (targetNote) {
+                handleChangeSelectedItem(targetNote);
+            }
+        }
+    }, [fetchStatus]);
 
     const handleChangeSelectedItem = (noteRecord: NoteRecord) => {
         // FIXME: dispatch type
