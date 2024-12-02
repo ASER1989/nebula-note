@@ -19,10 +19,11 @@ export interface IUseNoteConfig {
     fetchStatus: FetchStatus | undefined;
 }
 
+const REDUX_KEY = 'noteConfig';
 let isInitialized = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();
-    const { state, setState, updateState } = useRedux<NoteConfigState>('noteConfig', {
+    const { state, setState, updateState } = useRedux<NoteConfigState>(REDUX_KEY, {
         fetchStatus: 'None',
         noteList: [],
     });
@@ -40,12 +41,6 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         try {
             setFetchStatus('Pending');
             const resp = await getNoteList();
-
-            if (!resp.success) {
-                setFetchStatus('Error');
-                showMessage(resp.error?.toString() ?? '发生未知错误，Schema拉取失败！');
-                return;
-            }
             setState({ noteList: resp.data });
             setFetchStatus('Success');
         } catch (ex) {
@@ -64,11 +59,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
             if (isNoteExist(newRecord.name)) {
                 return;
             }
-            const resp = await noteUpsert(newRecord);
-            if (!resp.success) {
-                throw new Error(resp.error?.toString() ?? '发生未知错误，操作失败！');
-            }
-            return resp;
+            return await noteUpsert(newRecord);
         } catch (ex) {
             const content = queryErrorMessage(ex);
             await showMessage(content);
@@ -80,9 +71,6 @@ const useNoteConfig: () => IUseNoteConfig = () => {
                 throw new Error('该名称已存在，请更换名称！');
             }
             const resp = await noteRename(name, newName);
-            if (!resp.success) {
-                throw new Error(resp.error?.toString() ?? '发生未知错误，重命名失败！');
-            }
             return resp.data;
         } catch (ex) {
             const content = queryErrorMessage(ex);

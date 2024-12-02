@@ -1,7 +1,7 @@
 {
-    "name": "elastic-strategy-drip-lzhkv",
-    "productName": "elastic-strategy-drip-lzhkv",
-    "description": "My Electron application description",
+    "name": "@nebula-note/pro",
+    "productName": "Nebula Note Pro",
+    "description": "Nebula Note Pro",
     "keywords": [],
     "main": "./main.js",
     "version": "1.0.0",

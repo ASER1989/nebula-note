@@ -1,20 +1,20 @@
 {
-    "name": "Nebula",
+    "name": "nebula-note",
     "private": true,
     "version": "0.4.9",
     "description": "It refers to a tool to optimize efficiency ",
     "main": "pro/main.js",
     "author": "xu.huang",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "engines": {
         "node": ">=16",
         "yarn": ">=1.22"
     },
     "scripts": {
         "dev": "yarn client:dev & yarn serve & yarn client:storyBook",
-        "client:storyBook": "yarn workspace  @Nebula/Client storybook",
-        "client:dev": "yarn workspace  @Nebula/Client dev",
-        "client:cypress:run": "yarn workspace  @Nebula/Client cyperss:run:component",
+        "client:storyBook": "yarn workspace  @nebula-note/client storybook",
+        "client:dev": "yarn workspace  @nebula-note/client dev",
+        "client:cypress:run": "yarn workspace @nebula-note/client cyperss:run:component",
         "serve": "node ./service/index.js"
     },
     "dependencies": {

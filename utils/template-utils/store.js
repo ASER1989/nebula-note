@@ -21,6 +21,7 @@ const initialiseRepo = async (git) => {
     await git.addRemote('origin', config.template.repo);
 };
 
+
 module.exports = {
     storeSync,
 };

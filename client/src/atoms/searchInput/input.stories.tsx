@@ -8,7 +8,7 @@ import { within, userEvent, expect } from '@storybook/test';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-    title: 'Atoms/Input',
+    title: 'Atoms/SearchInput',
     component: Input,
     parameters: {
         // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -63,7 +63,7 @@ export const Primary: Story = {
             e?: ChangeEvent<HTMLInputElement>,
         ) => {
             setValue(newVal);
-            onChange?.(newVal, value, e);
+            onChange?.(newVal, value);
         };
         return (
             <div>

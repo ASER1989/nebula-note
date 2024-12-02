@@ -26,7 +26,7 @@ function mkdir(destPath) {
     return new Promise((resolve, reject) => {
         isPathExisted(destPath).then((isExist) => {
             if (!isExist) {
-                fs.mkdirSync(destPath);
+                fs.mkdirSync(destPath, { recursive: true });
             }
             resolve();
         });
@@ -38,7 +38,7 @@ function writeFile(filePath, content) {
         const dirname = path.dirname(filePath);
         isPathExisted(dirname).then((isExist) => {
             if (!isExist) {
-                fs.mkdirSync(dirname);
+                fs.mkdirSync(dirname, { recursive: true });
             }
 
             fs.writeFile(filePath, content, { recursive: true }, (error) => {
@@ -68,8 +68,7 @@ function readFileSync(filePath) {
 
 function getFileList(dirPath) {
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
-    const fileList = files.filter((item) => item.isFile());
-    return fileList;
+    return files.filter((item) => item.isFile());
 }
 
 function rename(oldPath, newPath) {
@@ -83,6 +82,15 @@ function rename(oldPath, newPath) {
     });
 }
 
+function isDirectoryEmptySync(dirPath) {
+    try {
+        const files = fs.readdirSync(dirPath);
+        return files.length === 0;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     isPathExisted,
     isPathExistedSync,
@@ -92,4 +100,5 @@ module.exports = {
     getFileList,
     rename,
     mkdir,
+    isDirectoryEmptySync
 };

@@ -1,5 +1,5 @@
 {
-    "name": "@Nebula/Client",
+    "name": "@nebula-note/client",
     "private": true,
     "version": "0.4.9",
     "description": "It refers to a tool to optimize efficiency ",

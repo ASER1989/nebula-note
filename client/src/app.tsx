@@ -52,13 +52,6 @@ function App() {
                             <div>aser1989.cn&copy;2024</div>
                         </div>
                         <div className='app_layout_footer_operation'>
-                            <FaAppStore
-                                title='模板商店'
-                                className={classNames('app_operate', {
-                                    active: storeTools.loading,
-                                })}
-                                onClick={() => storeTools.refreshStore()}
-                            />
                             <LuSettings
                                 title='设置'
                                 className={classNames('app_operate', {
