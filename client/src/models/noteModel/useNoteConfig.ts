@@ -19,7 +19,7 @@ export interface IUseNoteConfig {
     fetchStatus: FetchStatus | undefined;
 }
 
-const REDUX_KEY = 'noteConfig';
+const REDUX_KEY = 'noteConfigState';
 let isInitialized = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
     const { showMessage } = useMessage();

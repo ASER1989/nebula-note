@@ -11,7 +11,7 @@ let templateConfigs;
 
 const getTemplateFolder = () => {
     const config = systemConfig.getConfig();
-    const customFolder = config.template.root;
+    const customFolder = config?.template?.root;
     return _.isEmpty(customFolder) ? configFolder : customFolder;
 };
 const getTemplateConfigPath = async () => {
@@ -102,6 +102,7 @@ const folderRename = async (oldName, newName) => {
 systemConfig.subscribe(reloadTemplateConfig);
 
 module.exports = {
+    configFolder,
     getTemplateConfigs,
     updateTemplateConfigs,
     saveTemplateFile,

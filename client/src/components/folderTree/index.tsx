@@ -1,5 +1,5 @@
 import './index.styl';
-import React, { useState, useMemo, useEffect } from 'react';
+import React from 'react';
 import type { Folder } from './types';
 import Input from '@client/atoms/input';
 import Checkbox from '@client/atoms/checkbox';

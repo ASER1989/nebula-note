@@ -13,12 +13,16 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 
-    /* color variables */
+    /* css variables */
     --border-radius: 3px;
     --border-color: orange;
     --input-height: 30px;
     --search-input-height: 30px;
     --content-head-bg: #3d526c;
+    --content-head-color: #fff;
+
+    --scroll-width: 10px;
+
 }
 
 a {
@@ -38,29 +42,11 @@ body {
     min-height: 100vh;
 }
 
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
-
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-
 /* 修改滚动条轨道的样式 */
 ::-webkit-scrollbar {
-    width: 10px; /* 设置滚动条的宽度 */
-    background-color: #f9f9f9; /* 设置滚动条的背景色 */
-    box-shadow: 0 0 1px #999 inset;
-    transition: background-color 0.3s ease; /* 添加过渡效果 */
+    width: var(--scroll-width); /* 设置滚动条的宽度 */
+    transition: background-color 0.5s ease; /* 添加过渡效果 */
+    border-radius: 5px;
 }
 
 /* 修改滚动条滑块的样式 */
@@ -71,7 +57,7 @@ button {
 
 /* 修改横向滚动条轨道的样式 */
 ::-webkit-scrollbar:horizontal {
-    height: 10px; /* 设置横向滚动条的高度 */
+    height: var(--scroll-width); /* 设置横向滚动条的高度 */
 }
 
 /* 修改横向滚动条滑块的样式 */
@@ -81,7 +67,8 @@ button {
 
 /* 修改滚动条滑轮的样式 */
 ::-webkit-scrollbar:hover {
-    background-color: #bbad86; /* 设置鼠标悬停时滑块的颜色 */
+    background-color: #f9f9f9; /* 设置滚动条的背景色 */
+    box-shadow: 0 0 1px #999 inset;
 }
 
 /* 修改滚动条轨道两端的按钮样式 */

@@ -2,7 +2,7 @@ import {FetchStatus} from "@client/types";
 
 export type Settings={
     servicePort: number;
-    settings:boolean;
+    autoSave:boolean;
     dataConfig: Array<{
         path: string;
         isActive: boolean;

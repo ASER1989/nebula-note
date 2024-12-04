@@ -1,7 +1,6 @@
 import { useRedux } from '@client/store/hooks/useRedux';
-import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
-import {Settings, SettingsState} from '@client/models/settingsModel/types';
+import { Settings, SettingsState } from '@client/models/settingsModel/types';
 import { useEffect } from 'react';
 import { getSettings } from '@client/models/settingsModel/api';
 
@@ -11,7 +10,7 @@ export const useSettings = () => {
     const { state, setState, updateState } = useRedux<SettingsState>(REDUX_KEY, {
         fetchStatus: 'None',
     });
-    const { fetchStatus,settings } = state;
+    const { fetchStatus, settings } = state;
 
     useEffect(() => {
         if (fetchStatus === 'None') {
@@ -35,17 +34,17 @@ export const useSettings = () => {
 
     const saveSettings = (data: Settings) => {
         return saveSettings(data);
-    }
-    const updateSettingState = (data: Partial<Settings>)=>{
-        updateState({settings:data});
-    }
+    };
+    const updateSettingState = (data: Partial<Settings>) => {
+        updateState({ settings: data } as Partial<SettingsState>);
+    };
 
     return {
         fetchStatus,
         settings,
         updateSettingState,
-        saveSettings
-    }
+        saveSettings,
+    };
 };
 
 export default useSettings;
