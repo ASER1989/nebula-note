@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, ForwardedRef } from 'react';
 
 export type Props = {
     width?: string | number;
@@ -6,17 +6,22 @@ export type Props = {
     scrollX?: boolean;
     scrollY?: boolean;
     className?: string;
+    style?: React.CSSProperties;
     children: React.ReactNode;
 };
 
-export const ScrollView = ({
-    width = '100%',
-    height = '100%',
-    scrollX = false,
-    scrollY = false,
-    className,
-    children,
-}: Props) => {
+const ScrollViewBase = (
+    {
+        width = '100%',
+        height = '100%',
+        scrollX = false,
+        scrollY = false,
+        className,
+        style,
+        children,
+    }: Props,
+    ref: ForwardedRef<HTMLDivElement>,
+) => {
     const scrollViewRef = useRef<HTMLDivElement>(null);
 
     const scrollViewStyle: React.CSSProperties = {
@@ -24,7 +29,10 @@ export const ScrollView = ({
         height,
         overflowX: scrollX ? 'auto' : 'hidden',
         overflowY: scrollY ? 'auto' : 'hidden',
+        ...style
     };
+
+    useImperativeHandle(ref, () => scrollViewRef.current!, [scrollViewRef.current]);
 
     useEffect(() => {
         if (scrollViewRef.current) {
@@ -50,4 +58,5 @@ export const ScrollView = ({
     );
 };
 
+export const ScrollView = React.forwardRef(ScrollViewBase);
 export default ScrollView;

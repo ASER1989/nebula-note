@@ -3,23 +3,35 @@ const fs = require('fs');
 const path = require('path');
 const respModel = require('../utils/responseModel');
 const systemConfig = require('../../utils/system-config');
-const  {configFolder} =require('../../utils/template-utils');
+const { configFolder } = require('../../utils/template-utils');
 
-const loopFolder = (folderName, basePath) => {
+const loopFolder = (folderName, basePath, targetLevel = undefined, level = 0) => {
     const readPath = path.join(basePath, folderName);
     const files = fs.readdirSync(readPath, { withFileTypes: true });
     const folderList = files
-        .filter((item) => item.isDirectory());
+        .filter((item) => item.isDirectory())
+        .map((item) => {
+            return {
+                name: item.name,
+                path: path.join(readPath, item.name),
+            };
+        });
+
+    return folderList ?? [];
 
     const folder = {
         name: folderName,
         path: readPath,
     };
 
-    folder.children = folderList?.map((item) => loopFolder(item.name, readPath));
-    folder.children = folder.children ?? [];
+    if (targetLevel && level < targetLevel) {
+        folder.children =
+            folderList?.map((item) =>
+                loopFolder(item.name, readPath, targetLevel, ++level),
+            ) ?? [];
+    }
 
-    return folder;
+    return [folder];
 };
 
 module.exports = (prefix, opts) => {
@@ -33,6 +45,20 @@ module.exports = (prefix, opts) => {
                 __dirname.substring(0, __dirname.indexOf(configFolder));
 
             const folderList = loopFolder('', readPath);
+            ctx.body = respModel(folderList);
+        } catch (ex) {
+            ctx.body = respModel(null, ex.message);
+        }
+    });
+
+    router.post('/folder/list', async (ctx) => {
+        ctx.type = 'text/json';
+        const { path } = ctx.request.body;
+
+        try {
+            const readPath = path ?? configFolder;
+
+            const folderList = loopFolder('', readPath, 1);
             ctx.body = respModel(folderList);
         } catch (ex) {
             ctx.body = respModel(null, ex.message);

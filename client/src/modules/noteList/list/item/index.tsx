@@ -1,9 +1,8 @@
+import '../../index.styl';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { FaPlayCircle } from 'react-icons/fa';
 import { MdClose, MdCheck, MdDeleteForever } from 'react-icons/md';
-
-import '../../index.styl';
 import IconButton from '@client/atoms/iconButton';
 import Position from '@client/molecules/position';
 import { LuPencilLine } from 'react-icons/lu';

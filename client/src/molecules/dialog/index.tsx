@@ -7,10 +7,17 @@ export type Props = {
     title?: string;
     children: JSX.Element | React.ReactElement;
     visible: boolean;
+    header?: boolean;
     onClose?: (visible: boolean) => void;
 };
 
-export const Dialog: FC<Props> = ({ children, title, visible = false, onClose }) => {
+export const Dialog: FC<Props> = ({
+    children,
+    title,
+    visible = false,
+    header = true,
+    onClose,
+}) => {
     const [hide, setHide] = useState(true);
 
     const handleClose = () => {
@@ -45,12 +52,14 @@ export const Dialog: FC<Props> = ({ children, title, visible = false, onClose })
         <>
             <div className='component-dialog dialog-panel'>
                 <div className={classNames('dialog-container', { hide: hide })}>
-                    <div className='dialog-title'>
-                        <div> {title}</div>
-                        <div className='dialog-title-operation'>
-                            <AiOutlineClose onClick={handleClose} />
+                    {header && (
+                        <div className='dialog-title'>
+                            <div> {title}</div>
+                            <div className='dialog-title-operation'>
+                                <AiOutlineClose onClick={handleClose} />
+                            </div>
                         </div>
-                    </div>
+                    )}
                     <div className='dialog-content'>{children}</div>
                 </div>
             </div>

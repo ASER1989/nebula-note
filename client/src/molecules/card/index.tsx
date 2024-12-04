@@ -24,7 +24,7 @@ export const Card = ({ title, children }: Props) => {
     }, [children]);
 
     return (
-        <div className='card'>
+        <div className='molecules-card'>
             {title && <div className='card-title'>{title}</div>}
             <div className={contentClassNames}>{content}</div>
         </div>

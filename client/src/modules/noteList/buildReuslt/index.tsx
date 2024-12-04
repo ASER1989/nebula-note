@@ -69,24 +69,21 @@ export const BuildResult = () => {
 
     return (
         <ResizableBox anchor={sidePageRef} initialWidth='50%' left={state?.visible}>
-            {(style) => (
-                <SidePage
-                    style={style}
-                    visible={state?.visible}
-                    onVisibleChange={handlePanelHide}
-                    ref={sidePageRef}
-                >
-                    <Tabs>
-                        {state?.codeList?.map((item, index) => (
-                            <TabPane key={index} id={item.title} title={item.title}>
-                                {item.status === 'success'
-                                    ? renderCodeBlock(item)
-                                    : renderErrorBlock(item)}
-                            </TabPane>
-                        ))}
-                    </Tabs>
-                </SidePage>
-            )}
+            <SidePage
+                visible={state?.visible}
+                onVisibleChange={handlePanelHide}
+                ref={sidePageRef}
+            >
+                <Tabs>
+                    {state?.codeList?.map((item, index) => (
+                        <TabPane key={index} id={item.title} title={item.title}>
+                            {item.status === 'success'
+                                ? renderCodeBlock(item)
+                                : renderErrorBlock(item)}
+                        </TabPane>
+                    ))}
+                </Tabs>
+            </SidePage>
         </ResizableBox>
     );
 };

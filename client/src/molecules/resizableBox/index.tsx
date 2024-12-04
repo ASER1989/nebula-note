@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, ReactElement } from 'react';
 import _ from 'lodash';
 
 export interface ResizableBoxProps {
     anchor: React.RefObject<HTMLDivElement>;
-    children: (style: React.CSSProperties) => React.ReactNode;
+    children: ReactElement;
     initialWidth?: number | string;
     initialHeight?: number | string;
     minWidth?: number;
@@ -24,8 +24,8 @@ const ResizableBox: React.FC<ResizableBoxProps> = (props) => {
         initialHeight,
         minHeight = 0,
     } = props;
-    const [width, setWidth] = useState(initialWidth);
-    const [height, setHeight] = useState(initialHeight);
+    const [width, setWidth] = useState(initialWidth ?? minWidth);
+    const [height, setHeight] = useState(initialHeight ?? minHeight);
     const isResizing = useRef(false);
     const [cursorType, setCursorType] = useState<CursorType>('default');
 
@@ -114,10 +114,6 @@ const ResizableBox: React.FC<ResizableBoxProps> = (props) => {
 
     useEffect(() => {
         if (anchor.current) {
-            const anchorReact = anchor.current.getBoundingClientRect();
-            const { width, height } = anchorReact;
-            setWidth(width > 0 ? width : initialWidth);
-            setHeight(height > 0 ? height : initialHeight);
             anchor.current.addEventListener('mousedown', handleMouseDown);
             anchor.current.addEventListener('mousemove', handleCalculateCursorType);
         }
@@ -146,7 +142,7 @@ const ResizableBox: React.FC<ResizableBoxProps> = (props) => {
         return result;
     }, [props, cursorType, width, height]);
 
-    return <>{children(style)}</>;
+    return React.cloneElement(children, { style });
 };
 
 export default ResizableBox;

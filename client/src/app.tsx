@@ -4,7 +4,6 @@ import { MessageContext } from '@client/components/message/context';
 import { MessageBox, useMessageContext } from '@client/components/message';
 import packageConfig from '../../package.json';
 import { LuSettings } from 'react-icons/lu';
-import { FaAppStore } from 'react-icons/fa';
 import { SidePage } from '@client/molecules/sidePage';
 import Settings from '@client/modules/settings';
 import classNames from 'classnames';
