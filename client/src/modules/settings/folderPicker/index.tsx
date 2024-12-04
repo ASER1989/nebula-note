@@ -1,19 +1,20 @@
 import React, { useMemo, useState, useRef } from 'react';
 import Dialog from '@client/molecules/dialog';
 import ScrollView from '@client/molecules/scrollView';
-import ResizableBox from '@client/molecules/resizableBox';
 import FolderView from '@client/components/folderView';
 import { Stack, StackItem } from '@client/molecules/stack';
 import Button from '@client/atoms/button';
 import useFolderPicker from '@client/models/folderPickerModel/useFolderPicker';
 import Breadcrumb, { BreadcrumbItem } from '@client/molecules/breadcrumb';
 import { Folder } from '@client/models/folderPickerModel/types';
-import Card from '@client/molecules/card';
 
 export type Props = {
     onChange?: (folderPath?: string) => void;
+    onClose?: () => void;
+    visible: boolean;
 };
-export default function FolderPicker({ onChange }: Props) {
+
+export default function FolderPicker({ onChange, onClose, visible }: Props) {
     const scrollViewRef = useRef<HTMLDivElement>(null);
     const { folderList, fetchStatus, loadFolderList } = useFolderPicker();
 
@@ -45,10 +46,15 @@ export default function FolderPicker({ onChange }: Props) {
         setSelectedFolder({ name: item.label, path: item.path ?? '' });
     };
 
+    const handleConfirm = () => {
+        onChange?.(selectedFolder?.path);
+        onClose?.();
+    };
+
     return (
-        <Dialog visible={true} header={false}>
+        <Dialog visible={visible} title="打开文件夹" onClose={onClose}>
             <Stack direction='vertical'>
-                <StackItem flex>
+                <StackItem flex style={{ borderBottom: 'solid 1px #e0e0e0' }}>
                     <ScrollView width={800} height={600} scrollY ref={scrollViewRef}>
                         <FolderView
                             data={folderList ?? []}
@@ -58,15 +64,29 @@ export default function FolderPicker({ onChange }: Props) {
                         ></FolderView>
                     </ScrollView>
                 </StackItem>
-                <StackItem>
-                    <Breadcrumb
-                        items={folderPathList}
-                        onClick={handleBreadcrumbClick}
-                    ></Breadcrumb>
-                    <div>
-                        <Button>取消</Button>
-                        <Button type='primary'>确定</Button>
-                    </div>
+                <StackItem
+                    style={{
+                        padding: 6,
+                        height: 34,
+                        borderBottom: 'solid 1px #e0e0e0',
+                    }}
+                >
+                    <ScrollView width='100%'>
+                        <Breadcrumb
+                            items={folderPathList}
+                            onClick={handleBreadcrumbClick}
+                        ></Breadcrumb>
+                    </ScrollView>
+                </StackItem>
+                <StackItem style={{ padding: 8 }}>
+                    <Stack justify='flex-end' align='center' spacing={20}>
+                        <StackItem>
+                            <Button onClick={() => onClose?.()}>取消</Button>
+                        </StackItem>
+                        <StackItem>
+                            <Button onClick={handleConfirm} type='primary'>确定</Button>
+                        </StackItem>
+                    </Stack>
                 </StackItem>
             </Stack>
         </Dialog>

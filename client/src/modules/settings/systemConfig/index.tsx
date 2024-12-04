@@ -14,6 +14,7 @@ import FolderPicker from "@client/modules/settings/folderPicker";
 export default function SystemConfig() {
     const { showMessage } = useMessage();
     const { settings, updateSettingState } = useSettings();
+    const [folderPickerVisible, setFolderPickerVisible] = useState(false);
 
     console.log(settings)
     const handleSettingsChange = (field: string, value: unknown) => {
@@ -43,7 +44,7 @@ export default function SystemConfig() {
                                 <Dropdown options={[1, 2, 3]} />
                             </StackItem>
                             <StackItem>
-                               <Button onClick={()=>undefined}>选择</Button>
+                               <Button onClick={()=>setFolderPickerVisible(true)}>选择</Button>
                             </StackItem>
                         </Stack>
                     </FormItem>
@@ -55,7 +56,7 @@ export default function SystemConfig() {
                     保存
                 </Button>
             </div>
-            <FolderPicker></FolderPicker>
+            <FolderPicker visible={folderPickerVisible} onChange={(path) => console.log(path)} onClose={() => setFolderPickerVisible(false)} />
         </div>
     );
 }

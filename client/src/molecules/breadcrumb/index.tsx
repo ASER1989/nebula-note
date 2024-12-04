@@ -1,5 +1,7 @@
 import React from 'react';
 import './index.styl';
+import { GoChevronRight } from "react-icons/go";
+
 
 export type BreadcrumbItem = {
     label: string;
@@ -24,7 +26,9 @@ export const Breadcrumb: React.FC<Props> = ({ items, onClick }) => {
                             {item.label}
                         </span>
                         {index < items.length - 1 && (
-                            <span className='breadcrumb-separator'>/</span>
+                            <span className='breadcrumb-separator'>
+                                <GoChevronRight  size={16}/>
+                            </span>
                         )}
                     </li>
                 ))}

@@ -12,9 +12,12 @@
   height var(--dropdown-height)
   border solid 1px var(--dropdown-line-color)
   border-radius: 3px
-  position relative
   box-sizing content-box
   line-height normal
+  transition border-color linear .35s
+
+  &:hover,&.expand
+    border-color var(--border-color)
 
   &.small
     --padding-top-size 3px
@@ -58,6 +61,7 @@
     background transparent
     outline 0
     padding-left 5px
+
     &:disabled
       color #e0e0e0
       cursor not-allowed
@@ -65,16 +69,18 @@
   .dropdown-toggle
     background-color transparent
     padding var(--padding-top-size) 6px
-    width calc(100% - 2*var(--dropdown-triangle-size))
+    width calc(100% - 2 * var(--dropdown-triangle-size))
     cursor pointer
     text-align left
     outline 0
+    border 0
     color inherit
     position relative
     z-index 1
     height var(--dropdown-height)
     overflow hidden
     text-overflow ellipsis
+
     &:disabled
       color #e0e0e0
       cursor not-allowed
@@ -103,6 +109,6 @@
     &:last-child
       border 0
 
-    &:hover,&.hover
+    &:hover, &.hover
       background-color #f1f1f1
 
