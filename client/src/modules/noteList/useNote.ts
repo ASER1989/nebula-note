@@ -1,11 +1,10 @@
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { NoteRecord, TemplateRecord } from '@client/models/noteModel/types';
-import _ from 'lodash';
 
-const REDUX_KEY = 'editNoteState';
+const REDUX_KEY = 'noteState';
 
-export type EditedNote = {
+export type NoteState = {
     fetchStatus: FetchStatus;
     note: NoteRecord;
     editStatus?: 'Edited' | 'Saved' | 'None';
@@ -13,7 +12,7 @@ export type EditedNote = {
     isCreateFormShown: boolean;
 };
 
-const initialState: EditedNote = {
+const initialState: NoteState = {
     fetchStatus: 'None',
     note: {} as NoteRecord,
     editStatus: 'None',
@@ -22,7 +21,7 @@ const initialState: EditedNote = {
 };
 
 export const useNote = () => {
-    const { state, setState, updateState } = useRedux<EditedNote>(
+    const { state, setState, updateState } = useRedux<NoteState>(
         REDUX_KEY,
         initialState,
     );
@@ -136,3 +135,5 @@ export const useNote = () => {
         setCreateFormShown,
     };
 };
+
+export default useNote;

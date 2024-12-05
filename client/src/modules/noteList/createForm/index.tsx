@@ -7,9 +7,8 @@ import Dialog from '@client/molecules/dialog';
 import _ from 'lodash';
 import Textarea from '@client/atoms/textarea';
 import { NoteRecord } from '@client/models/noteModel/types';
-import { useDispatch } from 'react-redux';
-import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
 import { useNoteConfig } from '@client/models/noteModel';
+import useNoteController from "@client/modules/noteList/useNoteController";
 
 type Props = {
     visible: boolean;
@@ -23,9 +22,8 @@ const initialState: NoteRecord = {
     templateList: [],
 };
 export const CreateForm: FC<Props> = ({ visible, onHide }) => {
-    const dispatch = useDispatch();
     const { create } = useNoteConfig();
-
+    const { changeSelectedItem } = useNoteController();
     const [formState, setFormState] = useState<NoteRecord>(initialState);
     const handleFieldChange = (key: string, value: string) => {
         setFormState((ownState) => {
@@ -40,12 +38,10 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
         create(formState).then((resp) => {
             if (resp?.success) {
                 onHide?.(true);
-                dispatch(
-                    changeSelectedItem({
-                        ...formState,
-                        filePath: `${formState.name}/`,
-                    }) as never,
-                );
+                changeSelectedItem({
+                    ...formState,
+                    filePath: `${formState.name}/`,
+                });
             }
         });
     };

@@ -5,11 +5,10 @@ import IconButton from '@client/atoms/iconButton';
 import { MdManageSearch } from 'react-icons/md';
 import SearchInput from '@client/atoms/searchInput';
 import {useNoteConfig} from "@client/models/noteModel";
-import {actions} from "@client/modules/noteList/storeSlice";
-import {useDispatch} from "react-redux";
+import useNote from "@client/modules/noteList/useNote";
 
 export const Header = () => {
-    const dispatch = useDispatch();
+    const actions = useNote();
     const [searchBoxShown, setSearchBoxShown] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
     const { keyword, setKeyword } = useNoteConfig();
@@ -30,7 +29,7 @@ export const Header = () => {
     };
 
     const handleCreateNote= () => {
-        dispatch(actions.setCreateFormShown(true));
+        actions.setCreateFormShown(true);
     };
 
     if (searchBoxShown) {

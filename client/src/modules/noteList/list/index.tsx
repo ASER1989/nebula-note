@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import '../index.styl';
 import { ListItem } from './item';
 import { NoteRecord } from '@client/models/noteModel/types';
-import { SliceType } from '@client/modules/noteList/storeSlice';
 import * as noteApi from '@client/models/noteModel/api';
 import { ConfirmContext } from '@client/components/confirm/context';
 import { useRedux } from '@client/store/hooks/useRedux';
@@ -11,21 +10,21 @@ import {
     BuildResultState,
     CodeSnippet,
 } from '@client/modules/noteList/buildReuslt/types';
-import { useDispatch } from 'react-redux';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { Header } from './header';
 import { queryErrorMessage } from '@client/utils/queries';
-import { changeSelectedItem } from '@client/modules/noteList/asyncThunks';
+import useNoteController from '@client/modules/noteList/useNoteController';
 import { useNoteConfig } from '@client/models/noteModel';
-import { actions } from '@client/modules/noteList/storeSlice';
 import { useParams } from 'react-router-dom';
+import useNote, { NoteState } from '@client/modules/noteList/useNote';
 
 type Props = {
-    state: SliceType;
+    state: NoteState;
     onSave?: () => void;
 };
 export const List = ({ state, onSave }: Props) => {
-    const dispatch = useDispatch();
+    const actions = useNote();
+    const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
     const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
@@ -49,8 +48,7 @@ export const List = ({ state, onSave }: Props) => {
     }, [fetchStatus]);
 
     const handleChangeSelectedItem = (noteRecord: NoteRecord) => {
-        // FIXME: dispatch type
-        dispatch(changeSelectedItem(noteRecord) as never);
+        changeSelectedItem(noteRecord);
     };
 
     const handleClick = (noteRecord: NoteRecord) => {
@@ -129,7 +127,7 @@ export const List = ({ state, onSave }: Props) => {
         const newNoteRecord = await rename(name, newName);
         if (newNoteRecord) {
             await reload();
-            dispatch(actions.updateNote(newNoteRecord));
+            actions.updateNote(newNoteRecord);
             return true;
         }
         return false;
