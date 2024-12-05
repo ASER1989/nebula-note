@@ -11,12 +11,16 @@ import { Stack, StackItem } from '@client/molecules/stack';
 import FolderPicker from '@client/modules/settings/folderPicker';
 import useMessage from '@client/components/message/useMessage';
 import { useNoteConfig } from '@client/models/noteModel';
+import useNote from '@client/modules/noteList/useNote';
+import Section from "@client/molecules/section";
 
 export default function SystemConfig() {
     const { showMessage } = useMessage();
     const { fetchStatus, error, settings, updateSettingState, saveSettings } =
         useSettings();
     const nodeConfigModel = useNoteConfig();
+    const { reset } = useNote();
+
     const [folderPickerVisible, setFolderPickerVisible] = useState(false);
 
     const dataSourceOptions = useMemo(() => {
@@ -86,6 +90,7 @@ export default function SystemConfig() {
             const result = await saveSettings(settings);
             if (result) {
                 nodeConfigModel.reload();
+                reset();
                 showMessage('保存成功');
             }
         }
@@ -98,52 +103,60 @@ export default function SystemConfig() {
     }, [fetchStatus, error]);
 
     return (
-        <div className='module-settings'>
-            <div className='settings-content'>
-                <Form>
-                    <FormItem label='本地端口'>
-                        <Input
-                            value={settings?.servicePort?.toString()}
-                            onChange={(value) =>
-                                handleSettingsChange('serverPort', value)
-                            }
-                        />
-                    </FormItem>
-                    <FormItem label='自动保存'>
-                        <Switch
-                            value={settings?.autoSave ?? false}
-                            onChange={(value) => handleSettingsChange('autoSave', value)}
-                        />
-                    </FormItem>
-                    <FormItem label='文档目录'>
-                        <Stack spacing={10} overflow='visible'>
-                            <StackItem flex>
-                                <Dropdown
-                                    options={dataSourceOptions}
-                                    value={dataSource}
-                                    onChange={handleDataSourceChange}
+        <>
+            <Stack direction='vertical'>
+                <StackItem flex>
+                    <Section margin={20}>
+                        <Form>
+                            <FormItem label='本地端口'>
+                                <Input
+                                    value={settings?.servicePort?.toString()}
+                                    onChange={(value) =>
+                                        handleSettingsChange('serverPort', value)
+                                    }
                                 />
-                            </StackItem>
-                            <StackItem>
-                                <Button onClick={() => setFolderPickerVisible(true)}>
-                                    选择
-                                </Button>
-                            </StackItem>
-                        </Stack>
-                    </FormItem>
-                </Form>
-            </div>
-            <div className='footer'>
-                <Button onClick={handleSave} type='primary' disabled={!settings}>
-                    <FiSave />
-                    保存
-                </Button>
-            </div>
+                            </FormItem>
+                            <FormItem label='自动保存'>
+                                <Switch
+                                    value={settings?.autoSave ?? false}
+                                    onChange={(value) =>
+                                        handleSettingsChange('autoSave', value)
+                                    }
+                                />
+                            </FormItem>
+                            <FormItem label='文档目录'>
+                                <Stack spacing={10} overflow='visible'>
+                                    <StackItem flex>
+                                        <Dropdown
+                                            options={dataSourceOptions}
+                                            value={dataSource}
+                                            onChange={handleDataSourceChange}
+                                        />
+                                    </StackItem>
+                                    <StackItem>
+                                        <Button
+                                            onClick={() => setFolderPickerVisible(true)}
+                                        >
+                                            选择
+                                        </Button>
+                                    </StackItem>
+                                </Stack>
+                            </FormItem>
+                        </Form>
+                    </Section>
+                </StackItem>
+                <StackItem style={{ padding: 20, borderTop: 'solid 1px #e0e0e0' }}>
+                    <Button onClick={handleSave} type='primary' disabled={!settings}>
+                        <FiSave />
+                        保存
+                    </Button>
+                </StackItem>
+            </Stack>
             <FolderPicker
                 visible={folderPickerVisible}
                 onChange={(path) => handleNewDataSource(path)}
                 onClose={() => setFolderPickerVisible(false)}
             />
-        </div>
+        </>
     );
 }
