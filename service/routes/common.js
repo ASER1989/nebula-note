@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const respModel = require('../utils/responseModel');
 const systemConfig = require('../../utils/system-config');
-const { configFolder } = require('../../utils/template-utils');
+const { getDataFolder } = require('../../utils/note-utils');
 
 const loopFolder = (folderName, basePath, targetLevel = undefined, level = 0) => {
     const readPath = path.join(basePath, folderName);
@@ -56,7 +56,7 @@ module.exports = (prefix, opts) => {
         const { path } = ctx.request.body;
 
         try {
-            const readPath = path ?? configFolder;
+            const readPath = path ?? getDataFolder();
 
             const folderList = loopFolder('', readPath, 1);
             ctx.body = respModel(folderList);

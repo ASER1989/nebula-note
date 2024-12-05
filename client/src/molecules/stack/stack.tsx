@@ -8,7 +8,7 @@ export type StackProps = {
     spacing?: number;
     align?:  React.CSSProperties['alignItems'];
     justify?: 'flex-start' | 'center' | 'space-between' | 'space-around' | 'flex-end';
-    overflow?: 'auto' | 'hidden';
+    overflow?: React.CSSProperties['overflow'];
     children: ReactElement<typeof StackItem> | ReactElement<typeof StackItem>[];
 };
 

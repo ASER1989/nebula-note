@@ -9,16 +9,22 @@ import Breadcrumb, { BreadcrumbItem } from '@client/molecules/breadcrumb';
 import { Folder } from '@client/models/folderPickerModel/types';
 
 export type Props = {
-    onChange?: (folderPath?: string) => void;
+    onChange?: (folderPath: string) => void;
     onClose?: () => void;
     visible: boolean;
 };
 
 export default function FolderPicker({ onChange, onClose, visible }: Props) {
     const scrollViewRef = useRef<HTMLDivElement>(null);
-    const { folderList, fetchStatus, loadFolderList } = useFolderPicker();
+    const { folderList, loadFolderList } = useFolderPicker();
 
     const [selectedFolder, setSelectedFolder] = useState<Folder>();
+
+    useEffect(() => {
+        if (visible) {
+            loadFolderList();
+        }
+    }, [visible]);
 
     useEffect(() => {
         if ((!selectedFolder && folderList?.length) ?? 0 > 0) {
@@ -61,7 +67,9 @@ export default function FolderPicker({ onChange, onClose, visible }: Props) {
     };
 
     const handleConfirm = () => {
-        onChange?.(selectedFolder?.path);
+        if (selectedFolder) {
+            onChange?.(selectedFolder.path);
+        }
         onClose?.();
     };
 

@@ -24,6 +24,6 @@ app.use(sliceRoute('/api/slice'));
 app.use(settingsRoute('/api/settings'));
 app.use(noteRoute('/api/note'));
 app.use(commonRoute('/api/common'));
-app.listen(config.service_port);
+app.listen(config.servicePort ?? 3816);
 
-console.log(`http://localhost:${config.service_port}/`);
+console.log(`http://localhost:${config.servicePort}/`);

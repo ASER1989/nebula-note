@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { List } from './list';
 import { Content } from './content';
 import { useNoteConfig } from '@client/models/noteModel';

@@ -72,7 +72,7 @@ export const Dropdown = <T extends string>({
                 setSelectedItem(option);
             }
         }
-    }, []);
+    }, [value, options]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);

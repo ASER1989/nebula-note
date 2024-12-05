@@ -3,59 +3,57 @@ const fileUtils = require('../fileUtils');
 const systemConfig = require('../system-config');
 const _ = require('lodash');
 const rimraf = require('rimraf');
+const {defaultDataSource} = require('../config');
 
-const userFolderPath = process.env.HOME || process.env.USERPROFILE;
-const configFolder = path.join(userFolderPath, 'Nebula/Notes');
+let _config;
 
-let templateConfigs;
-
-const getTemplateFolder = () => {
+const getDataFolder = () => {
     const config = systemConfig.getConfig();
-    const customFolder = config?.template?.root;
-    return _.isEmpty(customFolder) ? configFolder : customFolder;
+    const customFolder = config?.dataSource?.find(item => item.isActive);
+    return _.isEmpty(customFolder) ? defaultDataSource : customFolder?.path;
 };
-const getTemplateConfigPath = async () => {
-    const folder = await getTemplateFolder();
+const getConfigPath = async () => {
+    const folder = await getDataFolder();
     return path.join(folder, 'config.json');
 };
 
-const reloadTemplateConfig = async () => {
-    templateConfigs = [];
-    const customConfigPath = await getTemplateConfigPath();
+const reloadConfig = async () => {
+    _config = [];
+    const customConfigPath = await getConfigPath();
 
     if (await fileUtils.isPathExisted(customConfigPath)) {
-        const configStr = await fileUtils.readFile(customConfigPath);
-        templateConfigs = JSON.parse(configStr);
+        const configString = await fileUtils.readFile(customConfigPath);
+        _config = JSON.parse(configString);
     }
 };
 
-const getTemplateConfigs = async () => {
-    if (templateConfigs) {
-        return templateConfigs;
+const getConfig = async () => {
+    if (_config) {
+        return _config;
     }
-    await reloadTemplateConfig();
+    await reloadConfig();
 
-    return templateConfigs;
+    return _config;
 };
 
-const updateTemplateConfigs = async (config) => {
+const updateConfig = async (config) => {
     if (!config) {
         return;
     }
-    const configPath = await getTemplateConfigPath();
+    const configPath = await getConfigPath();
     await fileUtils.writeFile(configPath, JSON.stringify(config, null, '\t'));
-    await reloadTemplateConfig();
+    await reloadConfig();
 };
 
-const saveTemplateFile = async (content, filePath) => {
+const saveFile = async (content, filePath) => {
     if (content) {
-        const configPath = getTemplateFolder();
+        const configPath = getDataFolder();
         return await fileUtils.writeFile(path.join(configPath, filePath), content);
     }
 };
 
-const getTemplateFile = async (filePath) => {
-    const configPath = await getTemplateFolder();
+const getFile = async (filePath) => {
+    const configPath = await getDataFolder();
     const targetPath = path.join(configPath, filePath);
     const isExisted = await fileUtils.isPathExisted(targetPath);
     if (isExisted) {
@@ -84,13 +82,13 @@ const filePathToTemplatePath = (filePath, title) => {
 };
 
 const clearFolder = async (folderPath) => {
-    const configPath = getTemplateFolder();
+    const configPath = getDataFolder();
     const targetPath = path.join(configPath, folderPath);
     return await rimraf.rimraf(targetPath);
 };
 
 const folderRename = async (oldName, newName) => {
-    const configPath = getTemplateFolder();
+    const configPath = getDataFolder();
     const oldPath = path.join(configPath, oldName);
     const newPath = path.join(configPath, newName);
     if (fileUtils.isPathExistedSync(oldPath)) {
@@ -99,16 +97,15 @@ const folderRename = async (oldName, newName) => {
     return true;
 };
 
-systemConfig.subscribe(reloadTemplateConfig);
+systemConfig.subscribe(reloadConfig);
 
 module.exports = {
-    configFolder,
-    getTemplateConfigs,
-    updateTemplateConfigs,
-    saveTemplateFile,
-    getTemplateFile,
-    getTemplateFolder,
-    reloadTemplateConfig,
+    getConfig,
+    updateConfig,
+    saveFile,
+    getFile,
+    getDataFolder,
+    reloadConfig,
     filePathToMetaPath,
     filePathToDocPath,
     filePathToTemplatePath,

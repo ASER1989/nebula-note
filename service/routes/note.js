@@ -1,19 +1,19 @@
 const Router = require('@koa/router');
-const templateUtils = require('../../utils/template-utils');
+const templateUtils = require('../../utils/note-utils');
 const _ = require('lodash');
-const templateStore = require('../../utils/template-utils/store');
+const templateStore = require('../../utils/note-utils/store');
 
 module.exports = (prefix, opts) => {
     const router = new Router({ prefix });
 
     router.get('/list', async (ctx) => {
-        return await templateUtils.getTemplateConfigs();
+        return await templateUtils.getConfig();
     });
 
     router.post('/upsert', async (ctx) => {
         const reqParams = ctx.request.body;
         const { name } = reqParams;
-        const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
+        const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const configIndex = templateConfigs.findIndex((item) => item.name === name);
         const configOption = configIndex >= 0 ? templateConfigs[configIndex] : undefined;
         if (configOption && configOption.version > reqParams.version) {
@@ -33,9 +33,9 @@ module.exports = (prefix, opts) => {
             templateConfigs.push(newConfig);
         }
 
-        await templateUtils.updateTemplateConfigs(templateConfigs);
-        await templateUtils.saveTemplateFile(reqParams.meta, metaPath);
-        await templateUtils.saveTemplateFile(reqParams.document, docPath);
+        await templateUtils.updateConfig(templateConfigs);
+        await templateUtils.saveFile(reqParams.meta, metaPath);
+        await templateUtils.saveFile(reqParams.document, docPath);
         const snippetFolderPath = templateUtils.filePathToTemplateFolderPath(
             newConfig.filePath,
         );
@@ -47,7 +47,7 @@ module.exports = (prefix, opts) => {
                 newConfig.filePath,
                 item.title,
             );
-            await templateUtils.saveTemplateFile(item.content, itemPath);
+            await templateUtils.saveFile(item.content, itemPath);
         }
         return newConfig.version;
     });
@@ -56,7 +56,7 @@ module.exports = (prefix, opts) => {
         const { path, title } = ctx.query;
         const targetPath = templateUtils.filePathToTemplatePath(path, title);
         if (!_.isEmpty(targetPath)) {
-            return templateUtils.getTemplateFile(targetPath);
+            return templateUtils.getFile(targetPath);
         }
     });
 
@@ -64,7 +64,7 @@ module.exports = (prefix, opts) => {
         const { path } = ctx.query;
         if (!_.isEmpty(path)) {
             const metaPath = templateUtils.filePathToMetaPath(path);
-            return templateUtils.getTemplateFile(metaPath);
+            return templateUtils.getFile(metaPath);
         }
     });
 
@@ -72,7 +72,7 @@ module.exports = (prefix, opts) => {
         const { path } = ctx.query;
         if (!_.isEmpty(path)) {
             const docPath = templateUtils.filePathToDocPath(path);
-            return templateUtils.getTemplateFile(docPath);
+            return templateUtils.getFile(docPath);
         }
     });
 
@@ -81,24 +81,24 @@ module.exports = (prefix, opts) => {
     });
 
     router.get('/config', async (ctx) => {
-        return await templateUtils.getTemplateConfigs();
+        return await templateUtils.getConfig();
     });
 
     router.post('/config', async (ctx) => {
         const reqParams = ctx.request.body;
         const { settings } = reqParams;
-        return await templateUtils.updateTemplateConfigs(settings);
+        return await templateUtils.updateConfig(settings);
     });
 
     router.post('/remove', async (ctx) => {
         const { name } = ctx.request.body;
-        const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
+        const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const configIndex = templateConfigs.findIndex((item) => item.name === name);
         if (configIndex >= 0) {
             const filePath = templateConfigs[configIndex]?.filePath;
             await templateUtils.clearFolder(filePath);
             templateConfigs.splice(configIndex, 1);
-            await templateUtils.updateTemplateConfigs(templateConfigs);
+            await templateUtils.updateConfig(templateConfigs);
             return true;
         }
         return false;
@@ -106,7 +106,7 @@ module.exports = (prefix, opts) => {
 
     router.post('/rename', async (ctx) => {
         const { name, newName } = ctx.request.body;
-        const templateConfigs = (await templateUtils.getTemplateConfigs()) ?? [];
+        const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const isNameRepeat = templateConfigs.some((item) => item.name === newName);
         if (isNameRepeat) {
             return Error('名称已存在');
@@ -115,7 +115,7 @@ module.exports = (prefix, opts) => {
         if (config) {
             config.name = newName;
             config.filePath = templateUtils.nameToPath(newName);
-            await templateUtils.updateTemplateConfigs(templateConfigs);
+            await templateUtils.updateConfig(templateConfigs);
             await templateUtils.folderRename(name, newName);
             return config;
         }

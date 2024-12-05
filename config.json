@@ -1,9 +1,6 @@
 {
-    "service_port": 3816,
-    "dataConfig": [
-        {
-            "path": "data/",
-            "isActive": true
-        }
-    ]
+  "servicePort": 3816,
+  "deployMode": "preview",
+  "autoSave": true,
+  "dataSource": []
 }

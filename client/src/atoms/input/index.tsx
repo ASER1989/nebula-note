@@ -3,15 +3,12 @@ import React, { ChangeEvent, forwardRef } from 'react';
 import type { FocusEvent } from 'react';
 import classNames from 'classnames';
 
-type InputType = string | undefined | number;
 export type InputProps = {
-    value?: InputType;
+    value?: string;
+    name?: string;
     border?: boolean;
     placeholder?: string;
-    onChange?: <T extends string>(
-        newValue: T,
-        event?: ChangeEvent<HTMLInputElement>,
-    ) => void;
+    onChange?: (newValue: string, event?: ChangeEvent<HTMLInputElement>) => void;
     onFocus?: (e: FocusEvent<HTMLInputElement, Element>) => void;
     onBlur?: (e: FocusEvent<HTMLInputElement, Element>) => void;
     light?: boolean;
@@ -24,6 +21,7 @@ export type InputProps = {
 const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
     const {
         value,
+        name,
         border = true,
         onChange,
         placeholder,
@@ -49,6 +47,7 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
     return (
         <input
             ref={ref}
+            name={name}
             data-testid={testId}
             className={classes}
             value={value}

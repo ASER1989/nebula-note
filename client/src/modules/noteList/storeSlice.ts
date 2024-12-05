@@ -11,7 +11,7 @@ export type SliceType = {
     isCreateFormShown: boolean;
 };
 
-export const SLICE_NAME = 'noteList';
+export const SLICE_NAME = 'noteListState';
 export const storeSlice = createSlice({
     name: SLICE_NAME,
     initialState: {
