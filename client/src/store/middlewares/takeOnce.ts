@@ -4,20 +4,30 @@ export interface TakeOnceStore extends Store {
     takeOnce: (actionType: string, callback: <T>(state: T) => void) => void;
 }
 
-const takeOnceCallbacks: Array<{
-    recordId: number;
+interface IActionTaker {
+    recordId: string;
     actionType: string;
     callback: <T>(state: T) => void;
-}> = [];
+}
+
+const takeOnceCallbacks: Array<IActionTaker> = [];
 export const takeOnceMiddleware: Middleware = (store) => (next) => (action) => {
     const result = next(action);
     const state = store.getState();
 
-    takeOnceCallbacks.forEach(({ actionType, callback }) => {
-        if (actionType === (action as AnyAction).type) {
-            callback(state);
+    const callBackStash: Array<IActionTaker> = [];
+    while (takeOnceCallbacks.length > 0) {
+        const taker = takeOnceCallbacks.shift();
+        if (taker) {
+            if (taker?.actionType === (action as AnyAction).type) {
+                taker.callback(state);
+                continue;
+            }
+            callBackStash.push(taker);
         }
-    });
+    }
+
+    takeOnceCallbacks.push(...callBackStash);
 
     return result;
 };
@@ -26,19 +36,15 @@ export const enhanceStoreWithTakeOnce = (store: Store): TakeOnceStore => {
     const enhancedStore = store as TakeOnceStore;
     let recordId = 0;
     enhancedStore.takeOnce = (actionType: string, callback: <T>(state: T) => void) => {
+        if (takeOnceCallbacks.some((taker) => taker.recordId === callback.name)) {
+            return;
+        }
+
         recordId++;
         takeOnceCallbacks.push({
-            recordId,
+            recordId: callback.name ?? recordId.toString(),
             actionType,
-            callback: (state) => {
-                callback(state);
-                const idx = takeOnceCallbacks.findIndex(
-                    (item) => item.recordId === recordId,
-                );
-                if (idx >= 0) {
-                    takeOnceCallbacks.splice(idx, 1);
-                }
-            },
+            callback,
         });
     };
     return enhancedStore;

@@ -12,12 +12,11 @@ import FolderPicker from '@client/modules/settings/folderPicker';
 import useMessage from '@client/components/message/useMessage';
 import { useNoteConfig } from '@client/models/noteModel';
 import useNote from '@client/modules/noteList/useNote';
-import Section from "@client/molecules/section";
+import Section from '@client/molecules/section';
 
 export default function SystemConfig() {
     const { showMessage } = useMessage();
-    const { fetchStatus, error, settings, updateSettingState, saveSettings } =
-        useSettings();
+    const { fetchStatus, error, settings, updateSettingState } = useSettings();
     const nodeConfigModel = useNoteConfig();
     const { reset } = useNote();
 
@@ -36,10 +35,10 @@ export default function SystemConfig() {
     }, [settings?.dataSource]);
 
     const handleSettingsChange = (field: string, value: unknown) => {
-        updateSettingState({ [field]: value });
+        return updateSettingState({ [field]: value });
     };
 
-    const handleNewDataSource = (path: string) => {
+    const handleNewDataSource = async (path: string) => {
         let isPathExist = false;
         const newDataSource =
             settings?.dataSource?.map((item) => {
@@ -64,38 +63,15 @@ export default function SystemConfig() {
             });
         }
 
-        handleSettingsChange('dataSource', newDataSource);
-    };
-    const handleDataSourceChange = (option: DropdownOption) => {
-        handleSettingsChange(
-            'dataSource',
-            settings?.dataSource?.map((item) => {
-                if (item.path === option.value) {
-                    return {
-                        ...item,
-                        isActive: true,
-                    };
-                } else {
-                    return {
-                        ...item,
-                        isActive: false,
-                    };
-                }
-            }),
-        );
-    };
-
-    const handleSave = async () => {
-        if (settings) {
-            const result = await saveSettings(settings);
-            if (result) {
-                nodeConfigModel.reload();
-                reset();
-                showMessage('保存成功');
-            }
+        const isSuccess = await handleSettingsChange('dataSource', newDataSource);
+        if (isSuccess) {
+            reset();
         }
     };
-
+    const handleDataSourceChange = async (option: DropdownOption) => {
+        await handleNewDataSource(option.value);
+    };
+    
     useEffect(() => {
         if (fetchStatus === 'Error' && error !== undefined) {
             showMessage(error);
@@ -144,12 +120,6 @@ export default function SystemConfig() {
                             </FormItem>
                         </Form>
                     </Section>
-                </StackItem>
-                <StackItem style={{ padding: 20, borderTop: 'solid 1px #e0e0e0' }}>
-                    <Button onClick={handleSave} type='primary' disabled={!settings}>
-                        <FiSave />
-                        保存
-                    </Button>
                 </StackItem>
             </Stack>
             <FolderPicker

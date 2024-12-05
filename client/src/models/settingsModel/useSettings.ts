@@ -7,9 +7,12 @@ import * as Api from './api';
 const REDUX_KEY = 'settingsState';
 
 export const useSettings = () => {
-    const { state, setState, updateState } = useRedux<SettingsState>(REDUX_KEY, {
-        fetchStatus: 'None',
-    });
+    const { state, setState, updateState, takeOnce } = useRedux<SettingsState>(
+        REDUX_KEY,
+        {
+            fetchStatus: 'None',
+        },
+    );
     const { fetchStatus, error, settings } = state;
 
     const loadSettings = () => {
@@ -48,7 +51,15 @@ export const useSettings = () => {
         return false;
     };
     const updateSettingState = (data: Partial<Settings>) => {
-        updateState({ settings: data } as Partial<SettingsState>);
+        return new Promise((resolve) => {
+            takeOnce('updateState', () => {
+                if (state.settings) {
+                    saveSettings(state.settings).then((result) => resolve(result));
+                }
+                resolve(false);
+            });
+            updateState({ settings: data } as Partial<SettingsState>);
+        });
     };
 
     useEffect(() => {
@@ -62,7 +73,6 @@ export const useSettings = () => {
         error,
         settings,
         updateSettingState,
-        saveSettings,
     };
 };
 
