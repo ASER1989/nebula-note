@@ -1,7 +1,7 @@
 import * as noteApi from '@client/models/noteModel/api';
 import { NoteRecord } from '@client/models/noteModel/types';
-import { queryErrorMessage } from '@client/utils/queries';
 import useNote from '@client/modules/noteList/useNote';
+import { queryErrorMessage } from '@client/utils/queries';
 
 export const useNoteController = () => {
     const actions = useNote();

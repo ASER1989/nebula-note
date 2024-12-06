@@ -100,5 +100,5 @@ module.exports = {
     getFileList,
     rename,
     mkdir,
-    isDirectoryEmptySync
+    isDirectoryEmptySync,
 };

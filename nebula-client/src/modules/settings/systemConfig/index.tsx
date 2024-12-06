@@ -1,18 +1,17 @@
-import React, { useState, useMemo, useEffect } from 'react';
 import '../index.styl';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '@client/atoms/button';
-import { FiSave } from 'react-icons/fi';
-import useSettings from '@client/models/settingsModel/useSettings';
-import Form, { FormItem } from '@client/molecules/form';
+import Dropdown, { DropdownOption } from '@client/atoms/dropdown';
 import Input from '@client/atoms/input';
 import Switch from '@client/atoms/switch';
-import Dropdown, { DropdownOption } from '@client/atoms/dropdown';
-import { Stack, StackItem } from '@client/molecules/stack';
-import FolderPicker from '@client/modules/settings/folderPicker';
 import useMessage from '@client/components/message/useMessage';
 import { useNoteConfig } from '@client/models/noteModel';
+import useSettings from '@client/models/settingsModel/useSettings';
 import useNote from '@client/modules/noteList/useNote';
+import FolderPicker from '@client/modules/settings/folderPicker';
+import Form, { FormItem } from '@client/molecules/form';
 import Section from '@client/molecules/section';
+import { Stack, StackItem } from '@client/molecules/stack';
 
 export default function SystemConfig() {
     const { showMessage } = useMessage();
@@ -71,7 +70,7 @@ export default function SystemConfig() {
     const handleDataSourceChange = async (option: DropdownOption) => {
         await handleNewDataSource(option.value);
     };
-    
+
     useEffect(() => {
         if (fetchStatus === 'Error' && error !== undefined) {
             showMessage(error);

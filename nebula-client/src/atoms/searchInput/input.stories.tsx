@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
 import Input from './index';
-import { within, userEvent, expect } from '@storybook/test';
+
 // import {expect} from '@storybook/jest';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export

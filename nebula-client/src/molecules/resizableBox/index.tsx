@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, ReactElement } from 'react';
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import _ from 'lodash';
 
 export interface ResizableBoxProps {

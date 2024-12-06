@@ -7,7 +7,7 @@ type FormItemProps = {
     alignItems?: React.CSSProperties['alignItems'];
 };
 
-export const FormItem =(props: FormItemProps)=> {
+export const FormItem = (props: FormItemProps) => {
     if (!props.label) {
         return (
             <div className='form-item form-item-only'>
@@ -17,11 +17,11 @@ export const FormItem =(props: FormItemProps)=> {
     }
 
     return (
-        <div className='form-item' style={{alignItems: props.alignItems}}>
+        <div className='form-item' style={{ alignItems: props.alignItems }}>
             <div className='form-item-label'>{props.label}</div>
             <div className='form-item-content'>{props.children}</div>
         </div>
     );
-}
+};
 
 export default FormItem;

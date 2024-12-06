@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
-import _ from 'lodash';
+import { useRef, useState } from 'react';
 import type { EventCallback, Options, Props } from './context';
+import _ from 'lodash';
 import { defaultContext } from './context';
 
 export default function useConfirmContext() {

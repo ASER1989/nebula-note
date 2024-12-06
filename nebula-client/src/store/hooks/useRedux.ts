@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { store } from '@client/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { createSliceInstance } from '@client/store/tools/sliceHelper';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const useRedux = <SliceType>(stateName: string, initialState: SliceType) => {
     const dispatch = useDispatch();

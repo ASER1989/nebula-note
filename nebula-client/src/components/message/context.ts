@@ -10,13 +10,13 @@ export interface IMessageContext {
     setContent: (content: string, onClose?: () => void) => number;
     removeContent: (id: number) => void;
     messageList: Array<MessageInstance>;
-    lastUpdateTime: number
+    lastUpdateTime: number;
 }
 
 const defaultContext: IMessageContext = {
     setContent: () => -1,
     removeContent: _.noop,
     messageList: [],
-    lastUpdateTime:0
+    lastUpdateTime: 0,
 };
 export const MessageContext = React.createContext<IMessageContext>(defaultContext);

@@ -1,7 +1,7 @@
 import './index.styl';
 import React from 'react';
-import type { GraphqlSchema } from '@client/models/graphql/type';
 import { TagType } from '@client/components/schemaTree/types';
+import type { GraphqlSchema } from '@client/models/graphql/type';
 
 type Props = {
     field?: GraphqlSchema;

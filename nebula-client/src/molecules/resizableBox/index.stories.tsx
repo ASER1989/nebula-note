@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import ResizeBox, { ResizableBoxProps } from './index';
-import { useArgs } from '@storybook/addons';
 
 export default {
     title: 'Molecules/ResizeBox',

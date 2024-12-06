@@ -1,13 +1,13 @@
 import React from 'react';
-import { List } from './list';
-import { Content } from './content';
-import { useNoteConfig } from '@client/models/noteModel';
-import SplitPanel from '@client/molecules/splitPanel';
-import * as noteApi from '@client/models/noteModel/api';
 import useMessage from '@client/components/message/useMessage';
-import CreateForm from './createForm';
+import { useNoteConfig } from '@client/models/noteModel';
+import * as noteApi from '@client/models/noteModel/api';
 import { BuildResult } from '@client/modules/noteList/buildReuslt';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
+import SplitPanel from '@client/molecules/splitPanel';
+import { Content } from './content';
+import CreateForm from './createForm';
+import { List } from './list';
 
 export const NoteList = () => {
     const { reload } = useNoteConfig();

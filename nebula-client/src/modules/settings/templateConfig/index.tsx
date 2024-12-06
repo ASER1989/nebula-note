@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
 import '../index.styl';
-import request from '@client/utils/request';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '@client/atoms/button';
-import { FiSave } from 'react-icons/fi';
-import useMessage from '@client/components/message/useMessage';
 import CodeEditor from '@client/components/codeEditor';
+import useMessage from '@client/components/message/useMessage';
 import { useNoteConfig } from '@client/models/noteModel';
+import request from '@client/utils/request';
+import { FiSave } from 'react-icons/fi';
 
 export default function TemplateConfig() {
     const { showMessage } = useMessage();

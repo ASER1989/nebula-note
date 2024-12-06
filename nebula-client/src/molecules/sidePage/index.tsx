@@ -1,12 +1,7 @@
 import './index.styl';
-import React, {
-    useState,
-    useEffect,
-    KeyboardEvent,
-    forwardRef,
-} from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
+import React, { KeyboardEvent, forwardRef, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { AiOutlineClose } from 'react-icons/ai';
 
 export type SidePageProps = {
     title?: string;

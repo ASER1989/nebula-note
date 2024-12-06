@@ -19,13 +19,18 @@ module.exports = (prefix, opts) => {
         if (configOption && configOption.version > reqParams.version) {
             return Error('模板版本号不一致');
         }
-        const newConfig = _.pick(reqParams, ['name', 'keyword','filePath','templateList']);
+        const newConfig = _.pick(reqParams, [
+            'name',
+            'keyword',
+            'filePath',
+            'templateList',
+        ]);
         newConfig.version = +new Date();
         newConfig.filePath = newConfig.filePath || templateUtils.nameToPath(name);
         const metaPath = templateUtils.filePathToMetaPath(newConfig.filePath);
         const docPath = templateUtils.filePathToDocPath(newConfig.filePath);
         newConfig.templateList = _.map(reqParams.templateList, (item) =>
-            _.pick(item, 'title','language'),
+            _.pick(item, 'title', 'language'),
         );
         if (configOption) {
             templateConfigs[configIndex] = newConfig;

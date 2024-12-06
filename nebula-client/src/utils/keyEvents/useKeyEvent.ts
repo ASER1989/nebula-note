@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { EventContext } from './eventContext';
 import { EventListener } from './types';
 

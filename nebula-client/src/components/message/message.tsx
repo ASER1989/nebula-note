@@ -1,5 +1,5 @@
 import './index.styl';
-import React, {FC, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import Button from '@client/atoms/button';
 import { MessageContext } from './context';
 
@@ -8,7 +8,7 @@ export type Props = {
     onClose?: () => void;
 };
 
-export const Message:FC<Props> =({ content, onClose }) => {
+export const Message: FC<Props> = ({ content, onClose }) => {
     const { setContent } = useContext(MessageContext);
     if (!content) {
         return null;
@@ -33,6 +33,6 @@ export const Message:FC<Props> =({ content, onClose }) => {
             </div>
         </div>
     );
-}
+};
 
 export default Message;

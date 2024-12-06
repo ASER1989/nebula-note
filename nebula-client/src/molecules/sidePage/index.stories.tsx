@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import type { SidePageProps } from './index';
+import { Meta, StoryObj } from '@storybook/react';
 import { SidePage } from './index';
 
 export default {

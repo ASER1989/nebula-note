@@ -1,5 +1,5 @@
 import './index.styl';
-import React, { useRef, FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 export type Props = {

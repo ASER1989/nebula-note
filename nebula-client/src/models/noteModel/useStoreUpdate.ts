@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useMessage from '@client/components/message/useMessage';
-import { useNoteConfig } from './index';
 import { noteStoreUpdate } from './api';
+import { useNoteConfig } from './index';
 
 const useStoreUpdate = () => {
     const [loading, setLoading] = useState(false);

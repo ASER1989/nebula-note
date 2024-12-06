@@ -1,6 +1,6 @@
+import { NoteRecord, TemplateRecord } from '@client/models/noteModel/types';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
-import { NoteRecord, TemplateRecord } from '@client/models/noteModel/types';
 
 const REDUX_KEY = 'noteState';
 

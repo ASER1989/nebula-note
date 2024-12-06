@@ -1,7 +1,7 @@
 /// <reference types="jest" />
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import HighLight from './index';
-import React from 'react';
 
 describe('HightLight Component', () => {
     test('renders children without keywords', () => {

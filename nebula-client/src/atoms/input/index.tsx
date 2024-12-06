@@ -1,7 +1,7 @@
 import './index.styl';
 import React, { ChangeEvent, forwardRef } from 'react';
-import type { FocusEvent } from 'react';
 import classNames from 'classnames';
+import type { FocusEvent } from 'react';
 
 export type InputProps = {
     value?: string;

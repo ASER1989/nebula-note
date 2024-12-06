@@ -1,18 +1,18 @@
+import './index.styl';
 import React, {
+    ForwardedRef,
+    ReactElement,
+    forwardRef,
+    useEffect,
     useMemo,
     useState,
-    ReactElement,
-    ForwardedRef,
-    useEffect,
-    forwardRef,
 } from 'react';
-import _ from 'lodash';
-import { TabPaneProps } from './tabPane';
-import './index.styl';
-import classNames from 'classnames';
-import Position from '@client/molecules/position';
 import IconButton from '@client/atoms/iconButton';
-import { LuX, LuPlus } from 'react-icons/lu';
+import Position from '@client/molecules/position';
+import classNames from 'classnames';
+import _ from 'lodash';
+import { LuPlus, LuX } from 'react-icons/lu';
+import { TabPaneProps } from './tabPane';
 
 export type Props = {
     activePaneId?: string;

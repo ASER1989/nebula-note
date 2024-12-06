@@ -1,6 +1,6 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/addons';
+import { Meta, StoryObj } from '@storybook/react';
 import Dialog, { Props } from './index';
 
 const meta = {

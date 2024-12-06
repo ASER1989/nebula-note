@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef, ForwardedRef } from 'react';
+import React, { ForwardedRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 export type Props = {
     width?: string | number;
@@ -29,7 +29,7 @@ const ScrollViewBase = (
         height,
         overflowX: scrollX ? 'auto' : 'hidden',
         overflowY: scrollY ? 'auto' : 'hidden',
-        ...style
+        ...style,
     };
 
     useImperativeHandle(ref, () => scrollViewRef.current!, [scrollViewRef.current]);

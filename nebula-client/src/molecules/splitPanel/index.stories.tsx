@@ -1,6 +1,6 @@
+import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import SplitPanel from './index';
-import React from 'react';
 
 export default {
     title: 'Components/SplitPanel',
@@ -31,7 +31,7 @@ export default {
                 right
             </div>,
         ],
-        dividerWidth:5
+        dividerWidth: 5,
     },
     decorators: [
         (Story) => (

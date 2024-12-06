@@ -1,12 +1,12 @@
-import _ from 'lodash';
 import {
-    buildClientSchema,
     GraphQLSchema,
+    IntrospectionEnumValue,
+    IntrospectionField,
     IntrospectionQuery,
     IntrospectionType,
-    IntrospectionField,
-    IntrospectionEnumValue,
+    buildClientSchema,
 } from 'graphql';
+import _ from 'lodash';
 
 type SchemaNode = Omit<IntrospectionType, 'enumValues'> & {
     type: IntrospectionField['type'];

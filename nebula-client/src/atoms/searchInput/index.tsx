@@ -1,11 +1,11 @@
 import './index.styl';
-import React, { type FocusEvent, useState, forwardRef } from 'react';
+import React, { type FocusEvent, forwardRef, useState } from 'react';
+import IconButton from '@client/atoms/iconButton';
 import Input, { InputProps } from '@client/atoms/input';
-import { MdManageSearch, MdClose } from 'react-icons/md';
 import { Stack, StackItem } from '@client/molecules/stack';
 import classNames from 'classnames';
 import _ from 'lodash';
-import IconButton from '@client/atoms/iconButton';
+import { MdClose, MdManageSearch } from 'react-icons/md';
 
 export type Props = InputProps & {
     onClean?: () => void;

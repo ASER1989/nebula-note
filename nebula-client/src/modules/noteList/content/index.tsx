@@ -1,17 +1,17 @@
-import React, { FC, useState } from 'react';
-import _ from 'lodash';
 import '../index.styl';
-import { Tabs, TabPane, TabOption } from '@client/molecules/tabs';
-import CodeEditor from '@client/components/codeEditor';
-import type { Props as EditorProps } from '@client/components/codeEditor';
-import MarkdownEditor from '@client/components/markdownEditor';
-import ShortcutKeys from '@client/modules/shortcutKeys';
-import { Stack, StackItem } from '@client/molecules/stack';
-import { LuPencilLine } from 'react-icons/lu';
-import classNames from 'classnames';
+import React, { FC, useState } from 'react';
 import { EditableContent } from '@client/atoms/editableContent';
+import type { Props as EditorProps } from '@client/components/codeEditor';
+import CodeEditor from '@client/components/codeEditor';
+import MarkdownEditor from '@client/components/markdownEditor';
 import useMessage from '@client/components/message/useMessage';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
+import ShortcutKeys from '@client/modules/shortcutKeys';
+import { Stack, StackItem } from '@client/molecules/stack';
+import { TabOption, TabPane, Tabs } from '@client/molecules/tabs';
+import classNames from 'classnames';
+import _ from 'lodash';
+import { LuPencilLine } from 'react-icons/lu';
 
 export type Props = {
     state: NoteState;

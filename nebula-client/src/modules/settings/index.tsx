@@ -1,7 +1,7 @@
-import React from 'react';
 import './index.styl';
-import { Tabs, TabPane } from '@client/molecules/tabs';
+import React from 'react';
 import SystemConfig from '@client/modules/settings/systemConfig';
+import { TabPane, Tabs } from '@client/molecules/tabs';
 
 export default function Settings() {
     return (

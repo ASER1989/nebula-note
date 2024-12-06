@@ -1,5 +1,5 @@
+import { Settings } from '@client/models/settingsModel/types';
 import request from '@client/utils/request';
-import {Settings} from "@client/models/settingsModel/types";
 
 export const getSettings = () => {
     return request.get<Settings>('/settings');

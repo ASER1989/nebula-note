@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useMemo, KeyboardEvent } from 'react';
 import './index.styl';
+import React, { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 export type DropdownOption<T extends string = string> = {

@@ -1,4 +1,4 @@
-import { Reducer, combineReducers, Action } from '@reduxjs/toolkit';
+import { Action, Reducer, combineReducers } from '@reduxjs/toolkit';
 
 // 定义 `ReducerManager` 的类型接口
 export interface ReducerManager<State> {

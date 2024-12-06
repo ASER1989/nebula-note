@@ -1,8 +1,8 @@
+import { useEffect } from 'react';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
-import { FolderPickerState } from './types';
-import { useEffect } from 'react';
 import { getFolderList } from './api';
+import { FolderPickerState } from './types';
 
 const REDUX_KEY = 'folderPickerState';
 
@@ -38,7 +38,7 @@ export const useFolderPicker = () => {
     return {
         fetchStatus,
         folderList,
-        loadFolderList
+        loadFolderList,
     };
 };
 

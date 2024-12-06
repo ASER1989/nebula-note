@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
 import './index.styl';
+import React, { useEffect, useRef } from 'react';
 import { Item } from './item';
 
 type Folder = { name: string; path: string };
@@ -24,14 +24,16 @@ export const FolderView = ({ data, value, onClick, onDoubleClick }: Props) => {
                 keyListRef.current = [];
             }, 1500);
 
-            if (e.key.length===1) {
+            if (e.key.length === 1) {
                 keyListRef.current.push(e.key);
             }
 
             if (keyListRef.current.length > 0) {
                 const key = keyListRef.current.join('').toLowerCase();
                 console.log('folderView search', key);
-                const matchItem = data.find((item) => item.name.toLowerCase().startsWith(key));
+                const matchItem = data.find((item) =>
+                    item.name.toLowerCase().startsWith(key),
+                );
                 if (matchItem) {
                     onClick?.(matchItem);
                 }
@@ -40,11 +42,11 @@ export const FolderView = ({ data, value, onClick, onDoubleClick }: Props) => {
         if (viewRef.current) {
             document.addEventListener('keydown', handleKeyDown);
             return () => {
-                console.log("folderView removeEventListener keydown")
+                console.log('folderView removeEventListener keydown');
                 document.removeEventListener('keydown', handleKeyDown);
             };
         }
-    }, [viewRef,data]);
+    }, [viewRef, data]);
 
     return (
         <div className='folder-view' ref={viewRef}>

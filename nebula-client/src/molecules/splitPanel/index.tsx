@@ -1,6 +1,6 @@
-import React, { MouseEvent, useState, useMemo } from 'react';
-import _ from 'lodash';
 import './index.styl';
+import React, { MouseEvent, useMemo, useState } from 'react';
+import _ from 'lodash';
 
 export interface SplitPanelProps {
     direction?: 'horizontal' | 'vertical';

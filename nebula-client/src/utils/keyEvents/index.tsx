@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { EventListener } from './types';
 import { EventContext } from './eventContext';
+import { EventListener } from './types';
 
 type Props = {
     children: React.ReactNode | Array<React.ReactNode>;

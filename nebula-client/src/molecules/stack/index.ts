@@ -1,4 +1,4 @@
-export type { StackProps } from './stack';
 export { Stack } from './stack';
-export type { StackItemProps } from './stackItem';
+export type { StackProps } from './stack';
 export { StackItem } from './stackItem';
+export type { StackItemProps } from './stackItem';

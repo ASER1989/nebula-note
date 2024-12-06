@@ -32,6 +32,7 @@
         "koa-bodyparser": "4.4.1",
         "lodash": "4.17.21",
         "node-fetch": "2",
+        "rimraf": "5.0.10",
         "simple-git": "^3.20.0"
     },
     "workspaces": [
@@ -40,6 +41,8 @@
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.0.1",
         "cypress": "^13.14.2",
-        "prettier": "^3.4.2"
+        "prettier": "^3.4.2",
+        "prettier-plugin-svelte": "^3.3.2",
+        "svelte": "^5.7.1"
     }
 }

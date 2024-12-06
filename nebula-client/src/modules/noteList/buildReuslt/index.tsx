@@ -1,16 +1,16 @@
 import React from 'react';
-import { SidePage } from '@client/molecules/sidePage';
-import { useRedux } from '@client/store/hooks/useRedux';
+import CodeEditor from '@client/components/codeEditor';
 import { StateName } from '@client/modules/noteList/buildReuslt/constants';
 import {
     BuildResultState,
     CodeSnippet,
 } from '@client/modules/noteList/buildReuslt/types';
-import CodeEditor from '@client/components/codeEditor';
 import Copy from '@client/molecules/copy';
-import { Stack, StackItem } from '@client/molecules/stack';
 import ResizableBox from '@client/molecules/resizableBox';
+import { SidePage } from '@client/molecules/sidePage';
+import { Stack, StackItem } from '@client/molecules/stack';
 import { TabPane, Tabs } from '@client/molecules/tabs';
+import { useRedux } from '@client/store/hooks/useRedux';
 
 export const BuildResult = () => {
     const { state, setState } = useRedux(StateName, {

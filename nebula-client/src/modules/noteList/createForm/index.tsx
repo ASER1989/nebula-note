@@ -1,14 +1,14 @@
-import React, { useState, FC } from 'react';
 import './index.styl';
+import React, { FC, useState } from 'react';
 import Button from '@client/atoms/button';
-import Form, { FormItem } from '@client/molecules/form';
 import Input from '@client/atoms/input';
-import Dialog from '@client/molecules/dialog';
-import _ from 'lodash';
 import Textarea from '@client/atoms/textarea';
-import { NoteRecord } from '@client/models/noteModel/types';
 import { useNoteConfig } from '@client/models/noteModel';
-import useNoteController from "@client/modules/noteList/useNoteController";
+import { NoteRecord } from '@client/models/noteModel/types';
+import useNoteController from '@client/modules/noteList/useNoteController';
+import Dialog from '@client/molecules/dialog';
+import Form, { FormItem } from '@client/molecules/form';
+import _ from 'lodash';
 
 type Props = {
     visible: boolean;

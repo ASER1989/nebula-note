@@ -1,6 +1,6 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
 import type { StackProps } from './index';
+import { Meta, StoryObj } from '@storybook/react';
 import { Stack, StackItem } from './index';
 
 export default {
@@ -28,7 +28,13 @@ export default {
         },
         justify: {
             control: 'select',
-            options: ['flex-start', 'center', 'space-between', 'space-around', 'flex-end'],
+            options: [
+                'flex-start',
+                'center',
+                'space-between',
+                'space-around',
+                'flex-end',
+            ],
         },
         overflow: {
             control: 'select',
@@ -40,7 +46,6 @@ export default {
         children: {
             control: false,
         },
-
     },
     args: {
         type: 'flex',

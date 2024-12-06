@@ -1,4 +1,4 @@
-import { Store, Middleware, AnyAction } from 'redux';
+import { AnyAction, Middleware, Store } from 'redux';
 
 export interface TakeOnceStore extends Store {
     takeOnce: (actionType: string, callback: () => void) => void;

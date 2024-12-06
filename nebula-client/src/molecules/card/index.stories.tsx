@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import Card, { Props } from './index';
 import ScrollView from '../scrollView';
+import Card, { Props } from './index';
 
 export default {
     title: 'Molecules/Card',

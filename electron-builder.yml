@@ -3,32 +3,32 @@ productName: Nebula Note
 
 asar: true
 directories:
-  output: dist/
+    output: dist/
 files:
-  - client/dist/
-  - pro/
-  - service/
-  - utils/
-  - config.json
-  - package.json
-  - node_modules/
+    - client/dist/
+    - pro/
+    - service/
+    - utils/
+    - config.json
+    - package.json
+    - node_modules/
 
 mac:
-#  icon: pro/assets/icon.ico
-  artifactName: '${productName}-${platform}-${arch}-${version}.${ext}'
-  darkModeSupport: true
-  target: dmg
+    #  icon: pro/assets/icon.ico
+    artifactName: '${productName}-${platform}-${arch}-${version}.${ext}'
+    darkModeSupport: true
+    target: dmg
 dmg:
-  icon: pro/assets/icon.ico
-  iconSize: 128
+    icon: pro/assets/icon.ico
+    iconSize: 128
 
 win:
-  artifactName: ${name}-${version}-windows-${arch}.${ext}
-  icon: pro/assets/icon.ico
-  target:
-    - target: nsis
+    artifactName: ${name}-${version}-windows-${arch}.${ext}
+    icon: pro/assets/icon.ico
+    target:
+        - target: nsis
 
 nsis:
-  artifactName: ${name}-${version}-windows-${arch}-nsis-installer.${ext}
-  oneClick: false
-  perMachine: false
+    artifactName: ${name}-${version}-windows-${arch}-nsis-installer.${ext}
+    oneClick: false
+    perMachine: false

@@ -1,11 +1,11 @@
-import { useMemo, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import useMessage from '@client/components/message/useMessage';
-import { getNoteList, noteRemove, noteRename, noteUpsert } from './api';
-import { NoteConfigState, NoteRecord } from './types';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
 import { Response } from '@client/utils/request';
+import { getNoteList, noteRemove, noteRename, noteUpsert } from './api';
+import { NoteConfigState, NoteRecord } from './types';
 
 export interface IUseNoteConfig {
     keyword?: string;

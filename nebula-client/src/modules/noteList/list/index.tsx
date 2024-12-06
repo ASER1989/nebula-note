@@ -1,22 +1,22 @@
 import '../index.styl';
 import React, { useContext, useEffect } from 'react';
-import { ListItem } from './item';
-import { NoteRecord } from '@client/models/noteModel/types';
-import * as noteApi from '@client/models/noteModel/api';
 import { ConfirmContext } from '@client/components/confirm/context';
-import { useRedux } from '@client/store/hooks/useRedux';
+import { useNoteConfig } from '@client/models/noteModel';
+import * as noteApi from '@client/models/noteModel/api';
+import { NoteRecord } from '@client/models/noteModel/types';
 import { StateName as BuildResultStateName } from '@client/modules/noteList/buildReuslt/constants';
 import {
     BuildResultState,
     CodeSnippet,
 } from '@client/modules/noteList/buildReuslt/types';
-import { Stack, StackItem } from '@client/molecules/stack';
-import { Header } from './header';
-import { queryErrorMessage } from '@client/utils/queries';
-import useNoteController from '@client/modules/noteList/useNoteController';
-import { useNoteConfig } from '@client/models/noteModel';
-import { useParams } from 'react-router-dom';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
+import useNoteController from '@client/modules/noteList/useNoteController';
+import { Stack, StackItem } from '@client/molecules/stack';
+import { useRedux } from '@client/store/hooks/useRedux';
+import { queryErrorMessage } from '@client/utils/queries';
+import { useParams } from 'react-router-dom';
+import { Header } from './header';
+import { ListItem } from './item';
 
 type Props = {
     state: NoteState;

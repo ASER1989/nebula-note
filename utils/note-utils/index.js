@@ -3,13 +3,13 @@ const fileUtils = require('../fileUtils');
 const systemConfig = require('../system-config');
 const _ = require('lodash');
 const rimraf = require('rimraf');
-const {defaultDataSource} = require('../config');
+const { defaultDataSource } = require('../config');
 
 let _config;
 
 const getDataFolder = () => {
     const config = systemConfig.getConfig();
-    const customFolder = config?.dataSource?.find(item => item.isActive);
+    const customFolder = config?.dataSource?.find((item) => item.isActive);
     return _.isEmpty(customFolder) ? defaultDataSource : customFolder?.path;
 };
 const getConfigPath = async () => {

@@ -1,9 +1,9 @@
 import './index.styl';
 import React from 'react';
 import type { Folder } from './types';
-import Input from '@client/atoms/input';
 import Checkbox from '@client/atoms/checkbox';
 import ExpandBox from '@client/atoms/expandbox';
+import Input from '@client/atoms/input';
 import classNames from 'classnames';
 
 type Props = {

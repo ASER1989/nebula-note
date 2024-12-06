@@ -1,12 +1,11 @@
-import React, { forwardRef, ReactElement, useMemo } from 'react';
-
+import React, { ReactElement, forwardRef, useMemo } from 'react';
 import { StackItem } from '@client/molecules/stack/stackItem';
 
 export type StackProps = {
     type?: 'flex' | 'inline-flex';
     direction?: 'vertical' | 'horizontal';
     spacing?: number;
-    align?:  React.CSSProperties['alignItems'];
+    align?: React.CSSProperties['alignItems'];
     justify?: 'flex-start' | 'center' | 'space-between' | 'space-around' | 'flex-end';
     overflow?: React.CSSProperties['overflow'];
     children: ReactElement<typeof StackItem> | ReactElement<typeof StackItem>[];

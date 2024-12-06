@@ -1,7 +1,7 @@
 import React from 'react';
+import { useArgs } from '@storybook/addons';
 import { Meta, StoryObj } from '@storybook/react';
 import ExpandBox, { Props } from './index';
-import { useArgs } from '@storybook/addons';
 
 export default {
     title: 'Atoms/ExpandBox',

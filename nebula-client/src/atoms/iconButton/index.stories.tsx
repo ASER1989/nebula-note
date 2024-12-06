@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import IconButton, { Props } from './index';
 import { FaPlayCircle } from 'react-icons/fa';
+import IconButton, { Props } from './index';
 
 export default {
     title: 'Atoms/IconButton',

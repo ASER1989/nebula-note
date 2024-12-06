@@ -1,8 +1,8 @@
+import { useEffect } from 'react';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
-import { Settings, SettingsState } from './types';
-import { useEffect } from 'react';
 import * as Api from './api';
+import { Settings, SettingsState } from './types';
 
 const REDUX_KEY = 'settingsState';
 

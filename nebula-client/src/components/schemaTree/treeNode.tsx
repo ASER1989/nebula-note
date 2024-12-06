@@ -1,15 +1,15 @@
 import './index.styl';
 import React from 'react';
-import type { GraphqlSchema } from '@client/models/graphql/type';
-import Input from '@client/atoms/input';
 import Checkbox from '@client/atoms/checkbox';
 import ExpandBox from '@client/atoms/expandbox';
-import classNames from 'classnames';
+import Input from '@client/atoms/input';
+import FieldType from '@client/components/schemaTree/fieldType';
+import { TagType } from '@client/components/schemaTree/types';
 import { deepthCheck } from '@client/models/graphql';
+import type { GraphqlSchema } from '@client/models/graphql/type';
+import classNames from 'classnames';
 import FieldTags from './fieldTags';
 import SchemaTree from './index';
-import { TagType } from '@client/components/schemaTree/types';
-import FieldType from '@client/components/schemaTree/fieldType';
 
 type NodeProps = {
     key: string;

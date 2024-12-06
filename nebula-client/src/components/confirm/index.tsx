@@ -1,8 +1,8 @@
+import './index.styl';
 import React, { useContext } from 'react';
 import Button from '@client/atoms/button';
-import { ConfirmContext } from './context';
 import { Dialog } from '@client/molecules/dialog';
-import './index.styl';
+import { ConfirmContext } from './context';
 
 export default function Confirm() {
     const { options, onClose } = useContext(ConfirmContext);

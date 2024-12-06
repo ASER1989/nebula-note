@@ -1,10 +1,10 @@
-import { configureStore, EnhancedStore, Reducer } from '@reduxjs/toolkit';
-import { createReducerManager, ReducerManager } from './reducerManager';
+import { EnhancedStore, Reducer, configureStore } from '@reduxjs/toolkit';
 import {
+    TakeOnceStore,
     enhanceStoreWithTakeOnce,
     takeOnceMiddleware,
-    TakeOnceStore,
 } from './middlewares/takeOnce';
+import { ReducerManager, createReducerManager } from './reducerManager';
 
 export type RootState = Record<string, unknown>;
 type Store = EnhancedStore<RootState> & {

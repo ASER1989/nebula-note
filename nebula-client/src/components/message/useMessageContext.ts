@@ -1,10 +1,10 @@
-import { useRef,useState } from 'react';
+import { useRef, useState } from 'react';
 import { IMessageContext, MessageInstance } from './context';
 
 export const useMessageContext = () => {
     const nextMessageId = useRef(0);
     const messageArray = useRef<Array<MessageInstance & { id: number }>>([]);
-    const [lastUpdateTime,setLastUpdateTime]=useState(Date.now());
+    const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
     const removeContent = (messageId: number) => {
         const index = messageArray.current.findIndex((item) => item.id === messageId);
@@ -31,6 +31,6 @@ export const useMessageContext = () => {
         messageList: messageArray.current,
         setContent,
         removeContent,
-        lastUpdateTime
+        lastUpdateTime,
     } as IMessageContext;
 };

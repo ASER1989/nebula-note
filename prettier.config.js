@@ -12,8 +12,8 @@ module.exports = {
     trailingComma: 'all',
     plugins: ['@trivago/prettier-plugin-sort-imports'],
     importOrder: [
-        '\\.styl$',
-        "^react$",
+        '.styl$',
+        '^react$',
         // may not be necessary, but put here to keep older ordering
         'startSpinner$',
         // required to make open api setup start
@@ -47,7 +47,6 @@ module.exports = {
         // imports inside the current area. alphabetical sorting puts ../ before ./
         '^[./]',
     ],
-
     importOrderSeparation: false,
     importOrderSortSpecifiers: true,
     importOrderParserPlugins: ['typescript', 'jsx', 'topLevelAwait'],

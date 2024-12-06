@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import IconButton from '@client/atoms/iconButton';
+import SearchInput from '@client/atoms/searchInput';
+import { useNoteConfig } from '@client/models/noteModel';
+import useNote from '@client/modules/noteList/useNote';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { FiEdit } from 'react-icons/fi';
-import IconButton from '@client/atoms/iconButton';
 import { MdManageSearch } from 'react-icons/md';
-import SearchInput from '@client/atoms/searchInput';
-import {useNoteConfig} from "@client/models/noteModel";
-import useNote from "@client/modules/noteList/useNote";
 
 export const Header = () => {
     const actions = useNote();
@@ -28,7 +28,7 @@ export const Header = () => {
         setKeyword(newValue as string);
     };
 
-    const handleCreateNote= () => {
+    const handleCreateNote = () => {
         actions.setCreateFormShown(true);
     };
 

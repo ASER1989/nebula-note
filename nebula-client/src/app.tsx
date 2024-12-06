@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
 import './app.styl';
-import { MessageContext } from '@client/components/message/context';
-import { MessageBox, useMessageContext } from '@client/components/message';
-import packageConfig from '../../package.json';
-import { LuSettings } from 'react-icons/lu';
-import { SidePage } from '@client/molecules/sidePage';
-import Settings from '@client/modules/settings';
-import classNames from 'classnames';
-import { useStoreUpdate } from '@client/models/noteModel';
-import { useRoutes } from 'react-router-dom';
-import routeConfig from '@client/routeConfig';
+import React, { useState } from 'react';
 import Confirm from '@client/components/confirm';
 import { ConfirmContext } from '@client/components/confirm/context';
 import useConfirmContext from '@client/components/confirm/useConfirmContext';
+import { MessageBox, useMessageContext } from '@client/components/message';
+import { MessageContext } from '@client/components/message/context';
+import { useStoreUpdate } from '@client/models/noteModel';
+import Settings from '@client/modules/settings';
+import { SidePage } from '@client/molecules/sidePage';
+import routeConfig from '@client/routeConfig';
+import classNames from 'classnames';
+import { LuSettings } from 'react-icons/lu';
+import { useRoutes } from 'react-router-dom';
+import packageConfig from '../../package.json';
 
 function App() {
     const messageContextValue = useMessageContext();

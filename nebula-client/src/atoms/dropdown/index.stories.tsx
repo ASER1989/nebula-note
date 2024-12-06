@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { useArgs } from '@storybook/addons';
 import { Meta, StoryObj } from '@storybook/react';
 import Dropdown, { Props } from './index';
-import { useArgs } from '@storybook/addons';
 
 export default {
     title: 'Atoms/Dropdown',

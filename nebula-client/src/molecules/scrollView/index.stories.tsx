@@ -9,7 +9,7 @@ export default {
     argTypes: {
         children: {
             control: 'none' as never,
-        }
+        },
     },
     args: {},
 } as Meta<Props>;
@@ -22,20 +22,104 @@ export const Primary: Story = {
         scrollY: true,
         children: (
             <div>
-                <div style={{background:"linear-gradient(to right,blue,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,green,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,yellow,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,blue,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,green,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,red,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,yellow,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,blue,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,green,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,yellow,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,blue,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,red,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,green,#FFFFFF)", width: 500, height: 100}}></div>
-                <div style={{background:"linear-gradient(to right,yellow,#FFFFFF)", width: 500, height: 100}}></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,blue,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,green,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,yellow,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,blue,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,green,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,red,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,yellow,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,blue,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,green,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,yellow,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,blue,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,red,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,green,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
+                <div
+                    style={{
+                        background: 'linear-gradient(to right,yellow,#FFFFFF)',
+                        width: 500,
+                        height: 100,
+                    }}
+                ></div>
             </div>
         ),
     },

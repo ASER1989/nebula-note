@@ -1,7 +1,7 @@
 import './index.styl';
-import React, { useContext,FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { MessageContext } from '@client/components/message/context';
-import Message from "./message";
+import Message from './message';
 
 export const MessageBox: FC = () => {
     const { messageList } = useContext(MessageContext);

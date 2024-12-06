@@ -1,5 +1,5 @@
-import {SupportedLang} from "@client/components/codeEditor/queries";
-import {FetchStatus} from "@client/types";
+import { SupportedLang } from '@client/components/codeEditor/queries';
+import { FetchStatus } from '@client/types';
 
 export type TemplateRecord = {
     title: string;

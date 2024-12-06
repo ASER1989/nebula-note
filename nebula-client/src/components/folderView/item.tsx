@@ -1,6 +1,6 @@
 import React from 'react';
-import { FcFolder } from 'react-icons/fc';
 import classNames from 'classnames';
+import { FcFolder } from 'react-icons/fc';
 
 export type Props = {
     title: string;
@@ -8,7 +8,7 @@ export type Props = {
     onClick?: () => void;
     onDoubleClick?: () => void;
 };
-export const Item = ({ title, active ,onClick,onDoubleClick}: Props) => {
+export const Item = ({ title, active, onClick, onDoubleClick }: Props) => {
     const itemClass = classNames('folder-item', { active: active });
 
     return (

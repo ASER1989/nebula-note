@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 import React from 'react';
-import SplitPanel from './index';
 import { expect } from 'chai';
 
 describe('ResizableSplit Component', () => {

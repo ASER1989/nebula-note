@@ -1,13 +1,13 @@
 import '../../index.styl';
 import React, { useState } from 'react';
-import classNames from 'classnames';
-import { FaPlayCircle } from 'react-icons/fa';
-import { MdClose, MdCheck, MdDeleteForever } from 'react-icons/md';
+import { EditableContent } from '@client/atoms/editableContent';
 import IconButton from '@client/atoms/iconButton';
 import Position from '@client/molecules/position';
-import { LuPencilLine } from 'react-icons/lu';
-import { EditableContent } from '@client/atoms/editableContent';
 import { Stack, StackItem } from '@client/molecules/stack';
+import classNames from 'classnames';
+import { FaPlayCircle } from 'react-icons/fa';
+import { LuPencilLine } from 'react-icons/lu';
+import { MdCheck, MdClose, MdDeleteForever } from 'react-icons/md';
 
 export type Props = {
     name: string;
@@ -99,9 +99,9 @@ export const ListItem = ({
         return (
             <>
                 {onBuild && (
-                  <IconButton onClick={onBuild}>
-                      <FaPlayCircle color='#009688' size={20} />
-                  </IconButton>
+                    <IconButton onClick={onBuild}>
+                        <FaPlayCircle color='#009688' size={20} />
+                    </IconButton>
                 )}
                 <Position
                     type='absolute'

@@ -1,7 +1,7 @@
 import './index.styl';
 import React from 'react';
-import type { FocusEvent } from 'react';
 import classNames from 'classnames';
+import type { FocusEvent } from 'react';
 
 type InputType = string | number | undefined;
 export type Props<T> = {

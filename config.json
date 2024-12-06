@@ -1,6 +1,6 @@
 {
-  "servicePort": 3816,
-  "deployMode": "preview",
-  "autoSave": true,
-  "dataSource": []
+    "servicePort": 3816,
+    "deployMode": "preview",
+    "autoSave": true,
+    "dataSource": []
 }

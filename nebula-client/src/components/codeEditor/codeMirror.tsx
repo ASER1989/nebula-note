@@ -1,14 +1,14 @@
+import './index.styl';
 import React, { useMemo, useState } from 'react';
-import classNames from 'classnames';
-import CodeMirror, { ReactCodeMirrorProps } from '@uiw/react-codemirror';
+import Dropdown, { DropdownOption } from '@client/atoms/dropdown';
+import * as events from '@uiw/codemirror-extensions-events';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { githubLight } from '@uiw/codemirror-theme-github';
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
-import './index.styl';
-import Dropdown, { DropdownOption } from '@client/atoms/dropdown';
-import { getLangOptions, SupportedLang } from './queries';
-import * as events from '@uiw/codemirror-extensions-events';
+import CodeMirror, { ReactCodeMirrorProps } from '@uiw/react-codemirror';
+import classNames from 'classnames';
 import _ from 'lodash';
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
+import { SupportedLang, getLangOptions } from './queries';
 
 export interface Props extends ReactCodeMirrorProps {
     title?: string;
@@ -70,7 +70,7 @@ export default function CodeEditor(props: Props) {
         'lang',
         'disableLangChange',
         'onSave',
-        'onLangChange'
+        'onLangChange',
     ]);
 
     return (

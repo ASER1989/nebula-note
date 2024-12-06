@@ -8,5 +8,5 @@ const defaultDataSource = path.join(userFolderPath, 'Nebula/Notes');
 
 module.exports = {
     userConfigPath,
-    defaultDataSource
-}
+    defaultDataSource,
+};

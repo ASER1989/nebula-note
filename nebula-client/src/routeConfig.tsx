@@ -1,8 +1,7 @@
 import React from 'react';
-import NoteList from './modules/noteList';
-
-import type { RouteObject } from 'react-router-dom';
 import _ from 'lodash';
+import type { RouteObject } from 'react-router-dom';
+import NoteList from './modules/noteList';
 
 type RouteConfig = RouteObject & { label: string };
 
