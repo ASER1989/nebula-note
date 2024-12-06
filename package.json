@@ -1,7 +1,7 @@
 {
     "name": "nebula-note",
     "private": true,
-    "version": "0.4.9",
+    "version": "1.0.0",
     "description": "It refers to a tool to optimize efficiency ",
     "main": "pro/main.js",
     "author": "xu.huang",
@@ -15,27 +15,30 @@
         "client:storyBook": "yarn workspace  @nebula-note/client storybook",
         "client:dev": "yarn workspace  @nebula-note/client dev",
         "client:cypress:run": "yarn workspace @nebula-note/client cyperss:run:component",
-        "serve": "node ./service/index.js"
+        "serve": "node ./service/index.js",
+        "build:client": "tsc && vite build",
+        "build:client:watch": "tsc && vite build -w",
+        "build:pro": "yarn build:client && electron-builder --mac",
+        "start": "node service/index.js",
+        "start:web": "yarn build:client && yarn start",
+        "prettier:fix": "prettier --write ."
     },
     "dependencies": {
         "@koa/router": "12.0.0",
         "benchmark": "^2.1.4",
-        "ejs": "3.1.9",
-        "eslint": "8.47.0",
-        "graphql": "16.4.0",
-        "koa": "2.14.2",
+        "ejs": "^3.1.10",
+        "eslint": "^9.16.0",
+        "koa": "^2.15.3",
         "koa-bodyparser": "4.4.1",
         "lodash": "4.17.21",
         "node-fetch": "2",
-        "rimraf": "^6.0.1",
         "simple-git": "^3.20.0"
     },
     "workspaces": [
-        "./client"
+        "./nebula-client"
     ],
     "devDependencies": {
-        "@types/testing-library__react": "^10.2.0",
         "cypress": "^13.14.2",
-        "prettier": "^3.3.3"
+        "prettier": "^3.4.2"
     }
 }
