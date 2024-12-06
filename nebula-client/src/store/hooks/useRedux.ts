@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import { store, useSelector, useDispatch } from '@client/store';
+import { store } from '@client/store';
+import { useSelector, useDispatch } from 'react-redux';
 import { createSliceInstance } from '@client/store/tools/sliceHelper';
 
 export const useRedux = <SliceType>(stateName: string, initialState: SliceType) => {
@@ -20,19 +21,29 @@ export const useRedux = <SliceType>(stateName: string, initialState: SliceType) 
         return initialState;
     });
 
+    const getStateSync = () => {
+        return store.getState()[stateName] as SliceType;
+    };
+
     const setState = <T extends typeof initialState>(payload: T) => {
         dispatch(reducerInstance.actions.setState(payload));
     };
-    const updateState = <T extends typeof initialState>(payload: Partial<T>) => {
+    const updateState = <T extends typeof initialState>(payload: {
+        [K in keyof T]?: Partial<T[K]>;
+    }) => {
         dispatch(reducerInstance.actions.updateState(payload));
     };
 
-    const takeOnce = (
-        actionType: 'setState' | 'updateState',
-        callback: <T>(state: T) => void,
-    ) => {
-        store.takeOnce(`${stateName}/${actionType}`, callback);
+    const takeOnce = (actionType: 'setState' | 'updateState') => {
+        let resolveHandle: () => void;
+        const promiseHandle = new Promise<void>((resolve) => {
+            resolveHandle = resolve;
+        });
+        store.takeOnce(`${stateName}/${actionType}`, () => {
+            resolveHandle();
+        });
+        return promiseHandle;
     };
 
-    return { state, setState, updateState, takeOnce } as const;
+    return { state, getStateSync, setState, updateState, takeOnce } as const;
 };

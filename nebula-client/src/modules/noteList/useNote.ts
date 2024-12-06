@@ -21,7 +21,7 @@ const initialState: NoteState = {
 };
 
 export const useNote = () => {
-    const { state, setState, updateState } = useRedux<NoteState>(
+    const { state, getStateSync, setState, updateState, takeOnce } = useRedux<NoteState>(
         REDUX_KEY,
         initialState,
     );
@@ -30,30 +30,33 @@ export const useNote = () => {
         setState(initialState);
     };
     const setNote = (note: NoteRecord) => {
-        updateState({ note });
+        const takeHandle = takeOnce('setState');
+        setState({ ...state, note, activeProperty: 'document' });
+        return takeHandle;
     };
 
     const updateNote = (note: Partial<NoteRecord>) => {
-        updateState({ note: { ...state.note, ...note } });
+        updateState({ note });
     };
 
     const setMeta = (meta: string) => {
-        updateState({ note: { meta } as NoteRecord });
+        updateState({ note: { meta } });
     };
 
     const updateMeta = (meta: string) => {
-        updateState({ note: { meta } as NoteRecord, editStatus: 'Edited' });
+        updateState({ note: { meta }, editStatus: 'Edited' });
     };
 
     const setDocument = (document: string) => {
-        updateState({ note: { document } as NoteRecord });
+        updateState({ note: { document } });
     };
     const updateDocument = (document: string) => {
-        updateState({ note: { document } as NoteRecord, editStatus: 'Edited' });
+        updateState({ note: { document }, editStatus: 'Edited' });
     };
 
     const setTemplateContent = (payload: TemplateRecord) => {
-        const templateList = state.note.templateList?.map((item) => {
+        const syncState = getStateSync();
+        const templateList = syncState.note.templateList?.map((item) => {
             if (item.title === payload.title) {
                 return {
                     ...item,
@@ -62,14 +65,15 @@ export const useNote = () => {
             }
             return item;
         });
-        updateState({ note: { templateList: templateList ?? [] } as NoteRecord });
+        updateState({ note: { templateList: templateList ?? [] } });
     };
 
     const addTemplate = (payload: TemplateRecord) => {
+        const syncState = getStateSync();
         updateState({
             note: {
-                templateList: [...(state.note.templateList || []), payload],
-            } as NoteRecord,
+                templateList: [...(syncState.note.templateList || []), payload],
+            },
             editStatus: 'Edited',
         });
     };

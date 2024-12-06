@@ -6,8 +6,7 @@ import useNote from '@client/modules/noteList/useNote';
 export const useNoteController = () => {
     const actions = useNote();
     const changeSelectedItem = async (templateConfig: NoteRecord) => {
-        actions.setNote(templateConfig);
-
+        await actions.setNote(templateConfig);
         try {
             // 请求模板文档
             const documentResp = await noteApi.getNoteDocument(

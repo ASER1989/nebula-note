@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
 import '../index.styl';
+import React, { useContext, useEffect } from 'react';
 import { ListItem } from './item';
 import { NoteRecord } from '@client/models/noteModel/types';
 import * as noteApi from '@client/models/noteModel/api';
