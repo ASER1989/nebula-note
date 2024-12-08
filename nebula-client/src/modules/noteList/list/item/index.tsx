@@ -70,6 +70,7 @@ export const ListItem = ({
                         type='circle'
                         hoverMode='highlight'
                         title='save'
+                        data-test-id='note-list-save-button'
                     >
                         <MdCheck color='green' size={20} />
                     </IconButton>
@@ -80,6 +81,7 @@ export const ListItem = ({
                         type='circle'
                         hoverMode='highlight'
                         title='cancel'
+                        data-test-id='note-list-cancel-button'
                     >
                         <MdClose color='#606060' size={20} />
                     </IconButton>
@@ -99,7 +101,7 @@ export const ListItem = ({
         return (
             <>
                 {onBuild && (
-                    <IconButton onClick={onBuild}>
+                    <IconButton onClick={onBuild} data-test-id='note-list-build-button'>
                         <FaPlayCircle color='#009688' size={20} />
                     </IconButton>
                 )}
@@ -109,7 +111,12 @@ export const ListItem = ({
                     top={'50%'}
                     style={{ transform: 'translateY(-50%)' }}
                 >
-                    <IconButton onClick={onRemove} hoverMode='opacity' title='remove'>
+                    <IconButton
+                        onClick={onRemove}
+                        hoverMode='opacity'
+                        title='remove'
+                        data-test-id='note-list-remove-button'
+                    >
                         <MdDeleteForever color='red' size={23} />
                     </IconButton>
                 </Position>
@@ -117,10 +124,14 @@ export const ListItem = ({
         );
     };
     return (
-        <div onClick={handleClick} className={className}>
+        <div onClick={handleClick} className={className} data-test-id='note-list-item'>
             <div className='item-tag'>
                 {isChecked && (
-                    <IconButton onClick={handleRenameFocus} title='rename'>
+                    <IconButton
+                        onClick={handleRenameFocus}
+                        title='rename'
+                        data-test-id='note-list-rename-button'
+                    >
                         <LuPencilLine size={10} />
                     </IconButton>
                 )}
@@ -131,6 +142,7 @@ export const ListItem = ({
                     focus={renameFocused}
                     onFocus={handleRenameEnabled}
                     onBlur={handleRenameBlur}
+                    data-test-id='note-list-name'
                 >
                     {mutableName}
                 </EditableContent>

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -35,3 +36,12 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('getByTestId', (testId: string, options?: Partial<Cypress.Loggable & Cypress.Timeoutable & Cypress.Withinable & Cypress.Shadow>) => {
+  return cy.get(`[data-test-id="${testId}"]`, options);
+});
+
+Cypress.Commands.add('findByTestId', { prevSubject: 'element' }, (subject, testId: string) => {
+  return cy.wrap(subject).find(`[data-test-id="${testId}"]`);
+});
+

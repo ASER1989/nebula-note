@@ -7,10 +7,18 @@ export type Props = {
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
+    ['data-test-id']?: string;
 };
 
 const SectionBase = (
-    { padding = 20, margin, className, style, children }: Props,
+    {
+        padding = 20,
+        margin,
+        className,
+        style,
+        children,
+        'data-test-id': dataTestId,
+    }: Props,
     ref: React.Ref<HTMLDivElement>,
 ) => {
     return (
@@ -22,6 +30,7 @@ const SectionBase = (
                 ...style,
             }}
             ref={ref}
+            data-test-id={dataTestId}
         >
             {children}
         </div>

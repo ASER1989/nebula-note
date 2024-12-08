@@ -11,7 +11,13 @@ export type Props = InputProps & {
     onClean?: () => void;
 };
 const SearchInputBase = (props: Props, ref: React.Ref<HTMLInputElement>) => {
-    const { size = 'medium', onFocus, onBlur, onClean } = props;
+    const {
+        size = 'medium',
+        onFocus,
+        onBlur,
+        onClean,
+        'data-test-id': dataTestId,
+    } = props;
     const [isFocus, setIsFocus] = useState(false);
     const sizeMap: Record<string, number> = {
         tiny: 20,
@@ -35,14 +41,14 @@ const SearchInputBase = (props: Props, ref: React.Ref<HTMLInputElement>) => {
         'search-input--focus': isFocus,
     });
     return (
-        <div className={classList}>
+        <div className={classList} data-test-id={dataTestId}>
             <Stack align='center'>
                 <StackItem>
                     <MdManageSearch size={sizeMap[size]} />
                 </StackItem>
                 <StackItem flex>
                     <Input
-                        {..._.omit(props, ['size', 'onClean'])}
+                        {..._.omit(props, ['size', 'onClean', 'data-test-id'])}
                         ref={ref}
                         type='text'
                         className='search-input'

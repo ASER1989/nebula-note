@@ -8,6 +8,7 @@ export type Props = {
     className?: string;
     style?: React.CSSProperties;
     children: React.ReactNode;
+    ['data-test-id']?: string;
 };
 
 const ScrollViewBase = (
@@ -19,6 +20,7 @@ const ScrollViewBase = (
         className,
         style,
         children,
+        'data-test-id': dataTestId,
     }: Props,
     ref: ForwardedRef<HTMLDivElement>,
 ) => {
@@ -52,7 +54,12 @@ const ScrollViewBase = (
     }, [scrollViewRef]);
 
     return (
-        <div className={className} style={scrollViewStyle} ref={scrollViewRef}>
+        <div
+            className={className}
+            style={scrollViewStyle}
+            ref={scrollViewRef}
+            data-test-id={dataTestId}
+        >
             {children}
         </div>
     );

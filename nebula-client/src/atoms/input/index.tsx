@@ -15,7 +15,7 @@ export type InputProps = {
     size?: 'tiny' | 'small' | 'medium' | 'large';
     type?: HTMLInputElement['type'];
     className?: string;
-    testId?: string;
+    ['data-test-id']?: string;
 };
 
 const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
         size,
         type = 'text',
         className,
-        testId,
+        'data-test-id': dataTestId,
     } = props;
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,7 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
         <input
             ref={ref}
             name={name}
-            data-testid={testId}
+            data-test-id={dataTestId}
             className={classes}
             value={value}
             onChange={handleChange}

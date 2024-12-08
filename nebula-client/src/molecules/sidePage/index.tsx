@@ -10,6 +10,7 @@ export type SidePageProps = {
     visible: boolean;
     onVisibleChange?: (visible: boolean) => void;
     style?: React.CSSProperties;
+    ['data-test-id']?: string;
 };
 
 export const SidePage = forwardRef<HTMLDivElement, SidePageProps>(
@@ -21,6 +22,7 @@ export const SidePage = forwardRef<HTMLDivElement, SidePageProps>(
             visible = false,
             style,
             onVisibleChange,
+            'data-test-id': dataTestId,
         } = props;
 
         const [hide, setHide] = useState(true);
@@ -59,6 +61,7 @@ export const SidePage = forwardRef<HTMLDivElement, SidePageProps>(
                     })}
                     ref={ref}
                     style={style}
+                    data-test-id={dataTestId}
                 >
                     {showTitle && (
                         <div className='side-pane-title'>

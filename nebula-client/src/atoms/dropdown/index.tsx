@@ -22,6 +22,7 @@ export type Props<T extends string> = {
     themeColor?: string;
     onSearch?: (keyword: string | undefined) => void;
     disabled?: boolean;
+    ['data-test-id']?: string;
 };
 
 export const Dropdown = <T extends string>({
@@ -35,6 +36,7 @@ export const Dropdown = <T extends string>({
     themeColor,
     disabled,
     onSearch,
+    'data-test-id': dataTestId,
 }: Props<T>) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSearchFocus, setIsSearchFocus] = useState(false);
@@ -147,7 +149,12 @@ export const Dropdown = <T extends string>({
     };
 
     return (
-        <div className={dropdownClass} style={cssVariables} ref={dropdownRef}>
+        <div
+            className={dropdownClass}
+            style={cssVariables}
+            ref={dropdownRef}
+            data-test-id={dataTestId}
+        >
             {!searchEnable && (
                 <button
                     className='dropdown-toggle'

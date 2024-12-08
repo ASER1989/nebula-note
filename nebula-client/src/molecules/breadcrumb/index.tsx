@@ -10,11 +10,12 @@ export type BreadcrumbItem = {
 export type Props = {
     items: BreadcrumbItem[];
     onClick?: (item: BreadcrumbItem) => void;
+    ['data-test-id']?: string;
 };
 
-export const Breadcrumb: React.FC<Props> = ({ items, onClick }) => {
+export const Breadcrumb: React.FC<Props> = ({ items, onClick , 'data-test-id': dataTestId}) => {
     return (
-        <nav className='breadcrumb'>
+        <nav className='breadcrumb' data-test-id={dataTestId}>
             <ol className='breadcrumb-list'>
                 {items.map((item, index) => (
                     <li key={index} className='breadcrumb-item'>

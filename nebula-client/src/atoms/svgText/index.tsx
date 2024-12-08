@@ -3,6 +3,7 @@ import React from 'react';
 export type Props = {
     children?: string;
     fontSize: number;
+    ['data-test-id']?: string;
 };
 
 const measureTextWidth = (
@@ -26,10 +27,14 @@ const measureTextWidth = (
     return 0;
 };
 
-export default function SvgText({ children, fontSize }: Props) {
+export default function SvgText({
+    children,
+    fontSize,
+    'data-test-id': dataTestId,
+}: Props) {
     const svgWidth = measureTextWidth(children ?? null, fontSize) + 20;
     return (
-        <svg width={svgWidth} height='100%'>
+        <svg width={svgWidth} height='100%' data-test-id={dataTestId}>
             <text
                 x='0'
                 y='50%'

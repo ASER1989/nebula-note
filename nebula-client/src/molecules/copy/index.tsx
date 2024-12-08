@@ -3,8 +3,9 @@ import Button from '@client/atoms/button';
 
 export type Props = {
     code?: string;
+    ['data-test-id']?: string;
 };
-export const Copy = ({ code }: Props) => {
+export const Copy = ({ code, 'data-test-id': dataTestId }: Props) => {
     const [isCopied, setIsCopied] = useState(false);
 
     const handleCopy = async () => {
@@ -24,6 +25,7 @@ export const Copy = ({ code }: Props) => {
             type={isCopied ? 'default' : 'primary'}
             disabled={isCopied}
             onClick={handleCopy}
+            data-test-id={dataTestId}
         >
             {isCopied ? 'Copied!' : 'Copy'}
         </Button>

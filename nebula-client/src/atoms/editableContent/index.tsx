@@ -11,6 +11,7 @@ export type Props = {
     onFocus?: (e: React.FormEvent<HTMLDivElement>) => void;
     onChange?: (newText: string, newHtml: string) => void;
     onBlur?: (newText: string, newHtml: string) => void;
+    ['data-test-id']?: string;
 };
 
 export const EditableContent: FC<Props> = ({
@@ -22,6 +23,7 @@ export const EditableContent: FC<Props> = ({
     onFocus,
     onChange,
     onBlur,
+    'data-test-id': dataTestId,
 }) => {
     const boxRef = useRef<HTMLDivElement>(null);
     const classnames = classNames('editable-content', className);
@@ -57,6 +59,7 @@ export const EditableContent: FC<Props> = ({
             onFocus={onFocus}
             onClick={onClick}
             dangerouslySetInnerHTML={{ __html: children }}
+            data-test-id={dataTestId}
         />
     );
 };

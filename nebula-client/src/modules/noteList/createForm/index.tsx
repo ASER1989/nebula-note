@@ -52,7 +52,10 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
                 <div className='save-as-form'>
                     <Form labelWidth='50px'>
                         <FormItem label='标题'>
-                            <Input onChange={_.partial(handleFieldChange, 'name')} />
+                            <Input
+                                onChange={_.partial(handleFieldChange, 'name')}
+                                data-test-id='create-form-name'
+                            />
                         </FormItem>
                         <FormItem label='关键词'>
                             <Textarea
@@ -60,12 +63,17 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
                                 placeholder='方便搜索，分隔符随意'
                                 rows={3}
                                 resize='none'
+                                data-test-id='create-form-keyword'
                             />
                         </FormItem>
                     </Form>
                     <div className='button-group'>
                         <Button onClick={() => onHide?.()}>取消</Button>
-                        <Button onClick={handleTemplateSave} type='primary'>
+                        <Button
+                            onClick={handleTemplateSave}
+                            type='primary'
+                            data-test-id='create-form-save'
+                        >
                             保存
                         </Button>
                     </div>

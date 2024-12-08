@@ -5,9 +5,15 @@ export type Props = {
     children: string;
     focusId: string | undefined;
     id: string;
-    testId?: string;
+    ['data-test-id']?: string;
 };
-export default function HighLight({ id, focusId, children, keywords, testId }: Props) {
+export default function HighLight({
+    id,
+    focusId,
+    children,
+    keywords,
+    'data-test-id': dataTestId,
+}: Props) {
     const isFocused = useMemo(() => id === focusId, [id, focusId]);
 
     if (keywords) {
@@ -23,7 +29,7 @@ export default function HighLight({ id, focusId, children, keywords, testId }: P
         };
         return (
             <span
-                data-testid={testId}
+                data-test-id={dataTestId}
                 style={style}
                 dangerouslySetInnerHTML={{ __html: result as any }}
             ></span>

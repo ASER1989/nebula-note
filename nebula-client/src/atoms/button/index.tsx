@@ -7,9 +7,16 @@ export type Props = {
     children: React.ReactNode | string | Array<React.ReactNode | string>;
     type?: 'primary' | 'default';
     disabled?: boolean;
+    ['data-test-id']?: string;
 };
 
-export default function Button({ onClick, children, type, disabled }: Props) {
+export default function Button({
+    onClick,
+    children,
+    type,
+    disabled,
+    'data-test-id': dataTestId,
+}: Props) {
     const handleClick = () => {
         if (!disabled) {
             onClick?.();
@@ -23,6 +30,7 @@ export default function Button({ onClick, children, type, disabled }: Props) {
                 disabled: disabled,
             })}
             onClick={handleClick}
+            data-test-id={dataTestId}
         >
             {children}
         </div>

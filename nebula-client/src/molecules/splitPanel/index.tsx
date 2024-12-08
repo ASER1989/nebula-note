@@ -2,13 +2,14 @@ import './index.styl';
 import React, { MouseEvent, useMemo, useState } from 'react';
 import _ from 'lodash';
 
-export interface SplitPanelProps {
+export type SplitPanelProps = {
     direction?: 'horizontal' | 'vertical';
     children?: [React.ReactNode, React.ReactNode];
     dividerWidth?: number;
     percentage?: number;
     minWidth?: number;
-}
+    ['data-test-id']?: string;
+};
 
 const SplitPanel: React.FC<SplitPanelProps> = ({
     direction = 'horizontal',
@@ -16,6 +17,7 @@ const SplitPanel: React.FC<SplitPanelProps> = ({
     percentage = 50,
     dividerWidth = 5,
     minWidth,
+    'data-test-id': dataTestId,
 }) => {
     const [size, setSize] = useState<number>(percentage); // 默认分割比率为50%
 
@@ -72,7 +74,7 @@ const SplitPanel: React.FC<SplitPanelProps> = ({
     };
 
     return (
-        <div className='split-panel' style={style}>
+        <div className='split-panel' style={style} data-test-id={dataTestId}>
             <div className='panel panel-1'>{children?.[0]}</div>
             <div className='divider' onMouseDown={handleMouseDown} />
             <div className='panel panel-2'>{children?.[1]}</div>

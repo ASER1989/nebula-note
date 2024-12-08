@@ -21,12 +21,14 @@ export type Props = {
     onTabChange?: (id: string) => void;
     labelRender?: (option: TabOption, isActive: boolean) => React.ReactNode;
     children: ReactElement<TabPaneProps>[] | ReactElement<TabPaneProps>;
+    ['data-test-id']?: string;
 };
 
 export type TabOption = {
     id: string;
     label: string;
     onRemove?: () => void;
+    ['data-test-id']?: string;
 };
 
 /*
@@ -34,7 +36,15 @@ export type TabOption = {
  * 处理页面中诸多类似tabs，但风格与常规tabs设计不同的多页签布局
  * */
 const TabBase = (
-    { activePaneId, showPlus, onPlusClick, children, labelRender, onTabChange }: Props,
+    {
+        activePaneId,
+        showPlus,
+        onPlusClick,
+        children,
+        labelRender,
+        onTabChange,
+        'data-test-id': dataTestId,
+    }: Props,
     ref: ForwardedRef<HTMLDivElement>,
 ) => {
     const childList = React.Children.toArray(children) as ReactElement<TabPaneProps>[];
@@ -44,6 +54,7 @@ const TabBase = (
                 id: item.props.id ?? `tabPane_${itemIndex}`,
                 label: item.props.title,
                 onRemove: item.props.onRemoveClick,
+                ['data-test-id']: item.props['data-test-id'],
             };
         });
     }, [childList]);
@@ -78,6 +89,7 @@ const TabBase = (
                     key={option.id}
                     className={classNames('tabs-pane-item', { active: isActive })}
                     onClick={() => handleTabChange(option.id)}
+                    data-test-id={option['data-test-id']}
                 >
                     {labelRender
                         ? labelRender(option, isActive)
@@ -112,7 +124,7 @@ const TabBase = (
     };
 
     return (
-        <div className='components-tabs' ref={ref}>
+        <div className='components-tabs' ref={ref} data-test-id={dataTestId}>
             <div className='tabs-pane-list'>
                 {renderTabs()}
                 {renderPlusButton()}

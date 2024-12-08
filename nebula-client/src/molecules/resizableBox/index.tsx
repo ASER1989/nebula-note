@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import _ from 'lodash';
 
-export interface ResizableBoxProps {
+export type ResizableBoxProps = {
     anchor: React.RefObject<HTMLDivElement>;
     children: ReactElement;
     initialWidth?: number | string;

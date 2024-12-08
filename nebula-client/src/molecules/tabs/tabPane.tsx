@@ -5,6 +5,7 @@ export type TabPaneProps = {
     title: string;
     onRemoveClick?: () => void;
     children: React.ReactNode | Array<React.ReactNode>;
+    ['data-test-id']?: string;
 };
 const TabPane = ({ children }: TabPaneProps) => {
     return children;

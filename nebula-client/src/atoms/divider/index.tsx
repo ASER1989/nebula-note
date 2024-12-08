@@ -6,10 +6,18 @@ export type Props = {
     margin?: number;
     height?: string | number;
     width?: string | number;
+    ['data-test-id']?: string;
 };
 
 export const Divider = (props: Props) => {
-    const { type, color = '#777777', margin = 0, height = '100%', width = '100' } = props;
+    const {
+        type,
+        color = '#777777',
+        margin = 0,
+        height = '100%',
+        width = '100',
+        'data-test-id': dataTestId,
+    } = props;
     const style = useMemo(() => {
         const isVertical = type === 'vertical';
         return {
@@ -20,7 +28,7 @@ export const Divider = (props: Props) => {
         };
     }, [type]);
 
-    return <div style={style}></div>;
+    return <div style={style} data-test-id={dataTestId}></div>;
 };
 
 export default Divider;

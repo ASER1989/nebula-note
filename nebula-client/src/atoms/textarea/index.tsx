@@ -12,6 +12,7 @@ export type Props<T> = {
     onFocus?: (e: FocusEvent<HTMLTextAreaElement, Element>) => void;
     rows?: number;
     resize?: 'default' | 'vertical' | 'horizontal' | 'none';
+    ['data-test-id']?: string;
 };
 
 export default function Textarea<T extends InputType>({
@@ -22,6 +23,7 @@ export default function Textarea<T extends InputType>({
     onFocus,
     rows = 6,
     resize,
+    'data-test-id': dataTestId,
 }: Props<T>) {
     const handleChange = (e: any) => {
         onChange?.(e.target.value, value, e);
@@ -38,6 +40,7 @@ export default function Textarea<T extends InputType>({
             onFocus={onFocus}
             placeholder={placeholder}
             rows={rows}
+            data-test-id={dataTestId}
         />
     );
 }

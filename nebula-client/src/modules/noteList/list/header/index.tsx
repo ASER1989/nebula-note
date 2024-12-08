@@ -41,6 +41,7 @@ export const Header = () => {
                     onClean={handleClean}
                     value={keyword}
                     onChange={handleChange}
+                    data-test-id='note-list-search-input'
                 />
             </div>
         );
@@ -49,12 +50,12 @@ export const Header = () => {
         <div className='note-list-header'>
             <Stack justify='flex-end' align='center' spacing={10}>
                 <StackItem>
-                    <IconButton onClick={handleCreateNote}>
+                    <IconButton onClick={handleCreateNote} data-test-id='note-list-create-note-button'>
                         <FiEdit size={20} color={'#FFFFFF'} />
                     </IconButton>
                 </StackItem>
                 <StackItem>
-                    <IconButton onClick={() => setSearchBoxShown(true)}>
+                    <IconButton onClick={() => setSearchBoxShown(true)} data-test-id='note-list-search-button'>
                         <MdManageSearch color={'#FFFFFF'} size={27} />
                     </IconButton>
                 </StackItem>

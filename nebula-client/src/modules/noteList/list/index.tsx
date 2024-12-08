@@ -139,7 +139,7 @@ export const List = ({ state, onSave }: Props) => {
                 <Header></Header>
             </StackItem>
             <StackItem flex style={{ overflowY: 'auto' }}>
-                <div className='note-list'>
+                <div className='note-list' data-test-id='note-list'>
                     {noteList.map((note) => {
                         return (
                             <ListItem

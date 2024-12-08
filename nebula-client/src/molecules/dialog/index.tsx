@@ -9,6 +9,7 @@ export type Props = {
     visible: boolean;
     header?: boolean;
     onClose?: (visible: boolean) => void;
+    ['data-test-id']?: string;
 };
 
 export const Dialog: FC<Props> = ({
@@ -17,6 +18,7 @@ export const Dialog: FC<Props> = ({
     visible = false,
     header = true,
     onClose,
+    'data-test-id': dataTestId,
 }) => {
     const [hide, setHide] = useState(true);
 
@@ -50,7 +52,7 @@ export const Dialog: FC<Props> = ({
 
     return (
         <>
-            <div className='component-dialog dialog-panel'>
+            <div className='component-dialog dialog-panel' data-test-id={dataTestId}>
                 <div className={classNames('dialog-container', { hide: hide })}>
                     {header && (
                         <div className='dialog-title'>

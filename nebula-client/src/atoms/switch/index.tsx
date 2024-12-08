@@ -9,6 +9,7 @@ export type Props = {
     className?: string;
     testId?: string;
     size?: 'tiny' | 'small' | 'medium' | 'large';
+    ['data-test-id']?: string;
 };
 
 export const Switch = ({
@@ -16,8 +17,8 @@ export const Switch = ({
     onChange,
     disabled = false,
     className = '',
-    testId = '',
     size = 'medium',
+    'data-test-id': dataTestId,
 }: Props) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange?.(event.target.checked);
@@ -26,7 +27,7 @@ export const Switch = ({
         disabled: disabled,
     });
     return (
-        <label className={switchClass} data-testid={testId}>
+        <label className={switchClass} data-test-id={dataTestId}>
             <input
                 type='checkbox'
                 checked={value}

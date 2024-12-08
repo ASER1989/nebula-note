@@ -10,6 +10,7 @@ export type Props = {
     children?: React.ReactNode;
     className?: string;
     type?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
+    ['data-test-id']?: string;
 };
 
 export const Position = (props: Props) => {
@@ -27,7 +28,7 @@ export const Position = (props: Props) => {
         };
     }, [props]);
     return (
-        <div className={className} style={style}>
+        <div className={className} style={style} data-test-id={props['data-test-id']}>
             {props.children}
         </div>
     );

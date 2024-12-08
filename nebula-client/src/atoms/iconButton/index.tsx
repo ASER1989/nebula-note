@@ -10,6 +10,7 @@ export type Props = {
     hoverMode?: 'zoomOut' | 'highlight' | 'opacity';
     className?: string;
     title?: string;
+    ['data-test-id']?: string;
 };
 
 export default function IconButton({
@@ -20,6 +21,7 @@ export default function IconButton({
     hoverMode,
     className,
     title,
+    'data-test-id': dataTestId,
 }: Props) {
     const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -39,6 +41,7 @@ export default function IconButton({
                 opacity: hoverMode === 'opacity',
             })}
             onClick={handleClick}
+            data-test-id={dataTestId}
         >
             {children}
         </div>
