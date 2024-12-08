@@ -21,18 +21,25 @@ const initialState: NoteState = {
 };
 
 export const useNote = () => {
-    const { state, getStateSync, setState, updateState, takeOnce } = useRedux<NoteState>(
-        REDUX_KEY,
-        initialState,
-    );
+    const {
+        state,
+        getStateSync,
+        setState,
+        setStatePromise,
+        updateState,
+        updateStatePromise,
+    } = useRedux<NoteState>(REDUX_KEY, initialState);
 
     const reset = () => {
         setState(initialState);
     };
     const setNote = (note: NoteRecord) => {
-        const takeHandle = takeOnce('setState');
-        setState({ ...state, note, activeProperty: 'document', editStatus: 'None' });
-        return takeHandle;
+        return setStatePromise({
+            ...state,
+            note,
+            activeProperty: 'document',
+            editStatus: 'None',
+        });
     };
 
     const updateNote = (note: Partial<NoteRecord>) => {
@@ -70,7 +77,7 @@ export const useNote = () => {
 
     const addTemplate = (payload: TemplateRecord) => {
         const syncState = getStateSync();
-        updateState({
+        return updateState({
             note: {
                 templateList: [...(syncState.note.templateList || []), payload],
             },

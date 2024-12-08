@@ -21,19 +21,6 @@ export const useRedux = <SliceType>(stateName: string, initialState: SliceType) 
         return initialState;
     });
 
-    const getStateSync = () => {
-        return store.getState()[stateName] as SliceType;
-    };
-
-    const setState = <T extends typeof initialState>(payload: T) => {
-        dispatch(reducerInstance.actions.setState(payload));
-    };
-    const updateState = <T extends typeof initialState>(payload: {
-        [K in keyof T]?: Partial<T[K]>;
-    }) => {
-        dispatch(reducerInstance.actions.updateState(payload));
-    };
-
     const takeOnce = (actionType: 'setState' | 'updateState') => {
         let resolveHandle: () => void;
         const promiseHandle = new Promise<void>((resolve) => {
@@ -45,5 +32,38 @@ export const useRedux = <SliceType>(stateName: string, initialState: SliceType) 
         return promiseHandle;
     };
 
-    return { state, getStateSync, setState, updateState, takeOnce } as const;
+    const getStateSync = () => {
+        return store.getState()[stateName] as SliceType;
+    };
+
+    const setState = (payload: SliceType) => {
+        dispatch(reducerInstance.actions.setState(payload));
+    };
+    const setStatePromise = (payload: SliceType) => {
+        const takeHandle = takeOnce('setState');
+        setState(payload);
+        return takeHandle;
+    };
+    const updateState = <T extends typeof initialState>(payload: {
+        [K in keyof T]?: Partial<T[K]>;
+    }) => {
+        dispatch(reducerInstance.actions.updateState(payload));
+    };
+    const updateStatePromise = <T extends typeof initialState>(payload: {
+        [K in keyof T]?: Partial<T[K]>;
+    }) => {
+        const takeHandle = takeOnce('updateState');
+        updateState(payload);
+        return takeHandle;
+    };
+
+    return {
+        state,
+        getStateSync,
+        setState,
+        setStatePromise,
+        updateState,
+        updateStatePromise,
+        takeOnce,
+    } as const;
 };

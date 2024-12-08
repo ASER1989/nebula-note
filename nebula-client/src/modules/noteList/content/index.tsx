@@ -38,16 +38,26 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     const handleTabChange = (tabId: string) => {
         actions.setActiveProperty(tabId);
     };
-    const handleAddTemplate = () => {
+    const handleAddTemplate = async () => {
         actions.addTemplate({ title: '' });
-        handleTabChange(`code_${state.note?.templateList?.length ?? 1 - 1}`);
+        handleTabChange(`code_${state.note?.templateList?.length ?? 0}`);
+        setTitleFocus(true);
     };
     const handleRemoveTemplate = (index: number) => {
         actions.removeTemplate(index);
-        handleTabChange(index === 0 ? 'meta' : `code_${index - 1}`);
+        const templateCount = state.note?.templateList?.length ?? 0;
+        const nextIndex = index === templateCount - 1 ? index - 1 : index;
+        handleTabChange(index === 0 ? 'meta' : `code_${nextIndex}`);
+        setTitleFocus(false);
     };
 
     const handleTabTitleChange = (title: string, newTitle: string) => {
+        if (_.isEmpty(newTitle)) {
+            setTitleFocus(false);
+            return showMessage('Invalid title').then(() => {
+                setTitleFocus(true);
+            });
+        }
         if (title !== newTitle) {
             const isExist = state.note?.templateList?.some(
                 (template) => template.title === newTitle,
@@ -57,7 +67,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
             }
             if (isExist) {
                 setTitleFocus(false);
-                return showMessage('snippet title is exist').then(() => {
+                return showMessage('template title is exist').then(() => {
                     setTitleFocus(true);
                 });
             }
