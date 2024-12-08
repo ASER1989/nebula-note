@@ -10,7 +10,11 @@ export const createSliceInstance = <T>(sliceName: string, initialState: T) =>
                 return action.payload;
             },
             updateState: (state, action: { payload: Partial<T> }) => {
-                return _.defaultsDeep({}, action.payload, state);
+                return _.mergeWith({}, state, action.payload, (objValue, srcValue) => {
+                    if (Array.isArray(objValue)) {
+                        return srcValue;
+                    }
+                });
             },
         },
     });

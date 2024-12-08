@@ -31,7 +31,7 @@ export const useNote = () => {
     };
     const setNote = (note: NoteRecord) => {
         const takeHandle = takeOnce('setState');
-        setState({ ...state, note, activeProperty: 'document' });
+        setState({ ...state, note, activeProperty: 'document', editStatus: 'None' });
         return takeHandle;
     };
 
@@ -79,10 +79,10 @@ export const useNote = () => {
     };
 
     const removeTemplate = (index: number) => {
-        updateState({
+        return updateState({
             note: {
                 templateList: state.note.templateList?.filter((item, i) => i !== index),
-            } as NoteRecord,
+            },
             editStatus: 'Edited',
         });
     };
