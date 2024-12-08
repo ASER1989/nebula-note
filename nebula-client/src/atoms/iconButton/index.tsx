@@ -21,7 +21,8 @@ export default function IconButton({
     className,
     title,
 }: Props) {
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         if (!disabled) {
             onClick?.();
         }

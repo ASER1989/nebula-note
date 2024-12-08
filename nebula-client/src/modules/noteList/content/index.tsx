@@ -38,11 +38,11 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     const handleTabChange = (tabId: string) => {
         actions.setActiveProperty(tabId);
     };
-    const handleAddSnippet = () => {
+    const handleAddTemplate = () => {
         actions.addTemplate({ title: '' });
         handleTabChange(`code_${state.note?.templateList?.length ?? 1 - 1}`);
     };
-    const handleRemoveSnippet = (index: number) => {
+    const handleRemoveTemplate = (index: number) => {
         actions.removeTemplate(index);
         handleTabChange(index === 0 ? 'meta' : `code_${index - 1}`);
     };
@@ -103,7 +103,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
         <ShortcutKeys onSave={onSave}>
             <Tabs
                 showPlus
-                onPlusClick={handleAddSnippet}
+                onPlusClick={handleAddTemplate}
                 labelRender={tabsRender}
                 onTabChange={handleTabChange}
                 activePaneId={state?.activeProperty ?? 'document'}
@@ -127,7 +127,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                             id={`code_${index}`}
                             key={`code_${index}`}
                             title={snippet.title}
-                            onRemoveClick={() => handleRemoveSnippet(index)}
+                            onRemoveClick={() => handleRemoveTemplate(index)}
                         >
                             <CodeEditor
                                 value={snippet?.content ?? ''}
