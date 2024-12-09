@@ -47,14 +47,14 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
     };
 
     return (
-        <Dialog visible={visible} onClose={onHide} title='新建'>
+        <Dialog visible={visible} onClose={onHide} title='新建' data-test-id='note-create-form'>
             <div className='shared-template-save'>
                 <div className='save-as-form'>
                     <Form labelWidth='50px'>
                         <FormItem label='标题'>
                             <Input
                                 onChange={_.partial(handleFieldChange, 'name')}
-                                data-test-id='create-form-name'
+                                data-test-id='note-name'
                             />
                         </FormItem>
                         <FormItem label='关键词'>
@@ -63,7 +63,7 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
                                 placeholder='方便搜索，分隔符随意'
                                 rows={3}
                                 resize='none'
-                                data-test-id='create-form-keyword'
+                                data-test-id='note-keyword'
                             />
                         </FormItem>
                     </Form>
@@ -72,7 +72,7 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
                         <Button
                             onClick={handleTemplateSave}
                             type='primary'
-                            data-test-id='create-form-save'
+                            data-test-id='form-submit'
                         >
                             保存
                         </Button>

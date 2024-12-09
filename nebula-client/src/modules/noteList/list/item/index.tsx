@@ -70,7 +70,7 @@ export const ListItem = ({
                         type='circle'
                         hoverMode='highlight'
                         title='save'
-                        data-test-id='note-list-save-button'
+                        data-test-id='rename-submit-button'
                     >
                         <MdCheck color='green' size={20} />
                     </IconButton>
@@ -81,7 +81,7 @@ export const ListItem = ({
                         type='circle'
                         hoverMode='highlight'
                         title='cancel'
-                        data-test-id='note-list-cancel-button'
+                        data-test-id='rename-cancel-button'
                     >
                         <MdClose color='#606060' size={20} />
                     </IconButton>
@@ -101,7 +101,7 @@ export const ListItem = ({
         return (
             <>
                 {onBuild && (
-                    <IconButton onClick={onBuild} data-test-id='note-list-build-button'>
+                    <IconButton onClick={onBuild} data-test-id='note-item-build'>
                         <FaPlayCircle color='#009688' size={20} />
                     </IconButton>
                 )}
@@ -115,7 +115,7 @@ export const ListItem = ({
                         onClick={onRemove}
                         hoverMode='opacity'
                         title='remove'
-                        data-test-id='note-list-remove-button'
+                        data-test-id='note-item-remove'
                     >
                         <MdDeleteForever color='red' size={23} />
                     </IconButton>
@@ -127,11 +127,7 @@ export const ListItem = ({
         <div onClick={handleClick} className={className} data-test-id='note-list-item'>
             <div className='item-tag'>
                 {isChecked && (
-                    <IconButton
-                        onClick={handleRenameFocus}
-                        title='rename'
-                        data-test-id='note-list-rename-button'
-                    >
+                    <IconButton onClick={handleRenameFocus} title='rename'>
                         <LuPencilLine size={10} />
                     </IconButton>
                 )}

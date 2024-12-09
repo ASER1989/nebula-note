@@ -7,7 +7,7 @@ export type MessageInstance = {
 };
 
 export interface IMessageContext {
-    setContent: (content: string, onClose?: () => void) => number;
+    setContent: (content: string | null, onClose?: () => void) => number;
     removeContent: (id: number) => void;
     messageList: Array<MessageInstance>;
     lastUpdateTime: number;

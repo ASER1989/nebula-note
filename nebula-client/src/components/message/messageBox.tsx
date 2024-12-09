@@ -8,7 +8,14 @@ export const MessageBox: FC = () => {
 
     return messageList.map((item, index) => {
         const { content, onClose } = item;
-        return <Message key={index} content={content} onClose={onClose} />;
+        return (
+            <Message
+                key={index}
+                content={content}
+                onClose={onClose}
+                data-test-id='message-box'
+            />
+        );
     });
 };
 export default MessageBox;

@@ -6,9 +6,10 @@ import { MessageContext } from './context';
 export type Props = {
     content: string | null;
     onClose?: () => void;
+    ['data-test-id']?: string;
 };
 
-export const Message: FC<Props> = ({ content, onClose }) => {
+export const Message: FC<Props> = ({ content, onClose, 'data-test-id': dataTestId }) => {
     const { setContent } = useContext(MessageContext);
     if (!content) {
         return null;
@@ -22,7 +23,7 @@ export const Message: FC<Props> = ({ content, onClose }) => {
     };
 
     return (
-        <div className='message' onClick={handleClose}>
+        <div className='message' onClick={handleClose} data-test-id={dataTestId}>
             <div className='message-box'>
                 <div className='content'>{content}</div>
                 <div className='bottom'>

@@ -20,12 +20,12 @@ export default function Confirm() {
     };
 
     return (
-        <Dialog visible={options != null} onClose={handleClose} title={options.title}>
-            <div className='confirm'>
+        <Dialog visible={true} onClose={handleClose} title={options.title}>
+            <div className='confirm' data-test-id='confirm'>
                 <div className='content'>{options.content}</div>
                 <div className='bottom'>
-                    <Button onClick={handleClose}>{options.cancelText}</Button>
-                    <Button type='primary' onClick={handleConfirm}>
+                    <Button onClick={handleClose} data-test-id='confirm-cancel'>{options.cancelText}</Button>
+                    <Button type='primary' onClick={handleConfirm} data-test-id='confirm-apply'>
                         {options.confirmText}
                     </Button>
                 </div>
