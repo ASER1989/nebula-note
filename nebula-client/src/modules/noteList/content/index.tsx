@@ -12,14 +12,22 @@ import { TabOption, TabPane, Tabs } from '@client/molecules/tabs';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPencilLine } from 'react-icons/lu';
-import useNoteController from "@client/modules/noteList/useNoteController";
+import useSettings from "@client/models/settingsModel/useSettings";
+import useDebounce from "@client/utils/useDebounce";
 
 export type Props = {
     state: NoteState;
     onSave?: () => void;
 };
 export const Content: FC<Props> = ({ state, onSave }) => {
-    const actions = useNoteController(onSave);
+    const { settings } = useSettings();
+    const autoSaveInterceptor = useDebounce(() => onSave?.(), 500, 3000);
+    const interceptorHandle = () => {
+        if (settings?.autoSave) {
+            autoSaveInterceptor();
+        }
+    };
+    const actions = useNote(interceptorHandle);
     const { showMessage } = useMessage();
     const [titleFocus, setTitleFocus] = useState(false);
 

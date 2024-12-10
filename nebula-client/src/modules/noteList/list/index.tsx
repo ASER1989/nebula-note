@@ -9,11 +9,12 @@ import {
     BuildResultState,
     CodeSnippet,
 } from '@client/modules/noteList/buildReuslt/types';
-import { NoteState } from '@client/modules/noteList/useNote';
+import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import useNoteController from '@client/modules/noteList/useNoteController';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
+import { cloneWith } from 'lodash';
 import { useParams } from 'react-router-dom';
 import { Header } from './header';
 import { ListItem } from './item';
@@ -23,7 +24,8 @@ type Props = {
     onSave?: () => void;
 };
 export const List = ({ state, onSave }: Props) => {
-    const { changeSelectedItem, updateNote } = useNoteController(onSave);
+    const actions = useNote();
+    const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
     const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
@@ -126,7 +128,9 @@ export const List = ({ state, onSave }: Props) => {
         const newNoteRecord = await rename(name, newName);
         if (newNoteRecord) {
             await reload();
-            updateNote(newNoteRecord);
+            actions.updateNote(newNoteRecord);
+            handleChangeSelectedItem(newNoteRecord);
+            actions.setActiveProperty(state.activeProperty??'document')
             return true;
         }
         return false;

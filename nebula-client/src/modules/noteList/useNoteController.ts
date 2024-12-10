@@ -1,19 +1,10 @@
 import * as noteApi from '@client/models/noteModel/api';
 import { NoteRecord } from '@client/models/noteModel/types';
-import useSettings from '@client/models/settingsModel/useSettings';
 import useNote from '@client/modules/noteList/useNote';
 import { queryErrorMessage } from '@client/utils/queries';
-import useDebounce from '@client/utils/useDebounce';
 
-export const useNoteController = (onSave?: () => void) => {
-    const { settings } = useSettings();
-    const autoSaveInterceptor = useDebounce(() => onSave?.(), 500, 3000);
-    const interceptorHandle = () => {
-        if (settings?.autoSave) {
-            autoSaveInterceptor();
-        }
-    };
-    const actions = useNote(interceptorHandle);
+export const useNoteController = () => {
+    const actions = useNote();
     const changeSelectedItem = async (templateConfig: NoteRecord) => {
         await actions.setNote(templateConfig);
         try {
@@ -46,7 +37,7 @@ export const useNoteController = (onSave?: () => void) => {
         }
     };
 
-    return { changeSelectedItem, ...actions };
+    return { changeSelectedItem };
 };
 
 export default useNoteController;
