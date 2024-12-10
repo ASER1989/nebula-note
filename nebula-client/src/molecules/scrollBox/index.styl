@@ -1,0 +1,45 @@
+.scroll-box-container
+  width 100%
+  overflow hidden
+  position relative
+  white-space nowrap
+  display flex
+  --scroll-box-scrollable-left 0
+  --scroll-box-scrollable-right 0
+  --scroll-box-scorllable-shadow rgba(255, 255, 255, 0.35)
+
+  &.dark
+    --scroll-box-scorllable-shadow rgba(0, 0, 0, 0.35)
+
+  &:before, &:after
+    content ''
+    top 0
+    bottom 0
+    width 36px
+    position absolute
+    z-index 1
+    transition opacity .3s
+    pointer-events none
+
+  &:before
+    left 0
+    opacity var(--scroll-box-scrollable-left)
+    box-shadow inset 8px 0 8px -8px var(--scroll-box-scorllable-shadow)
+
+  &:after
+    right 0
+    opacity var(--scroll-box-scrollable-right)
+    box-shadow inset -8px 0 8px -8px var(--scroll-box-scorllable-shadow)
+
+  &.scrollable-left
+    --scroll-box-scrollable-left 1
+
+  &.scrollable-right
+    --scroll-box-scrollable-right 1
+
+  .scroll-box-content
+    display inline-flex
+    transition transform 0.3s cubic-bezier(0.28, 0.58, 0.5, 1.08)
+    position relative
+
+

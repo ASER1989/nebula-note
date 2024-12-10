@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import IconButton from '@client/atoms/iconButton';
 import Position from '@client/molecules/position';
+import ScrollBox from '@client/molecules/scrollBox';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPlus, LuX } from 'react-icons/lu';
@@ -125,9 +126,13 @@ const TabBase = (
 
     return (
         <div className='components-tabs' ref={ref} data-test-id={dataTestId}>
-            <div className='tabs-pane-list'>
-                {renderTabs()}
-                {renderPlusButton()}
+            <div className='tabs-nav'>
+                <ScrollBox>
+                    <div className='tabs-pane-list'>
+                        {renderTabs()}
+                        {renderPlusButton()}
+                    </div>
+                </ScrollBox>
             </div>
             {activeContent}
         </div>

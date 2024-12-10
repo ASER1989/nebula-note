@@ -3,15 +3,22 @@
   height 100%
   display flex
   flex-direction column
+
   *
     box-sizing border-box
 
+  .tabs-nav
+    display flex
+    overflow hidden
+    background var(--content-head-bg)
+    height 35px
+    flex-shrink 0
+
   .tabs-pane-list
     display flex
-    height 35px
-    background var(--content-head-bg)
-    padding 6px 10px 0 10px
     position relative
+    height 35px
+    padding 6px 10px 0 10px
 
     .tabs-pane-item
       flex-shrink 0
