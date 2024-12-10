@@ -20,15 +20,16 @@ const initialState: NoteState = {
     isCreateFormShown: false,
 };
 
-export const useNote = () => {
-    const {
-        state,
-        getStateSync,
-        setState,
-        setStatePromise,
-        updateState,
-        updateStatePromise,
-    } = useRedux<NoteState>(REDUX_KEY, initialState);
+export const useNote = (updateInterceptor?: () => void) => {
+    const { state, getStateSync, setState, setStatePromise, updateState } =
+        useRedux<NoteState>(REDUX_KEY, initialState);
+
+    const updateDecorator = <T extends NoteState>(payload: {
+        [K in keyof T]?: Partial<T[K]>;
+    }) => {
+        updateInterceptor?.();
+        updateState(payload);
+    };
 
     const reset = () => {
         setState(initialState);
@@ -43,7 +44,7 @@ export const useNote = () => {
     };
 
     const updateNote = (note: Partial<NoteRecord>) => {
-        updateState({ note });
+        updateDecorator({ note });
     };
 
     const setMeta = (meta: string) => {
@@ -51,14 +52,14 @@ export const useNote = () => {
     };
 
     const updateMeta = (meta: string) => {
-        updateState({ note: { meta }, editStatus: 'Edited' });
+        updateDecorator({ note: { meta }, editStatus: 'Edited' });
     };
 
     const setDocument = (document: string) => {
         updateState({ note: { document } });
     };
     const updateDocument = (document: string) => {
-        updateState({ note: { document }, editStatus: 'Edited' });
+        updateDecorator({ note: { document }, editStatus: 'Edited' });
     };
 
     const setTemplateContent = (payload: TemplateRecord) => {
@@ -77,7 +78,7 @@ export const useNote = () => {
 
     const addTemplate = (payload: TemplateRecord) => {
         const syncState = getStateSync();
-        return updateState({
+        return updateDecorator({
             note: {
                 templateList: [...(syncState.note.templateList || []), payload],
             },
@@ -86,7 +87,7 @@ export const useNote = () => {
     };
 
     const removeTemplate = (index: number) => {
-        return updateState({
+        return updateDecorator({
             note: {
                 templateList: state.note.templateList?.filter((item, i) => i !== index),
             },
@@ -109,7 +110,7 @@ export const useNote = () => {
             }
             return item;
         });
-        updateState({
+        updateDecorator({
             note: { templateList: templateList ?? [] } as NoteRecord,
             editStatus: 'Edited',
         });
@@ -130,6 +131,7 @@ export const useNote = () => {
 
     return {
         state,
+        getStateSync,
         reset,
         setNote,
         updateNote,

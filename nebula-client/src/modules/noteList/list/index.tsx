@@ -9,7 +9,7 @@ import {
     BuildResultState,
     CodeSnippet,
 } from '@client/modules/noteList/buildReuslt/types';
-import useNote, { NoteState } from '@client/modules/noteList/useNote';
+import { NoteState } from '@client/modules/noteList/useNote';
 import useNoteController from '@client/modules/noteList/useNoteController';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { useRedux } from '@client/store/hooks/useRedux';
@@ -23,8 +23,7 @@ type Props = {
     onSave?: () => void;
 };
 export const List = ({ state, onSave }: Props) => {
-    const actions = useNote();
-    const { changeSelectedItem } = useNoteController();
+    const { changeSelectedItem, updateNote } = useNoteController(onSave);
     const { showConfirm } = useContext(ConfirmContext);
     const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
@@ -127,7 +126,7 @@ export const List = ({ state, onSave }: Props) => {
         const newNoteRecord = await rename(name, newName);
         if (newNoteRecord) {
             await reload();
-            actions.updateNote(newNoteRecord);
+            updateNote(newNoteRecord);
             return true;
         }
         return false;

@@ -12,14 +12,15 @@ import { List } from './list';
 export const NoteList = () => {
     const { reload } = useNoteConfig();
     const { showMessage } = useMessage();
-    const { state, setNoteSaved, setCreateFormShown } = useNote();
+    const { state, getStateSync, setNoteSaved, setCreateFormShown } = useNote();
 
     const handleSave = async () => {
-        const resp = await noteApi.noteUpsert(state.note);
+        const syncState = getStateSync();
+        const resp = await noteApi.noteUpsert(syncState.note);
         if (resp.success) {
             setNoteSaved({ version: resp.data });
             await reload();
-            return showMessage('保存成功！');
+            return;
         }
         await showMessage(resp.error.toString());
     };

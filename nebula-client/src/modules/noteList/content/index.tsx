@@ -12,13 +12,14 @@ import { TabOption, TabPane, Tabs } from '@client/molecules/tabs';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPencilLine } from 'react-icons/lu';
+import useNoteController from "@client/modules/noteList/useNoteController";
 
 export type Props = {
     state: NoteState;
     onSave?: () => void;
 };
 export const Content: FC<Props> = ({ state, onSave }) => {
-    const actions = useNote();
+    const actions = useNoteController(onSave);
     const { showMessage } = useMessage();
     const [titleFocus, setTitleFocus] = useState(false);
 
