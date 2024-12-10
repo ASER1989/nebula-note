@@ -16,7 +16,7 @@
   line-height normal
   transition border-color linear .35s
 
-  &:hover,&.expand
+  &:hover, &.expand
     border-color var(--border-color)
 
   &.small
@@ -78,6 +78,7 @@
     position relative
     z-index 1
     height var(--dropdown-height)
+    white-space nowrap
     overflow hidden
     text-overflow ellipsis
 
@@ -89,7 +90,7 @@
     position absolute
     top 100%
     left 0
-    width 100%
+    min-width 100%
     margin-top 10px
     background-color var(--dropdown-bgcolor)
     border 1px solid #ccc

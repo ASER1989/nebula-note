@@ -5,7 +5,7 @@ const respModel = require('../utils/responseModel');
 const systemConfig = require('../../utils/system-config');
 const { getDataFolder } = require('../../utils/note-utils');
 
-const loopFolder = (folderName, basePath, targetLevel = undefined, level = 0) => {
+const loopFolder = (folderName, basePath) => {
     const readPath = path.join(basePath, folderName);
     const files = fs.readdirSync(readPath, { withFileTypes: true });
     const folderList = files
@@ -18,20 +18,6 @@ const loopFolder = (folderName, basePath, targetLevel = undefined, level = 0) =>
         });
 
     return folderList ?? [];
-
-    const folder = {
-        name: folderName,
-        path: readPath,
-    };
-
-    if (targetLevel && level < targetLevel) {
-        folder.children =
-            folderList?.map((item) =>
-                loopFolder(item.name, readPath, targetLevel, ++level),
-            ) ?? [];
-    }
-
-    return [folder];
 };
 
 module.exports = (prefix, opts) => {
@@ -53,13 +39,27 @@ module.exports = (prefix, opts) => {
 
     router.post('/folder/list', async (ctx) => {
         ctx.type = 'text/json';
-        const { path } = ctx.request.body;
+        const { folderPath } = ctx.request.body;
 
         try {
-            const readPath = path ?? getDataFolder();
+            let parts = [];
+            if (folderPath) {
+                parts = folderPath.split(/[\\/]/);
+            } else {
+                const dataPath = getDataFolder();
+                parts = dataPath.split(/[\\/]/);
+                parts.pop();
+            }
+            const targetPath = parts.join(path.sep);
+            const folderList = loopFolder('', targetPath);
 
-            const folderList = loopFolder('', readPath, 1);
-            ctx.body = respModel(folderList);
+            // 获取最后一个元素
+            const lastFolderName = parts.pop();
+            ctx.body = respModel({
+                name: lastFolderName,
+                path: targetPath,
+                children: folderList,
+            });
         } catch (ex) {
             ctx.body = respModel(null, ex.message);
         }

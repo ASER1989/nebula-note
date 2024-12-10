@@ -16,7 +16,7 @@ export type Props = {
 
 export default function FolderPicker({ onChange, onClose, visible }: Props) {
     const scrollViewRef = useRef<HTMLDivElement>(null);
-    const { folderList, loadFolderList } = useFolderPicker();
+    const { folderRoot, folderList, loadFolderList } = useFolderPicker();
 
     const [selectedFolder, setSelectedFolder] = useState<Folder>();
 
@@ -26,22 +26,9 @@ export default function FolderPicker({ onChange, onClose, visible }: Props) {
         }
     }, [visible]);
 
-    useEffect(() => {
-        if ((!selectedFolder && folderList?.length) ?? 0 > 0) {
-            const firstFolder = folderList?.[0];
-            if (firstFolder) {
-                const parentFolder = {
-                    name: '',
-                    path: firstFolder.path.replace('/' + firstFolder.name, ''),
-                };
-                setSelectedFolder(parentFolder);
-            }
-        }
-    }, [selectedFolder, folderList]);
-
     const folderPathList = useMemo(() => {
         const result: Array<BreadcrumbItem> = [];
-        selectedFolder?.path?.split('/').reduce((pre, cur) => {
+        (selectedFolder ?? folderRoot)?.path?.split('/').reduce((pre, cur) => {
             const path = pre + '/' + cur;
             result.push({
                 label: cur,
@@ -51,7 +38,7 @@ export default function FolderPicker({ onChange, onClose, visible }: Props) {
         });
 
         return result;
-    }, [selectedFolder]);
+    }, [selectedFolder, folderRoot]);
     const handleSelect = (folder: Folder) => {
         setSelectedFolder(folder);
     };

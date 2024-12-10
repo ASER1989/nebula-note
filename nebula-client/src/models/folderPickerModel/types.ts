@@ -7,7 +7,7 @@ export type Folder = {
 };
 
 export type FolderPickerState = {
-    folderList?: Array<Folder>;
+    folderInfo?: Folder;
     fetchStatus: FetchStatus;
     error?: string;
 };

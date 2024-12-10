@@ -64,6 +64,7 @@ export default function SystemConfig() {
 
         const isSuccess = await handleSettingsChange('dataSource', newDataSource);
         if (isSuccess) {
+            nodeConfigModel.reload();
             reset();
         }
     };

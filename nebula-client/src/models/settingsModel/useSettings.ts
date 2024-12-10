@@ -7,12 +7,10 @@ import { Settings, SettingsState } from './types';
 const REDUX_KEY = 'settingsState';
 
 export const useSettings = () => {
-    const { state, setState, updateState, takeOnce } = useRedux<SettingsState>(
-        REDUX_KEY,
-        {
+    const { state, getStateSync, setState, updateState, updateStatePromise } =
+        useRedux<SettingsState>(REDUX_KEY, {
             fetchStatus: 'None',
-        },
-    );
+        });
     const { fetchStatus, error, settings } = state;
 
     const loadSettings = () => {
@@ -50,16 +48,12 @@ export const useSettings = () => {
         }
         return false;
     };
-    const updateSettingState = (data: Partial<Settings>) => {
-        return new Promise((resolve) => {
-            takeOnce('updateState', () => {
-                if (state.settings) {
-                    saveSettings(state.settings).then((result) => resolve(result));
-                }
-                resolve(false);
-            });
-            updateState({ settings: data } as Partial<SettingsState>);
-        });
+    const updateSettingState = async (data: Partial<Settings>) => {
+        await updateStatePromise({ settings: data } as Partial<SettingsState>);
+        const newState = getStateSync();
+        if (newState.settings) {
+            return saveSettings(newState.settings);
+        }
     };
 
     useEffect(() => {

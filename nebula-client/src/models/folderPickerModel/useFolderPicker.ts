@@ -10,7 +10,7 @@ export const useFolderPicker = () => {
     const { state, setState, updateState } = useRedux<FolderPickerState>(REDUX_KEY, {
         fetchStatus: 'None',
     });
-    const { fetchStatus, folderList } = state;
+    const { fetchStatus, folderInfo } = state;
 
     const loadFolderList = (folderPath?: string) => {
         updateState({ fetchStatus: 'Pending' });
@@ -18,7 +18,7 @@ export const useFolderPicker = () => {
             .then((resp) => {
                 setState({
                     fetchStatus: 'Success',
-                    folderList: resp.data,
+                    folderInfo: resp.data,
                 });
             })
             .catch((ex) => {
@@ -37,7 +37,11 @@ export const useFolderPicker = () => {
 
     return {
         fetchStatus,
-        folderList,
+        folderList: folderInfo?.children ?? [],
+        folderRoot: {
+            name: folderInfo?.name,
+            path: folderInfo?.path,
+        },
         loadFolderList,
     };
 };
