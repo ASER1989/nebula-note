@@ -64,7 +64,7 @@ export default function FolderPicker({ onChange, onClose, visible }: Props) {
         <Dialog visible={visible} title='打开文件夹' onClose={onClose}>
             <Stack direction='vertical'>
                 <StackItem flex style={{ borderBottom: 'solid 1px #e0e0e0' }}>
-                    <ScrollView width={800} height={600} scrollY ref={scrollViewRef}>
+                    <ScrollView width='50vw' height='50vh' scrollY ref={scrollViewRef}>
                         <FolderView
                             data={folderList ?? []}
                             value={selectedFolder}
@@ -79,7 +79,6 @@ export default function FolderPicker({ onChange, onClose, visible }: Props) {
                         height: 34,
                         borderBottom: 'solid 1px #e0e0e0',
                         overflow: 'hidden',
-                        width: 800,
                     }}
                 >
                     <Breadcrumb
