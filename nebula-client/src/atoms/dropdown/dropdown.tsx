@@ -1,6 +1,14 @@
 import './index.styl';
-import React, { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    KeyboardEvent,
+    ReactElement,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import classNames from 'classnames';
+import { Option } from './option';
 
 export type DropdownOption<T extends string = string> = {
     value: T;
@@ -12,37 +20,63 @@ type TagItem = {
     color: string;
 };
 export type Props<T extends string> = {
-    options: Array<DropdownOption<T>>;
     onChange?: (option: DropdownOption<T>) => void;
     onFocus?: () => void;
     placeholder?: string;
     enableTags?: Array<TagItem>;
     size?: 'default' | 'tiny' | 'small';
-    value?: string;
+    value?: T;
     themeColor?: string;
     onSearch?: (keyword: string | undefined) => void;
     disabled?: boolean;
     ['data-test-id']?: string;
 };
 
-export const Dropdown = <T extends string>({
-    options,
-    onFocus,
-    onChange,
-    placeholder = 'Select an option',
-    enableTags,
-    size,
-    value,
-    themeColor,
-    disabled,
-    onSearch,
-    'data-test-id': dataTestId,
-}: Props<T>) => {
+export type DropdownProps<T extends string> = Props<T> &
+    (
+        | {
+              options: Array<DropdownOption<T>>;
+          }
+        | {
+              children: React.ReactNode;
+          }
+    );
+
+export const Dropdown = <T extends string>(props: DropdownProps<T>) => {
+    const {
+        onFocus,
+        onChange,
+        placeholder = 'Select an option',
+        enableTags,
+        size,
+        value,
+        themeColor,
+        disabled,
+        onSearch,
+        'data-test-id': dataTestId,
+    } = props;
     const [isOpen, setIsOpen] = useState(false);
     const [isSearchFocus, setIsSearchFocus] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [selectedItem, setSelectedItem] = useState<DropdownOption | null>(null);
     const [focusedIndex, setFocusedIndex] = useState(-1);
+
+    const optionsMemo = useMemo(() => {
+        if ('options' in props) {
+            return props.options as Array<DropdownOption<T>>;
+        } else if ('children' in props) {
+            const res = React.Children.map(props.children, (child) => {
+                if (React.isValidElement(child) && child.type === Option) {
+                    return {
+                        ...child.props,
+                        label: child.props.children,
+                    } as DropdownOption<T>;
+                }
+            });
+            return res?.filter((item) => item !== undefined) ?? [];
+        }
+        return [] as Array<DropdownOption<T>>;
+    }, [props]);
 
     const handleToggle = () => {
         setIsSearchFocus(true);
@@ -69,12 +103,12 @@ export const Dropdown = <T extends string>({
 
     useEffect(() => {
         if (value) {
-            const option = options?.find((item) => item.value === value);
+            const option = optionsMemo?.find((item) => item?.value === value);
             if (option) {
                 setSelectedItem(option);
             }
         }
-    }, [value, options]);
+    }, [value, optionsMemo]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -130,17 +164,17 @@ export const Dropdown = <T extends string>({
         if (event.key === 'ArrowUp') {
             event.preventDefault();
             setFocusedIndex((prevIndex) =>
-                prevIndex > 0 ? prevIndex - 1 : options.length - 1,
+                prevIndex > 0 ? prevIndex - 1 : optionsMemo.length - 1,
             );
         } else if (event.key === 'ArrowDown') {
             event.preventDefault();
             setFocusedIndex((prevIndex) =>
-                prevIndex < options.length - 1 ? prevIndex + 1 : 0,
+                prevIndex < optionsMemo.length - 1 ? prevIndex + 1 : 0,
             );
         } else if (event.key === 'Enter') {
             event.preventDefault();
             if (focusedIndex > -1) {
-                handleSelect(options[focusedIndex]);
+                handleSelect(optionsMemo[focusedIndex]);
                 handleReset();
                 setIsSearchFocus(false);
                 setFocusedIndex(-1);
@@ -179,7 +213,7 @@ export const Dropdown = <T extends string>({
 
             {isOpen && (
                 <ul className='dropdown-menu'>
-                    {options.map((option, index) => (
+                    {optionsMemo.map((option, index) => (
                         <li
                             className={classNames({ hover: index === focusedIndex })}
                             key={index}

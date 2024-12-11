@@ -4,10 +4,10 @@ import classNames from 'classnames';
 
 export type Props = {
     children: React.ReactNode;
-    styleMode: 'dark' | 'light';
+    styleMode?: 'dark' | 'light';
 };
 
-const ScrollBox = ({ children, styleMode }: Props) => {
+const ScrollBox = ({ children, styleMode = 'light' }: Props) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const contentRef = useRef<HTMLDivElement | null>(null);
 

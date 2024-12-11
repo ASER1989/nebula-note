@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useArgs } from '@storybook/addons';
 import { Meta, StoryObj } from '@storybook/react';
-import Dropdown, { Props } from './index';
+import Dropdown, { DropdownProps } from './dropdown';
 
 export default {
     title: 'Atoms/Dropdown',
@@ -109,9 +109,9 @@ export default {
             </div>
         ),
     ],
-} as Meta<Props<string>>;
+} as Meta<DropdownProps<string>>;
 
-export type Story = StoryObj<Props<string>>;
+export type Story = StoryObj<DropdownProps<string>>;
 export const Primary: Story = {
     args: {
         enableTags: [
@@ -149,9 +149,9 @@ export const Primary: Story = {
                 keyword: '4',
             },
         ];
-        const [args, updateArgs] = useArgs<Props<string>>();
+        const [args, updateArgs] = useArgs<DropdownProps<string>>();
         useEffect(() => {
-            updateArgs({ options });
+            updateArgs({ options: options });
         }, []);
         const handleSearch = (keyword?: string) => {
             if (keyword) {
@@ -160,7 +160,7 @@ export const Primary: Story = {
                 );
                 updateArgs({ options: newOptions });
             } else {
-                updateArgs({ options });
+                updateArgs({ options: options });
             }
         };
 
