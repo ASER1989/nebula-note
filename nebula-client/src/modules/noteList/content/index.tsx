@@ -5,15 +5,16 @@ import type { Props as EditorProps } from '@client/components/codeEditor';
 import CodeEditor from '@client/components/codeEditor';
 import MarkdownEditor from '@client/components/markdownEditor';
 import useMessage from '@client/components/message/useMessage';
+import { useLocalization } from '@client/localizations/useLocalization';
+import useSettings from '@client/models/settingsModel/useSettings';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import ShortcutKeys from '@client/modules/shortcutKeys';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { TabOption, TabPane, Tabs } from '@client/molecules/tabs';
+import useDebounce from '@client/utils/useDebounce';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPencilLine } from 'react-icons/lu';
-import useSettings from "@client/models/settingsModel/useSettings";
-import useDebounce from "@client/utils/useDebounce";
 
 export type Props = {
     state: NoteState;
@@ -21,6 +22,7 @@ export type Props = {
 };
 export const Content: FC<Props> = ({ state, onSave }) => {
     const { settings } = useSettings();
+    const { getText } = useLocalization();
     const autoSaveInterceptor = useDebounce(() => onSave?.(), 500, 3000);
     const interceptorHandle = () => {
         if (settings?.autoSave) {
@@ -76,7 +78,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
             }
             if (isExist) {
                 setTitleFocus(false);
-                return showMessage('template title is exist').then(() => {
+                return showMessage(getText('模板名称已存在')).then(() => {
                     setTitleFocus(true);
                 });
             }
@@ -127,12 +129,12 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 onTabChange={handleTabChange}
                 activePaneId={state?.activeProperty ?? 'document'}
             >
-                <TabPane id='document' key='document' title='文档'>
+                <TabPane id='document' key='document' title={getText('文档')}>
                     <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
                         {state?.note?.document}
                     </MarkdownEditor>
                 </TabPane>
-                <TabPane id='meta' key='meta' title='参数配置'>
+                <TabPane id='meta' key='meta' title={getText('参数配置')}>
                     <CodeEditor
                         value={state?.note?.meta ?? '{}'}
                         lang='json'

@@ -14,16 +14,17 @@ import useNoteController from '@client/modules/noteList/useNoteController';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
-import { cloneWith } from 'lodash';
 import { useParams } from 'react-router-dom';
 import { Header } from './header';
 import { ListItem } from './item';
+import {useLocalization} from "@client/localizations/useLocalization";
 
 type Props = {
     state: NoteState;
     onSave?: () => void;
 };
 export const List = ({ state, onSave }: Props) => {
+    const {getText} = useLocalization();
     const actions = useNote();
     const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
@@ -58,9 +59,9 @@ export const List = ({ state, onSave }: Props) => {
         }
         if (state?.editStatus === 'Edited') {
             return showConfirm({
-                content: '当前模板尚未保存，是否保存？',
-                confirmText: '保存',
-                cancelText: '不保存',
+                content: getText('当前模板尚未保存，是否保存？'),
+                confirmText:  getText('保存'),
+                cancelText: getText('不保存'),
                 callback: (confirm) => {
                     if (confirm) {
                         return onSave?.();
@@ -105,10 +106,10 @@ export const List = ({ state, onSave }: Props) => {
 
     const handleRemove = () => {
         showConfirm({
-            title: '提示',
-            content: '确定要删除该记录及相关文档内容吗？',
-            confirmText: '删除',
-            cancelText: '取消',
+            title: getText('提示'),
+            content: getText('确定要删除该记录及相关文档内容吗？'),
+            confirmText: getText('删除'),
+            cancelText: getText('取消'),
             callback: async (confirm) => {
                 if (confirm) {
                     const index = noteList.findIndex(

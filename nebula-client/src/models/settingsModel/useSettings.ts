@@ -6,6 +6,7 @@ import { Settings, SettingsState } from './types';
 
 const REDUX_KEY = 'settingsState';
 
+let initFetchStatus: 'None' | 'Ready' = 'None';
 export const useSettings = () => {
     const { state, getStateSync, setState, updateState, updateStatePromise } =
         useRedux<SettingsState>(REDUX_KEY, {
@@ -57,7 +58,8 @@ export const useSettings = () => {
     };
 
     useEffect(() => {
-        if (fetchStatus === 'None') {
+        if (initFetchStatus === 'None') {
+            initFetchStatus = 'Ready';
             loadSettings();
         }
     }, []);

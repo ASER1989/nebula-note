@@ -5,7 +5,8 @@ import Dropdown, { DropdownOption, Option } from '@client/atoms/dropdown';
 import Input from '@client/atoms/input';
 import Switch from '@client/atoms/switch';
 import useMessage from '@client/components/message/useMessage';
-import { useLocalization } from '@client/models/localizationModel/useLocalization';
+import { Language } from '@client/localizations/types';
+import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import useSettings from '@client/models/settingsModel/useSettings';
 import useNote from '@client/modules/noteList/useNote';
@@ -16,16 +17,13 @@ import { Stack, StackItem } from '@client/molecules/stack';
 
 export default function SystemConfig() {
     const { showMessage } = useMessage();
-    const { getText, setLocalization } = useLocalization();
+    const { getText } = useLocalization();
     const { fetchStatus, error, settings, updateSettingState } = useSettings();
     const nodeConfigModel = useNoteConfig();
     const { reset } = useNote();
 
     const [folderPickerVisible, setFolderPickerVisible] = useState(false);
 
-    useEffect(() => {
-        setLocalization('en');
-    }, []);
     const dataSourceOptions = useMemo(() => {
         return (settings?.dataSource || []).map((item) => ({
             value: item.path,
@@ -40,6 +38,10 @@ export default function SystemConfig() {
 
     const handleSettingsChange = (field: string, value: unknown) => {
         return updateSettingState({ [field]: value });
+    };
+    const handleLanguageChange = (value: Language) => {
+        // setLocalization(value);
+        return handleSettingsChange('lang', value);
     };
 
     const handleNewDataSource = async (path: string) => {
@@ -88,9 +90,12 @@ export default function SystemConfig() {
             <Stack direction='vertical'>
                 <StackItem flex>
                     <Section margin={20}>
-                        <Form>
+                        <Form labelWidth='86px'>
                             <FormItem label={getText('系统语言')}>
-                                <Dropdown value={settings?.lang}>
+                                <Dropdown
+                                    value={settings?.lang}
+                                    onChange={({ value }) => handleLanguageChange(value)}
+                                >
                                     <Option value='zh-cn'>中文</Option>
                                     <Option value='en'>English</Option>
                                 </Dropdown>

@@ -1,0 +1,22 @@
+{
+    "文档": "Document",
+    "参数配置": "Meta",
+    "系统配置": "System Config",
+    "本地端口": "Port",
+    "自动保存": "Auto save",
+    "文档目录": "Document directory",
+    "添加目录": "new directory",
+    "系统语言": "Language",
+    "模板名称已存在": "The template name already exists",
+    "新建": "New",
+    "标题": "Title",
+    "关键词": "Keywords",
+    "取消": "Cancel",
+    "保存": "Save",
+    "便于搜索，分隔符随意": "For easy search, separators are free",
+    "当前模板尚未保存，是否保存？": "The current template has not been saved, do you want to save it?",
+    "不保存": "Don't save",
+    "提示": "Tips",
+    "确定要删除该记录及相关文档内容吗？": "Are you sure you want to delete this record and its associated document content?",
+    "删除": "Delete"
+}

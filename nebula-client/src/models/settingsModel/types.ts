@@ -1,6 +1,8 @@
 import { FetchStatus } from '@client/types';
+import {Language} from "@client/localizations/types";
 
 export type Settings = {
+    lang: Language;
     servicePort: number;
     autoSave: boolean;
     dataSource: Array<{

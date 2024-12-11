@@ -5,7 +5,6 @@ import { ConfirmContext } from '@client/components/confirm/context';
 import useConfirmContext from '@client/components/confirm/useConfirmContext';
 import { MessageBox, useMessageContext } from '@client/components/message';
 import { MessageContext } from '@client/components/message/context';
-import { useStoreUpdate } from '@client/models/noteModel';
 import Settings from '@client/modules/settings';
 import { SidePage } from '@client/molecules/sidePage';
 import routeConfig from '@client/routeConfig';
@@ -13,6 +12,7 @@ import classNames from 'classnames';
 import { LuSettings } from 'react-icons/lu';
 import { useRoutes } from 'react-router-dom';
 import packageConfig from '../../package.json';
+import {NoteStatus} from "@client/modules/noteList/noteStatus";
 
 function App() {
     const messageContextValue = useMessageContext();
@@ -22,8 +22,6 @@ function App() {
         onClose: onConfirmClose,
     } = useConfirmContext();
     const [settingsVisible, setSettingsVisible] = useState(false);
-
-    const storeTools = useStoreUpdate();
 
     const routes = useRoutes(routeConfig);
 
@@ -51,6 +49,7 @@ function App() {
                             <div>aser1989.cn&copy;2024</div>
                         </div>
                         <div className='app_layout_footer_operation'>
+                            <NoteStatus />
                             <LuSettings
                                 title='设置'
                                 className={classNames('app_operate', {

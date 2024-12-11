@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useArgs } from '@storybook/addons';
 import { Meta, StoryObj } from '@storybook/react';
 import Dropdown, { DropdownProps } from './dropdown';
+import Option from './option';
 
 export default {
     title: 'Atoms/Dropdown',
@@ -165,5 +166,33 @@ export const Primary: Story = {
         };
 
         return <Dropdown {...args} onSearch={handleSearch} />;
+    },
+};
+
+export const Secondary: Story = {
+    parameters: {
+        docs: {
+            description: {
+                story: 'Set options through child elements.',
+            },
+            source: {
+                code: `
+                    <Dropdown>
+                        <Option value="1">label-1</Option>
+                        <Option value="2">label-2</Option>
+                        <Option value="3">label-3</Option>
+                    </Dropdown>
+                `,
+            },
+        },
+    },
+    render: () => {
+        return (
+            <Dropdown>
+                <Option value='1'>label-1</Option>
+                <Option value='2'>label-2</Option>
+                <Option value='3'>label-3</Option>
+            </Dropdown>
+        );
     },
 };
