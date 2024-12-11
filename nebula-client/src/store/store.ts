@@ -17,7 +17,7 @@ const staticReducers = {
     placeholder: emptyReducer,
 };
 
-export const reducerManager = createReducerManager<RootState>(staticReducers);
+const reducerManager = createReducerManager<RootState>(staticReducers);
 
 const defaultStore = configureStore({
     reducer: reducerManager.reduce as Reducer<RootState>,
@@ -28,4 +28,3 @@ const defaultStore = configureStore({
 defaultStore.reducerManager = reducerManager;
 
 export const store = enhanceStoreWithTakeOnce(defaultStore) as Store;
-export type AppDispatch = typeof store.dispatch;

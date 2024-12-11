@@ -65,7 +65,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     const handleTabTitleChange = (title: string, newTitle: string) => {
         if (_.isEmpty(newTitle)) {
             setTitleFocus(false);
-            return showMessage('Invalid title').then(() => {
+            return showMessage(getText('无效标题')).then(() => {
                 setTitleFocus(true);
             });
         }

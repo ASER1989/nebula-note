@@ -17,11 +17,12 @@ export const useMessageContext = () => {
         removeContent(messageId);
         callback?.();
     };
-    const setContent = (content: string, onClose?: () => void) => {
+    const setContent = (content: string, onClose?: () => void, buttonText?: string) => {
         const messageId = nextMessageId.current++;
         messageArray.current.push({
             content,
             onClose: () => handleClose(messageId, onClose),
+            buttonText: buttonText || 'ok',
             id: messageId,
         });
         setLastUpdateTime(Date.now());
@@ -32,5 +33,6 @@ export const useMessageContext = () => {
         setContent,
         removeContent,
         lastUpdateTime,
+        defaultButtonText: 'ok',
     } as IMessageContext;
 };

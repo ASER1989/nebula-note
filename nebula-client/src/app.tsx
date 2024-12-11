@@ -5,6 +5,8 @@ import { ConfirmContext } from '@client/components/confirm/context';
 import useConfirmContext from '@client/components/confirm/useConfirmContext';
 import { MessageBox, useMessageContext } from '@client/components/message';
 import { MessageContext } from '@client/components/message/context';
+import { useLocalization } from '@client/localizations/useLocalization';
+import { NoteStatus } from '@client/modules/noteList/noteStatus';
 import Settings from '@client/modules/settings';
 import { SidePage } from '@client/molecules/sidePage';
 import routeConfig from '@client/routeConfig';
@@ -12,9 +14,9 @@ import classNames from 'classnames';
 import { LuSettings } from 'react-icons/lu';
 import { useRoutes } from 'react-router-dom';
 import packageConfig from '../../package.json';
-import {NoteStatus} from "@client/modules/noteList/noteStatus";
 
 function App() {
+    const { getText } = useLocalization();
     const messageContextValue = useMessageContext();
     const {
         options: confirmOptions,
@@ -26,7 +28,9 @@ function App() {
     const routes = useRoutes(routeConfig);
 
     return (
-        <MessageContext.Provider value={messageContextValue}>
+        <MessageContext.Provider
+            value={{ ...messageContextValue, defaultButtonText: getText('确定') }}
+        >
             <ConfirmContext.Provider
                 value={{ options: confirmOptions, showConfirm, onClose: onConfirmClose }}
             >

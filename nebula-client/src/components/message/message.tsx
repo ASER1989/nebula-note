@@ -5,11 +5,17 @@ import { MessageContext } from './context';
 
 export type Props = {
     content: string | null;
+    buttonText: string;
     onClose?: () => void;
     ['data-test-id']?: string;
 };
 
-export const Message: FC<Props> = ({ content, onClose, 'data-test-id': dataTestId }) => {
+export const Message: FC<Props> = ({
+    content,
+    buttonText,
+    onClose,
+    'data-test-id': dataTestId,
+}) => {
     const { setContent } = useContext(MessageContext);
     if (!content) {
         return null;
@@ -28,7 +34,7 @@ export const Message: FC<Props> = ({ content, onClose, 'data-test-id': dataTestI
                 <div className='content'>{content}</div>
                 <div className='bottom'>
                     <Button type='primary' onClick={handleClose}>
-                        知道了
+                        {buttonText}
                     </Button>
                 </div>
             </div>

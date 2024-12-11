@@ -7,12 +7,13 @@ export const MessageBox: FC = () => {
     const { messageList } = useContext(MessageContext);
 
     return messageList.map((item, index) => {
-        const { content, onClose } = item;
+        const { content, onClose,buttonText } = item;
         return (
             <Message
                 key={index}
                 content={content}
                 onClose={onClose}
+                buttonText={buttonText}
                 data-test-id='message-box'
             />
         );
