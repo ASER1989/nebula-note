@@ -21,8 +21,14 @@ const initialState: NoteState = {
 };
 
 export const useNote = (updateInterceptor?: () => void) => {
-    const { state, getStateSync, setState, setStatePromise, updateState } =
-        useRedux<NoteState>(REDUX_KEY, initialState);
+    const {
+        state,
+        getStateSync,
+        setState,
+        setStatePromise,
+        updateState,
+        updateStatePromise,
+    } = useRedux<NoteState>(REDUX_KEY, initialState);
 
     const updateDecorator = <T extends NoteState>(payload: {
         [K in keyof T]?: Partial<T[K]>;
@@ -40,6 +46,7 @@ export const useNote = (updateInterceptor?: () => void) => {
             note,
             activeProperty: 'document',
             editStatus: 'None',
+            fetchStatus: 'Pending',
         });
     };
 
@@ -128,6 +135,9 @@ export const useNote = (updateInterceptor?: () => void) => {
     const setCreateFormShown = (isCreateFormShown: boolean) => {
         updateState({ isCreateFormShown });
     };
+    const setFetchStatus = (fetchStatus: FetchStatus) => {
+        return updateState({ fetchStatus });
+    };
 
     return {
         state,
@@ -146,6 +156,7 @@ export const useNote = (updateInterceptor?: () => void) => {
         setNoteSaved,
         setActiveProperty,
         setCreateFormShown,
+        setFetchStatus,
     };
 };
 

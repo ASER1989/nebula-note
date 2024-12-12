@@ -130,8 +130,12 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 activePaneId={state?.activeProperty ?? 'document'}
             >
                 <TabPane id='document' key='document' title={getText('文档')}>
-                    <MarkdownEditor onChange={handleDocumentChange} preview='preview'>
-                        {state?.note?.document}
+                    <MarkdownEditor
+                        onChange={handleDocumentChange}
+                        id={state?.note?.name}
+                        isLoading={state?.fetchStatus === 'Pending'}
+                    >
+                        {state?.note?.document ?? '   '}
                     </MarkdownEditor>
                 </TabPane>
                 <TabPane id='meta' key='meta' title={getText('参数配置')}>

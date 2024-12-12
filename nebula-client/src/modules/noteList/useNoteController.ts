@@ -32,7 +32,9 @@ export const useNoteController = () => {
                     actions.setTemplateContent(newSnippet);
                 }
             }
+            actions.setFetchStatus('Success');
         } catch (error) {
+            actions.setFetchStatus('Error');
             return queryErrorMessage(error);
         }
     };

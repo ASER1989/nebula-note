@@ -23,7 +23,7 @@ export const Switch = ({
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange?.(event.target.checked);
     };
-    const switchClass = classNames('switch', size, className, {
+    const switchClass = classNames('nebula-switch', size, className, {
         disabled: disabled,
     });
     return (
