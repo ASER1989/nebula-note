@@ -8,7 +8,7 @@ const REDUX_KEY = 'settingsState';
 
 let initFetchStatus: 'None' | 'Ready' = 'None';
 export const useSettings = () => {
-    const { state, getStateSync, setState, updateState, updateStatePromise } =
+    const { state, getStateSync, setState, updateState, updateStateSync } =
         useRedux<SettingsState>(REDUX_KEY, {
             fetchStatus: 'None',
         });
@@ -49,8 +49,8 @@ export const useSettings = () => {
         }
         return false;
     };
-    const updateSettingState = async (data: Partial<Settings>) => {
-        await updateStatePromise({ settings: data } as Partial<SettingsState>);
+    const updateSettingState = (data: Partial<Settings>) => {
+        updateStateSync({ settings: data } as Partial<SettingsState>);
         const newState = getStateSync();
         if (newState.settings) {
             return saveSettings(newState.settings);

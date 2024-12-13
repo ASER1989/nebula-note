@@ -6,7 +6,7 @@ import { queryErrorMessage } from '@client/utils/queries';
 export const useNoteController = () => {
     const actions = useNote();
     const changeSelectedItem = async (templateConfig: NoteRecord) => {
-        await actions.setNote(templateConfig);
+        actions.setNoteSync(templateConfig);
         try {
             // 请求模板文档
             const documentResp = await noteApi.getNoteDocument(

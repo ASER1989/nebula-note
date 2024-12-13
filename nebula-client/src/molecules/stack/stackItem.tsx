@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export type StackItemProps = {
     children: ReactNode;
@@ -10,7 +10,7 @@ export type StackItemProps = {
 export const StackItem = ({ children, style, flex, shrink = 0 }: StackItemProps) => {
     const styleCompose = {
         ...style,
-        'flex-shrink': shrink,
+        flexShrink: shrink,
         ...(flex ? { flex: 1 } : {}),
     };
 

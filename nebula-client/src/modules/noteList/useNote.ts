@@ -21,14 +21,8 @@ const initialState: NoteState = {
 };
 
 export const useNote = (updateInterceptor?: () => void) => {
-    const {
-        state,
-        getStateSync,
-        setState,
-        setStatePromise,
-        updateState,
-        updateStatePromise,
-    } = useRedux<NoteState>(REDUX_KEY, initialState);
+    const { state, getStateSync, setState, setStateSync, updateState } =
+        useRedux<NoteState>(REDUX_KEY, initialState);
 
     const updateDecorator = <T extends NoteState>(payload: {
         [K in keyof T]?: Partial<T[K]>;
@@ -40,8 +34,8 @@ export const useNote = (updateInterceptor?: () => void) => {
     const reset = () => {
         setState(initialState);
     };
-    const setNote = (note: NoteRecord) => {
-        return setStatePromise({
+    const setNoteSync = (note: NoteRecord) => {
+        setStateSync({
             ...state,
             note,
             activeProperty: 'document',
@@ -143,7 +137,7 @@ export const useNote = (updateInterceptor?: () => void) => {
         state,
         getStateSync,
         reset,
-        setNote,
+        setNoteSync,
         updateNote,
         setMeta,
         updateMeta,
