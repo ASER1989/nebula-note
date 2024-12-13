@@ -20,5 +20,6 @@
     "确定要删除该记录及相关文档内容吗？": "Are you sure you want to delete this record and its associated document content?",
     "删除": "Delete",
     "无效标题": "Invalid title",
-    "确定": "Ok"
+    "确定": "Ok",
+    "点击添加文档内容": "Click to add document content"
 }

@@ -1,22 +1,50 @@
 .nebula-tui
   text-align left
   height 100%
+  position relative;
+  --tui-toole-opacity: 0
+
+  &.tui-tool-visible
+    --tui-toole-opacity: 1
+
+  .toastui-editor-defaultUI
+    border 0
 
   .toastui-editor-toolbar
-    transform scale(.75) translateX(12.5%)
+    transition opacity ease-in .3s
+    transform translateX(-50%)
     position absolute
-    top 0
+    left 50%
+    top 10px
     z-index 30
+    zoom 0.7;
+    opacity  var(--tui-toole-opacity)
 
     .toastui-editor-defaultUI-toolbar
-      border-radius 50px
+      border-radius 30px
+      box-shadow 0 0 10px 2px #a0a0a060
+
   .toastui-editor-main
     .toastui-editor-contents
-      padding-top 50px
-      font-size var(--document-font-size,15px)
+      padding-top 26px
+      font-size var(--document-font-size, 15px)
+
       h1
         border-bottom: 1px solid #ccc;
-      h3,h4
+
+      h3, h4
         padding-bottom 5px
+      table
+        border-radius 5px
+        overflow hidden
+        box-shadow 0 0 0 1px rgba(0, 0, 0, 0.1)
+        th
+          background-color #f0f0f0
+          color #555
+          font-weight 500
+          p
+            color #555
+
       .toastui-editor-ww-code-block
         margin-top 10px
+        font-size 14px

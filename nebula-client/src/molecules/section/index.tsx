@@ -37,5 +37,6 @@ const SectionBase = (
     );
 };
 
+SectionBase.displayName='Section';
 export const Section = forwardRef(SectionBase);
 export default Section;

@@ -134,6 +134,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         onChange={handleDocumentChange}
                         id={state?.note?.name}
                         isLoading={state?.fetchStatus === 'Pending'}
+                        placeholder={getText('点击添加文档内容')}
                     >
                         {state?.note?.document ?? '   '}
                     </MarkdownEditor>

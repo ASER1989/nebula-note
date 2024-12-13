@@ -1,6 +1,7 @@
 import '../index.styl';
 import React, { useContext, useEffect } from 'react';
 import { ConfirmContext } from '@client/components/confirm/context';
+import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
 import { NoteRecord } from '@client/models/noteModel/types';
@@ -11,20 +12,22 @@ import {
 } from '@client/modules/noteList/buildReuslt/types';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import useNoteController from '@client/modules/noteList/useNoteController';
+import Section from '@client/molecules/section';
 import { Stack, StackItem } from '@client/molecules/stack';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
+import { useBoxSize } from '@client/utils/useBoxSize';
 import { useParams } from 'react-router-dom';
 import { Header } from './header';
 import { ListItem } from './item';
-import {useLocalization} from "@client/localizations/useLocalization";
 
 type Props = {
     state: NoteState;
     onSave?: () => void;
 };
 export const List = ({ state, onSave }: Props) => {
-    const {getText} = useLocalization();
+    const { getText } = useLocalization();
+    const { boxRef, boxSize } = useBoxSize();
     const actions = useNote();
     const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
@@ -60,7 +63,7 @@ export const List = ({ state, onSave }: Props) => {
         if (state?.editStatus === 'Edited') {
             return showConfirm({
                 content: getText('当前模板尚未保存，是否保存？'),
-                confirmText:  getText('保存'),
+                confirmText: getText('保存'),
                 cancelText: getText('不保存'),
                 callback: (confirm) => {
                     if (confirm) {
@@ -131,7 +134,7 @@ export const List = ({ state, onSave }: Props) => {
             await reload();
             actions.updateNote(newNoteRecord);
             handleChangeSelectedItem(newNoteRecord);
-            actions.setActiveProperty(state.activeProperty??'document')
+            actions.setActiveProperty(state.activeProperty ?? 'document');
             return true;
         }
         return false;
@@ -143,22 +146,33 @@ export const List = ({ state, onSave }: Props) => {
                 <Header></Header>
             </StackItem>
             <StackItem flex style={{ overflowY: 'auto' }}>
-                <div className='note-list' data-test-id='note-list'>
+                <div className='note-list' data-test-id='note-list' ref={boxRef}>
                     {noteList.map((note) => {
                         return (
-                            <ListItem
-                                isChecked={note.name === state?.note.name}
+                            <Section
+                                style={{
+                                    width: boxSize.width,
+                                    boxShadow: 'none',
+                                    borderWidth: 0,
+                                    borderBottomWidth: 1,
+                                    borderRadius:0
+                                }}
                                 key={note.name}
-                                name={note.name as string}
-                                onClick={() => handleClick(note)}
-                                onBuild={
-                                    (note.templateList?.length ?? 0 > 0)
-                                        ? handleRunBuild
-                                        : undefined
-                                }
-                                onRemove={handleRemove}
-                                onRename={handleRename}
-                            />
+                                padding='0'
+                            >
+                                <ListItem
+                                    isChecked={note.name === state?.note.name}
+                                    name={note.name as string}
+                                    onClick={() => handleClick(note)}
+                                    onBuild={
+                                        (note.templateList?.length ?? 0 > 0)
+                                            ? handleRunBuild
+                                            : undefined
+                                    }
+                                    onRemove={handleRemove}
+                                    onRename={handleRename}
+                                />
+                            </Section>
                         );
                     })}
                 </div>

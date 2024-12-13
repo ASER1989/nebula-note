@@ -65,5 +65,7 @@ const SearchInputBase = (props: Props, ref: React.Ref<HTMLInputElement>) => {
         </div>
     );
 };
+
+SearchInputBase.displayName = 'SearchInput';
 export const SearchInput = forwardRef(SearchInputBase);
 export default SearchInput;

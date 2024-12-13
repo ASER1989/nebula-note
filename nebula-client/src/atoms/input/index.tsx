@@ -60,5 +60,6 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
     );
 };
 
+InputBase.displayName = 'Input';
 export const Input = forwardRef(InputBase);
 export default Input;
