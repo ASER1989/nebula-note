@@ -16,8 +16,11 @@ module.exports = (prefix, opts) => {
         const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const configIndex = templateConfigs.findIndex((item) => item.name === name);
         const configOption = configIndex >= 0 ? templateConfigs[configIndex] : undefined;
+        if(!Boolean(name)){
+            return Error('名称不能为空');
+        }
         if (configOption && configOption.version > reqParams.version) {
-            return Error('模板版本号不一致');
+            return Error('版本号不一致');
         }
         const newConfig = _.pick(reqParams, [
             'name',
@@ -101,6 +104,9 @@ module.exports = (prefix, opts) => {
         const configIndex = templateConfigs.findIndex((item) => item.name === name);
         if (configIndex >= 0) {
             const filePath = templateConfigs[configIndex]?.filePath;
+            if (!Boolean(filePath) || filePath === '/') {
+                return false;
+            }
             await templateUtils.clearFolder(filePath);
             templateConfigs.splice(configIndex, 1);
             await templateUtils.updateConfig(templateConfigs);
@@ -111,6 +117,9 @@ module.exports = (prefix, opts) => {
 
     router.post('/rename', async (ctx) => {
         const { name, newName } = ctx.request.body;
+        if(!Boolean(newName)){
+            return Error('名称不能为空');
+        }
         const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const isNameRepeat = templateConfigs.some((item) => item.name === newName);
         if (isNameRepeat) {

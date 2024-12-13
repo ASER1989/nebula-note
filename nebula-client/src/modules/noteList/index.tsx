@@ -1,28 +1,29 @@
 import React from 'react';
-import useMessage from '@client/components/message/useMessage';
+import { useNotification } from '@client/components/notificationBox';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
 import { BuildResult } from '@client/modules/noteList/buildReuslt';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import SplitPanel from '@client/molecules/splitPanel';
+import { queryErrorMessage } from '@client/utils/queries';
 import { Content } from './content';
 import CreateForm from './createForm';
 import { List } from './list';
 
 export const NoteList = () => {
     const { reload } = useNoteConfig();
-    const { showMessage } = useMessage();
+    const { showNotice } = useNotification();
     const { state, getStateSync, setNoteSaved, setCreateFormShown } = useNote();
 
     const handleSave = async () => {
-        const syncState = getStateSync();
-        const resp = await noteApi.noteUpsert(syncState.note);
-        if (resp.success) {
+        try {
+            const syncState = getStateSync();
+            const resp = await noteApi.noteUpsert(syncState.note);
             setNoteSaved({ version: resp.data });
             await reload();
-            return;
+        } catch (ex) {
+            showNotice({content:queryErrorMessage(ex), type:'error'});
         }
-        await showMessage(resp.error.toString());
     };
 
     const handleCreateDialogClose = async (success?: boolean) => {

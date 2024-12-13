@@ -21,5 +21,8 @@
     "删除": "Delete",
     "无效标题": "Invalid title",
     "确定": "Ok",
-    "点击添加文档内容": "Click to add document content"
+    "点击添加文档内容": "Click to add document content",
+    "版本号不一致": "Version number inconsistent",
+    "名称已存在": "Name already exists",
+    "名称不能为空": "Name cannot be empty"
 }
