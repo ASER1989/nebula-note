@@ -1,5 +1,6 @@
 import './index.styl';
 import React, { useEffect, useRef, useState } from 'react';
+import { useBoxSize } from '@client/utils/useBoxSize';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import classNames from 'classnames';
@@ -22,7 +23,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     isLoading,
     placeholder,
 }) => {
-    const boxRef = useRef<HTMLDivElement>(null);
+    const { boxRef, boxSize } = useBoxSize();
     const editorRef = useRef<Editor>(null);
     const idRef = useRef<string>(id);
     const isMounted = useRef(false);
@@ -67,10 +68,20 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         setToolsVisible(true);
     };
 
+    const widthRatioQuery = () => {
+        const width = Number(boxSize.width.replace('px', ''));
+        if (width) {
+            return width >= 600 ? 1 : width / 600;
+        }
+        return 1;
+    };
     const boxClass = classNames('nebula-tui', { 'tui-tool-visible': toolsVisible });
-console.log(placeholder)
+    const boxStyle = {
+        '--nebula-tui-width-ratio': widthRatioQuery(),
+    } as React.CSSProperties;
+
     return (
-        <div className={boxClass} ref={boxRef}>
+        <div className={boxClass} ref={boxRef} style={boxStyle}>
             <Editor
                 ref={editorRef}
                 placeholder={placeholder}
