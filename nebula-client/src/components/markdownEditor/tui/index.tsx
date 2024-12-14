@@ -89,7 +89,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 previewStyle={previewStyle}
                 height='100%'
                 initialEditType='wysiwyg'
-                useCommandShortcut={false}
+                useCommandShortcut={true}
                 onChange={handleChange}
                 onFocus={handleEditorFocus}
             />

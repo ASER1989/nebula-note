@@ -46,10 +46,8 @@ const updateConfig = async (config) => {
 };
 
 const saveFile = async (content, filePath) => {
-    if (content) {
-        const configPath = getDataFolder();
-        return await fileUtils.writeFile(path.join(configPath, filePath), content);
-    }
+    const configPath = getDataFolder();
+    return await fileUtils.writeFile(path.join(configPath, filePath), content);
 };
 
 const getFile = async (filePath) => {

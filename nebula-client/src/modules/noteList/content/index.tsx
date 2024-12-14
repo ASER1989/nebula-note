@@ -23,6 +23,8 @@ export type Props = {
 export const Content: FC<Props> = ({ state, onSave }) => {
     const { settings } = useSettings();
     const { getText } = useLocalization();
+    const { showMessage } = useMessage();
+    const [titleFocus, setTitleFocus] = useState(false);
     const autoSaveInterceptor = useDebounce(() => onSave?.(), 500, 3000);
     const interceptorHandle = () => {
         if (settings?.autoSave) {
@@ -30,8 +32,6 @@ export const Content: FC<Props> = ({ state, onSave }) => {
         }
     };
     const actions = useNote(interceptorHandle);
-    const { showMessage } = useMessage();
-    const [titleFocus, setTitleFocus] = useState(false);
 
     const handleDocumentChange = (value?: string) => {
         actions.updateDocument(value ?? '');
@@ -63,8 +63,8 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     };
 
     const handleTabTitleChange = (title: string, newTitle: string) => {
+        setTitleFocus(false);
         if (_.isEmpty(newTitle)) {
-            setTitleFocus(false);
             return showMessage(getText('无效标题')).then(() => {
                 setTitleFocus(true);
             });
@@ -77,7 +77,6 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 return;
             }
             if (isExist) {
-                setTitleFocus(false);
                 return showMessage(getText('模板名称已存在')).then(() => {
                     setTitleFocus(true);
                 });
