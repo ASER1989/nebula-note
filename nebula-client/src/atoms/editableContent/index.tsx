@@ -6,6 +6,7 @@ export type Props = {
     children: string | TrustedHTML;
     editable: boolean;
     focus?: boolean;
+    allowEnter?: boolean;
     className?: string;
     onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
     onFocus?: (e: React.FormEvent<HTMLDivElement>) => void;
@@ -17,6 +18,7 @@ export type Props = {
 export const EditableContent: FC<Props> = ({
     children,
     editable,
+    allowEnter = false,
     className,
     focus,
     onClick,
@@ -39,13 +41,27 @@ export const EditableContent: FC<Props> = ({
             selection?.addRange(range);
         }
     }, [focus]);
+
+    useEffect(() => {
+        const enterListener = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        };
+        if (boxRef.current && !allowEnter) {
+            boxRef.current.addEventListener('keydown', enterListener);
+        }
+        return () => {
+            boxRef.current?.removeEventListener('keydown', enterListener);
+        };
+    }, [allowEnter]);
     const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
-        const newText = e.currentTarget.innerText;
+        const newText = e.currentTarget.innerText.replace(/\n/g, '');
         const newHtml = e.currentTarget.innerText;
         onChange?.(newText, newHtml);
     };
     const handleBlur = (e: React.FormEvent<HTMLDivElement>) => {
-        const newText = e.currentTarget.innerText;
+        const newText = e.currentTarget.innerText.replace(/\n/g, '');
         const newHtml = e.currentTarget.innerHTML;
         onBlur?.(newText, newHtml);
     };
