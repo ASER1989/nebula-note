@@ -21,13 +21,24 @@ export const useRedux = <SliceType>(stateName: string, initialState: SliceType) 
         return initialState;
     });
 
+    const take = (actionType: 'setState' | 'updateState') => {
+        let resolveHandle: (result: () => void) => void;
+        const promiseHandle = new Promise<() => void>((resolve) => {
+            resolveHandle = resolve;
+        });
+        const removeTaker = store.addTaker(`${stateName}/${actionType}`, () => {
+            resolveHandle(removeTaker);
+        });
+        return promiseHandle;
+    };
     const takeOnce = (actionType: 'setState' | 'updateState') => {
         let resolveHandle: () => void;
         const promiseHandle = new Promise<void>((resolve) => {
             resolveHandle = resolve;
         });
-        store.takeOnce(`${stateName}/${actionType}`, () => {
+        const removeTaker = store.addTaker(`${stateName}/${actionType}`, () => {
             resolveHandle();
+            removeTaker();
         });
         return promiseHandle;
     };
@@ -68,6 +79,7 @@ export const useRedux = <SliceType>(stateName: string, initialState: SliceType) 
         setStateSync,
         updateState,
         updateStateSync,
+        take,
         takeOnce,
     } as const;
 };
