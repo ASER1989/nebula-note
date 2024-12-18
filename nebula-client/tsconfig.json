@@ -30,7 +30,9 @@
         "incremental": true,
         "outDir": ".tscache",
         "paths": {
-            "@client/*": ["./src/*"]
+            "@client/*": ["./src/*"],
+            "@nebula-note/ui": ["../nebula-ui/src/"],
+            "@ui/*": ["../nebula-ui/src/*"]
         }
     },
     "include": ["./src", "cypress/**/*.ts", ".storybook/**/*"],

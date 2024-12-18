@@ -1,4 +1,4 @@
-import { DropdownOption } from '@client/atoms/dropdown';
+import { DropdownOption } from '@nebula-note/ui';
 
 export const SupportedLang = [
     'jsx',

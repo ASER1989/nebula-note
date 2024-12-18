@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useMessage from '@client/components/message/useMessage';
+import { useMessage } from '@client/components/messageBox';
 import { noteStoreUpdate } from './api';
 import { useNoteConfig } from './index';
 

@@ -1,10 +1,10 @@
 import './index.styl';
 import React, { useMemo } from 'react';
-import Checkbox from '@client/atoms/checkbox';
 import SchemaTreeNode from '@client/components/schemaTree/treeNode';
 import { TagType } from '@client/components/schemaTree/types';
 import { deepthCheck } from '@client/models/graphql';
 import type { GraphqlSchema } from '@client/models/graphql/type';
+import { Checkbox } from '@nebula-note/ui';
 
 type Props = {
     schema?: GraphqlSchema;

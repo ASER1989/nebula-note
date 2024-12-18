@@ -1,0 +1,39 @@
+.nebula-message
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  z-index 1099
+
+  .message-box
+    background #ff7a7a
+    position absolute
+    top 35%
+    left 50%
+    transform translate(-50%, -50%);
+    display flex
+    flex-direction column
+    padding 10px 20px
+    border solid 1px #35617a
+    border-radius 10px
+    min-width 300px
+    max-width 500px
+    box-shadow -3px 6px 5px 0px #35617a6e
+
+    .content
+      flex 1
+      text-align center
+      padding 20px 0
+      color #fff8dc
+      text-shadow -3px 3px 0px #eb5c54
+
+    .bottom
+      display flex
+      justify-content space-around
+
+@keyframes message_show
+  from
+    transform rotateX(90deg);
+  to
+    transform rotateX(0);

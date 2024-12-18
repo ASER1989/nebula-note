@@ -11,7 +11,7 @@ export type SplitPanelProps = {
     ['data-test-id']?: string;
 };
 
-const SplitPanel: React.FC<SplitPanelProps> = ({
+export const SplitPanel: React.FC<SplitPanelProps> = ({
     direction = 'horizontal',
     children,
     percentage = 50,

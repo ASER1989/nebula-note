@@ -15,7 +15,7 @@ export type ResizableBoxProps = {
 }
 
 type CursorType = 'ew-resize' | 'ns-resize' | 'default';
-const ResizableBox: React.FC<ResizableBoxProps> = (props) => {
+export const ResizableBox: React.FC<ResizableBoxProps> = (props) => {
     const {
         anchor,
         children,

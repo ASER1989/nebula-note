@@ -5,12 +5,12 @@ import {
     BuildResultState,
     CodeSnippet,
 } from '@client/modules/noteList/buildReuslt/types';
-import Copy from '@client/molecules/copy';
-import ResizableBox from '@client/molecules/resizableBox';
-import { SidePage } from '@client/molecules/sidePage';
-import { Stack, StackItem } from '@client/molecules/stack';
-import { TabPane, Tabs } from '@client/molecules/tabs';
 import { useRedux } from '@client/store/hooks/useRedux';
+import { Copy } from '@nebula-note/ui';
+import { ResizableBox } from '@nebula-note/ui';
+import { SidePage } from '@nebula-note/ui';
+import { Stack, StackItem } from '@nebula-note/ui';
+import { TabPane, Tabs } from '@nebula-note/ui';
 
 export const BuildResult = () => {
     const { state, setState } = useRedux(StateName, {

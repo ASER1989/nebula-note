@@ -1,7 +1,7 @@
 import './index.styl';
 import React from 'react';
 import SystemConfig from '@client/modules/settings/systemConfig';
-import { TabPane, Tabs } from '@client/molecules/tabs';
+import { TabPane, Tabs } from '@nebula-note/ui';
 
 export default function Settings() {
     return (

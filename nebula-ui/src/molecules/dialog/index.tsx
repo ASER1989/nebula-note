@@ -66,7 +66,7 @@ export const Dialog: FC<DialogProps> = ({
                 </div>
             </div>
             <div
-                className={classNames('component-dialog mask', { hide: hide })}
+                className={classNames('nebula-dialog mask', { hide: hide })}
                 onClick={handleClose}
             ></div>
         </>

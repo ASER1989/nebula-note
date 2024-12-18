@@ -1,10 +1,15 @@
 import './app.styl';
 import React, { useState } from 'react';
-import Confirm from '@client/components/confirm';
-import { ConfirmContext } from '@client/components/confirm/context';
-import useConfirmContext from '@client/components/confirm/useConfirmContext';
-import { MessageBox, useMessageContext } from '@client/components/message';
-import { MessageContext } from '@client/components/message/context';
+import {
+    ConfirmBox,
+    ConfirmContext,
+    useConfirmContext,
+} from '@client/components/confirmBox';
+import {
+    MessageBox,
+    MessageContext,
+    useMessageContext,
+} from '@client/components/messageBox';
 import {
     NotificationBox,
     NotificationContext,
@@ -13,8 +18,8 @@ import {
 import { useLocalization } from '@client/localizations/useLocalization';
 import { NoteStatus } from '@client/modules/noteList/noteStatus';
 import Settings from '@client/modules/settings';
-import { SidePage } from '@client/molecules/sidePage';
 import routeConfig from '@client/routeConfig';
+import { SidePage } from '@nebula-note/ui';
 import classNames from 'classnames';
 import { LuSettings } from 'react-icons/lu';
 import { useRoutes } from 'react-router-dom';
@@ -66,7 +71,7 @@ function App() {
                         </div>
                         <NotificationBox />
                         <MessageBox key={messageContextValue.lastUpdateTime} />
-                        <Confirm />
+                        <ConfirmBox />
                     </div>
                 </NotificationContext.Provider>
             </ConfirmContext.Provider>

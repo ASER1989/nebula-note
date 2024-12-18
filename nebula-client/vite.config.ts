@@ -5,12 +5,15 @@ const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
+    console.log( path.resolve(__dirname, '../nebula-ui/dist/index.es.js'))
     return {
         root: './',
         base: './',
         resolve: {
             alias: {
                 '@client': path.resolve(__dirname, './src'),
+                '@ui': path.resolve(__dirname, '../nebula-ui/src'),
+                '@nebula-note/ui': path.resolve(__dirname, '../nebula-ui/src'),
             },
         },
         mode,

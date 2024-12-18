@@ -14,9 +14,15 @@ export default defineConfig(({ command, mode }) => {
         plugins: [
             react(),
             dts({
-                rollupTypes:true,
+                rollupTypes: true,
                 insertTypesEntry: true,
-                exclude: ['**/*.stories.tsx','**/*.stories.ts','**/*.stories.mdx','**/*.test.tsx','**/*.test.ts'],
+                exclude: [
+                    '**/*.stories.tsx',
+                    '**/*.stories.ts',
+                    '**/*.stories.mdx',
+                    '**/*.test.tsx',
+                    '**/*.test.ts',
+                ],
             }),
         ],
         build: {
@@ -24,7 +30,12 @@ export default defineConfig(({ command, mode }) => {
                 entry: 'src/index.ts',
                 name: 'Nebula-UI',
                 formats: ['es', 'umd'],
-                fileName: (format) => `nebula-ui.${format}.js`,
+                fileName: (format) => {
+                    if (format === 'umd') {
+                        return 'index.js';
+                    }
+                    return `index.${format}.js`;
+                },
             },
             rollupOptions: {
                 external: ['react', 'react-dom'],

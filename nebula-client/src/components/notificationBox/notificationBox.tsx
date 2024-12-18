@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Notification from '@client/molecules/notification';
+import { Notification } from '@nebula-note/ui';
 import { NotificationContext } from './context';
 
 export const NotificationBox = () => {

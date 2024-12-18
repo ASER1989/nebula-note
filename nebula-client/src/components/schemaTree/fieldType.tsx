@@ -1,7 +1,7 @@
 import './index.styl';
 import React from 'react';
-import SvgText from '@client/atoms/svgText';
 import type { GraphqlSchema } from '@client/models/graphql/type';
+import { SvgText } from '@nebula-note/ui';
 
 type Props = {
     field?: GraphqlSchema;

@@ -1,9 +1,9 @@
 import '../../index.styl';
 import React, { useState } from 'react';
-import { EditableContent } from '@client/atoms/editableContent';
-import IconButton from '@client/atoms/iconButton';
-import Position from '@client/molecules/position';
-import { Stack, StackItem } from '@client/molecules/stack';
+import { EditableContent } from '@nebula-note/ui';
+import { IconButton } from '@nebula-note/ui';
+import { Position } from '@nebula-note/ui';
+import { Stack, StackItem } from '@nebula-note/ui';
 import classNames from 'classnames';
 import { FaPlayCircle } from 'react-icons/fa';
 import { LuPencilLine } from 'react-icons/lu';

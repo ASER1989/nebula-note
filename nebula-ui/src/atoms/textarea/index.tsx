@@ -1,7 +1,7 @@
 import './index.styl';
 import React from 'react';
-import classNames from 'classnames';
 import type { FocusEvent } from 'react';
+import classNames from 'classnames';
 
 export type TextareaProps = {
     value?: string;
@@ -14,7 +14,7 @@ export type TextareaProps = {
     ['data-test-id']?: string;
 };
 
-export default function Textarea({
+export const Textarea = ({
     value,
     border = true,
     onChange,
@@ -23,7 +23,7 @@ export default function Textarea({
     rows = 6,
     resize,
     'data-test-id': dataTestId,
-}: TextareaProps) {
+}: TextareaProps) => {
     const handleChange = (e: any) => {
         onChange?.(e.target.value, value, e);
     };
@@ -42,4 +42,6 @@ export default function Textarea({
             data-test-id={dataTestId}
         />
     );
-}
+};
+
+export default Textarea;

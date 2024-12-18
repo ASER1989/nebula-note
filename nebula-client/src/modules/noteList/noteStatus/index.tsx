@@ -1,7 +1,7 @@
 import React from 'react';
-import SvgText from '@client/atoms/svgText';
 import { useLocalization } from '@client/localizations/useLocalization';
 import useNote from '@client/modules/noteList/useNote';
+import { SvgText } from '@nebula-note/ui';
 
 export const NoteStatus = () => {
     const { state } = useNote();

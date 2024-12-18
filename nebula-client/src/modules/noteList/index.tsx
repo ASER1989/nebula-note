@@ -4,8 +4,8 @@ import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
 import { BuildResult } from '@client/modules/noteList/buildReuslt';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
-import SplitPanel from '@client/molecules/splitPanel';
 import { queryErrorMessage } from '@client/utils/queries';
+import { SplitPanel } from '@nebula-note/ui';
 import { Content } from './content';
 import CreateForm from './createForm';
 import { List } from './list';
@@ -22,7 +22,7 @@ export const NoteList = () => {
             setNoteSaved({ version: resp.data });
             await reload();
         } catch (ex) {
-            showNotice({content:queryErrorMessage(ex), type:'error'});
+            showNotice({ content: queryErrorMessage(ex), type: 'error' });
         }
     };
 

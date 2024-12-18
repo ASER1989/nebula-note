@@ -1,6 +1,6 @@
 import './index.styl';
 import React, { useMemo, useState } from 'react';
-import Dropdown, { DropdownOption } from '@client/atoms/dropdown';
+import { Dropdown, DropdownOption } from '@nebula-note/ui';
 import * as events from '@uiw/codemirror-extensions-events';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { githubLight } from '@uiw/codemirror-theme-github';

@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import useMessage from '@client/components/message/useMessage';
+import { useMessage } from '@client/components/messageBox';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';

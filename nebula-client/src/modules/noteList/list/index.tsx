@@ -1,6 +1,6 @@
 import '../index.styl';
 import React, { useContext, useEffect } from 'react';
-import { ConfirmContext } from '@client/components/confirm/context';
+import { ConfirmContext } from '@client/components/confirmBox';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
@@ -12,11 +12,11 @@ import {
 } from '@client/modules/noteList/buildReuslt/types';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import useNoteController from '@client/modules/noteList/useNoteController';
-import Section from '@client/molecules/section';
-import { Stack, StackItem } from '@client/molecules/stack';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
 import { useBoxSize } from '@client/utils/useBoxSize';
+import { Section } from '@nebula-note/ui';
+import { Stack, StackItem } from '@nebula-note/ui';
 import { useParams } from 'react-router-dom';
 import { Header } from './header';
 import { ListItem } from './item';
@@ -155,7 +155,7 @@ export const List = ({ state, onSave }: Props) => {
                                     boxShadow: 'none',
                                     borderWidth: 0,
                                     borderBottomWidth: 1,
-                                    borderRadius:0
+                                    borderRadius: 0,
                                 }}
                                 key={note.name}
                                 padding='0'

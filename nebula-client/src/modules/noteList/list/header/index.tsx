@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import IconButton from '@client/atoms/iconButton';
-import SearchInput from '@client/atoms/searchInput';
 import { useNoteConfig } from '@client/models/noteModel';
 import useNote from '@client/modules/noteList/useNote';
-import { Stack, StackItem } from '@client/molecules/stack';
+import { IconButton } from '@nebula-note/ui';
+import { SearchInput } from '@nebula-note/ui';
+import { Stack, StackItem } from '@nebula-note/ui';
 import { FiEdit } from 'react-icons/fi';
 import { MdManageSearch } from 'react-icons/md';
 
@@ -50,12 +50,18 @@ export const Header = () => {
         <div className='note-list-header'>
             <Stack justify='flex-end' align='center' spacing={10}>
                 <StackItem>
-                    <IconButton onClick={handleCreateNote} data-test-id='note-list-create-note-button'>
+                    <IconButton
+                        onClick={handleCreateNote}
+                        data-test-id='note-list-create-note-button'
+                    >
                         <FiEdit size={20} color={'#FFFFFF'} />
                     </IconButton>
                 </StackItem>
                 <StackItem>
-                    <IconButton onClick={() => setSearchBoxShown(true)} data-test-id='note-list-search-button'>
+                    <IconButton
+                        onClick={() => setSearchBoxShown(true)}
+                        data-test-id='note-list-search-button'
+                    >
                         <MdManageSearch color={'#FFFFFF'} size={27} />
                     </IconButton>
                 </StackItem>

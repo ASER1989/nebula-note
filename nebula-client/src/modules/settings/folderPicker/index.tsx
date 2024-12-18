@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Button from '@client/atoms/button';
-import FolderView from '@client/components/folderView';
 import { Folder } from '@client/models/folderPickerModel/types';
 import useFolderPicker from '@client/models/folderPickerModel/useFolderPicker';
-import Breadcrumb, { BreadcrumbItem } from '@client/molecules/breadcrumb';
-import Dialog from '@client/molecules/dialog';
-import ScrollView from '@client/molecules/scrollView';
-import { Stack, StackItem } from '@client/molecules/stack';
+import { FolderView } from '@nebula-note/ui';
+import { Button } from '@nebula-note/ui';
+import { Breadcrumb, BreadcrumbItem } from '@nebula-note/ui';
+import { Dialog } from '@nebula-note/ui';
+import { ScrollView } from '@nebula-note/ui';
+import { Stack, StackItem } from '@nebula-note/ui';
 
 export type Props = {
     onChange?: (folderPath: string) => void;

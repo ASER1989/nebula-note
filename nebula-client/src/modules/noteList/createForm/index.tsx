@@ -1,15 +1,16 @@
 import './index.styl';
 import React, { FC, useState } from 'react';
-import Button from '@client/atoms/button';
-import Input from '@client/atoms/input';
-import Textarea from '@client/atoms/textarea';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import { NoteRecord } from '@client/models/noteModel/types';
 import useNoteController from '@client/modules/noteList/useNoteController';
-import Dialog from '@client/molecules/dialog';
-import Form, { FormItem } from '@client/molecules/form';
+import { Button } from '@nebula-note/ui';
+import { Input } from '@nebula-note/ui';
+import { Textarea } from '@nebula-note/ui';
+import { Dialog } from '@nebula-note/ui';
+import { Form, FormItem } from '@nebula-note/ui';
 import _ from 'lodash';
+
 
 type Props = {
     visible: boolean;

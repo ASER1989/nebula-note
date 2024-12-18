@@ -1,19 +1,19 @@
 import '../index.styl';
 import React, { useEffect, useMemo, useState } from 'react';
-import Button from '@client/atoms/button';
-import Dropdown, { DropdownOption, Option } from '@client/atoms/dropdown';
-import Input from '@client/atoms/input';
-import Switch from '@client/atoms/switch';
-import useMessage from '@client/components/message/useMessage';
+import { useMessage } from '@client/components/messageBox';
 import { Language } from '@client/localizations/types';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import useSettings from '@client/models/settingsModel/useSettings';
 import useNote from '@client/modules/noteList/useNote';
 import FolderPicker from '@client/modules/settings/folderPicker';
-import Form, { FormItem } from '@client/molecules/form';
-import Section from '@client/molecules/section';
-import { Stack, StackItem } from '@client/molecules/stack';
+import { Button } from '@nebula-note/ui';
+import { Dropdown, DropdownOption, Option } from '@nebula-note/ui';
+import { Input } from '@nebula-note/ui';
+import { Switch } from '@nebula-note/ui';
+import { Form, FormItem } from '@nebula-note/ui';
+import { Section } from '@nebula-note/ui';
+import { Stack, StackItem } from '@nebula-note/ui';
 
 export default function SystemConfig() {
     const { showMessage } = useMessage();

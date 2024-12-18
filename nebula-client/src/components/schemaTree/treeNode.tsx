@@ -1,12 +1,12 @@
 import './index.styl';
 import React from 'react';
-import Checkbox from '@client/atoms/checkbox';
-import ExpandBox from '@client/atoms/expandbox';
-import Input from '@client/atoms/input';
 import FieldType from '@client/components/schemaTree/fieldType';
 import { TagType } from '@client/components/schemaTree/types';
 import { deepthCheck } from '@client/models/graphql';
 import type { GraphqlSchema } from '@client/models/graphql/type';
+import { Checkbox } from '@nebula-note/ui';
+import { ExpandBox } from '@nebula-note/ui';
+import { Input } from '@nebula-note/ui';
 import classNames from 'classnames';
 import FieldTags from './fieldTags';
 import SchemaTree from './index';

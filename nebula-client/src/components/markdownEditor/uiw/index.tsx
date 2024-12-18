@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Stack, StackItem } from '@client/molecules/stack';
+import { Stack, StackItem } from '@nebula-note/ui';
 import MdEditor, { MDEditorProps } from '@uiw/react-md-editor';
 
 export type Props = MDEditorProps & {
