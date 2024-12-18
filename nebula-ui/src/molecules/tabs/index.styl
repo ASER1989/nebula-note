@@ -1,0 +1,80 @@
+.nebula-tabs
+  width 100%;
+  height 100%
+  display flex
+  flex-direction column
+
+  *
+    box-sizing border-box
+
+  .tabs-nav
+    display flex
+    overflow hidden
+    background var(--content-head-bg)
+    height 35px
+    flex-shrink 0
+
+  .tabs-pane-list
+    display flex
+    position relative
+    height 35px
+    padding 6px 10px 0 10px
+
+    .tabs-pane-item
+      flex-shrink 0
+      font-size 13px
+      cursor pointer
+      color #c9dbfc
+      border-radius 5px 5px 0 0
+      position relative
+      user-select none
+      --pseudo-visible none
+      --pseudo-color #FFFFFF
+
+      &:before, &:after
+        position absolute
+        bottom 0
+        content ''
+        width 10px
+        height 10px
+        border-radius 100%
+        box-shadow 0 0 0 20px var(--pseudo-color) /*使用box-shadow不影响尺寸*/
+        display var(--pseudo-visible)
+
+      &.active, &:hover
+        --pseudo-visible initial
+
+        &:before
+          left: -10px;
+          clip-path: inset(50% -10px 0 50%);
+
+        &:after
+          right: -10px;
+          clip-path: inset(50% 50% 0 -10px);
+
+      &:hover
+        color #c9dbfc
+        background-color #5e7da9
+        --pseudo-color @background-color
+        z-index 0
+
+      &.active
+        background-color #FFFFFF
+        color #424242
+        position relative
+        --pseudo-color @background-color
+        z-index 1
+
+
+    .tabs-pane-title
+      padding 5px 20px
+
+    .tabs-pane-plus
+      border-radius 50%
+      width 26px
+      height 26px
+      box-sizing border-box
+      margin 0 5px
+
+      &:hover
+        background #11111133

@@ -1,0 +1,11 @@
+src/
+node_modules/
+.vscode/
+.DS_Store
+.idea/
+.env
+.env.local
+.env.*.local
+*.tmp
+*.swp
+.tscache/

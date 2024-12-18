@@ -1,0 +1,64 @@
+.nebula-switch
+  position relative
+  display inline-block
+  --switch-width 40px
+  --switch-height 20px
+  width var(--switch-width)
+  height var(--switch-height)
+  &.tiny
+    --switch-width 28px
+    --switch-height 14px
+  &.small
+    --switch-width 33px
+    --switch-height 17px
+  &.medium
+    --switch-width 40px
+    --switch-height 20px
+  &.large
+    --switch-width 48px
+    --switch-height 24px
+  & input
+    opacity 0
+    width 0
+    height 0
+
+  .slider
+    position absolute
+    cursor pointer
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background-color #ccc
+    transition .3s
+    border-radius var(--switch-height)
+
+    &:before
+      position absolute
+      left 0
+      top 0
+      content ""
+      height var(--switch-height)
+      width var(--switch-height)
+      background-color white
+      transition .4s
+      border-radius 50%
+
+  input:checked + .slider
+    background-color #2196F3
+
+  input:focus + .slider
+    box-shadow 0 0 1px #2196F3
+
+  input:checked + .slider:before
+    transform translateX(calc(var(--switch-width) - var(--switch-height)))
+
+  .disabled
+    pointer-events none
+    opacity 0.6
+
+  .slider.round
+    border-radius var(--switch-height)
+
+  .slider.round:before
+    border-radius 50%

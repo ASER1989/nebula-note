@@ -1,0 +1,35 @@
+.nebula-search-input
+  background #FFFFFF
+  box-sizing border-box
+  border solid 1px transparent
+  transition border-color linear .35s
+  border-radius var(--border-radius)
+  height var(--search-input-height)
+  --input-height calc(var(--search-input-height) - 5px)
+  display inline-flex
+  align-items center
+  line-height  0
+  outline 0
+  width 100%
+  &.search-input--focus
+    border-color var(--border-color)
+
+  &.tiny
+    --search-input-height 20px
+
+  &.small
+    --search-input-height 25px
+
+  &.medium
+    --search-input-height 30px
+
+  &.large
+    --search-input-height 35px
+
+  .input
+    border 0
+    padding 0 2px
+    height var(--input-height)
+    &:focus
+      outline none
+      border 0

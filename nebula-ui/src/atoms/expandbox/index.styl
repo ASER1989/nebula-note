@@ -1,0 +1,52 @@
+.nebula-expandbox
+  display inline-block
+  cursor pointer
+
+  .expand-label
+    font-size 13px
+    vertical-align middle
+    padding-left 3px
+
+    &:hover
+      user-select none
+      text-shadow 0 0 1px #dd730d, 0 0 1px #cccccc
+
+  .expand-box
+    --border-color #dd730d
+    border solid 1px var(--border-color)
+    border-radius 2px
+    cursor pointer
+    width 15px
+    height @width
+    position relative
+    box-sizing border-box
+    overflow hidden
+
+    &:hover
+      --border-color #dd730d
+      box-shadow 0 0 1px 1px #f5b982 inset, 0 0 2px 1px #f6cda7 inset, 0 0 3px 1px #fcdbbd inset, 0 0 4px 1px #f0f0f0 inset
+
+    &:before
+      content ""
+      position absolute
+      height @width
+      width 0px
+      border-left solid 1px var(--border-color)
+      top 0
+      left 50%
+      margin-left -1px
+
+    &:after
+      content ""
+      position absolute
+      width @width
+      height 0px
+      border-bottom solid 1px var(--border-color)
+      left 0
+      top 50%
+      margin-top -1px
+
+    &.expanded
+
+      &:before
+        opacity 0

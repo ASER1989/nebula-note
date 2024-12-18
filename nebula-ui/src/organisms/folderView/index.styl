@@ -1,0 +1,43 @@
+.nebula-folder-view
+  display grid
+  grid-template-columns repeat(auto-fill, minmax(69px, 1fr))
+  gap 15px
+  padding 10px
+
+  .folder-item
+    cursor pointer
+    overflow hidden;
+    --item-icon-bg transparent
+    --item-title-bg transparent
+    --item-title-color #000000
+
+    &:hover, &.active
+      --item-icon-bg #e6e6e6
+      --item-title-bg #1c8bf4
+      --item-title-color #ffffff
+
+    .item-icon
+      background var(--item-icon-bg)
+      margin-bottom 5px
+      border-radius var(--border-radius)
+      display flex
+      align-items center
+      justify-content center
+
+    .item-title
+      color var(--item-title-color)
+      border-radius var(--border-radius)
+      font-size 12px
+      font-weight 400
+      display -webkit-box
+      line-height 1.2
+      padding 1px
+      -webkit-box-orient vertical
+      -webkit-line-clamp 2
+      overflow hidden
+      text-overflow ellipsis
+      white-space normal
+      word-break break-word
+      max-height 40px
+      text-align center
+      background var(--item-title-bg)

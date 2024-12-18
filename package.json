@@ -36,7 +36,8 @@
         "simple-git": "^3.20.0"
     },
     "workspaces": [
-        "./nebula-client"
+        "./nebula-client",
+        "./nebula-ui"
     ],
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.0.1",
