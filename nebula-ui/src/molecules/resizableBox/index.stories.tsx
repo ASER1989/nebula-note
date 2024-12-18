@@ -87,9 +87,12 @@ export const Primary: Story = {
     },
     render: (args) => {
         const anchorRef = useRef<HTMLDivElement>(null);
+        const CustomComponent = ({ style }: { style?: React.CSSProperties }) => {
+            return <div ref={anchorRef} style={{ border: 'solid 1px red', ...style }}></div>;
+        };
         return (
             <ResizeBox {...args} anchor={anchorRef}>
-                <div style={{ border: 'solid 1px red' }} ref={anchorRef}></div>
+                <CustomComponent />
             </ResizeBox>
         );
     },

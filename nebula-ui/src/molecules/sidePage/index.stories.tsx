@@ -4,7 +4,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { SidePage } from './index';
 
 export default {
-    title: 'Components/SidePage',
+    title: 'Molecules/SidePage',
     component: SidePage,
     tags: ['autodocs'],
     argTypes: {},

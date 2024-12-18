@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import SplitPanel from './index';
 
 export default {
-    title: 'Components/SplitPanel',
+    title: 'Molecules/SplitPanel',
     component: SplitPanel,
     tags: ['autodocs'],
     argTypes: {

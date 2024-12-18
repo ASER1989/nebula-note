@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { TabPane, Tabs } from './index';
 
 export default {
-    title: 'Components/Tabs',
+    title: 'Molecules/Tabs',
     component: Tabs,
 } as Meta;
 

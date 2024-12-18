@@ -1,3 +1,4 @@
+import './index.styl';
 export * from './atoms/button';
 export * from './atoms/checkbox';
 export * from './atoms/divider';

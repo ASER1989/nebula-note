@@ -3,7 +3,7 @@ import FolderView, { FolderViewProps } from './index';
 import React, {useState} from "react";
 
 export default {
-    title: 'Components/FolderView',
+    title: 'Organisms/FolderView',
     component: FolderView,
     tags: ['autodocs'],
     argTypes: {},

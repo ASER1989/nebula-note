@@ -4,7 +4,7 @@ const path = require('path');
 const componentDirs = ['atoms', 'molecules', 'organisms']; // 你组件的层级目录
 const outputFile = './src/index.ts'; // 输出的 index.ts 文件路径
 
-let exportStatements = '';
+let exportStatements = 'import \'./index.styl\';\n';
 
 // 扫描每个目录，自动生成导出语句
 componentDirs.forEach((dir) => {
