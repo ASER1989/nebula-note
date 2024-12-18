@@ -47,7 +47,12 @@ const updateConfig = async (config) => {
 
 const saveFile = async (content, filePath) => {
     const configPath = getDataFolder();
-    return await fileUtils.writeFile(path.join(configPath, filePath), content);
+    const targetPath = path.join(configPath, filePath);
+    const fileExisted = await fileUtils.isPathExisted(targetPath);
+    if (!content && !fileExisted) {
+        return;
+    }
+    return await fileUtils.writeFile(targetPath, content ?? '');
 };
 
 const getFile = async (filePath) => {
