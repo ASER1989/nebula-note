@@ -1,5 +1,6 @@
 {
-    "name": "@nebula-note/nebula-shell",
+    "name": "@nebula-note/pro",
+    "private": true,
     "productName": "Nebula Note Pro",
     "description": "Nebula Note Pro",
     "keywords": [],
@@ -11,6 +12,6 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "electron": "25.4.0"
+        "electron": "^33.2.1"
     }
 }

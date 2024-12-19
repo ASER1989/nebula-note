@@ -2,28 +2,31 @@
   text-align left
   height 100%
   position relative;
-  --tui-toole-opacity: 0
+  --tui-tool-opacity: 0
+  --tui-tool-background rgba(255, 255, 255, 0.55)
 
   &.tui-tool-visible
-    --tui-toole-opacity: 1
+    --tui-tool-opacity: 1
 
   .toastui-editor-defaultUI
     border 0
 
   .toastui-editor-toolbar
-    transition opacity ease-in .3s
+    transition opacity background ease-in .3s
     transform translateX(-50%)
     position absolute
     left 50%
     top 10px
     z-index 30
     zoom calc(0.7 * var(--nebula-tui-width-ratio, 1));
-    opacity var(--tui-toole-opacity)
+    opacity var(--tui-tool-opacity)
+    &:hover
+      --tui-tool-background rgba(255, 255, 255, 1)
 
     .toastui-editor-defaultUI-toolbar
       border-radius 30px
       box-shadow 0 0 10px 2px #a0a0a060
-
+      background var(--tui-tool-background, transprent);
   .toastui-editor-main
     .toastui-editor-contents
       padding-top 36px

@@ -1,7 +1,7 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
-  projectId: "e9ewgm",
+  projectId: "nebula-client",
   experimentalStudio: false,
 
   component: {
@@ -16,6 +16,7 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      return config;
     },
   },
 });
