@@ -1,18 +1,23 @@
-import { Action, Reducer, combineReducers } from '@reduxjs/toolkit';
+import {
+    Action,
+    ConfigureStoreOptions,
+    Reducer,
+    combineReducers,
+} from '@reduxjs/toolkit';
 
-// 定义 `ReducerManager` 的类型接口
+type StoreReducer<State> = ConfigureStoreOptions<State>['reducer'];
+
 export interface ReducerManager<State> {
-    getReducerMap: () => Record<string, Reducer<unknown, Action>>;
-    reduce: (state: State | undefined, action: Action) => State | unknown;
-    add: <SliceState>(key: string, reducer: Reducer<SliceState, Action>) => void;
+    getReducerMap: () => Record<string, Reducer>;
+    reduce: (state: State | undefined, action: any) => State;
+    add: (key: string, reducer: Reducer) => void;
     remove: (key: string) => void;
 }
 
-// 创建 reducer 管理器函数
 export function createReducerManager<State>(
-    initialReducers: Record<string, Reducer>,
+    initialReducers: StoreReducer<State> = {} as StoreReducer<State>,
 ): ReducerManager<State> {
-    const reducers = { ...initialReducers };
+    const reducers = { ...initialReducers } as Record<string, Reducer>;
     let combinedReducer = combineReducers(reducers);
     let keysToRemove: string[] = [];
 
@@ -20,7 +25,6 @@ export function createReducerManager<State>(
         getReducerMap: () => reducers,
 
         reduce: (state, action) => {
-            // 如果有需要移除的 reducer，将其从 state 中删除
             if (keysToRemove.length > 0) {
                 state = { ...state } as State;
                 keysToRemove.forEach((key) => {
@@ -28,9 +32,7 @@ export function createReducerManager<State>(
                 });
                 keysToRemove = [];
             }
-
-            // 返回当前的 combinedReducer 结果
-            return combinedReducer(state ?? {}, action);
+            return combinedReducer(state ?? {}, action) as State;
         },
 
         add: (key, reducer) => {

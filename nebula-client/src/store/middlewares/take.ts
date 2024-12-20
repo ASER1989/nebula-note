@@ -1,10 +1,6 @@
 import _ from 'lodash';
 import { AnyAction, Middleware, Store } from 'redux';
 
-export interface TakeStore extends Store {
-    addTaker: (actionType: string, callback: () => void) => () => void;
-}
-
 interface IActionTaker {
     referenceId: string;
     actionType: string;
@@ -30,7 +26,7 @@ export const takeMiddleware: Middleware = () => (next) => (action) => {
     return result;
 };
 
-const addTaker = (actionType: string, callback: () => string | void) => {
+export const addTaker = (actionType: string, callback: () => string | void) => {
     const existObj = takerList.find((taker) => taker.referenceId === callback.name);
     let referenceId = existObj?.referenceId;
     if (!existObj) {
@@ -45,10 +41,4 @@ const addTaker = (actionType: string, callback: () => string | void) => {
     }
     console.log('add taker:', referenceId);
     return () => removeCallback(referenceId as string);
-};
-
-export const enhanceStoreWithTake = (store: Store): TakeStore => {
-    const enhancedStore = store as TakeStore;
-    enhancedStore.addTaker = addTaker;
-    return enhancedStore;
 };

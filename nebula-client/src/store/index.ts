@@ -1,7 +1,6 @@
-import { store } from './store';
+import {configureStore} from './configureStore';
 
-export { store } from './store';
-export type { RootState } from './store';
+export const store = configureStore();
 
 declare global {
     interface Window {
