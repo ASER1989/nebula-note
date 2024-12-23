@@ -127,6 +127,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 labelRender={tabsRender}
                 onTabChange={handleTabChange}
                 activePaneId={state?.activeProperty ?? 'document'}
+                data-test-id='note-list-tab'
             >
                 <TabPane id='document' key='document' title={getText('文档')}>
                     <MarkdownEditor
