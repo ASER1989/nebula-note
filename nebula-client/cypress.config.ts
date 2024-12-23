@@ -1,22 +1,15 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
-  projectId: "nebula-client",
+  projectId: "nebula-note",
   experimentalStudio: false,
-
-  component: {
-    experimentalSingleTabRunMode: false,
-    specPattern: "src/**/**/*.cy.{js,jsx,ts,tsx}", // 定义组件测试文件的路径
-    devServer: {
-      framework: "react",
-      bundler: "vite",
-    },
-  },
-
   e2e: {
+    baseUrl: "http://localhost:3107",
+    excludeSpecPattern: ["**/**-examples/**","**/**-getting-started/**"],
     setupNodeEvents(on, config) {
       // implement node event listeners here
       return config;
     },
+    chromeWebSecurity: false,
   },
 });

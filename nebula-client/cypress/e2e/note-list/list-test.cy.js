@@ -4,7 +4,7 @@ describe('list', () => {
         cy.visit('http://localhost:3107/');
     });
     describe('filter', () => {
-        it.skip('test list search', () => {
+        it('test list search', () => {
             cy.getByTestId('note-list-search-button').click();
             cy.getByTestId('note-list-search-input').should('exist');
             cy.getByTestId('note-list-search-input').find('input').type('ant');
@@ -12,13 +12,13 @@ describe('list', () => {
                 .findByTestId('note-list-item')
                 .should('have.length', 1);
 
-            cy.getByTestId('note-list-search-input').find('.icon-button').click();
+            cy.getByTestId('note-list-search-input').find('.nebula-icon-button').click();
             cy.wait(100);
             cy.getByTestId('note-list')
                 .findByTestId('note-list-item')
                 .should('have.length', 6);
 
-            cy.getByTestId('note-list-search-input').find('.icon-button').click();
+            cy.getByTestId('note-list-search-input').find('.nebula-icon-button').click();
             cy.getByTestId('note-list-search-input').should('not.exist');
         });
     });
@@ -131,6 +131,16 @@ describe('list', () => {
             cy.getByTestId('note-list')
                 .findByTestId('note-list-item')
                 .should('not.contain.text', 'new note test');
+            
+            cy.getByTestId('note-list-item')
+              .filter(':contains("new note rename test")')
+              .should('exist')
+              .click()
+              .within(() => {
+                  cy.getByTestId('rename-cancel-button').click();
+                  cy.getByTestId('note-item-remove').click();
+              });
+            cy.getByTestId('confirm').findByTestId('confirm-apply').click();
         });
     });
 });

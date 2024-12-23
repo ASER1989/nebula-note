@@ -15,7 +15,11 @@ interface Store<State> extends EnhancedStore<State> {
 export const configureStore = <State = Record<string, unknown>>(
     options: ConfigureStoreOptions<State> = {} as ConfigureStoreOptions<State>,
 ): Store<State> => {
-    const reducerManager = createReducerManager<State>(options?.reducer);
+    const reducerHolder = {
+        __holder: (state = '1.0.0') => state,
+    };
+
+    const reducerManager = createReducerManager<State>(options?.reducer ?? reducerHolder);
 
     const store = toolkitConfigureStore({
         ...options,
@@ -29,6 +33,7 @@ export const configureStore = <State = Record<string, unknown>>(
         },
     }) as Store<State>;
 
+    reducerManager.remove('__holder');
     store.reducerManager = reducerManager;
     store.addTaker = addTaker;
 

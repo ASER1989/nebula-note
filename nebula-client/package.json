@@ -13,7 +13,7 @@
         "version:patch": "npm version patch",
         "test": "jest",
         "cyperss": "cypress open",
-        "cyperss:run:component": "cypress run --component"
+        "cyperss:run": "cypress run --e2e"
     },
     "author": "xu.huang",
     "license": "MIT",
@@ -22,6 +22,7 @@
         "yarn": ">=1.22"
     },
     "dependencies": {
+        "@nebula-note/redux-hooks": "^1.0.5",
         "@nebula-note/ui": "^1.0.0",
         "@reduxjs/toolkit": "^2.3.0",
         "@toast-ui/react-editor": "^3.2.3",

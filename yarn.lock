@@ -2184,6 +2184,11 @@
   resolved "https://registry.npmmirror.com/@microsoft/tsdoc/-/tsdoc-0.15.1.tgz#d4f6937353bc4568292654efb0a0e0532adbcba2"
   integrity sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==
 
+"@nebula-note/redux-hooks@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmmirror.com/@nebula-note/redux-hooks/-/redux-hooks-1.0.5.tgz#5c4231589b03a1bfd1468e7c606054b53bab3391"
+  integrity sha512-qdZJu4qIJsZhHS45tHktxhBWajA2SBeRafHWNNzupt0p2WVRCGQVwBdG6+WWBjBaIAX1RH+zEwQt0G+dazH6Vg==
+
 "@nextjournal/lang-clojure@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmmirror.com/@nextjournal/lang-clojure/-/lang-clojure-1.0.0.tgz#0efbd594769e606eea532758519a239f0d38959d"
