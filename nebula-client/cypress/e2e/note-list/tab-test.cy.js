@@ -53,7 +53,10 @@ describe('tab', () => {
                         cy.getByTestId('rename-cancel-button').click();
                         cy.getByTestId('note-item-remove').should('exist').click();
                     });
-                cy.getByTestId('confirm').should('exist').findByTestId('confirm-apply').click();
+                cy.getByTestId('confirm')
+                    .should('exist')
+                    .findByTestId('confirm-apply')
+                    .click();
             }
         });
     });
@@ -163,12 +166,14 @@ describe('tab', () => {
                 .within(() => {
                     cy.get('.tabs-pane-item')
                         .should('have.length', 3)
+                        .wait(500)
                         .last()
                         .should('contain.text', 'new-tab-1')
                         .click()
                         .findByTestId('tabs-button-remove')
                         .should('exist')
-                        .click();
+                        .click()
+                        .wait(500);
                     cy.get('.tabs-pane-item').should('have.length', 2);
                 });
         });

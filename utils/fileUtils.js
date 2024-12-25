@@ -1,49 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 const __fileUpdateRecord = {};
-const crateUpdateFileTask = (filePath, content) => {
-    const taskObj = new Object({ status: 'Pending' });
-    let taskRunner = () => writeFile(filePath, content);
-    taskObj.run = () => {
-        taskObj.status = 'Fulfilled';
-        __fileUpdateRecord[filePath].taskQueue = __fileUpdateRecord[
-            filePath
-        ].taskQueue.filter((item) => item.status === 'Pending');
-        console.log('Filtered:', __fileUpdateRecord[filePath].taskQueue.length);
-        return taskRunner();
-    };
-    taskObj.cancel = () => {
-        console.log('Cancel the update file task.', taskObj.status);
-        if (taskObj.status === 'Pending') {
-            taskRunner = () => undefined;
-            console.log('Task cancelled.');
-        }
-    };
-    return taskObj;
-};
-
 async function updateFile(filePath, content) {
     if (!__fileUpdateRecord[filePath]) {
         __fileUpdateRecord[filePath] = {
-            taskQueue: [],
             writeQueue: Promise.resolve(),
         };
     }
-    const updateTask = crateUpdateFileTask(filePath, content);
-    __fileUpdateRecord[filePath].taskQueue = __fileUpdateRecord[filePath].taskQueue
-        .map((task) => {
-            task.cancel();
-            return task;
-        })
-        .filter((task) => task.status === 'Pending'); // 保留未完成的任务
-    console.log(__fileUpdateRecord[filePath].taskQueue.length);
-    __fileUpdateRecord[filePath].taskQueue.push(updateTask);
-    const writeQueue = __fileUpdateRecord[filePath].writeQueue.then(() => {
-        updateTask.run();
-    });
+    const writeQueue = __fileUpdateRecord[filePath].writeQueue.then(() =>
+        writeFile(filePath, content),
+    );
     __fileUpdateRecord[filePath].writeQueue = writeQueue;
     return writeQueue.catch((err) => {
-        console.error(err);
         throw err;
     });
 }
