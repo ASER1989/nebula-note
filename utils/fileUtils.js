@@ -1,5 +1,52 @@
 const fs = require('fs');
 const path = require('path');
+const __fileUpdateRecord = {};
+const crateUpdateFileTask = (filePath, content) => {
+    const taskObj = new Object({ status: 'Pending' });
+    let taskRunner = () => writeFile(filePath, content);
+    taskObj.run = () => {
+        taskObj.status = 'Fulfilled';
+        __fileUpdateRecord[filePath].taskQueue = __fileUpdateRecord[
+            filePath
+        ].taskQueue.filter((item) => item.status === 'Pending');
+        console.log('Filtered:', __fileUpdateRecord[filePath].taskQueue.length);
+        return taskRunner();
+    };
+    taskObj.cancel = () => {
+        console.log('Cancel the update file task.', taskObj.status);
+        if (taskObj.status === 'Pending') {
+            taskRunner = () => undefined;
+            console.log('Task cancelled.');
+        }
+    };
+    return taskObj;
+};
+
+async function updateFile(filePath, content) {
+    if (!__fileUpdateRecord[filePath]) {
+        __fileUpdateRecord[filePath] = {
+            taskQueue: [],
+            writeQueue: Promise.resolve(),
+        };
+    }
+    const updateTask = crateUpdateFileTask(filePath, content);
+    __fileUpdateRecord[filePath].taskQueue = __fileUpdateRecord[filePath].taskQueue
+        .map((task) => {
+            task.cancel();
+            return task;
+        })
+        .filter((task) => task.status === 'Pending'); // 保留未完成的任务
+    console.log(__fileUpdateRecord[filePath].taskQueue.length);
+    __fileUpdateRecord[filePath].taskQueue.push(updateTask);
+    const writeQueue = __fileUpdateRecord[filePath].writeQueue.then(() => {
+        updateTask.run();
+    });
+    __fileUpdateRecord[filePath].writeQueue = writeQueue;
+    return writeQueue.catch((err) => {
+        console.error(err);
+        throw err;
+    });
+}
 
 function isPathExisted(filePath) {
     return new Promise((resolve, reject) => {
@@ -24,29 +71,29 @@ function isPathExistedSync(filePath) {
 
 function mkdir(destPath) {
     return new Promise((resolve, reject) => {
-        isPathExisted(destPath).then((isExist) => {
-            if (!isExist) {
-                fs.mkdirSync(destPath, { recursive: true });
-            }
-            resolve();
-        });
+        isPathExisted(destPath)
+            .then((isExist) => {
+                if (!isExist) {
+                    fs.mkdirSync(destPath, { recursive: true });
+                }
+                resolve();
+            })
+            .catch((err) => {
+                reject(err);
+            });
     });
 }
 
-function writeFile(filePath, content) {
-    return new Promise((resolve, reject) => {
+async function writeFile(filePath, content) {
+    return new Promise(async (resolve, reject) => {
         const dirname = path.dirname(filePath);
-        isPathExisted(dirname).then((isExist) => {
-            if (!isExist) {
-                fs.mkdirSync(dirname, { recursive: true });
+        await mkdir(dirname);
+        return fs.writeFile(filePath, content, (err) => {
+            if (err) {
+                console.error(err);
+                reject(err);
             }
-
-            fs.writeFile(filePath, content, { recursive: true }, (error) => {
-                if (error) {
-                    reject(error);
-                }
-                resolve('success');
-            });
+            resolve();
         });
     });
 }
@@ -95,6 +142,7 @@ module.exports = {
     isPathExisted,
     isPathExistedSync,
     writeFile,
+    updateFile,
     readFile,
     readFileSync,
     getFileList,

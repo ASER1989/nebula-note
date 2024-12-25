@@ -33,8 +33,8 @@ const getConfig = () => {
 };
 
 const updateConfig = async (config) => {
-    await fileUtils.writeFile(userConfigPath, JSON.stringify(config, null, '\t'));
-    _systemConfig = undefined;
+    await fileUtils.updateFile(userConfigPath, JSON.stringify(config, null, '\t'));
+    _systemConfig = config;
     subscribes.forEach((callback) => {
         callback?.();
     });

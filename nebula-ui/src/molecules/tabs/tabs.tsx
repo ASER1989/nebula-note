@@ -107,6 +107,7 @@ const TabBase = (
                     onClick={handleRemoveClick}
                     type='circle'
                     hoverMode='highlight'
+                    data-test-id='tabs-button-remove'
                 >
                     <LuX size={14} />
                 </IconButton>
@@ -117,7 +118,7 @@ const TabBase = (
     const renderPlusButton = () => {
         if (showPlus) {
             return (
-                <IconButton className='tabs-pane-plus' onClick={onPlusClick}>
+                <IconButton className='tabs-pane-plus' onClick={onPlusClick} data-test-id='tabs-button-add'>
                     <LuPlus color='#FFFFFF' />
                 </IconButton>
             );

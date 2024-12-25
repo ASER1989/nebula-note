@@ -16,17 +16,17 @@ const getConfigPath = async () => {
     const folder = await getDataFolder();
     return path.join(folder, 'config.json');
 };
-
+const setConfig = (newConfig) => {
+    _config = newConfig;
+};
 const reloadConfig = async () => {
-    _config = [];
     const customConfigPath = await getConfigPath();
 
     if (await fileUtils.isPathExisted(customConfigPath)) {
         const configString = await fileUtils.readFile(customConfigPath);
-        _config = JSON.parse(configString);
+        setConfig(JSON.parse(configString.toString()));
     }
 };
-
 const getConfig = async () => {
     if (_config) {
         return _config;
@@ -41,8 +41,8 @@ const updateConfig = async (config) => {
         return;
     }
     const configPath = await getConfigPath();
-    await fileUtils.writeFile(configPath, JSON.stringify(config, null, '\t'));
-    await reloadConfig();
+    await fileUtils.updateFile(configPath, JSON.stringify(config, null, '\t'));
+    setConfig(config);
 };
 
 const saveFile = async (content, filePath) => {
@@ -52,7 +52,7 @@ const saveFile = async (content, filePath) => {
     if (!content && !fileExisted) {
         return;
     }
-    return await fileUtils.writeFile(targetPath, content ?? '');
+    return await fileUtils.updateFile(targetPath, content ?? '');
 };
 
 const getFile = async (filePath) => {

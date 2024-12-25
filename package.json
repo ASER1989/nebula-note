@@ -30,6 +30,7 @@
         "eslint": "^9.16.0",
         "koa": "^2.15.3",
         "koa-bodyparser": "^4.4.1",
+        "koa-morgan": "^1.0.1",
         "lodash": "^4.17.21",
         "node-fetch": "^3.3.2",
         "rimraf": "5.0.10",

@@ -53,13 +53,13 @@ describe('tab', () => {
                         cy.getByTestId('rename-cancel-button').click();
                         cy.getByTestId('note-item-remove').should('exist').click();
                     });
-                cy.getByTestId('confirm').findByTestId('confirm-apply').click();
+                cy.getByTestId('confirm').should('exist').findByTestId('confirm-apply').click();
             }
         });
     });
 
     describe('create', () => {
-        it.skip('test table create', () => {
+        it('Should add a new tab', () => {
             cy.getByTestId('note-list-tab')
                 .find('.tabs-nav')
                 .within(() => {
@@ -144,6 +144,32 @@ describe('tab', () => {
                 .find('.tabs-nav')
                 .within(() => {
                     cy.get('.tabs-pane-item').last().should('contain.text', 'new-tab-n2');
+                });
+        });
+    });
+
+    describe('remove', () => {
+        it('should remove tab successfully', () => {
+            cy.getByTestId('note-list-tab')
+                .find('.tabs-nav')
+                .within(() => {
+                    addNewTab('new-tab-1');
+                    cy.get('.tabs-pane-item').should('have.length', 3);
+                });
+
+            cy.get('body').click();
+            cy.getByTestId('note-list-tab')
+                .find('.tabs-nav')
+                .within(() => {
+                    cy.get('.tabs-pane-item')
+                        .should('have.length', 3)
+                        .last()
+                        .should('contain.text', 'new-tab-1')
+                        .click()
+                        .findByTestId('tabs-button-remove')
+                        .should('exist')
+                        .click();
+                    cy.get('.tabs-pane-item').should('have.length', 2);
                 });
         });
     });

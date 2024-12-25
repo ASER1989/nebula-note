@@ -2,6 +2,7 @@ const config = require('../config.json');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const middlewares = require('./utils/middlewares');
+const morgan = require('koa-morgan');
 
 const indexRoute = require('./routes/index');
 const sliceRoute = require('./routes/slice');
@@ -10,6 +11,12 @@ const noteRoute = require('./routes/note');
 const commonRoute = require('./routes/common');
 
 const app = new Koa();
+
+// 使用默认日志格式（'combined'）
+// app.use(morgan('combined'));
+
+// 自定义日志格式
+// app.use(morgan(':method :url :status :response-time ms - :res[content-length]'));
 
 app.use(
     bodyParser({
