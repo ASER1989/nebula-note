@@ -1,11 +1,12 @@
 import React from 'react';
+import AppDragBox from '@client/components/appDragBox';
 import { useNotification } from '@client/components/notificationBox';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
 import { BuildResult } from '@client/modules/noteList/buildReuslt';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import { queryErrorMessage } from '@client/utils/queries';
-import { SplitPanel } from '@nebula-note/ui';
+import { Position, SplitPanel } from '@nebula-note/ui';
 import { Content } from './content';
 import CreateForm from './createForm';
 import { List } from './list';

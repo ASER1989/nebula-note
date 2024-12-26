@@ -16,10 +16,9 @@
         "client:dev": "yarn workspace  @nebula-note/client dev",
         "client:cypress:run": "yarn workspace @nebula-note/client cyperss:run:component",
         "serve": "node ./service/index.js",
-        "build:client": "tsc && vite build",
+        "build:client": "yarn workspace  @nebula-note/client tsc && yarn workspace  @nebula-note/client vite build",
         "build:client:watch": "tsc && vite build -w",
         "build:pro": "yarn build:client && electron-builder --mac",
-        "start": "node service/index.js",
         "start:web": "yarn build:client && yarn start",
         "prettier:fix": "prettier --write ."
     },

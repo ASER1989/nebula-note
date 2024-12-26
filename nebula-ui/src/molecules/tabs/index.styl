@@ -13,6 +13,7 @@
     background var(--content-head-bg)
     height 35px
     flex-shrink 0
+    app-region drag
 
   .tabs-pane-list
     display flex
@@ -21,6 +22,8 @@
     padding 6px 10px 0 10px
 
     .tabs-pane-item
+      display flex
+      align-items center
       flex-shrink 0
       font-size 13px
       cursor pointer
@@ -28,6 +31,7 @@
       border-radius 5px 5px 0 0
       position relative
       user-select none
+      app-region no-drag
       --pseudo-visible none
       --pseudo-color #FFFFFF
 
@@ -62,12 +66,17 @@
         background-color #FFFFFF
         color #424242
         position relative
-        --pseudo-color @background-color
         z-index 1
+        app-region drag
+        --pseudo-color @background-color
+        --tab-nav-title-translateY -1px
 
 
     .tabs-pane-title
-      padding 5px 20px
+      padding 0 20px
+      transition transform .3s
+      transform translateY(var(--tab-nav-title-translateY, 0))
+      position relative
 
     .tabs-pane-plus
       border-radius 50%
@@ -75,6 +84,7 @@
       height 26px
       box-sizing border-box
       margin 0 5px
+      padding-top 2px
 
       &:hover
         background #11111133

@@ -100,22 +100,7 @@ export default function SystemConfig() {
                                     <Option value='en'>English</Option>
                                 </Dropdown>
                             </FormItem>
-                            <FormItem label={getText('本地端口')}>
-                                <Input
-                                    value={settings?.servicePort?.toString()}
-                                    onChange={(value) =>
-                                        handleSettingsChange('serverPort', value)
-                                    }
-                                />
-                            </FormItem>
-                            <FormItem label={getText('自动保存')}>
-                                <Switch
-                                    value={settings?.autoSave ?? false}
-                                    onChange={(value) =>
-                                        handleSettingsChange('autoSave', value)
-                                    }
-                                />
-                            </FormItem>
+
                             <FormItem label={getText('文档目录')}>
                                 <Stack spacing={10} overflow='visible'>
                                     <StackItem flex>
@@ -133,6 +118,14 @@ export default function SystemConfig() {
                                         </Button>
                                     </StackItem>
                                 </Stack>
+                            </FormItem>
+                            <FormItem label={getText('自动保存')}>
+                                <Switch
+                                    value={settings?.autoSave ?? false}
+                                    onChange={(value) =>
+                                        handleSettingsChange('autoSave', value)
+                                    }
+                                />
                             </FormItem>
                         </Form>
                     </Section>

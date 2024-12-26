@@ -34,6 +34,9 @@ function App() {
 
     const routes = useRoutes(routeConfig);
 
+    const handleSettingsClose = ()=>{
+        setSettingsVisible(false);
+    }
     return (
         <MessageContext.Provider
             value={{ ...messageContextValue, defaultButtonText: getText('确定') }}
@@ -41,16 +44,14 @@ function App() {
             <ConfirmContext.Provider value={confirmContextValue}>
                 <NotificationContext.Provider value={notificationContextValue}>
                     <div className='app_layout'>
-                        {/*<div className='app_layout_header'>*/}
-                        {/*    <div className='logo'>Nebula Note</div>*/}
-                        {/*</div>*/}
                         <div className='app_layout_content'>
                             {routes}
                             <SidePage
                                 visible={settingsVisible}
-                                onVisibleChange={() => setSettingsVisible(false)}
+                                onVisibleChange={handleSettingsClose}
+                                style={{width:'50%'}}
                             >
-                                <Settings />
+                                <Settings/>
                             </SidePage>
                         </div>
                         <div className='app_layout_footer'>

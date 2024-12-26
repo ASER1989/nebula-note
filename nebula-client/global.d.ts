@@ -1,6 +1,16 @@
 // global.d.ts
-/// <reference types="jest" />
 
-declare interface Window {
-    showDirectoryPicker?: () => Promise<FileSystemDirectoryHandle>;
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv {
+            PLATFORM?: string; // 可选的环境变量，默认为 string 或 undefined
+        }
+    }
+    type process = {
+        env: {
+            PLATFORM?: string;
+        };
+    };
 }
+
+export {};

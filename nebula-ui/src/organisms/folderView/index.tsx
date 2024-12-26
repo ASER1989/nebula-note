@@ -13,7 +13,7 @@ export type FolderViewProps = {
 export const FolderView = ({ data, value, onClick, onDoubleClick }: FolderViewProps) => {
     const viewRef = useRef<HTMLDivElement>(null);
     const keyListRef = useRef<Array<string>>([]);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const timerRef = useRef<number>();
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -22,7 +22,7 @@ export const FolderView = ({ data, value, onClick, onDoubleClick }: FolderViewPr
             }
             timerRef.current = setTimeout(() => {
                 keyListRef.current = [];
-            }, 1500);
+            }, 1500) as unknown as number;
 
             if (e.key.length === 1) {
                 keyListRef.current.push(e.key);

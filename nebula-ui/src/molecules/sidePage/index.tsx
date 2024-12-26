@@ -74,7 +74,7 @@ export const SidePage = forwardRef<HTMLDivElement, SidePageProps>(
                     <div className='side-pane-content'>{children}</div>
                 </div>
                 <div
-                    className={classNames('component-side-page mask', { hide: hide })}
+                    className={classNames('nebula-side-page mask', { hide: hide })}
                     onClick={handleClose}
                 ></div>
             </>

@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "jsx": "react-jsx",
+        "target": "esnext",
+        "module": "esnext",
+        "allowSyntheticDefaultImports": true,
+        "lib": ["DOM", "esnext"],
+        "jsx": "react",
         "declaration": true,
         "declarationDir": "dist/types",
         "moduleResolution": "node",
@@ -10,6 +12,7 @@
         "skipLibCheck": true,
         "strict": true,
         "isolatedModules": true,
+        "incremental": true,
         "outDir": "dist",
         "paths": {
             "@ui/*": ["./src/*"]

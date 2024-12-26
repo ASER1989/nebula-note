@@ -31,7 +31,7 @@ export const PositionBase = (
         };
     }, [props]);
     return (
-        <div className={className} style={style} data-test-id={props['data-test-id']}>
+        <div ref={ref} className={className} style={style} data-test-id={props['data-test-id']}>
             {props.children}
         </div>
     );

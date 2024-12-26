@@ -14,7 +14,7 @@
     -webkit-text-size-adjust: 100%;
 
     /* css variables */
-    --border-radius: 3px;
+    --atoms-border-radius: 3px;
     --border-color: orange;
     --input-height: 30px;
     --search-input-height: 30px;
@@ -39,6 +39,10 @@ body {
     display: flex;
     min-width: 320px;
     min-height: 100vh;
+}
+
+body[data-platform="macos"] {
+    --app-head-left-padding: 76px;
 }
 
 /* 修改滚动条轨道的样式 */

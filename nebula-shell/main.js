@@ -27,16 +27,16 @@ function createWindow() {
         titleBarOverlay: {
             color: '#213547',
             symbolColor: '#74b1be',
-            height: 50,
+            height: 35,
         },
         icon: path.join(__dirname, 'assets/icon.ico'),
     });
 
     // and load the index.html of the app.
-    mainWindow.loadURL('http://localhost:3816/');
+    mainWindow.loadURL('http://localhost:3107/');
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

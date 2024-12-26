@@ -5,7 +5,7 @@ const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-    console.log( path.resolve(__dirname, '../nebula-ui/dist/index.es.js'))
+
     return {
         root: './',
         base: './',
@@ -35,6 +35,7 @@ export default defineConfig(({ command, mode }) => {
             outDir: 'dist',
             sourcemap: command === 'serve',
             minify: command === 'build',
-        },
+        }
     };
+
 });

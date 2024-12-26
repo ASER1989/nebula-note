@@ -1,5 +1,6 @@
 import '../index.styl';
 import React, { useContext, useEffect } from 'react';
+import AppDragBox from '@client/components/appDragBox';
 import { ConfirmContext } from '@client/components/confirmBox';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';

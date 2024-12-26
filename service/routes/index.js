@@ -22,7 +22,7 @@ const resolveMIMEType = (fileName) => {
 module.exports = (prefix, opts) => {
     const router = new Router(prefix);
     router.get('/', (ctx) => {
-        const htmlFilePath = Path.resolve(__dirname, '../../client/dist/index.html');
+        const htmlFilePath = Path.resolve(__dirname, '../../nebula-client/dist/index.html');
         const htmlFile = Fs.readFileSync(htmlFilePath);
         ctx.type = 'text/html';
         ctx.body = htmlFile;
@@ -32,7 +32,7 @@ module.exports = (prefix, opts) => {
         const { sourcePath } = ctx.params;
         const sourceFilePath = Path.resolve(
             __dirname,
-            `../../client/dist/assets/${sourcePath}`,
+            `../../nebula-client/dist/assets/${sourcePath}`,
         );
         const sourceFile = Fs.readFileSync(sourceFilePath);
         const responseMIMEType = resolveMIMEType(sourcePath);

@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 export const useDebounce = (callback: Function, wait: number, maxWait?: number) => {
     const startTimeRef = useRef<number>();
-    const timerRef = useRef<NodeJS.Timeout>();
+    const timerRef = useRef<number>();
 
     return () => {
         startTimeRef.current = startTimeRef.current ?? Date.now();
