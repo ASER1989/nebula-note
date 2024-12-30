@@ -1,5 +1,4 @@
 import React from 'react';
-import AppDragBox from '@client/components/appDragBox';
 import { useNotification } from '@client/components/notificationBox';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';

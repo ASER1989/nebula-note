@@ -12,7 +12,6 @@ export default defineConfig(({ command, mode }) => {
         resolve: {
             alias: {
                 '@client': path.resolve(__dirname, './src'),
-                // '@ui': path.resolve(__dirname, '../nebula-ui/src'),
                 '@nebula-note/ui': path.resolve(__dirname, '../nebula-ui/dist'),
             },
         },

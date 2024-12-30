@@ -1,16 +1,9 @@
 // global.d.ts
-
-declare global {
-    namespace NodeJS {
-        interface ProcessEnv {
-            PLATFORM?: string; // 可选的环境变量，默认为 string 或 undefined
-        }
-    }
-    type process = {
-        env: {
-            PLATFORM?: string;
-        };
+interface Window {
+    NebulaShell?: {
+        isMacos:boolean;
+        isFullScreen:()=>Promise<boolean>;
+        onFullScreen: (cb: Function) => void;
+        onFullScreenLeave: (cb: Function) => void;
     };
 }
-
-export {};

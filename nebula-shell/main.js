@@ -1,14 +1,12 @@
-// Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const server = require('../service/index');
+const os = require('os');
+
+let mainWindow;
 
 function initConfig() {
-    const userFolderPath = process.env.HOME || process.env.USERPROFILE;
-    const configFolderPath = path.join(
-        userFolderPath,
-        'AppData/Local/Nebula/config.json',
-    );
+    global['is-mac-os'] = os.platform() === 'darwin';
 }
 
 function startServer() {
@@ -16,11 +14,11 @@ function startServer() {
 }
 
 function createWindow() {
-    // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1440,
         height: 900,
         webPreferences: {
+            contextIsolation: false,
             preload: path.join(__dirname, 'preload.js'),
         },
         titleBarStyle: 'hidden',
@@ -36,29 +34,38 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:3107/');
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools();
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-    initConfig();
-    startServer();
-    createWindow();
-    app.on('activate', function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    });
-});
+function handlesRegister() {
+    ipcMain.handle('get-is-mac-os', () => global['is-mac-os']);
+    ipcMain.handle('get-is-full-screen', () => mainWindow.isFullScreen());
+}
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+function listenFullScreenState() {
+    if (global['is-mac-os']) {
+        mainWindow.on('enter-full-screen', () => {
+            mainWindow.webContents.send('enter-full-screen', true);
+        });
+
+        mainWindow.on('leave-full-screen', () => {
+            mainWindow.webContents.send('leave-full-screen', true);
+        });
+    }
+}
+
+app.whenReady()
+    .then(() => initConfig())
+    .then(() => startServer())
+    .then(() => createWindow())
+    .then(() => handlesRegister())
+    .then(() => listenFullScreenState())
+    .then(() => {
+        app.on('activate', function () {
+            if (BrowserWindow.getAllWindows().length === 0) createWindow();
+        });
+    });
+
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

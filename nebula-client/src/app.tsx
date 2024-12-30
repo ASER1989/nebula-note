@@ -1,5 +1,5 @@
 import './app.styl';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ConfirmBox,
     ConfirmContext,
@@ -19,6 +19,7 @@ import { useLocalization } from '@client/localizations/useLocalization';
 import { NoteStatus } from '@client/modules/noteList/noteStatus';
 import Settings from '@client/modules/settings';
 import routeConfig from '@client/routeConfig';
+import { useShell } from '@client/useShell';
 import { SidePage } from '@nebula-note/ui';
 import classNames from 'classnames';
 import { LuSettings } from 'react-icons/lu';
@@ -31,27 +32,29 @@ function App() {
     const notificationContextValue = useNotificationContext();
     const confirmContextValue = useConfirmContext();
     const [settingsVisible, setSettingsVisible] = useState(false);
+    const { layoutCssVariables } = useShell();
 
     const routes = useRoutes(routeConfig);
 
-    const handleSettingsClose = ()=>{
+    const handleSettingsClose = () => {
         setSettingsVisible(false);
-    }
+    };
+
     return (
         <MessageContext.Provider
             value={{ ...messageContextValue, defaultButtonText: getText('确定') }}
         >
             <ConfirmContext.Provider value={confirmContextValue}>
                 <NotificationContext.Provider value={notificationContextValue}>
-                    <div className='app_layout'>
+                    <div className='app_layout' style={layoutCssVariables}>
                         <div className='app_layout_content'>
                             {routes}
                             <SidePage
                                 visible={settingsVisible}
                                 onVisibleChange={handleSettingsClose}
-                                style={{width:'50%'}}
+                                style={{ width: '50%' }}
                             >
-                                <Settings/>
+                                <Settings />
                             </SidePage>
                         </div>
                         <div className='app_layout_footer'>

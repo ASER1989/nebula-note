@@ -2,7 +2,8 @@
   display flex
   flex-direction column
   max-height 100vh
-  >*
+
+  > *
     box-sizing border-box
 
   .note-list-item
@@ -16,8 +17,10 @@
 
     &:hover, &.checked
       background-color #eeeeee
+
     .item-tag
       width 20px
+
     .item-name
       font-weight bold
       text-align left
@@ -28,18 +31,21 @@
       display flex
       align-items center
       padding-left 5px
+
 .note-list-header
   height 35px
   box-sizing border-box
   background var(--content-head-bg)
-  padding 5px 10px 5px var(--app-head-left-padding,5px)
+  padding 5px 10px 5px var(--app-head-left-padding, 5px)
   line-height 0
   -webkit-app-region drag
+  transition padding 0.2s ease-out
 
 .note-tabs-title
   padding 5px 20px
   transition transform .3s
-  transform translateY(var(--tab-nav-title-translateY,0))
+  transform translateY(var(--tab-nav-title-translateY, 0))
+
   &.editable
     padding 5px 20px 5px 10px
 

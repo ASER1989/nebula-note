@@ -4,7 +4,7 @@
     "productName": "Nebula Note Pro",
     "description": "Nebula Note Pro",
     "keywords": [],
-    "main": "./main.js",
+    "main": "main.js",
     "version": "1.0.0",
     "author": "xu.huang",
     "scripts": {

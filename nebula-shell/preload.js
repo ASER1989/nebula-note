@@ -5,6 +5,28 @@
  *
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
+const { ipcRenderer } = require('electron');
+
+window.NebulaShell = {
+    isMacos: false,
+    isFullScreen:()=>{
+        return ipcRenderer.invoke('get-is-full-screen');
+    },
+    on(id, callback) {
+        ipcRenderer.on(id, callback);
+    },
+    onFullScreen(callback) {
+        ipcRenderer.on('enter-full-screen', callback);
+    },
+    onFullScreenLeave(callback) {
+        ipcRenderer.on('leave-full-screen', callback);
+    },
+};
+
+(async () => {
+    window.NebulaShell.isMacos = await ipcRenderer.invoke('get-is-mac-os');
+})();
+
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
         const element = document.getElementById(selector);

@@ -41,10 +41,6 @@ body {
     min-height: 100vh;
 }
 
-body[data-platform="macos"] {
-    --app-head-left-padding: 76px;
-}
-
 /* 修改滚动条轨道的样式 */
 ::-webkit-scrollbar {
     width: var(--scroll-width); /* 设置滚动条的宽度 */
