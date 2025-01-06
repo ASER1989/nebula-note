@@ -23,7 +23,7 @@ const schemaSortWithSortColumns = (schemaList, sortNames) => {
     return sortedSchemaList;
 };
 
-module.exports = {
+export {
     getSortNames,
     schemaSortWithSortColumns,
 };

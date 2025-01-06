@@ -1,8 +1,7 @@
-const Router = require('@koa/router');
-const _ = require('lodash');
-const systemConfig = require('../../utils/system-config');
+import Router from '@koa/router';
+import systemConfig from '../../utils/system-config';
 
-module.exports = (prefix, opts) => {
+export default (prefix, opts) => {
     const router = new Router({ prefix });
 
     router.get('/', (ctx) => {

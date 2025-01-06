@@ -1,8 +1,7 @@
-const Router = require('@koa/router');
-const codeBuilder = require('../../utils/node-gen/ejsBuilder');
-const columnTools = require('../utils/columns');
+import Router from '@koa/router';
+import codeBuilder from '../../utils/node-gen/ejsBuilder';
 
-module.exports = (prefix, opts) => {
+export default (prefix, opts) => {
     const router = new Router({ prefix });
     router.post('/build/meta', async (ctx) => {
         const reqParams = ctx.request.body;

@@ -1,0 +1,30 @@
+{
+    "name": "@nebula-note/server",
+    "private": true,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "build": "rollup -c",
+        "start":"yarn build && node dist/index.js"
+    },
+    "author": "xu.huang",
+    "license": "MIT",
+    "dependencies": {
+        "@koa/router": "^13.1.0",
+        "benchmark": "^2.1.4",
+        "ejs": "^3.1.10",
+        "eslint": "^9.16.0",
+        "koa": "^2.15.3",
+        "koa-bodyparser": "^4.4.1",
+        "koa-morgan": "^1.0.1"
+    },
+    "devDependencies": {
+        "@rollup/plugin-babel": "^6.0.4",
+        "@rollup/plugin-commonjs": "^28.0.2",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^16.0.0",
+        "rollup": "^4.30.0"
+    }
+}

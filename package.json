@@ -37,6 +37,7 @@
     },
     "workspaces": [
         "./nebula-client",
+        "./nebula-server",
         "./nebula-ui",
         "./nebula-shell"
     ],

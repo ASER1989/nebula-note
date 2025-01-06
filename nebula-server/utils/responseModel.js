@@ -1,4 +1,4 @@
-module.exports = (data, error) => {
+export default (data, error) => {
     return {
         success: error === undefined,
         data,

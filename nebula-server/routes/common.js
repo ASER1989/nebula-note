@@ -1,9 +1,9 @@
-const Router = require('@koa/router');
-const fs = require('fs');
-const path = require('path');
-const respModel = require('../utils/responseModel');
-const systemConfig = require('../../utils/system-config');
-const { getDataFolder } = require('../../utils/note-utils');
+import Router from '@koa/router';
+import fs from 'fs';
+import path from 'path';
+import { getDataFolder } from '../../utils/note-utils';
+import systemConfig from '../../utils/system-config';
+import respModel from '../utils/responseModel';
 
 const loopFolder = (folderName, basePath) => {
     const readPath = path.join(basePath, folderName);
@@ -20,7 +20,7 @@ const loopFolder = (folderName, basePath) => {
     return folderList ?? [];
 };
 
-module.exports = (prefix, opts) => {
+export default (prefix, opts) => {
     const router = new Router({ prefix });
     router.get('/folder', async (ctx) => {
         ctx.type = 'text/json';

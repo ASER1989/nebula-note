@@ -1,9 +1,9 @@
-const Router = require('@koa/router');
-const templateUtils = require('../../utils/note-utils');
-const _ = require('lodash');
-const templateStore = require('../../utils/note-utils/store');
+import Router from '@koa/router';
+import templateUtils from '../../utils/note-utils';
+import _ from 'lodash';
+import templateStore from '../../utils/note-utils/store';
 
-module.exports = (prefix, opts) => {
+export default (prefix) => {
     const router = new Router({ prefix });
 
     router.get('/list', async (ctx) => {
@@ -16,11 +16,11 @@ module.exports = (prefix, opts) => {
         const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const configIndex = templateConfigs.findIndex((item) => item.name === name);
         const configOption = configIndex >= 0 ? templateConfigs[configIndex] : undefined;
-        if(!Boolean(name)){
-            return Error('名称不能为空');
+        if (!Boolean(name)) {
+            return new Error('名称不能为空');
         }
         if (configOption && configOption.version > reqParams.version) {
-            return Error('版本号不一致');
+            return new Error('版本号不一致');
         }
         const newConfig = _.pick(reqParams, [
             'name',
@@ -117,13 +117,13 @@ module.exports = (prefix, opts) => {
 
     router.post('/rename', async (ctx) => {
         const { name, newName } = ctx.request.body;
-        if(!Boolean(newName)){
-            return Error('名称不能为空');
+        if (!Boolean(newName)) {
+            return new Error('名称不能为空');
         }
         const templateConfigs = (await templateUtils.getConfig()) ?? [];
         const isNameRepeat = templateConfigs.some((item) => item.name === newName);
         if (isNameRepeat) {
-            return Error('名称已存在');
+            return new Error('名称已存在');
         }
         const config = templateConfigs.find((item) => item.name === name);
         if (config) {

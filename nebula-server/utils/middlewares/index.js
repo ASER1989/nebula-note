@@ -1,4 +1,4 @@
-const respModel = require('../responseModel');
+import respModel from '../responseModel';
 
 function setDefaultResponseType() {
     return async function (ctx, next) {
@@ -22,7 +22,7 @@ function formatResponse() {
     };
 }
 
-module.exports = {
+export default {
     setDefaultResponseType,
     formatResponse,
 };

@@ -1,6 +1,6 @@
-const Path = require('path');
-const Fs = require('fs');
-const Router = require('@koa/router');
+import Router from '@koa/router';
+import fs from 'fs';
+import path from 'path';
 
 const MIMEType = {
     js: 'application/javascript',
@@ -19,22 +19,25 @@ const resolveMIMEType = (fileName) => {
     }
 };
 
-module.exports = (prefix, opts) => {
+export default (prefix, opts) => {
     const router = new Router(prefix);
     router.get('/', (ctx) => {
-        const htmlFilePath = Path.resolve(__dirname, '../../nebula-client/dist/index.html');
-        const htmlFile = Fs.readFileSync(htmlFilePath);
+        const htmlFilePath = path.resolve(
+            __dirname,
+            '../../nebula-client/dist/index.html',
+        );
+        const htmlFile = fs.readFileSync(htmlFilePath);
         ctx.type = 'text/html';
         ctx.body = htmlFile;
     });
 
     router.get('/assets/:sourcePath+', (ctx) => {
         const { sourcePath } = ctx.params;
-        const sourceFilePath = Path.resolve(
+        const sourceFilePath = path.resolve(
             __dirname,
             `../../nebula-client/dist/assets/${sourcePath}`,
         );
-        const sourceFile = Fs.readFileSync(sourceFilePath);
+        const sourceFile = fs.readFileSync(sourceFilePath);
         const responseMIMEType = resolveMIMEType(sourcePath);
         if (responseMIMEType) {
             ctx.type = responseMIMEType;

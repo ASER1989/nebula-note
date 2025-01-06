@@ -1,14 +1,14 @@
-const config = require('../config.json');
-const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
-const middlewares = require('./utils/middlewares');
-const morgan = require('koa-morgan');
+import config from '../config.json';
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import middlewares from './utils/middlewares';
+import morgan from 'koa-morgan';
 
-const indexRoute = require('./routes/index');
-const sliceRoute = require('./routes/slice');
-const settingsRoute = require('./routes/settings');
-const noteRoute = require('./routes/note');
-const commonRoute = require('./routes/common');
+import indexRoute from './routes/index';
+import sliceRoute from './routes/slice';
+import settingsRoute from './routes/settings';
+import noteRoute from './routes/note';
+import commonRoute from './routes/common';
 
 const app = new Koa();
 
