@@ -5,6 +5,7 @@ import { getDataFolder } from '../../utils/note-utils';
 import systemConfig from '../../utils/system-config';
 import respModel from '../utils/responseModel';
 
+const __dirname = path.resolve();
 const loopFolder = (folderName, basePath) => {
     const readPath = path.join(basePath, folderName);
     const files = fs.readdirSync(readPath, { withFileTypes: true });

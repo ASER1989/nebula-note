@@ -5,7 +5,7 @@
  *
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
 
 window.NebulaShell = {
     isMacos: false,

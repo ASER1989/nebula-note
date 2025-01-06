@@ -1,8 +1,9 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-const server = require('../service/index');
-const os = require('os');
+import { app, BrowserWindow, ipcMain } from 'electron';
+import path from 'path';
+import * as server from '../nebula-server/dist';
+import os from 'os';
 
+const __dirname = path.resolve();
 let mainWindow;
 
 function initConfig() {
@@ -31,7 +32,7 @@ function createWindow() {
     });
 
     // and load the index.html of the app.
-    mainWindow.loadURL('http://localhost:3107/');
+    mainWindow.loadURL('http://localhost:3816/');
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();

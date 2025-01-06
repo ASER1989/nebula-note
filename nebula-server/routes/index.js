@@ -2,6 +2,8 @@ import Router from '@koa/router';
 import fs from 'fs';
 import path from 'path';
 
+const __dirname = path.resolve();
+
 const MIMEType = {
     js: 'application/javascript',
     css: 'text/css',
@@ -24,7 +26,7 @@ export default (prefix, opts) => {
     router.get('/', (ctx) => {
         const htmlFilePath = path.resolve(
             __dirname,
-            '../../nebula-client/dist/index.html',
+            '../nebula-client/dist/index.html',
         );
         const htmlFile = fs.readFileSync(htmlFilePath);
         ctx.type = 'text/html';
@@ -35,7 +37,7 @@ export default (prefix, opts) => {
         const { sourcePath } = ctx.params;
         const sourceFilePath = path.resolve(
             __dirname,
-            `../../nebula-client/dist/assets/${sourcePath}`,
+            `../nebula-client/dist/assets/${sourcePath}`,
         );
         const sourceFile = fs.readFileSync(sourceFilePath);
         const responseMIMEType = resolveMIMEType(sourcePath);
