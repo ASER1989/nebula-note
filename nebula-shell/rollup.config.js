@@ -1,46 +1,46 @@
 import { babel } from '@rollup/plugin-babel';
+import { DEFAULT_EXTENSIONS } from '@babel/core';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
+import typescript from 'rollup-plugin-typescript2';
 
-export default [{
-    input: {
-        main: './main.js',
-    },
-    output: {
-        dir: 'dist',
-        entryFileNames: 'main.js',
-        sourcemap: true,
-        format: 'esm',
-    },
+const configBase = {
     plugins: [
+        typescript(),
         resolve(),
         commonjs(),
         json(),
         babel({
             babelHelpers: 'bundled',
-            // exclude: 'node_modules/**', // 排除 node_modules
+            extensions:[...DEFAULT_EXTENSIONS,'ts']
         }),
     ],
-    external: ['fs', 'path', 'electron'],
-},{
-    input: {
-        preload: './preload.js',
+    external: ['fs', 'path','os', 'electron'],
+};
+export default [
+    {
+        ...configBase,
+        input: {
+            main: './src/main.ts',
+        },
+        output: {
+            dir: 'dist',
+            entryFileNames: 'main.js',
+            sourcemap: true,
+            format: 'esm',
+        },
     },
-    output: {
-        dir: 'dist',
-        entryFileNames: 'preload.cjs',
-        sourcemap: true,
-        format: 'cjs',
+    {
+        ...configBase,
+        input: {
+            preload: './src/preload.ts',
+        },
+        output: {
+            dir: 'dist',
+            entryFileNames: 'preload.cjs',
+            sourcemap: true,
+            format: 'cjs',
+        },
     },
-    plugins: [
-        resolve(),
-        commonjs(),
-        json(),
-        babel({
-            babelHelpers: 'bundled',
-            // exclude: 'node_modules/**', // 排除 node_modules
-        }),
-    ],
-    external: ['fs', 'path', 'electron'],
-}];
+];

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "strict": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "outDir": ".tscache",
+        "allowJs": true,
+        "baseUrl": "./",
+        "paths": {
+            "*": ["node_modules/*"]
+        }
+    },
+    "include": ["src/**/*", "global.d.ts"],
+    "exclude": ["node_modules", "dist"]
+}
