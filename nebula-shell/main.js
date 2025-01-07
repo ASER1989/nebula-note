@@ -1,9 +1,12 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+import { fileURLToPath } from 'url';
 import path from 'path';
 import * as server from '../nebula-server/dist';
 import os from 'os';
+import IpcMessageIds from "./ipc-message-ids";
 
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 let mainWindow;
 
 function initConfig() {
@@ -19,8 +22,9 @@ function createWindow() {
         width: 1440,
         height: 900,
         webPreferences: {
-            contextIsolation: false,
-            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.cjs'),
+            nodeIntegration: false,
         },
         titleBarStyle: 'hidden',
         titleBarOverlay: {
@@ -39,18 +43,17 @@ function createWindow() {
 }
 
 function handlesRegister() {
-    ipcMain.handle('get-is-mac-os', () => global['is-mac-os']);
-    ipcMain.handle('get-is-full-screen', () => mainWindow.isFullScreen());
+    ipcMain.handle(IpcMessageIds.window.IS_FULL_SCREEN, () => mainWindow.isFullScreen());
 }
 
 function listenFullScreenState() {
     if (global['is-mac-os']) {
         mainWindow.on('enter-full-screen', () => {
-            mainWindow.webContents.send('enter-full-screen', true);
+            mainWindow.webContents.send(IpcMessageIds.window.ON_FULL_SCREEN_ENTER, true);
         });
 
         mainWindow.on('leave-full-screen', () => {
-            mainWindow.webContents.send('leave-full-screen', true);
+            mainWindow.webContents.send(IpcMessageIds.window.ON_FULL_SCREEN_LEAVE, true);
         });
     }
 }

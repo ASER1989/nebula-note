@@ -32,7 +32,7 @@
         "outDir": ".tscache",
         "paths": {
             "@client/*": ["./src/*"],
-            "@nebula-note/ui": ["../nebula-ui/src/"]
+            "@nebula-note/ui": ["../nebula-ui/dist"]
         }
     },
     "include": ["./global.d.ts", "./src", "cypress/**/*.ts"],

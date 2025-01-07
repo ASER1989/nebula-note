@@ -10,7 +10,7 @@
     "author": "xu.huang",
     "scripts": {
         "build": "rollup -c",
-        "start": "electron dist/index.js"
+        "start": "yarn build && electron dist/main.js"
     },
     "dependencies": {},
     "devDependencies": {
