@@ -18,16 +18,16 @@
     align-items: center
     justify-content: space-between
     opacity: 0
-    transform: translateY(0)
+    transform: translateY(0) translateX(-50%)
     transition: opacity 0.3s ease-out, transform 0.3s ease-out
 
     &.enter
       opacity: 1
-      transform: translateY(var(--notification-offset,70px))
+      transform: translateY(var(--notification-offset,70px)) translateX(-50%)
 
     &.exit
       opacity: 0
-      transform: translateY(0)
+      transform: translateY(0) translateX(-50%)
 
     &.success
       background-color: #4caf50ee

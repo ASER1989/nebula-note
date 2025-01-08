@@ -57,7 +57,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     const create = async (newRecord: NoteRecord) => {
         try {
             if (isNoteExist(newRecord.name)) {
-                showNotice({ content: '名称已存在', type: 'error', duration: 3000 });
+                showNotice({ content: '该名称已存在，请更换名称', type: 'error'});
                 return;
             }
             return await noteUpsert(newRecord);

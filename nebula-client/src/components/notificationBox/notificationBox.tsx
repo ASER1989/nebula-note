@@ -13,6 +13,7 @@ export const NotificationBox = () => {
             key={item.referenceId}
             onClose={item.onClose}
             offset={`${70 * (idx + 1)}px`}
+            data-test-id='notification'
         ></Notification>
     ));
 };

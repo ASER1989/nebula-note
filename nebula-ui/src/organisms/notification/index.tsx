@@ -7,6 +7,7 @@ type NotificationProps = {
     duration?: number;
     onClose?: () => void;
     offset?: string;
+    ['data-test-id']?: string;
 };
 
 export const Notification: React.FC<NotificationProps> = ({
@@ -15,6 +16,7 @@ export const Notification: React.FC<NotificationProps> = ({
     duration = 5000,
     onClose,
     offset,
+    'data-test-id': dataTestId,
 }) => {
     const [animationClass, setAnimationClass] = useState<'enter' | 'exit'>();
 
@@ -32,6 +34,7 @@ export const Notification: React.FC<NotificationProps> = ({
 
     return (
         <div
+            data-test-id={dataTestId}
             className='nebula-notification'
             style={{ '--notification-offset': offset } as React.CSSProperties}
         >

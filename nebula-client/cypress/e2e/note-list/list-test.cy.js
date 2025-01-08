@@ -34,12 +34,14 @@ describe('list', () => {
                 .should('contain.text', 'new note test');
         });
 
-        it.skip('should cannot be duplicated', () => {
+        it('should cannot be duplicated', () => {
             cy.getByTestId('note-list-create-note-button').click();
             cy.getByTestId('note-create-form').should('exist');
             cy.getByTestId('note-name').type('new note test');
             cy.getByTestId('form-submit').click();
-            cy.getByTestId('note-name').should('have.value', 'Error');
+            cy.getByTestId('notification')
+              .should('exist')
+              .should('contain.text', '该名称已存在，请更换名称');
         });
     });
 
@@ -100,7 +102,7 @@ describe('list', () => {
                         .blur();
                     cy.getByTestId('rename-submit-button').click();
                 });
-            cy.getByTestId('message-box')
+            cy.getByTestId('notification')
                 .should('exist')
                 .should('contain.text', '该名称已存在，请更换名称');
         });
