@@ -11,7 +11,6 @@ import { Dialog } from '@nebula-note/ui';
 import { Form, FormItem } from '@nebula-note/ui';
 import _ from 'lodash';
 
-
 type Props = {
     visible: boolean;
     onHide?: (success?: boolean) => void;
@@ -44,6 +43,7 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
                 changeSelectedItem({
                     ...formState,
                     filePath: `${formState.name}/`,
+                    version: resp?.data,
                 });
             }
         });

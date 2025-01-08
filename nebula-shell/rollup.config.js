@@ -1,5 +1,4 @@
 import { babel } from '@rollup/plugin-babel';
-import { DEFAULT_EXTENSIONS } from '@babel/core';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
@@ -13,7 +12,6 @@ const configBase = {
         json(),
         babel({
             babelHelpers: 'bundled',
-            extensions:[...DEFAULT_EXTENSIONS,'ts']
         }),
     ],
     external: ['fs', 'path','os', 'electron'],

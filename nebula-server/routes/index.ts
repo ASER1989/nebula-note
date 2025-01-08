@@ -1,29 +1,37 @@
 import Router from '@koa/router';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
+import { Context } from 'koa';
 
 const __dirname = path.resolve();
 
-const MIMEType = {
+type MIMETypeMap = {
+    [key: string]: string;
+};
+
+const MIMEType: MIMETypeMap = {
     js: 'application/javascript',
     css: 'text/css',
 };
 
-const resolveMIMEType = (fileName) => {
-    const isJs = /\.js/.test(fileName);
+const resolveMIMEType = (fileName: string): string | undefined => {
+    const isJs = /\.js$/.test(fileName);
     if (isJs) {
         return MIMEType.js;
     }
 
-    const isCss = /\.css/.test(fileName);
+    const isCss = /\.css$/.test(fileName);
     if (isCss) {
         return MIMEType.css;
     }
+
+    return undefined;
 };
 
-export default (prefix, opts) => {
-    const router = new Router(prefix);
-    router.get('/', (ctx) => {
+export default (prefix: string) => {
+    const router = new Router({ prefix });
+
+    router.get('/', (ctx: Context) => {
         const htmlFilePath = path.resolve(
             __dirname,
             '../nebula-client/dist/index.html',
@@ -33,8 +41,8 @@ export default (prefix, opts) => {
         ctx.body = htmlFile;
     });
 
-    router.get('/assets/:sourcePath+', (ctx) => {
-        const { sourcePath } = ctx.params;
+    router.get('/assets/:sourcePath+', (ctx: Context) => {
+        const { sourcePath }: { sourcePath: string } = ctx.params;
         const sourceFilePath = path.resolve(
             __dirname,
             `../nebula-client/dist/assets/${sourcePath}`,
@@ -46,5 +54,6 @@ export default (prefix, opts) => {
         }
         ctx.body = sourceFile;
     });
+
     return router.routes();
 };

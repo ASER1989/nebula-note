@@ -12,8 +12,7 @@ let mainWindow: BrowserWindow | null = null;
 const IS_MAC_OS = queryIsMacOs();
 
 function startServer(): void {
-    // (app as any).server = server;
-    (app as any).koa = server;
+    (app as any).server = server;
 }
 
 function createWindow(): void {
