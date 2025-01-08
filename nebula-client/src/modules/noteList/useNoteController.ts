@@ -6,14 +6,13 @@ import { queryErrorMessage } from '@client/utils/queries';
 export const useNoteController = () => {
     const actions = useNote();
     const changeSelectedItem = async (templateConfig: NoteRecord) => {
-        actions.setNoteSync(templateConfig);
         try {
             // 请求模板文档
             const documentResp = await noteApi.getNoteDocument(
                 templateConfig.filePath as string,
             );
-            actions.setDocument(documentResp.data);
-
+            // actions.setDocument(documentResp.data);
+            actions.setNoteSync({ ...templateConfig, document: documentResp.data });
             // 请求模板元数据
             const metaResp = await noteApi.getNoteMeta(templateConfig.filePath as string);
             actions.setMeta(metaResp.data ?? '{}');

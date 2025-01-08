@@ -1,5 +1,4 @@
 import {
-    Action,
     ConfigureStoreOptions,
     Reducer,
     combineReducers,

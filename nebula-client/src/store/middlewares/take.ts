@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { AnyAction, Middleware, Store } from 'redux';
+import { AnyAction, Middleware } from 'redux';
 
 interface IActionTaker {
     referenceId: string;
@@ -10,7 +10,6 @@ interface IActionTaker {
 const takerList: Array<IActionTaker> = [];
 let recordId = 0;
 const removeCallback = (referenceId: string) => {
-    console.log('taker remove', referenceId.toString());
     _.remove(takerList, (taker) => taker.referenceId === referenceId);
 };
 export const takeMiddleware: Middleware = () => (next) => (action) => {
@@ -18,7 +17,6 @@ export const takeMiddleware: Middleware = () => (next) => (action) => {
 
     takerList.forEach((taker) => {
         if (taker?.actionType === (action as AnyAction).type) {
-            console.log('taker call:', taker.referenceId);
             taker.callback();
         }
     });
@@ -39,6 +37,5 @@ export const addTaker = (actionType: string, callback: () => string | void) => {
         takerList.push(takeObj);
         referenceId = takeObj.referenceId;
     }
-    console.log('add taker:', referenceId);
     return () => removeCallback(referenceId as string);
 };

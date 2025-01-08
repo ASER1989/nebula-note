@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useMessage } from '@client/components/messageBox';
+import { useNotification } from '@client/components/notificationBox';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
@@ -22,7 +22,7 @@ export interface IUseNoteConfig {
 const REDUX_KEY = 'noteConfigState';
 let isInitialized = false;
 const useNoteConfig: () => IUseNoteConfig = () => {
-    const { showMessage } = useMessage();
+    const { showNotice } = useNotification();
     const { state, setState, updateState } = useRedux<NoteConfigState>(REDUX_KEY, {
         fetchStatus: 'None',
         noteList: [],
@@ -46,7 +46,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         } catch (ex) {
             const content = queryErrorMessage(ex);
             setFetchStatus('Error');
-            showMessage(content);
+            showNotice({ content, type: 'error' });
         }
     };
 
@@ -57,24 +57,26 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     const create = async (newRecord: NoteRecord) => {
         try {
             if (isNoteExist(newRecord.name)) {
+                showNotice({ content: '名称已存在', type: 'error', duration: 3000 });
                 return;
             }
             return await noteUpsert(newRecord);
         } catch (ex) {
             const content = queryErrorMessage(ex);
-            await showMessage(content);
+            showNotice({ content, type: 'error' });
         }
     };
     const rename = async (name: string, newName: string) => {
         try {
             if (isNoteExist(newName)) {
-                throw new Error('该名称已存在，请更换名称！');
+                showNotice({ content: '该名称已存在，请更换名称！', type: 'error' });
+                return;
             }
             const resp = await noteRename(name, newName);
             return resp.data;
         } catch (ex) {
             const content = queryErrorMessage(ex);
-            await showMessage(content);
+            showNotice({ content, type: 'error' });
         }
     };
 

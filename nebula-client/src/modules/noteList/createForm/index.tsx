@@ -37,14 +37,14 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
     };
 
     const handleTemplateSave = () => {
-        create(formState).then((resp) => {
+        create(formState).then(async (resp) => {
             if (resp?.success) {
-                onHide?.(true);
-                changeSelectedItem({
+                await changeSelectedItem({
                     ...formState,
                     filePath: `${formState.name}/`,
                     version: resp?.data,
                 });
+                onHide?.(true);
             }
         });
     };

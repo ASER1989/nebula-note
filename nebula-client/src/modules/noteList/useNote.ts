@@ -35,8 +35,9 @@ export const useNote = (updateInterceptor?: () => void) => {
         setState(initialState);
     };
     const setNoteSync = (note: NoteRecord) => {
+        const syncState = getStateSync();
         setStateSync({
-            ...state,
+            ...syncState,
             note,
             activeProperty: 'document',
             editStatus: 'None',
