@@ -41,24 +41,36 @@ function createWindow(): void {
 }
 
 function handlesRegister(): void {
-    ipcMain.handle(IpcMessageIds.window.IS_FULL_SCREEN, () => mainWindow?.isFullScreen());
+    ipcMain.handle(IpcMessageIds.toShell.IS_FULL_SCREEN, () =>
+        mainWindow?.isFullScreen(),
+    );
 }
 
 function listenFullScreenState(): void {
     if (IS_MAC_OS) {
         mainWindow?.on('enter-full-screen', () => {
-            mainWindow?.webContents.send(IpcMessageIds.window.ON_FULL_SCREEN_ENTER, true);
+            mainWindow?.webContents.send(
+                IpcMessageIds.fromShell.ON_FULL_SCREEN_ENTER,
+                true,
+            );
         });
 
         mainWindow?.on('leave-full-screen', () => {
-            mainWindow?.webContents.send(IpcMessageIds.window.ON_FULL_SCREEN_LEAVE, true);
+            mainWindow?.webContents.send(
+                IpcMessageIds.fromShell.ON_FULL_SCREEN_LEAVE,
+                true,
+            );
         });
     }
 }
 
-const openDir = () => {
-    const result = dialog.showOpenDialogSync({ properties: ['openDirectory'] });
-    dialog.showMessageBox({ message: result?.[0] ?? '' });
+const listenOpenDirectory = () => {
+    ipcMain.handle(IpcMessageIds.toShell.OPEN_DIRECTORY, () => {
+        const reuslt = dialog.showOpenDialogSync({
+            properties: ['openDirectory', 'createDirectory', 'dontAddToRecent'],
+        });
+        return reuslt ? reuslt[0] : undefined;
+    });
 };
 
 app.whenReady()
@@ -66,6 +78,7 @@ app.whenReady()
     .then(createWindow)
     .then(handlesRegister)
     .then(listenFullScreenState)
+    .then(listenOpenDirectory)
     .then(() => {
         app.on('activate', () => {
             if (BrowserWindow.getAllWindows().length === 0) createWindow();

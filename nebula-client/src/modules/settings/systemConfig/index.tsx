@@ -1,6 +1,6 @@
 import '../index.styl';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useMessage } from '@client/components/messageBox';
+import { useNotification } from '@client/components/notificationBox';
 import { Language } from '@client/localizations/types';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
@@ -9,14 +9,13 @@ import useNote from '@client/modules/noteList/useNote';
 import FolderPicker from '@client/modules/settings/folderPicker';
 import { Button } from '@nebula-note/ui';
 import { Dropdown, DropdownOption, Option } from '@nebula-note/ui';
-import { Input } from '@nebula-note/ui';
 import { Switch } from '@nebula-note/ui';
 import { Form, FormItem } from '@nebula-note/ui';
 import { Section } from '@nebula-note/ui';
 import { Stack, StackItem } from '@nebula-note/ui';
 
 export default function SystemConfig() {
-    const { showMessage } = useMessage();
+    const { showNotice } = useNotification();
     const { getText } = useLocalization();
     const { fetchStatus, error, settings, updateSettingState } = useSettings();
     const nodeConfigModel = useNoteConfig();
@@ -71,7 +70,7 @@ export default function SystemConfig() {
 
         const isSuccess = await handleSettingsChange('dataSource', newDataSource);
         if (isSuccess) {
-            nodeConfigModel.reload();
+            await nodeConfigModel.reload();
             reset();
         }
     };
@@ -79,9 +78,21 @@ export default function SystemConfig() {
         await handleNewDataSource(option.value);
     };
 
+    const handleOpenDirectory = async () => {
+        if (window.NebulaShell?.isPro) {
+            const result = await window.NebulaShell.openDirectory();
+            if (result) {
+                await handleNewDataSource(result);
+            }
+        }
+        else {
+            setFolderPickerVisible(true);
+        }
+    };
+
     useEffect(() => {
         if (fetchStatus === 'Error' && error !== undefined) {
-            showMessage(error);
+            showNotice(error);
         }
     }, [fetchStatus, error]);
 
@@ -112,7 +123,7 @@ export default function SystemConfig() {
                                     </StackItem>
                                     <StackItem>
                                         <Button
-                                            onClick={() => setFolderPickerVisible(true)}
+                                            onClick={handleOpenDirectory}
                                         >
                                             {getText('添加目录')}
                                         </Button>
