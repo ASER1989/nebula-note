@@ -1,9 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import { fileURLToPath } from 'url';
+import { BrowserWindow, app, dialog, ipcMain } from 'electron';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import * as server from '../../nebula-server/dist';
 import IpcMessageIds from './ipc-message-ids';
-import {queryIsMacOs} from "./queries";
+import { queryIsMacOs } from './queries';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,6 +55,11 @@ function listenFullScreenState(): void {
         });
     }
 }
+
+const openDir = () => {
+    const result = dialog.showOpenDialogSync({ properties: ['openDirectory'] });
+    dialog.showMessageBox({ message: result?.[0] ?? '' });
+};
 
 app.whenReady()
     .then(startServer)

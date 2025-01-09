@@ -24,8 +24,6 @@ const resolveMIMEType = (fileName: string): string | undefined => {
     if (isCss) {
         return MIMEType.css;
     }
-
-    return undefined;
 };
 
 export default (prefix: string) => {
@@ -41,7 +39,7 @@ export default (prefix: string) => {
         ctx.body = htmlFile;
     });
 
-    router.get('/assets/:sourcePath+', (ctx: Context) => {
+    router.get('assets/:sourcePath+', (ctx: Context) => {
         const { sourcePath }: { sourcePath: string } = ctx.params;
         const sourceFilePath = path.resolve(
             __dirname,

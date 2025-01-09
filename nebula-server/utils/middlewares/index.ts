@@ -1,12 +1,11 @@
 import { Context, Next } from 'koa';
 import respModel from '../responseModel';
 
-// 定义中间件函数的类型
 type Middleware = (ctx: Context, next: Next) => Promise<void>;
 
 export const setDefaultResponseType: () => Middleware = () => {
     return async function (ctx: Context, next: Next) {
-        ctx.type = 'application/json'; // 修正为正确的 MIME 类型
+        ctx.type = 'text/json';
         await next();
     };
 };
