@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
+import { expect, userEvent, within,queryByAttribute } from '@storybook/test';
 import Input from './index';
 
 // import {expect} from '@storybook/jest';
@@ -84,10 +84,13 @@ export const Primary: Story = {
 export const Secondary: Story = {
     args: {
         'data-test-id': 'input-test',
+        onChange: action('onChange'),
     },
     play: async ({ canvasElement }) => {
-        const canvas = within(canvasElement);
-        const inputEl = canvas.getByTestId('input-test');
+        const inputEl = queryByAttribute('data-test-id',canvasElement,'input-test');
+        if (!inputEl) {
+            throw new Error('Input element not found');
+        }
         await userEvent.type(inputEl, 'hello world');
         await expect(inputEl).toHaveValue('hello world');
     },

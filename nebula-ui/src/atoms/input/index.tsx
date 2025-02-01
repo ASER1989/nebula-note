@@ -1,7 +1,7 @@
 import './index.styl';
-import React, { ChangeEvent, forwardRef } from 'react';
-import classNames from 'classnames';
+import React, { ChangeEvent, forwardRef, useRef } from 'react';
 import type { FocusEvent } from 'react';
+import classNames from 'classnames';
 
 export type InputProps = {
     value?: string;
@@ -34,9 +34,20 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
         'data-test-id': dataTestId,
     } = props;
 
+    const isComposition = useRef(false);
+    const handleCompositionStart = (e: React.CompositionEvent<HTMLInputElement>) => {
+        isComposition.current = true;
+    };
+
+    const handleCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+        isComposition.current = false;
+        handleChange(e as unknown as ChangeEvent<HTMLInputElement>);
+    };
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const input = e.target as HTMLInputElement;
-        onChange?.(input.value, e);
+        if(!isComposition.current) {
+            const input = e.target as HTMLInputElement;
+            onChange?.(input.value, e);
+        }
     };
 
     const classes = classNames(className, 'nebula-input', size, {
@@ -52,6 +63,8 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
             className={classes}
             value={value}
             onChange={handleChange}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
             onFocus={onFocus}
             onBlur={onBlur}
             placeholder={placeholder}
