@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 export type SwitchProps = {
+    name?: string;
     value: boolean;
     onChange?: (value: boolean) => void;
     disabled?: boolean;
@@ -13,6 +14,7 @@ export type SwitchProps = {
 };
 
 export const Switch = ({
+    name,
     value,
     onChange,
     disabled = false,
@@ -29,6 +31,7 @@ export const Switch = ({
     return (
         <label className={switchClass} data-test-id={dataTestId}>
             <input
+                name={name}
                 type='checkbox'
                 checked={value}
                 onChange={handleChange}

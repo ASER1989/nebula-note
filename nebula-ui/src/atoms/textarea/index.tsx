@@ -4,6 +4,7 @@ import type { FocusEvent } from 'react';
 import classNames from 'classnames';
 
 export type TextareaProps = {
+    name?: string;
     value?: string;
     border?: boolean;
     placeholder?: string;
@@ -15,6 +16,7 @@ export type TextareaProps = {
 };
 
 export const Textarea = ({
+    name,
     value,
     border = true,
     onChange,
@@ -45,6 +47,7 @@ export const Textarea = ({
                 'border-none': !border,
                 [resize ?? '']: resize,
             })}
+            name={name}
             value={value}
             onChange={handleChange}
             onFocus={onFocus}
