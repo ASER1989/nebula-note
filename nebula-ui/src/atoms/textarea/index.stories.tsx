@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Textarea, { TextareaProps } from './index';
+import { action } from '@storybook/addon-actions';
 
 export default {
     title: 'Atoms/Textarea',
@@ -11,5 +12,7 @@ export default {
 
 export type Story = StoryObj<TextareaProps>;
 export const Primary: Story = {
-    args: {},
+    args: {
+        onChange: action('onChange'),
+    },
 };

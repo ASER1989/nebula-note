@@ -35,7 +35,7 @@ const InputBase = (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
     } = props;
 
     const isComposition = useRef(false);
-    const handleCompositionStart = (e: React.CompositionEvent<HTMLInputElement>) => {
+    const handleCompositionStart = () => {
         isComposition.current = true;
     };
 

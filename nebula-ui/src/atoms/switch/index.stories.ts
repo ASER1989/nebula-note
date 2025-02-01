@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Switch, { SwitchProps } from './index';
+import { action } from '@storybook/addon-actions';
 
 export default {
     title: 'Atoms/Switch',
@@ -11,5 +12,7 @@ export default {
 
 export type Story = StoryObj<SwitchProps>;
 export const Primary: Story = {
-    args: {},
+    args: {
+        onChange: action('Switch changed'),
+    },
 };

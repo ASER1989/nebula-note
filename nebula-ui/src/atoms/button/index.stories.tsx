@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Button, { ButtonProps } from './index';
+import { action } from '@storybook/addon-actions';
 
 export default {
     title: 'Atoms/Button',
@@ -14,5 +15,6 @@ export const Primary: Story = {
     args: {
         children: 'Button',
         type: 'primary',
+        onClick: action('Button clicked'),
     },
 };

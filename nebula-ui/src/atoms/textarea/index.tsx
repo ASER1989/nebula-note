@@ -1,5 +1,5 @@
 import './index.styl';
-import React from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import type { FocusEvent } from 'react';
 import classNames from 'classnames';
 
@@ -24,8 +24,19 @@ export const Textarea = ({
     resize,
     'data-test-id': dataTestId,
 }: TextareaProps) => {
+    const isComposition = useRef(false);
+    const handleCompositionStart = () => {
+        isComposition.current = true;
+    };
+
+    const handleCompositionEnd = (e: React.CompositionEvent<HTMLTextAreaElement>) => {
+        isComposition.current = false;
+        handleChange(e as unknown as ChangeEvent<HTMLInputElement>);
+    };
     const handleChange = (e: any) => {
-        onChange?.(e.target.value, value, e);
+        if (!isComposition.current) {
+            onChange?.(e.target.value, value, e);
+        }
     };
 
     return (
@@ -40,6 +51,8 @@ export const Textarea = ({
             placeholder={placeholder}
             rows={rows}
             data-test-id={dataTestId}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
         />
     );
 };
