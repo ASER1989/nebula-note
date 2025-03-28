@@ -37,7 +37,7 @@ function createWindow(): void {
     mainWindow.loadURL('http://localhost:3816/');
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 }
 
 function handlesRegister(): void {

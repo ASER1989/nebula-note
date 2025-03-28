@@ -17,10 +17,12 @@
         "build:client": "yarn workspace  @nebula-note/client tsc && yarn workspace  @nebula-note/client vite build",
         "build:server": "yarn workspace  @nebula-note/server build",
         "build:shell": "yarn workspace  @nebula-note/shell build",
-        "build:pro:mac": "yarn build:shell && electron-builder --mac",
-        "build:pro:win": "electron-builder --win",
+        "build:ui": "yarn workspace  @nebula-note/ui build",
+        "build:pro:mac": "yarn build:ui && yarn build:client && yarn build:server && yarn build:shell && electron-builder --mac",
+        "build:pro:win": "yarn build:ui && yarn build:client && yarn build:server && yarn build:shell && electron-builder --win",
         "start:serve": "yarn workspace @nebula-note/server start",
-        "start:web": "yarn build:client && yarn start:serve",
+        "start:dev": "yarn build:ui && yarn start:serve && client:dev",
+        "start:pro": "yarn build:ui && yarn build:client && yarn workspace @nebula-note/shell start",
         "prettier:fix": "prettier --write ."
     },
     "dependencies": {
