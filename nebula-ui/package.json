@@ -16,10 +16,6 @@
         "Nebula",
         "UI"
     ],
-    "engines": {
-        "node": ">=16",
-        "yarn": ">=1.22"
-    },
     "author": "xu.huang",
     "license": "MIT",
     "peerDependencies": {

@@ -7,19 +7,20 @@
     "author": "xu.huang",
     "license": "MIT",
     "engines": {
-        "node": ">=16",
+        "node": ">=18",
         "yarn": ">=1.22"
     },
     "scripts": {
-        "dev": "yarn client:dev & yarn serve & yarn client:storyBook",
         "client:storyBook": "yarn workspace  @nebula-note/client storybook",
         "client:dev": "yarn workspace  @nebula-note/client dev",
         "client:cypress:run": "yarn workspace @nebula-note/client cyperss:run:component",
-        "serve": "node ./service/index.js",
         "build:client": "yarn workspace  @nebula-note/client tsc && yarn workspace  @nebula-note/client vite build",
-        "build:client:watch": "tsc && vite build -w",
-        "build:pro": "yarn build:client && electron-builder --mac",
-        "start:web": "yarn build:client && yarn start",
+        "build:server": "yarn workspace  @nebula-note/server build",
+        "build:shell": "yarn workspace  @nebula-note/shell build",
+        "build:pro:mac": "yarn build:shell && electron-builder --mac",
+        "build:pro:win": "electron-builder --win",
+        "start:serve": "yarn workspace @nebula-note/server start",
+        "start:web": "yarn build:client && yarn start:serve",
         "prettier:fix": "prettier --write ."
     },
     "dependencies": {
@@ -44,6 +45,7 @@
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.0.1",
         "cypress": "^13.17.0",
+        "electron-builder": "24.13.3",
         "prettier": "^3.4.2",
         "prettier-plugin-svelte": "^3.3.2",
         "svelte": "^5.7.1"

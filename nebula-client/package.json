@@ -17,10 +17,6 @@
     },
     "author": "xu.huang",
     "license": "MIT",
-    "engines": {
-        "node": ">=16",
-        "yarn": ">=1.22"
-    },
     "dependencies": {
         "@nebula-note/redux-hooks": "^1.0.5",
         "@nebula-note/ui": "^1.0.0",

@@ -5,14 +5,10 @@ asar: true
 directories:
     output: dist/
 files:
-    - client/dist/
-    - pro/
-    - service/
-    - utils/
+    - nebula-client/dist/
+    - nebula-shell/dist/
+    - nebula-server/dist/
     - config.json
-    - package.json
-    - node_modules/
-
 mac:
     #  icon: pro/assets/icon.ico
     artifactName: '${productName}-${platform}-${arch}-${version}.${ext}'
