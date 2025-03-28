@@ -139,3 +139,4 @@ dist
 *storybook.log
 
 **/cypress/screenshots
+nebula-ui/storybook-static/
