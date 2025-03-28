@@ -49,3 +49,7 @@ yarn start:dev
 yarn start:pro
 ```
 目前只支持MacOS，Windows版本未处理工具条设计， 效果不太友好。
+
+## 最后
+附一张运行截图，希望大家喜欢。
+![运行截图](https://www.aser1989.cn/poster/nebula_note_poster.png)
