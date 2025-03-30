@@ -11,10 +11,10 @@
         "yarn": ">=1.22"
     },
     "scripts": {
-        "client:storyBook": "yarn workspace  @nebula-note/client storybook",
         "client:dev": "yarn workspace  @nebula-note/client dev",
         "client:cypress:run": "yarn workspace @nebula-note/client cyperss:run:component",
         "build:client": "yarn workspace  @nebula-note/client tsc && yarn workspace  @nebula-note/client vite build",
+        "build:storybook": "yarn workspace  @nebula-note/ui storybook:build",
         "build:server": "yarn workspace  @nebula-note/server build",
         "build:shell": "yarn workspace  @nebula-note/shell build",
         "build:ui": "yarn workspace  @nebula-note/ui build",
