@@ -13,6 +13,7 @@ export type SearchInputProps = InputProps & {
 const SearchInputBase = (props: SearchInputProps, ref: React.Ref<HTMLInputElement>) => {
     const {
         size = 'medium',
+        border,
         onFocus,
         onBlur,
         onClean,
@@ -39,6 +40,7 @@ const SearchInputBase = (props: SearchInputProps, ref: React.Ref<HTMLInputElemen
 
     const classList = classNames('nebula-search-input', size, {
         'search-input--focus': isFocus,
+        'search-input--border': border
     });
     return (
         <div className={classList} data-test-id={dataTestId}>
@@ -48,7 +50,7 @@ const SearchInputBase = (props: SearchInputProps, ref: React.Ref<HTMLInputElemen
                 </StackItem>
                 <StackItem flex>
                     <Input
-                        {..._.omit(props, ['size', 'onClean', 'data-test-id'])}
+                        {..._.omit(props, ['size', 'onClean', 'data-test-id','border'])}
                         ref={ref}
                         type='text'
                         className='search-input'

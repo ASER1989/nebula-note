@@ -10,7 +10,7 @@ export * from './atoms/iconButton';
 export * from './atoms/input';
 export * from './atoms/searchInput';
 export * from './atoms/svgText';
-export * from './atoms/switch';
+export * from './atoms/switchButton';
 export * from './atoms/textarea';
 export * from './molecules/breadcrumb';
 export * from './molecules/card';

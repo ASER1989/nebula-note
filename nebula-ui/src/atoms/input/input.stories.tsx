@@ -40,6 +40,7 @@ const meta = {
         onChange: action('onChange'),
         onFocus: action('onFocus'),
         border: true,
+        size: 'medium',
     },
 } satisfies Meta<typeof Input>;
 

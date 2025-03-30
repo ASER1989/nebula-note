@@ -9,7 +9,7 @@ import useNote from '@client/modules/noteList/useNote';
 import FolderPicker from '@client/modules/settings/folderPicker';
 import { Button } from '@nebula-note/ui';
 import { Dropdown, DropdownOption, Option } from '@nebula-note/ui';
-import { Switch } from '@nebula-note/ui';
+import { SwitchButton } from '@nebula-note/ui';
 import { Form, FormItem } from '@nebula-note/ui';
 import { Section } from '@nebula-note/ui';
 import { Stack, StackItem } from '@nebula-note/ui';
@@ -131,7 +131,7 @@ export default function SystemConfig() {
                                 </Stack>
                             </FormItem>
                             <FormItem label={getText('自动保存')}>
-                                <Switch
+                                <SwitchButton
                                     value={settings?.autoSave ?? false}
                                     onChange={(value) =>
                                         handleSettingsChange('autoSave', value)

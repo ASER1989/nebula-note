@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useArgs } from '@storybook/addons';
+import { useArgs } from '@storybook/preview-api';
 import { Meta, StoryObj } from '@storybook/react';
 import Dropdown, { DropdownProps } from './dropdown';
 import Option from './option';

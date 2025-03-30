@@ -15,7 +15,7 @@ export const Divider = (props: DividerProps) => {
         color = '#777777',
         margin = 0,
         height = '100%',
-        width = '100',
+        width = '100%',
         'data-test-id': dataTestId,
     } = props;
     const style = useMemo(() => {

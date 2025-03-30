@@ -12,7 +12,7 @@ export default {
     decorators: [
         (Story) => {
             return (
-                <div style={{ height: 300 }}>
+                <div style={{ height: 300,overflow: 'hidden',position:'relative' }}>
                     <Story />
                 </div>
             );
@@ -26,7 +26,7 @@ export const Primary: Story = {
         visible: true,
         title: 'Example',
         showTitle: true,
-        children: <div style={{ height: 300, backgroundColor: 'orange' }}></div>,
+        children: <div style={{ height: 300,width:'500px', backgroundColor: 'orange' }}></div>,
     },
     render: (props) => {
         return <SidePage {...props} onVisibleChange={() => (props.visible = false)} />;

@@ -2,7 +2,7 @@ import './index.styl';
 import React from 'react';
 import classNames from 'classnames';
 
-export type SwitchProps = {
+export type SwitchButtonProps = {
     name?: string;
     value: boolean;
     onChange?: (value: boolean) => void;
@@ -13,7 +13,7 @@ export type SwitchProps = {
     ['data-test-id']?: string;
 };
 
-export const Switch = ({
+export const SwitchButton = ({
     name,
     value,
     onChange,
@@ -21,7 +21,7 @@ export const Switch = ({
     className = '',
     size = 'medium',
     'data-test-id': dataTestId,
-}: SwitchProps) => {
+}: SwitchButtonProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange?.(event.target.checked);
     };
@@ -42,4 +42,4 @@ export const Switch = ({
     );
 };
 
-export default Switch;
+export default SwitchButton;
