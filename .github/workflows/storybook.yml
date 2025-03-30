@@ -21,10 +21,10 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-        
+
       - name: Build Project
         run: yarn build:ui
-        
+
       - name: Build Storybook
         run: yarn build:storybook
 
@@ -41,8 +41,8 @@ jobs:
 
       - name: Build and Tag Docker Image
         run: |
-          docker build -t registry.cn-hangzhou.aliyuncs.com/aser/nebula-ui-docs:${{ env.VERSION }} -f ./storybook-docker-file .
-          docker tag registry.cn-hangzhou.aliyuncs.com/aser/aser1989.cn:${{ env.VERSION }} registry.cn-hangzhou.aliyuncs.com/aser/nebula-ui-docs:latest
+          docker build -t registry.cn-hangzhou.aliyuncs.com/aser/nebula-ui-docs:${{ env.VERSION }} -f ./nebula-ui/Dockerfile .
+          docker tag registry.cn-hangzhou.aliyuncs.com/aser/nebula-ui-docs:${{ env.VERSION }} registry.cn-hangzhou.aliyuncs.com/aser/nebula-ui-docs:latest
 
       - name: Push Docker Image
         run: |
