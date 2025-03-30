@@ -21,8 +21,11 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-
+        
       - name: Build Project
+        run: yarn build:ui
+        
+      - name: Build Storybook
         run: yarn build:storybook
 
       - name: Get Version from package.json
