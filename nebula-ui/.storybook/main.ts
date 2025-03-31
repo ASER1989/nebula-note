@@ -30,5 +30,17 @@ const config: StorybookConfig = {
     typescript: {
         reactDocgen: 'react-docgen-typescript',
     },
+    managerHead: (head) => `
+    ${head}
+    <script type="text/javascript" data-code-type="baidu-tracking">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?e670f14fc2538b891651cc1a022f2508";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+  `,
 };
 export default config;
