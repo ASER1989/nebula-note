@@ -36,28 +36,28 @@ spec:
       targetPort: 80 # 发送到 Pod 内部的端口
   type: ClusterIP  # Service 类型（可改为 NodePort 或 LoadBalancer）
 
+
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: nebula-ui-ingress
   namespace: default
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    kubernetes.io/ingress.class: traefik
 spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`ui.aser1989.cn`)
+      kind: Rule
+      services:
+        - name: nebula-ui-service
+          port: 80
+      middlewares:
+        - name: compress-middleware
+        # - name: cache-control
   tls:
-    - hosts:
-        - ui.aser1989.cn
-      secretName: nebula-ui-cert
-  rules:
-    - host: ui.aser1989.cn
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nebula-ui-service
-                port:
-                  number: 80
+    secretName: nebula-ui-cert
