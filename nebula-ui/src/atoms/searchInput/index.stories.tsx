@@ -3,14 +3,14 @@ import type { SearchInputProps } from './index';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
-import Input from './index';
+import SearchInput from './index';
 
 // import {expect} from '@storybook/jest';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
     title: 'Atoms/SearchInput',
-    component: Input,
+    component: SearchInput,
     parameters: {
         // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
         layout: 'centered',
@@ -42,10 +42,11 @@ const meta = {
         onFocus: action('onFocus'),
         border: true,
     },
-} satisfies Meta<typeof Input>;
+    includeStories: ['Primary'],
+} satisfies Meta<typeof SearchInput>;
 
 export default meta;
-type Story = StoryObj<typeof Input>;
+type Story = StoryObj<typeof SearchInput>;
 
 export const Primary: Story = {
     render: (args: SearchInputProps) => {
@@ -62,10 +63,16 @@ export const Primary: Story = {
             setValue(newVal);
             onChange?.(newVal, e);
         };
+
+        const handleClean = () => {
+            setValue('');
+            onChange?.('');
+        };
+
         return (
             <div>
                 <p>Try to changing the value or property</p>
-                <Input
+                <SearchInput
                     onChange={handleChange}
                     value={value}
                     border={border}
@@ -73,6 +80,7 @@ export const Primary: Story = {
                     size={size}
                     placeholder={placeholder}
                     onFocus={onFocus}
+                    onClean={handleClean}
                 />
             </div>
         );
