@@ -3,6 +3,13 @@ import '../src/index.styl';
 
 const preview: Preview = {
   parameters: {
+    backgrounds: {
+      default: 'light',
+      values: [
+        { name: 'light', value: '#ffffff' },
+      ],
+    },
+
     controls: {
       matchers: {
        color: /(background|color)$/i,
