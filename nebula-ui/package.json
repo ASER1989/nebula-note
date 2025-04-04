@@ -34,6 +34,7 @@
     "@storybook/addon-interactions": "^8.6.11",
     "@storybook/addon-mdx-gfm": "^8.6.11",
     "@storybook/addon-onboarding": "^8.6.11",
+    "@storybook/addon-docs": "^8.6.12",
     "@storybook/blocks": "^8.6.11",
     "@storybook/react": "^8.6.11",
     "@storybook/react-vite": "^8.6.11",
