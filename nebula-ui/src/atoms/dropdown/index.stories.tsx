@@ -95,8 +95,57 @@ export default {
         docs: {
             description: {
                 component:
-                    'An interesting dropdown component that supports keyword filtering, coloring, and other features. Simple and easy to use.',
+                    '这是一个有趣的下拉组件，不仅支持关键词搜索和匹配高亮，还具备多个尺寸及诸多特性，设计简洁，使用起来也非常便捷。',
             },
+            source: {
+                code: `
+// import { Dropdown } from 'nebula-ui';
+
+   const enableTags= [
+            {
+                tag: 'two',
+                color: '#ff0000',
+            },
+            {
+                tag: 'four',
+                color: 'orange',
+            }
+        ];
+
+   const options = [{
+          value: '1',
+          label: 'Option one',
+          keyword: '1'
+        }, {
+          value: '2',
+          label: 'Option two',
+          keyword: '2'
+        }, {
+          value: '3',
+          label: 'Option three',
+          keyword: '3'
+        }, {
+          value: '4',
+          label: 'Option four',
+          keyword: '4'
+        }];
+  
+    const handleSearch = (keyword?: string) => {
+      if (keyword) {
+        const newOptions = options.filter(option => option.label?.includes(keyword));
+        updateArgs({
+          options: newOptions
+        });
+      } else {
+        updateArgs({
+          options: options
+        });
+      }
+    };
+    
+    return <Dropdown enableTags={enableTags} options={options} onSearch={handleSearch} />;
+                `,
+            }
         },
     },
     decorators: [
