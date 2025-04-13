@@ -118,10 +118,10 @@ export const Secondary: Story = {
                     >
                         <Form>
                             <FormItem label='姓名'>
-                                <Input placeholder='Name' />
+                                <Input placeholder='请输入您的姓名' />
                             </FormItem>
                             <FormItem label='城市'>
-                                <Input placeholder='Name' />
+                                <Input placeholder='请输入您的城市' />
                             </FormItem>
                             <FormItem>
                                 <Stack justify={'center'} spacing={20}>
