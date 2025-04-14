@@ -24,11 +24,3 @@ jobs:
 
       - name: Build Electron App
         run: yarn run build:pro:win
-
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: electron-windows-build
-          path: |
-            dist/ # 修改为你打包后文件所在的目录
-            !**/*.map # 可选：忽略 source map 文件等
