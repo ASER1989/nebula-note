@@ -1,0 +1,34 @@
+name: Electron Build for Windows
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # 你可以根据项目需要修改版本
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Electron App
+        run: npm run build:pro:win
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-windows-build
+          path: |
+            nebula-shell/dist/ # 修改为你打包后文件所在的目录
+            !**/*.map # 可选：忽略 source map 文件等
