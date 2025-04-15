@@ -3,11 +3,11 @@
     "private": true,
     "version": "1.0.0",
     "description": "It refers to a tool to optimize efficiency ",
-    "main": "pro/main.js",
+    "main": "nebula-shell/dist/main.js",
     "author": "xu.huang",
     "license": "MIT",
     "engines": {
-        "node": ">=18",
+        "node": ">=20",
         "yarn": ">=1.22"
     },
     "scripts": {
@@ -18,8 +18,10 @@
         "build:server": "yarn workspace  @nebula-note/server build",
         "build:shell": "yarn workspace  @nebula-note/shell build",
         "build:ui": "yarn workspace  @nebula-note/ui build",
-        "build:pro:mac": "yarn build:ui && yarn build:client && yarn build:server && yarn build:shell && electron-builder --mac",
-        "build:pro:win": "yarn build:ui && yarn build:client && yarn build:server && yarn build:shell && electron-builder --win",
+        "build:sync": "yarn build:ui && yarn build:client && yarn build:server && yarn build:shell",
+        "build:pro:mac": "yarn build:sync && node build/start.js --mac",
+        "build:pro:win": "yarn build:sync && node build/start.js --win",
+        "package:nobuild": "node build/build.js --win",
         "start:serve": "yarn workspace @nebula-note/server start",
         "start:dev": "yarn build:ui && yarn start:serve && client:dev",
         "start:pro": "yarn build:ui && yarn build:client && yarn workspace @nebula-note/shell start",
@@ -47,7 +49,7 @@
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.0.1",
         "cypress": "^13.17.0",
-        "electron-builder": "24.13.3",
+        "electron-builder": "^26.0.12",
         "prettier": "^3.4.2",
         "prettier-plugin-svelte": "^3.3.2",
         "svelte": "^5.7.1"

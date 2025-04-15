@@ -1,26 +1,25 @@
 appId: Nebula Note
 productName: Nebula Note
-
 asar: true
 directories:
     output: dist/
 files:
-    - nebula-client/dist/
     - nebula-shell/dist/
-    - nebula-server/dist/
     - config.json
+extraResources:
+    - nebula-client/dist/
 mac:
-    #  icon: pro/assets/icon.ico
+    icon: nebula-shell/assets/icon_512.ico
     artifactName: '${productName}-${platform}-${arch}-${version}.${ext}'
     darkModeSupport: true
     target: dmg
 dmg:
-    icon: pro/assets/icon.ico
+    icon: nebula-shell/assets/icon.ico
     iconSize: 128
 
 win:
     artifactName: ${name}-${version}-windows-${arch}.${ext}
-    icon: pro/assets/icon.ico
+    icon: nebula-shell/assets/icon.ico
     target:
         - target: nsis
 
@@ -28,3 +27,4 @@ nsis:
     artifactName: ${name}-${version}-windows-${arch}-nsis-installer.${ext}
     oneClick: false
     perMachine: false
+
