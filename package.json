@@ -21,7 +21,7 @@
         "build:sync": "yarn build:ui && yarn build:client && yarn build:server && yarn build:shell",
         "build:pro:mac": "yarn build:sync && node build/start.js --mac",
         "build:pro:win": "yarn build:sync && node build/start.js --win",
-        "package:nobuild": "node build/build.js --win",
+        "package:nobuild": "node build/start.js --mac",
         "start:serve": "yarn workspace @nebula-note/server start",
         "start:dev": "yarn build:ui && yarn start:serve && client:dev",
         "start:pro": "yarn build:ui && yarn build:client && yarn workspace @nebula-note/shell start",

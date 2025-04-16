@@ -9,17 +9,17 @@ files:
 extraResources:
     - nebula-client/dist/
 mac:
-    icon: nebula-shell/assets/icon_512.ico
+    icon: nebula-shell/assets/mac512.ico
     artifactName: '${productName}-${platform}-${arch}-${version}.${ext}'
     darkModeSupport: true
     target: dmg
 dmg:
-    icon: nebula-shell/assets/icon.ico
-    iconSize: 128
+    icon: nebula-shell/assets/mac512.ico
+    iconSize: 256
 
 win:
     artifactName: ${name}-${version}-windows-${arch}.${ext}
-    icon: nebula-shell/assets/icon.ico
+    icon: nebula-shell/assets/mac512.ico
     target:
         - target: nsis
 

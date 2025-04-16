@@ -19,7 +19,7 @@
         "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-node-resolve": "^16.0.0",
         "@types/node": "^22.10.5",
-        "electron": "^33.2.1",
+        "electron": "35.1.1",
         "rollup": "^4.30.0",
         "rollup-plugin-typescript2": "^0.36.0",
         "typescript": "^5.7.2"
