@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNotification } from '@client/components/notificationBox';
+import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
 import { usePermissions } from '@client/models/permissions/usePermissions';
-import useSettings from '@client/models/settingsModel/useSettings';
 import { BuildResult } from '@client/modules/noteList/buildReuslt';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import { queryErrorMessage } from '@client/utils/queries';
@@ -17,19 +17,18 @@ export const NoteList = () => {
     const { showNotice } = useNotification();
     const { state, getStateSync, setNoteSaved, setCreateFormShown } = useNote();
     const { isReadonly } = usePermissions();
-    const { settings } = useSettings();
+    const { getText } = useLocalization();
 
     const handleSave = async () => {
-        console.log('settings', settings, isReadonly);
         if (isReadonly) {
-            if (!settings?.autoSave) {
-                showNotice({
-                    content:
-                        '当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版',
-                    type: 'info',
-                    duration: 500000,
-                });
-            }
+            console.log('isReadonly');
+            showNotice({
+                content: getText(
+                    '当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版',
+                ),
+                type: 'info',
+                duration: 500000,
+            });
             return;
         }
         try {

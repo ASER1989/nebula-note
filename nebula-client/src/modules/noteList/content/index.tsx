@@ -5,6 +5,7 @@ import CodeEditor from '@client/components/codeEditor';
 import MarkdownEditor from '@client/components/markdownEditor';
 import { useMessage } from '@client/components/messageBox';
 import { useLocalization } from '@client/localizations/useLocalization';
+import { usePermissions } from '@client/models/permissions/usePermissions';
 import useSettings from '@client/models/settingsModel/useSettings';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
 import ShortcutKeys from '@client/modules/shortcutKeys';
@@ -24,10 +25,12 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     const { settings } = useSettings();
     const { getText } = useLocalization();
     const { showMessage } = useMessage();
+    const { isReadonly } = usePermissions();
     const [titleFocus, setTitleFocus] = useState(false);
     const autoSaveInterceptor = useDebounce(() => onSave?.(), 500, 3000);
+
     const interceptorHandle = () => {
-        if (settings?.autoSave) {
+        if (settings?.autoSave && !isReadonly) {
             autoSaveInterceptor();
         }
     };

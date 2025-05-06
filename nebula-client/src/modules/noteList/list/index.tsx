@@ -5,6 +5,7 @@ import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
 import * as noteApi from '@client/models/noteModel/api';
 import { NoteRecord } from '@client/models/noteModel/types';
+import { usePermissions } from '@client/models/permissions/usePermissions';
 import { StateName as BuildResultStateName } from '@client/modules/noteList/buildReuslt/constants';
 import {
     BuildResultState,
@@ -32,6 +33,7 @@ export const List = ({ state, onSave }: Props) => {
     const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
     const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
+    const { isReadonly } = usePermissions();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
         BuildResultStateName,
         {
@@ -60,6 +62,22 @@ export const List = ({ state, onSave }: Props) => {
         if (state?.note?.filePath === noteRecord.filePath) {
             return;
         }
+
+        if (isReadonly && state?.editStatus === 'Edited') {
+            showConfirm({
+                content: getText('当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版'),
+                confirmText: getText('留在当前页'),
+                cancelText: getText('继续'),
+                callback: (confirm) => {
+                    if (confirm) {
+                        return;
+                    }
+                    handleChangeSelectedItem(noteRecord);
+                },
+            });
+            return;
+        }
+
         if (state?.editStatus === 'Edited') {
             return showConfirm({
                 content: getText('当前模板尚未保存，是否保存？'),
