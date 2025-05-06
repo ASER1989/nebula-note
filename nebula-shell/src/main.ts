@@ -1,4 +1,4 @@
-import { BrowserWindow, app, dialog, ipcMain } from 'electron';
+import { BrowserWindow, app, dialog, ipcMain,Menu} from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as server from '../../nebula-server/dist';
@@ -33,6 +33,7 @@ function createWindow(): void {
         icon: path.join(__dirname, 'assets/icon.ico'),
     });
 
+    Menu.setApplicationMenu(null);
     // and load the index.html of the app.
     mainWindow.loadURL('http://localhost:3816/');
 
