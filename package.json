@@ -11,7 +11,7 @@
         "yarn": ">=1.22"
     },
     "scripts": {
-        "client:dev": "yarn workspace  @nebula-note/client dev",
+        "client:dev": "yarn workspace @nebula-note/client dev",
         "client:cypress:run": "yarn workspace @nebula-note/client cyperss:run:component",
         "build:client": "yarn workspace  @nebula-note/client tsc && yarn workspace  @nebula-note/client vite build",
         "build:storybook": "yarn workspace  @nebula-note/ui storybook:build",
@@ -23,7 +23,7 @@
         "build:pro:win": "yarn build:sync && node build/start.js --win",
         "package:nobuild": "node build/start.js --mac",
         "start:serve": "yarn workspace @nebula-note/server start",
-        "start:dev": "yarn build:ui && yarn start:serve && client:dev",
+        "start:dev": "(yarn build:ui && yarn start:serve) & yarn client:dev",
         "start:pro": "yarn build:ui && yarn build:client && yarn workspace @nebula-note/shell start",
         "prettier:fix": "prettier --write ."
     },
