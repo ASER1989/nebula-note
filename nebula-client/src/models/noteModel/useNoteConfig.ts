@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useNotification } from '@client/components/notificationBox';
+import { useLocalization } from '@client/localizations/useLocalization';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
@@ -21,13 +22,20 @@ export interface IUseNoteConfig {
 
 const REDUX_KEY = 'noteConfigState';
 let isInitialized = false;
-const useNoteConfig: () => IUseNoteConfig = () => {
+const useNoteConfig = () => {
     const { showNotice } = useNotification();
+    const { getText } = useLocalization();
+
     const { state, setState, updateState } = useRedux<NoteConfigState>(REDUX_KEY, {
         fetchStatus: 'None',
         noteList: [],
     });
     const { noteList, keyword, fetchStatus } = state;
+
+    const getErrorContent = (ex: unknown) => {
+        const content = queryErrorMessage(ex);
+        return getText(content);
+    };
     const setKeyword = (keyword?: string) => {
         updateState({ keyword });
     };
@@ -44,7 +52,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
             setState({ noteList: resp.data });
             setFetchStatus('Success');
         } catch (ex) {
-            const content = queryErrorMessage(ex);
+            const content = getErrorContent(ex);
             setFetchStatus('Error');
             showNotice({ content, type: 'error' });
         }
@@ -57,12 +65,12 @@ const useNoteConfig: () => IUseNoteConfig = () => {
     const create = async (newRecord: NoteRecord) => {
         try {
             if (isNoteExist(newRecord.name)) {
-                showNotice({ content: '该名称已存在，请更换名称', type: 'error'});
+                showNotice({ content: '该名称已存在，请更换名称', type: 'error' });
                 return;
             }
             return await noteUpsert(newRecord);
         } catch (ex) {
-            const content = queryErrorMessage(ex);
+            const content = getErrorContent(ex);
             showNotice({ content, type: 'error' });
         }
     };
@@ -75,15 +83,20 @@ const useNoteConfig: () => IUseNoteConfig = () => {
             const resp = await noteRename(name, newName);
             return resp.data;
         } catch (ex) {
-            const content = queryErrorMessage(ex);
+            const content = getErrorContent(ex);
             showNotice({ content, type: 'error' });
         }
     };
 
     const remove = async (name: string) => {
-        const result = await noteRemove(name);
-        await reload();
-        return result;
+        try {
+            const resp = await noteRemove(name);
+            await reload();
+            return resp;
+        } catch (ex) {
+            const content = getErrorContent(ex);
+            showNotice({ content, type: 'error' });
+        }
     };
 
     const isNoteExist = (templateName: string) => {
@@ -119,7 +132,7 @@ const useNoteConfig: () => IUseNoteConfig = () => {
         remove,
         setKeyword,
         isNoteExist,
-    };
+    } as IUseNoteConfig;
 };
 
 export default useNoteConfig;

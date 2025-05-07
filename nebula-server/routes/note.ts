@@ -4,6 +4,7 @@ import _ from 'lodash';
 import templateStore from '../../utils/note-utils/store';
 import {Context} from 'koa';
 import './types';
+import {useReadonly} from "../utils/middlewares/permission";
 
 export default (prefix: string) => {
   const router = new Router({prefix});
@@ -12,7 +13,7 @@ export default (prefix: string) => {
     return await templateUtils.getConfig();
   });
 
-  router.post('/upsert', async (ctx: Context) => {
+  router.post('/upsert', useReadonly, async (ctx: Context) => {
     const reqParams = <Note.NoteRecord>ctx.request.body;
     const {name} = reqParams;
     const templateConfigs: Note.NoteRecord[] = (await templateUtils.getConfig()) ?? [];
@@ -101,7 +102,7 @@ export default (prefix: string) => {
   });
 
 
-  router.post('/remove', async (ctx: Context) => {
+  router.post('/remove', useReadonly, async (ctx: Context) => {
     const {name} = <{ name: string }>ctx.request.body;
     const templateConfigs: Note.NoteRecord[] = (await templateUtils.getConfig()) ?? [];
     const configIndex = templateConfigs.findIndex((item) => item.name === name);
@@ -119,7 +120,7 @@ export default (prefix: string) => {
 
   });
 
-  router.post('/rename', async (ctx: Context) => {
+  router.post('/rename', useReadonly, async (ctx: Context) => {
     const {name, newName} = <{ name: string, newName: string }>ctx.request.body;
     if (!Boolean(newName)) {
       return new Error('名称不能为空');

@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+WORKDIR /app
+
+COPY package*.json ./
+
+COPY ./nebula-server/dist ./nebula-server/dist
+COPY ./nebula-client/dist ./nebula-client/dist
+
+
+# 默认环境变量
+ENV NODE_ENV=production
+ENV PORT=3816
+
+USER appuser
+
+EXPOSE $PORT
+
+# 启动服务（假设入口文件为 index.js）
+CMD ["node", "./nebula-server/dist/index.js"]

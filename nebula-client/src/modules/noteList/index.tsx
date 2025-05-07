@@ -21,13 +21,12 @@ export const NoteList = () => {
 
     const handleSave = async () => {
         if (isReadonly) {
-            console.log('isReadonly');
             showNotice({
                 content: getText(
                     '当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版',
                 ),
                 type: 'info',
-                duration: 500000,
+                duration: 30000,
             });
             return;
         }
