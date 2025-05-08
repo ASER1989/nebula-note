@@ -2,9 +2,9 @@ const path = require('path');
 
 const userFolderPath = process.env.HOME || process.env.USERPROFILE;
 
-const userConfigPath = path.join(userFolderPath, 'Nebula/config.json');
+const userConfigPath = userFolderPath;
 
-const defaultDataSource = path.join(userFolderPath, 'Nebula/Notes');
+const defaultDataSource = userFolderPath;
 
 module.exports = {
     userConfigPath,

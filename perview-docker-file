@@ -2,17 +2,20 @@ FROM node:20-alpine
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
+RUN mkdir -p /data/nebula-note && chown appuser:appgroup /data/nebula-note
+
+
 WORKDIR /app
-
-COPY package*.json ./
-
 COPY ./nebula-server/dist ./nebula-server/dist
+COPY ./nebula-server/package.json ./nebula-server/dist/package.json
+COPY ./config.json ./nebula-server/config.json
 COPY ./nebula-client/dist ./nebula-client/dist
-
 
 # 默认环境变量
 ENV NODE_ENV=production
 ENV PORT=3816
+ENV IS_READONLY=true
+ENV HOME=/data/nebula-note
 
 USER appuser
 

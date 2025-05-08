@@ -27,5 +27,6 @@
     "名称不能为空": "Name cannot be empty",
     "当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版": "Currently in preview mode, content cannot be saved, if you want to experience the full function, please download and install the desktop version",
     "继续": "Continue",
-    "留在当前页": "Stay on this page"
+    "留在当前页": "Stay on this page",
+    "预览版": "Preview"
 }

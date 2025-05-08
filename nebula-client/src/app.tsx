@@ -16,6 +16,7 @@ import {
     useNotificationContext,
 } from '@client/components/notificationBox';
 import { useLocalization } from '@client/localizations/useLocalization';
+import { usePermissions } from '@client/models/permissions/usePermissions';
 import { NoteStatus } from '@client/modules/noteList/noteStatus';
 import Settings from '@client/modules/settings';
 import routeConfig from '@client/routeConfig';
@@ -33,6 +34,7 @@ function App() {
     const confirmContextValue = useConfirmContext();
     const [settingsVisible, setSettingsVisible] = useState(false);
     const { layoutCssVariables } = useShell();
+    const { isReadonly } = usePermissions();
 
     const routes = useRoutes(routeConfig);
 
@@ -59,7 +61,10 @@ function App() {
                         </div>
                         <div className='app_layout_footer'>
                             <div className='app_layout_footer_copyright'>
-                                <div>Nebula Note v{packageConfig.version}</div>
+                                <div>
+                                    Nebula Note v{packageConfig.version}{' '}
+                                    {isReadonly && getText('预览版')}
+                                </div>
                                 <div>aser1989.cn&copy;2024</div>
                             </div>
                             <div className='app_layout_footer_operation'>

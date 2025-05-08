@@ -33,7 +33,7 @@ const getConfig = async () => {
     }
     await reloadConfig();
 
-    return _config;
+    return _config ?? [];
 };
 
 const updateConfig = async (config) => {

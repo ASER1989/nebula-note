@@ -2,8 +2,9 @@ import Router from '@koa/router';
 import * as fs from 'fs';
 import * as path from 'path';
 import {Context} from 'koa';
+import * as process from "node:process";
 
-const __dirname = (process as unknown as any)['resourcesPath'] ?? path.join(path.resolve(), '../');
+const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
 
 type MIMETypeMap = {
   [key: string]: string;
