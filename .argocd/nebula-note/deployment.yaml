@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nebula-note
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nebula-note
+  template:
+    metadata:
+      labels:
+        app: nebula-note
+    spec:
+      containers:
+        - name:  nebula-note
+          image: registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: aliyun-registry-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nebula-note-service
+  namespace: default
+spec:
+  selector:
+    app: nebula-note  # 选择匹配 Deployment 中的标签
+  ports:
+    - protocol: TCP
+      port: 80       # Service 暴露的端口
+      targetPort: 80 # 发送到 Pod 内部的端口
+  type: ClusterIP  # Service 类型（可改为 NodePort 或 LoadBalancer）
+
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nebula-note-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`nebula.aser1989.cn`)
+      kind: Rule
+      services:
+        - name: nebula-note-service
+          port: 80
+      middlewares:
+        - name: compress-middleware
+        # - name: cache-control
+  tls:
+    secretName: nebula-note-cert
