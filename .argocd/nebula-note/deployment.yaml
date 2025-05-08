@@ -18,6 +18,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          env:
+            - name: IS_READONLY
+              value: "true"
       imagePullSecrets:
         - name: aliyun-registry-secret
 
