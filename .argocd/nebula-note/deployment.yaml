@@ -21,6 +21,8 @@ spec:
           env:
             - name: IS_READONLY
               value: "true"
+            - name: PORT
+              value: "80"
       imagePullSecrets:
         - name: aliyun-registry-secret
 
