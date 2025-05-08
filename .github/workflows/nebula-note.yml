@@ -1,0 +1,54 @@
+name: Build and Push Nebula-Note Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Project
+        run: yarn build:ui
+
+      - name: Build Client
+        run: yarn build:client
+
+      - name: Build Server
+        run: yarn build:server
+
+      - name: Get Version from package.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Package Version: $VERSION"
+
+      - name: Log in to Aliyun Docker Registry
+        run: |
+          echo "${{ secrets.ALIYUN_DOCKER_PASSWORD }}" | docker login registry.cn-hangzhou.aliyuncs.com -u "${{ secrets.ALIYUN_DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build and Tag Docker Image
+        run: |
+          docker build -t registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }} -f ./perview-docker-file .
+          docker tag registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }} registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+
+      - name: Push Docker Image
+        run: |
+          docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }}
+          docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+          
