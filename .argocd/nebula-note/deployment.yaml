@@ -51,6 +51,29 @@ spec:
 
 ---
 
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nebula-note-cert
+  namespace: default
+spec:
+  secretName: nebula-note-cert  # Traefik 会用这个 secret 提供 HTTPS
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: note.aser1989.cn
+  dnsNames:
+    - note.aser1989.cn
+  usages:
+    - digital signature
+    - key encipherment
+  privateKey:
+    algorithm: RSA
+    size: 2048
+
+
+---
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -72,6 +95,4 @@ spec:
         - name: compress-middleware
         # - name: cache-control
   tls:
-    - hosts:
-      - note.aser1989.cn
-      secretName: nebula-note-cert
+    secretName: nebula-note-cert
