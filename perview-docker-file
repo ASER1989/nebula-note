@@ -15,7 +15,7 @@ COPY ./nebula-client/dist ./nebula-client/dist
 ENV NODE_ENV=production
 ENV PORT=3816
 ENV IS_READONLY=true
-ENV HOME=/data/nebula-note
+ENV HOME=/data/nebula-note/nebula-note-store
 
 USER appuser
 

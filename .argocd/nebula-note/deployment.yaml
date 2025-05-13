@@ -23,6 +23,13 @@ spec:
               value: "true"
             - name: PORT
               value: "80"
+          volumeMounts:
+            - name: store
+              mountPath: /data/nebula-note
+      volumes:
+        - name: store
+          persistentVolumeClaim:
+            claimName: nebula-note-pvc
       imagePullSecrets:
         - name: aliyun-registry-secret
 
@@ -56,7 +63,7 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`nebula.aser1989.cn`)
+    - match: Host(`note.aser1989.cn`)
       kind: Rule
       services:
         - name: nebula-note-service
