@@ -72,4 +72,6 @@ spec:
         - name: compress-middleware
         # - name: cache-control
   tls:
+    - hosts:
+        - note.aser1989.cn
     secretName: nebula-note-cert
