@@ -73,5 +73,5 @@ spec:
         # - name: cache-control
   tls:
     - hosts:
-        - note.aser1989.cn
-    secretName: nebula-note-cert
+      - note.aser1989.cn
+      secretName: nebula-note-cert
