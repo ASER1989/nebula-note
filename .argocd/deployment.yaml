@@ -58,6 +58,6 @@ spec:
           port: 80
       middlewares:
         - name: compress-middleware
-        # - name: cache-control
+        - name: cache-control
   tls:
     secretName: nebula-ui-cert

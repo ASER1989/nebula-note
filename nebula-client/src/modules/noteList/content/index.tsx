@@ -160,6 +160,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         >
                             <CodeEditor
                                 value={snippet?.content ?? ''}
+                                lang={snippet?.language}
                                 onChange={_.partial(handleContentChange, _, index)}
                                 onLangChange={_.partial(handleCodeLangChange, _, index)}
                             />
