@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {Context} from 'koa';
 import * as process from "node:process";
+import * as mime from 'mime-types';
 
 const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
 
@@ -42,32 +43,38 @@ export default (prefix: string) => {
 
   });
 
-  router.get('assets/:sourcePath+', (ctx: Context) => {
-    const {sourcePath}: { sourcePath: string } = ctx.params;
-  
-    const responseMIMEType = resolveMIMEType(sourcePath);
-    if (responseMIMEType) {
-      ctx.type = responseMIMEType;
-    }
-    
-    const acceptEncodings:Array<string> = ctx.acceptsEncodings();
-    const acceptEncoding = acceptEncodings.includes('br')?'br': acceptEncodings.includes('gzip')?'gzip':'';
-    if (["gzip","br"].includes(acceptEncoding)) {
-        const compressFilePath = path.resolve(
-          __dirname,
-          `nebula-client/dist/assets/${sourcePath}.${acceptEncoding}`,
-        );
-      if(fs.existsSync(compressFilePath)){
-          ctx.set('Content-Encoding', acceptEncoding);
-          ctx.body = fs.readFileSync(compressFilePath);
+  router.get('/assets/(.*)', async (ctx: Context) => {
+    const sourcePath = ctx.params[0];
+    const absBase = path.resolve(__dirname, 'nebula-client/dist/assets');
+
+    const fullPath = path.join(absBase, sourcePath);
+    const mimeType = mime.lookup(sourcePath);
+
+    if (mimeType) ctx.type = mimeType
+    ctx.set('Vary', 'Accept-Encoding');
+
+    const acceptEncoding = ctx.acceptsEncodings('br', 'gzip', 'identity');
+    const tryCompressed = async (ext: string, encoding: string) => {
+      const compressedPath = `${fullPath}.${ext}`;
+      if (fs.existsSync(compressedPath)) {
+        ctx.set('Content-Encoding', encoding);
+        ctx.body = fs.createReadStream(compressedPath);
+        return true
       }
+      return false
     }
-    
-    const sourceFilePath = path.resolve(
-      __dirname,
-      `nebula-client/dist/assets/${sourcePath}`,
-    );
-    ctx.body = fs.readFileSync(sourceFilePath);
+
+    // 优先返回 brotli 或 gzip 文件
+    if (acceptEncoding === 'br' && await tryCompressed('br', 'br')) return
+    if (acceptEncoding === 'gzip' && await tryCompressed('gz', 'gzip')) return
+
+    // 返回原始文件
+    if (fs.existsSync(fullPath)) {
+      ctx.body = fs.createReadStream(fullPath)
+    } else {
+      ctx.status = 404
+      ctx.body = 'Not Found'
+    }
   });
 
   return router.routes();
