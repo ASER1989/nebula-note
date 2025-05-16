@@ -51,7 +51,7 @@ export default (prefix: string) => {
     }
     
     const acceptEncodings:Array<string> = ctx.acceptsEncodings();
-    const acceptEncoding = acceptEncodings.includes('br')?'br': acceptEncodings.includes('gzip')?'gzip':null;
+    const acceptEncoding = acceptEncodings.includes('br')?'br': acceptEncodings.includes('gzip')?'gzip':'';
     if (["gzip","br"].includes(acceptEncoding)) {
         const compressFilePath = path.resolve(
           __dirname,
