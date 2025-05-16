@@ -13,10 +13,6 @@ export const setDefaultResponseType: () => Middleware = () => {
 export const formatResponse: () => Middleware = () => {
     return async function (ctx: Context, next: Next) {
         try {
-            if (ctx.path.startsWith('/assets')) {
-                next();
-                return;
-            }
             const result = await next();
             if (ctx.body instanceof Error) {
                 ctx.body = respModel(null, ctx.body.message);

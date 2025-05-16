@@ -39,8 +39,8 @@ export default (prefix: string) => {
         ctx.body = htmlFile;
     });
 
-    router.get('/assets/(.*)', async (ctx: Context) => {
-        const sourcePath = ctx.params[0];
+    router.get('assets/:sourcePath+', async (ctx: Context) => {
+        const {sourcePath}: { sourcePath: string } = ctx.params;
         const absBase = path.resolve(__dirname, 'nebula-client/dist/assets');
 
         const fullPath = path.join(absBase, sourcePath);
