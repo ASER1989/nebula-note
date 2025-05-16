@@ -44,16 +44,27 @@ export default (prefix: string) => {
 
   router.get('assets/:sourcePath+', (ctx: Context) => {
     const {sourcePath}: { sourcePath: string } = ctx.params;
-    const sourceFilePath = path.resolve(
-      __dirname,
-      `nebula-client/dist/assets/${sourcePath}`,
-    );
-    const sourceFile = fs.readFileSync(sourceFilePath);
+    const acceptEncoding = ctx.acceptsEncodings('br', 'gzip', 'identity');
+
     const responseMIMEType = resolveMIMEType(sourcePath);
     if (responseMIMEType) {
       ctx.type = responseMIMEType;
     }
-    ctx.body = sourceFile;
+    
+    if (acceptEncoding === 'br') {
+        const brPath = path.resolve(
+          __dirname,
+          `nebula-client/dist/assets/${sourcePath}.br`,
+        );
+      if(fs.existsSync(brPath)){
+          ctx.body = fs.readFileSync(brPath);
+      }
+    }
+    const sourceFilePath = path.resolve(
+      __dirname,
+      `nebula-client/dist/assets/${sourcePath}`,
+    );
+    ctx.body = fs.readFileSync(sourceFilePath);
   });
 
   return router.routes();
