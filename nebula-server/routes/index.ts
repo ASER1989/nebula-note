@@ -51,15 +51,17 @@ export default (prefix: string) => {
       ctx.type = responseMIMEType;
     }
     
-    if (acceptEncoding === 'br') {
-        const brPath = path.resolve(
+    if (["gzip","br"].includes(acceptEncoding)) {
+        const compressFilePath = path.resolve(
           __dirname,
-          `nebula-client/dist/assets/${sourcePath}.br`,
+          `nebula-client/dist/assets/${sourcePath}.${acceptEncoding}`,
         );
-      if(fs.existsSync(brPath)){
-          ctx.body = fs.readFileSync(brPath);
+      if(fs.existsSync(compressFilePath)){
+          ctx.set('Content-Encoding', acceptEncoding);
+          ctx.body = fs.readFileSync(compressFilePath);
       }
     }
+    
     const sourceFilePath = path.resolve(
       __dirname,
       `nebula-client/dist/assets/${sourcePath}`,
