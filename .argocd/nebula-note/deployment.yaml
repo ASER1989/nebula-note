@@ -93,6 +93,6 @@ spec:
           port: 80
       middlewares:
         - name: cache-control
-        #- name: compress-middleware
+        - name: compress-middleware
   tls:
     secretName: nebula-note-cert
