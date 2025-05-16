@@ -44,13 +44,14 @@ export default (prefix: string) => {
 
   router.get('assets/:sourcePath+', (ctx: Context) => {
     const {sourcePath}: { sourcePath: string } = ctx.params;
-    const acceptEncoding = ctx.acceptsEncodings('br', 'gzip', 'identity');
-
+  
     const responseMIMEType = resolveMIMEType(sourcePath);
     if (responseMIMEType) {
       ctx.type = responseMIMEType;
     }
     
+    const acceptEncodings:Array<string> = ctx.acceptsEncodings();
+    const acceptEncoding = acceptEncodings.includes('br')?'br': acceptEncodings.includes('gzip')?'gzip':null;
     if (["gzip","br"].includes(acceptEncoding)) {
         const compressFilePath = path.resolve(
           __dirname,
