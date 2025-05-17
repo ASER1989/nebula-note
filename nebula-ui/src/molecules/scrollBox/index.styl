@@ -1,45 +1,47 @@
 .nebula-scroll-box
-  width 100%
-  overflow hidden
-  position relative
-  white-space nowrap
   display flex
-  --scroll-box-scrollable-left 0
-  --scroll-box-scrollable-right 0
-  --scroll-box-scorllable-shadow rgba(255, 255, 255, 0.35)
+  width 100%
+  position relative
 
-  &.dark
-    --scroll-box-scorllable-shadow rgba(0, 0, 0, 0.35)
-
-  &:before, &:after
-    content ''
+  .scroll-box-nav
+    width 20px
+    cursor pointer
+    display flex
+    align-items center
+    position absolute
     top 0
     bottom 0
-    width 36px
-    position absolute
-    z-index 1
-    transition opacity .3s
-    pointer-events none
+    opacity 0.3
+    background-color #000000
+    &:hover
+      opacity 1
+      background-color transparent
+    &.prev
+      justify-content flex-start
+      left 0
+      border-top-right-radius 2px
 
-  &:before
-    left 0
-    opacity var(--scroll-box-scrollable-left)
-    box-shadow inset 8px 0 8px -8px var(--scroll-box-scorllable-shadow)
+    &.next
+      justify-content flex-end
+      right 0
 
-  &:after
-    right 0
-    opacity var(--scroll-box-scrollable-right)
-    box-shadow inset -8px 0 8px -8px var(--scroll-box-scorllable-shadow)
-
-  &.scrollable-left
-    --scroll-box-scrollable-left 1
-
-  &.scrollable-right
-    --scroll-box-scrollable-right 1
-
-  .scroll-box-content
-    display inline-flex
-    transition transform 0.3s cubic-bezier(0.28, 0.58, 0.5, 1.08)
+  .nebula-scroll-box-content
+    width 100%
+    overflow hidden
     position relative
+    white-space nowrap
+    display flex
+    flex 1
+    --scroll-box-scrollable-left 0
+    --scroll-box-scrollable-right 0
+    --scroll-box-scorllable-shadow rgba(255, 255, 255, 0.35)
+
+    &.dark
+      --scroll-box-scorllable-shadow rgba(0, 0, 0, 0.35)
+
+    .scroll-box-content
+      display inline-flex
+      transition transform 0.3s cubic-bezier(0.28, 0.58, 0.5, 1.08)
+      position relative
 
 

@@ -18,6 +18,7 @@
             "@ui/*": ["./src/*"]
         }
     },
+    "type": "module",
     "include": ["src"],
     "exclude": ["node_modules", "dist"]
 }
