@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNotification } from '@client/components/notificationBox';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { useNoteConfig } from '@client/models/noteModel';
@@ -15,10 +15,32 @@ import { List } from './list';
 export const NoteList = () => {
     const { reload } = useNoteConfig();
     const { showNotice } = useNotification();
-    const { state, getStateSync, setNoteSaved, setCreateFormShown } = useNote();
+    const { state, getStateSync, setNoteSaved, setCreateFormShown, setFetchStatus } =
+        useNote();
     const { isReadonly } = usePermissions();
     const { getText } = useLocalization();
 
+    const isWaitingToSave = useRef(false);
+    const saveAction = async () => {
+        try {
+            const syncState = getStateSync();
+            if (syncState.fetchStatus === 'Pending') {
+                isWaitingToSave.current = true;
+                return;
+            }
+            setFetchStatus('Pending');
+
+            const resp = await noteApi.noteUpsert(syncState.note);
+            setNoteSaved({ version: resp.data });
+            setFetchStatus('Success');
+            if (isWaitingToSave.current) {
+                isWaitingToSave.current = false;
+                await saveAction();
+            }
+        } catch (ex) {
+            showNotice({ content: queryErrorMessage(ex), type: 'error' });
+        }
+    };
     const handleSave = async () => {
         if (isReadonly) {
             showNotice({
@@ -30,14 +52,7 @@ export const NoteList = () => {
             });
             return;
         }
-        try {
-            const syncState = getStateSync();
-            const resp = await noteApi.noteUpsert(syncState.note);
-            setNoteSaved({ version: resp.data });
-            await reload();
-        } catch (ex) {
-            showNotice({ content: queryErrorMessage(ex), type: 'error' });
-        }
+        await saveAction();
     };
 
     const handleCreateDialogClose = async (success?: boolean) => {
