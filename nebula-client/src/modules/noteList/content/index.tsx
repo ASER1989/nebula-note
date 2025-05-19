@@ -16,6 +16,7 @@ import { TabOption, TabPane, Tabs } from '@nebula-note/ui';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPencilLine } from 'react-icons/lu';
+import Empty from './empty';
 
 export type Props = {
     state: NoteState;
@@ -122,6 +123,11 @@ export const Content: FC<Props> = ({ state, onSave }) => {
             </div>
         );
     };
+
+    if (!state.note.name) {
+        return <Empty />;
+    }
+    
     return (
         <ShortcutKeys onSave={onSave}>
             <Tabs
