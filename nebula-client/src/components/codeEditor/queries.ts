@@ -4,11 +4,16 @@ export const SupportedLang = [
     'jsx',
     'json',
     'tsx',
+    'vue',
     'javascript',
-    'markdown',
     'typescript',
+    'java',
+    'csharp',
+    'markdown',
     'html',
     'yaml',
+    'shell',
+    'mysql'
 ] as const;
 
 export const getLangOptions = (): Array<

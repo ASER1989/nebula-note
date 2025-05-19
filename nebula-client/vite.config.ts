@@ -31,7 +31,7 @@ export default defineConfig(({ command, mode }) => {
         plugins: [
             react(),
             compression({
-                algorithm: 'gzip', 
+                algorithm: 'gzip',
                 ext: '.gz',
                 threshold: 1024,
                 deleteOriginFile: false,
@@ -44,19 +44,18 @@ export default defineConfig(({ command, mode }) => {
         build: {
             rollupOptions: {
                 input: ['./index.html'],
+                output: {
+                    manualChunks(id) {
+                        if (id.includes('codemirror')) return 'codemirror';
+                        if (id.includes('@uiw')) return 'codemirror';
+                        if (id.includes('lodash')) return 'lodash';
+                        return null;
+                    },
+                },
             },
             outDir: 'dist',
             sourcemap: command === 'serve',
             minify: mode === 'production' ? 'terser' : false,
-            // terserOptions: {
-            //     format: {
-            //         comments: false,
-            //     },
-            //     compress: {
-            //         drop_console: true,
-            //         drop_debugger: true,
-            //     },
-            // },
         },
     };
 });
