@@ -19,7 +19,7 @@ export const noteStoreUpdate = () => {
     return request.get('/note/store/update');
 };
 
-export const noteUpsert = (postData: NoteRecord) => {
+export const noteUpsert = (postData: NoteRecord & { replace?: boolean }) => {
     return request.post<number>('/note/upsert', postData);
 };
 

@@ -11,8 +11,8 @@ export const useDebounce = (callback: Function, wait: number, maxWait?: number) 
         }
         clearTimeout(timerRef.current);
         timerRef.current = setTimeout(() => {
-            startTimeRef.current = undefined;
             callback();
+            startTimeRef.current = undefined;
         }, wait);
     };
 };

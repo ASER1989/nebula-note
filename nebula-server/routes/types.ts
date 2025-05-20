@@ -13,6 +13,10 @@ namespace Note {
         meta?: string;
         templateList?: Array<TemplateRecord>;
     };
+
+    export type NoteRecordReq = NoteRecord & {
+        replace?: boolean;
+    }
 }
 namespace System {
     export type Settings = {

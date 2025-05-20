@@ -1,7 +1,7 @@
 import { Context, Next } from 'koa';
 import { IS_READONLY } from '../../config';
 
-export const useReadonly = async (ctx: Context, next: Next) => {
+export const useReadonly = (ctx: Context, next: Next) => {
     if (IS_READONLY) {
         ctx.status = 400;
         ctx.body = new Error(
@@ -10,5 +10,5 @@ export const useReadonly = async (ctx: Context, next: Next) => {
         return;
     }
 
-    await next();
+    return next();
 };

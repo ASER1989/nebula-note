@@ -1,12 +1,8 @@
-import React, { useRef } from 'react';
-import { useNotification } from '@client/components/notificationBox';
-import { useLocalization } from '@client/localizations/useLocalization';
+import React from 'react';
 import { useNoteConfig } from '@client/models/noteModel';
-import * as noteApi from '@client/models/noteModel/api';
-import { usePermissions } from '@client/models/permissions/usePermissions';
 import { BuildResult } from '@client/modules/noteList/buildReuslt';
 import useNote, { NoteState } from '@client/modules/noteList/useNote';
-import { queryErrorMessage } from '@client/utils/queries';
+import useNoteController from '@client/modules/noteList/useNoteController';
 import { SplitPanel } from '@nebula-note/ui';
 import { Content } from './content';
 import CreateForm from './createForm';
@@ -14,45 +10,11 @@ import { List } from './list';
 
 export const NoteList = () => {
     const { reload } = useNoteConfig();
-    const { showNotice } = useNotification();
-    const { state, getStateSync, setNoteSaved, setCreateFormShown, setFetchStatus } =
-        useNote();
-    const { isReadonly } = usePermissions();
-    const { getText } = useLocalization();
+    const { state, setCreateFormShown } = useNote();
+    const { onSave } = useNoteController();
 
-    const isWaitingToSave = useRef(false);
-    const saveAction = async () => {
-        try {
-            const syncState = getStateSync();
-            if (syncState.fetchStatus === 'Pending') {
-                isWaitingToSave.current = true;
-                return;
-            }
-            setFetchStatus('Pending');
-
-            const resp = await noteApi.noteUpsert(syncState.note);
-            setNoteSaved({ version: resp.data });
-            setFetchStatus('Success');
-            if (isWaitingToSave.current) {
-                isWaitingToSave.current = false;
-                await saveAction();
-            }
-        } catch (ex) {
-            showNotice({ content: queryErrorMessage(ex), type: 'error' });
-        }
-    };
     const handleSave = async () => {
-        if (isReadonly) {
-            showNotice({
-                content: getText(
-                    '当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版',
-                ),
-                type: 'info',
-                duration: 30000,
-            });
-            return;
-        }
-        await saveAction();
+        await onSave();
     };
 
     const handleCreateDialogClose = async (success?: boolean) => {

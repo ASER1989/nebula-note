@@ -14,7 +14,7 @@ export default (prefix: string) => {
   });
 
   router.post('/upsert', useReadonly, async (ctx: Context) => {
-    const reqParams = <Note.NoteRecord>ctx.request.body;
+    const reqParams = <Note.NoteRecordReq>ctx.request.body;
     const {name} = reqParams;
     const templateConfigs: Note.NoteRecord[] = (await templateUtils.getConfig()) ?? [];
     const configIndex = templateConfigs.findIndex((item) => item.name === name);
@@ -28,7 +28,7 @@ export default (prefix: string) => {
 
     const reqDataVersion = reqParams.version ?? 0;
     const dataVersion = configOption?.version ?? 0;
-    if (configOption && dataVersion > reqDataVersion) {
+    if (configOption && dataVersion > reqDataVersion && !reqParams.replace) {
       ctx.status = 400;
       ctx.body = new Error('版本号不一致');
       return;
