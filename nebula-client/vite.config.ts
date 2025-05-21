@@ -65,6 +65,7 @@ export default defineConfig(({ command, mode }) => {
                 output: {
                     manualChunks(id) {
                         if (id.includes('@codemirror/lang-')) return 'codemirror-lang';
+                        if (id.includes('toast-ui')) return 'toast-ui';
                         if (id.includes('codemirror')) return 'codemirror';
                         if (id.includes('@uiw')) return 'codemirror';
                         if (id.includes('lodash')) return 'lodash';
@@ -73,8 +74,7 @@ export default defineConfig(({ command, mode }) => {
                 },
             },
             outDir: 'dist',
-            // sourcemap: command === 'serve',
-            sourcemap: true,
+            sourcemap: command === 'serve',
             minify: mode === 'production' ? 'terser' : false,
         },
     };
