@@ -45,24 +45,29 @@ export default defineConfig(({ command, mode }) => {
         build: {
             rollupOptions: {
                 input: ['./index.html'],
-                external: (id) => {
-                    if (id.includes('@codemirror/lang-')) {
-                        const match = id.match(/node_modules\/@codemirror\/lang-([^/]+)/);
+                // external: (id) => {
+                //     if (id.includes('@codemirror')) {
+                //         console.log('extrnal @codemirror/lang', id);
+                //     }
 
-                        if (match) {
-                            const lang = match[1];
-                            if (!SupportedLang.includes(lang as unknown as any)) {
-                                console.log('extrnal @codemirror/lang', lang);
-                                return true;
-                            }
-                        }
-                    }
-                },
+                //     if (id.includes('@codemirror/lang-')) {
+                //         const match = id.match(/node_modules\/@codemirror\/lang-([^/]+)/);
+
+                //         if (match) {
+                //             const lang = match[1];
+                //             if (!SupportedLang.includes(lang as unknown as any)) {
+                //                 console.log('extrnal @codemirror/lang', lang);
+                //                 return true;
+                //             }
+                //         }
+                //     }
+                // },
                 output: {
                     manualChunks(id) {
                         if (id.includes('codemirror')) return 'codemirror';
                         if (id.includes('@uiw')) return 'codemirror';
                         if (id.includes('lodash')) return 'lodash';
+                         if (id.includes('@codemirror/lang-')) return 'codemirror-lang';
                         return null;
                     },
                 },
