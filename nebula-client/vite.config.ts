@@ -49,6 +49,7 @@ export default defineConfig(({ command, mode }) => {
                         if (id.includes('codemirror')) return 'codemirror';
                         if (id.includes('@uiw')) return 'codemirror';
                         if (id.includes('lodash')) return 'lodash';
+                        if (id.includes('react')) return 'react';
                         return null;
                     },
                 },
