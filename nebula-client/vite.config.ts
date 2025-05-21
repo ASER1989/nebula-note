@@ -46,10 +46,10 @@ export default defineConfig(({ command, mode }) => {
                 input: ['./index.html'],
                 output: {
                     manualChunks(id) {
-                        console.log("manualChunks",id)
                         if (id.includes('codemirror')) return 'codemirror';
-                        if (id.includes('lodash')) return 'lodash';
-                        if (id.includes('src')) return 'index';
+                        if (id.includes('@uiw')) return 'codemirror';
+                        if (id.includes('lodash')) return 'lodash'; 
+                        if (id.includes('src')) return 'index'; 
                         return null;
                     },
                 },
