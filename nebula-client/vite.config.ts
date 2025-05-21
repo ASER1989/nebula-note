@@ -2,6 +2,7 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import compression from 'vite-plugin-compression';
+import { SupportedLang } from './src/components/codeEditor/queries';
 
 const path = require('path');
 
@@ -44,18 +45,31 @@ export default defineConfig(({ command, mode }) => {
         build: {
             rollupOptions: {
                 input: ['./index.html'],
+                external: (id) => {
+                    if (id.includes('@codemirror/lang-')) {
+                        const match = id.match(/node_modules\/@codemirror\/lang-([^/]+)/);
+
+                        if (match) {
+                            const lang = match[1];
+                            if (!SupportedLang.includes(lang as unknown as any)) {
+                                console.log('extrnal @codemirror/lang', lang);
+                                return true;
+                            }
+                        }
+                    }
+                },
                 output: {
                     manualChunks(id) {
                         if (id.includes('codemirror')) return 'codemirror';
                         if (id.includes('@uiw')) return 'codemirror';
-                        if (id.includes('lodash')) return 'lodash'; 
-                        if (id.includes('src')) return 'index'; 
+                        if (id.includes('lodash')) return 'lodash';
                         return null;
                     },
                 },
             },
             outDir: 'dist',
-            sourcemap: command === 'serve',
+            // sourcemap: command === 'serve',
+            sourcemap: true,
             minify: mode === 'production' ? 'terser' : false,
         },
     };
