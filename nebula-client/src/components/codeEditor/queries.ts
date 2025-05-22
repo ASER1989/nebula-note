@@ -7,8 +7,6 @@ export const SupportedLang = [
     'vue',
     'javascript',
     'typescript',
-    'java',
-    'csharp',
     'markdown',
     'html',
     'yaml',

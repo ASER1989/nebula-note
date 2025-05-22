@@ -2,6 +2,8 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import compression from 'vite-plugin-compression';
+import removeLangsPlugin from './vite_plugins/removeLangsPlugin';
+import removeLangDatasPlugin from './vite_plugins/removeLangDatasPlugin';
 import { SupportedLang } from './src/components/codeEditor/queries';
 
 const path = require('path');
@@ -30,6 +32,8 @@ export default defineConfig(({ command, mode }) => {
             hmr: true,
         },
         plugins: [
+            removeLangsPlugin(SupportedLang as unknown as Array<string>),
+            removeLangDatasPlugin(SupportedLang as unknown as Array<string>),
             react(),
             compression({
                 algorithm: 'gzip',
@@ -45,23 +49,6 @@ export default defineConfig(({ command, mode }) => {
         build: {
             rollupOptions: {
                 input: ['./index.html'],
-                // external: (id) => {
-                //     if (id.includes('@codemirror')) {
-                //         console.log('extrnal @codemirror/lang', id);
-                //     }
-
-                //     if (id.includes('@codemirror/lang-')) {
-                //         const match = id.match(/node_modules\/@codemirror\/lang-([^/]+)/);
-
-                //         if (match) {
-                //             const lang = match[1];
-                //             if (!SupportedLang.includes(lang as unknown as any)) {
-                //                 console.log('extrnal @codemirror/lang', lang);
-                //                 return true;
-                //             }
-                //         }
-                //     }
-                // },
                 output: {
                     manualChunks(id) {
                         if (id.includes('toast-ui')) return 'toast-ui';
@@ -73,7 +60,7 @@ export default defineConfig(({ command, mode }) => {
                 },
             },
             outDir: 'dist',
-            sourcemap: command === 'serve',
+            ourcemap: command === 'serve',
             minify: mode === 'production' ? 'terser' : false,
         },
     };
