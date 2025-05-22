@@ -18,6 +18,8 @@
     "author": "xu.huang",
     "license": "MIT",
     "dependencies": {
+        "@babel/parser": "^7.27.2",
+        "@babel/traverse": "^7.27.1",
         "@nebula-note/redux-hooks": "^1.0.5",
         "@reduxjs/toolkit": "^2.3.0",
         "@toast-ui/react-editor": "^3.2.3",
