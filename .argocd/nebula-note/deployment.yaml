@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nebula-note
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: nebula-note
