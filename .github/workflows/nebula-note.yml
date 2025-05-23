@@ -44,11 +44,11 @@ jobs:
 
       - name: Build and Tag Docker Image
         run: |
-          docker build -t registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.GITHUB_RUN_ID }} -f ./perview-docker-file .
-          docker tag registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.GITHUB_RUN_ID }} registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+          docker build -t registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }} -f ./perview-docker-file .
+          docker tag registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }} registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
 
       - name: Push Docker Image
         run: |
-          docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.GITHUB_RUN_ID }}
+          docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }}
           docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
           
