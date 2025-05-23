@@ -5,27 +5,18 @@ import * as mime from 'mime-types';
 import * as process from 'node:process';
 import * as path from 'path';
 
+const LRU = require('lru-cache');
+
 const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
+const memoryCache = new LRU({ max: 10 });
 
-type MIMETypeMap = {
-    [key: string]: string;
-};
-
-const MIMEType: MIMETypeMap = {
-    js: 'application/javascript',
-    css: 'text/css',
-};
-
-const resolveMIMEType = (fileName: string): string | undefined => {
-    const isJs = /\.js$/.test(fileName);
-    if (isJs) {
-        return MIMEType.js;
+const getStaticAssets = (filePath: string) => {
+    if (memoryCache.has(filePath)) {
+        return memoryCache.get(filePath);
     }
-
-    const isCss = /\.css$/.test(fileName);
-    if (isCss) {
-        return MIMEType.css;
-    }
+    const content = fs.readFileSync(filePath);
+    memoryCache.set(filePath, content);
+    return content;
 };
 
 export default (prefix: string) => {
@@ -40,7 +31,7 @@ export default (prefix: string) => {
     });
 
     router.get('assets/:sourcePath+', async (ctx: Context) => {
-        const {sourcePath}: { sourcePath: string } = ctx.params;
+        const { sourcePath }: { sourcePath: string } = ctx.params;
         const absBase = path.resolve(__dirname, 'nebula-client/dist/assets');
 
         const fullPath = path.join(absBase, sourcePath);
@@ -54,7 +45,7 @@ export default (prefix: string) => {
             const compressedPath = `${fullPath}.${ext}`;
             if (fs.existsSync(compressedPath)) {
                 ctx.set('Content-Encoding', encoding);
-                ctx.body = fs.createReadStream(compressedPath);
+                ctx.body = getStaticAssets(compressedPath);
                 return true;
             }
             return false;
@@ -67,7 +58,7 @@ export default (prefix: string) => {
 
         // 返回原始文件
         if (fs.existsSync(fullPath)) {
-            ctx.body = fs.createReadStream(fullPath);
+            ctx.body = getStaticAssets(fullPath);
         } else {
             ctx.status = 404;
             ctx.body = 'Not Found';
