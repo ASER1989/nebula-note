@@ -1,14 +1,13 @@
 import Router from '@koa/router';
 import * as fs from 'fs';
 import { Context } from 'koa';
+import { LRUCache } from 'lru-cache'
 import * as mime from 'mime-types';
 import * as process from 'node:process';
 import * as path from 'path';
 
-const LRU = require('lru-cache');
-
 const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
-const memoryCache = new LRU({ max: 10 });
+const memoryCache = new LRUCache({ max: 10 });
 
 const getStaticAssets = (filePath: string) => {
     if (memoryCache.has(filePath)) {
