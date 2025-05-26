@@ -49,15 +49,15 @@ export default defineConfig(({ command, mode }) => {
         build: {
             rollupOptions: {
                 input: ['./index.html'],
-                output: {
-                    manualChunks(id) {
-                        if (id.includes('toast-ui')) return 'toast-ui';
-                        if (id.includes('codemirror')) return 'codemirror';
-                        if (id.includes('@uiw')) return 'codemirror';
-                        if (id.includes('lodash')) return 'lodash';
-                        return null;
-                    },
-                },
+                // output: {
+                //     manualChunks(id) {
+                //         if (id.includes('toast-ui')) return 'toast-ui';
+                //         if (id.includes('codemirror')) return 'codemirror';
+                //         if (id.includes('@uiw')) return 'codemirror';
+                //         if (id.includes('lodash')) return 'lodash';
+                //         return null;
+                //     },
+                // },
             },
             outDir: 'dist',
             ourcemap: command === 'serve',
