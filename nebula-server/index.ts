@@ -1,15 +1,16 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
+import { useRequestTime } from './utils/middlewares/requestTime';
+import { PORT } from './config';
 import commonRoute from './routes/common';
 import indexRoute from './routes/index';
 import noteRoute from './routes/note';
 import settingsRoute from './routes/settings';
 import sliceRoute from './routes/slice';
 import { formatResponse, setDefaultResponseType } from './utils/middlewares';
-import {PORT} from "./config";
 
 const app = new Koa();
-
+app.use(useRequestTime);
 app.use(
     bodyParser({
         formLimit: '30mb',
