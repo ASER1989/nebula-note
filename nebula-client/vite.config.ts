@@ -2,9 +2,9 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import compression from 'vite-plugin-compression';
-import removeLangsPlugin from './vite_plugins/removeLangsPlugin';
-import removeLangDatasPlugin from './vite_plugins/removeLangDatasPlugin';
 import { SupportedLang } from './src/components/codeEditor/queries';
+import removeLangDatasPlugin from './vite_plugins/removeLangDatasPlugin';
+import removeLangsPlugin from './vite_plugins/removeLangsPlugin';
 
 const path = require('path');
 
@@ -49,18 +49,9 @@ export default defineConfig(({ command, mode }) => {
         build: {
             rollupOptions: {
                 input: ['./index.html'],
-                // output: {
-                //     manualChunks(id) {
-                //         if (id.includes('toast-ui')) return 'toast-ui';
-                //         if (id.includes('codemirror')) return 'codemirror';
-                //         if (id.includes('@uiw')) return 'codemirror';
-                //         if (id.includes('lodash')) return 'lodash';
-                //         return null;
-                //     },
-                // },
             },
             outDir: 'dist',
-            ourcemap: command === 'serve',
+            sourcemap: command === 'serve',
             minify: mode === 'production' ? 'terser' : false,
         },
     };

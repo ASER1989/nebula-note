@@ -16,9 +16,6 @@ export default function removeLangsPlugin(includeList: string[]): Plugin {
         enforce: 'pre',
 
         transform(code: string, id: string) {
-            if(id.includes('codemirror')){
-                console.log(id);
-            }
             if (!id.includes('codemirror-extensions-langs')) return;
 
             const ast = parse(code, {
