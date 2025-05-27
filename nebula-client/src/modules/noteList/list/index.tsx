@@ -21,6 +21,7 @@ import { Stack, StackItem } from '@nebula-note/ui';
 import { useParams } from 'react-router-dom';
 import { Header } from './header';
 import { ListItem } from './item';
+import { contentTabIdQuery } from '../queries';
 
 type Props = {
     state: NoteState;
@@ -42,7 +43,7 @@ export const List = ({ state, onSave }: Props) => {
         },
     );
 
-    const { navigateNoteName } = useParams();
+    const { navigateNoteName, navigateTabName } = useParams();
     useEffect(() => {
         if (fetchStatus === 'Success' && navigateNoteName) {
             const targetNote = noteList.find(
@@ -50,6 +51,16 @@ export const List = ({ state, onSave }: Props) => {
             );
             if (targetNote) {
                 handleChangeSelectedItem(targetNote);
+            }
+            if (navigateTabName) {
+                const tabIndex =
+                    targetNote?.templateList?.findIndex(
+                        (item) => item.title === navigateTabName,
+                    ) ?? -1;
+                if (tabIndex >= 0) {
+                    const tableId = contentTabIdQuery(tabIndex);
+                    actions.setActiveProperty(tableId);
+                }
             }
         }
     }, [fetchStatus]);
@@ -65,7 +76,9 @@ export const List = ({ state, onSave }: Props) => {
 
         if (isReadonly && state?.editStatus === 'Edited') {
             showConfirm({
-                content: getText('当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版'),
+                content: getText(
+                    '当前为预览模式，内容无法保存，如需体验完整功能请下载安装桌面版',
+                ),
                 confirmText: getText('留在当前页'),
                 cancelText: getText('继续'),
                 callback: (confirm) => {

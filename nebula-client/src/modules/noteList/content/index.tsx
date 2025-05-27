@@ -16,6 +16,7 @@ import { TabOption, TabPane, Tabs } from '@nebula-note/ui';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPencilLine } from 'react-icons/lu';
+import { contentTabIdQuery } from '../queries';
 import Empty from './empty';
 
 export type Props = {
@@ -55,14 +56,16 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     };
     const handleAddTemplate = async () => {
         actions.addTemplate({ title: '' });
-        handleTabChange(`code_${state.note?.templateList?.length ?? 0}`);
+        const tabId = contentTabIdQuery(state.note?.templateList?.length ?? 0);
+        handleTabChange(tabId);
         setTitleFocus(true);
     };
     const handleRemoveTemplate = (index: number) => {
         actions.removeTemplate(index);
         const templateCount = state.note?.templateList?.length ?? 0;
         const nextIndex = index === templateCount - 1 ? index - 1 : index;
-        handleTabChange(index === 0 ? 'meta' : `code_${nextIndex}`);
+        const tabId = contentTabIdQuery(nextIndex);
+        handleTabChange(index === 0 ? 'meta' : tabId);
         setTitleFocus(false);
     };
 
@@ -127,7 +130,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     if (!state.note.name) {
         return <Empty />;
     }
-    
+
     return (
         <ShortcutKeys onSave={onSave}>
             <Tabs
@@ -159,8 +162,8 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                 {
                     (state?.note?.templateList ?? []).map((snippet, index) => (
                         <TabPane
-                            id={`code_${index}`}
-                            key={`code_${index}`}
+                            id={contentTabIdQuery(index)}
+                            key={contentTabIdQuery(index)}
                             title={snippet.title}
                             onRemoveClick={() => handleRemoveTemplate(index)}
                         >

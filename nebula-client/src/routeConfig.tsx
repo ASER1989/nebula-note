@@ -6,7 +6,7 @@ import NoteList from './modules/noteList';
 type RouteConfig = RouteObject & { label: string };
 
 const NOTE_LIST: RouteConfig = {
-    path: '/:navigateNoteName?',
+    path: '/:navigateNoteName?/:navigateTabName?',
     element: <NoteList />,
     label: '首页',
 };
