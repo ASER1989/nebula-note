@@ -13,7 +13,7 @@ export default defineConfig(({ command, mode }) => {
     console.log('command:', command, mode);
     return {
         root: './',
-        base: './',
+        base: '/',
         resolve: {
             alias: {
                 '@client': path.resolve(__dirname, './src'),
