@@ -1,4 +1,5 @@
 import Koa from 'koa';
+import historyApiFallback from 'koa2-connect-history-api-fallback';
 import bodyParser from 'koa-bodyparser';
 import { PORT } from './config';
 import commonRoute from './routes/common';
@@ -7,12 +8,15 @@ import noteRoute from './routes/note';
 import settingsRoute from './routes/settings';
 import sliceRoute from './routes/slice';
 import { formatResponse, setDefaultResponseType } from './utils/middlewares';
-import historyApiFallback from 'koa2-connect-history-api-fallback';
 import { useRequestTime } from './utils/middlewares/requestTime';
 
 const app = new Koa();
 app.use(
-    historyApiFallback({ whiteList: ['/api', '/assets', 'favicon.ico'], index: '/' }),
+    historyApiFallback({
+        whiteList: ['/api', '/assets', 'favicon.ico'],
+        index: '/',
+        disableDotRule: true,
+    }),
 );
 app.use(useRequestTime);
 app.use(
