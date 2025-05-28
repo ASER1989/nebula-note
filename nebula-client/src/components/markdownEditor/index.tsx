@@ -1,15 +1,14 @@
 import React, { Suspense, lazy } from 'react';
+import type { MarkdownEditorProps } from './tui';
 import SuspenseLoading from '@client/components/suspenseLoading';
-import type { Props as IProps } from './codeMirror';
 
-const Editor = lazy(() => import('./codeMirror'));
+const Editor = lazy(() => import('./tui'));
 
-export type Props = IProps;
-const CodeEditor = (props: IProps) => {
+const MarkdownEditor = (props: MarkdownEditorProps) => {
     return (
         <Suspense fallback={<SuspenseLoading />}>
             <Editor {...props} />
         </Suspense>
     );
 };
-export default CodeEditor;
+export default MarkdownEditor;

@@ -1,0 +1,52 @@
+.suspense-loading
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 300px
+
+    .loading-animation-box
+        --animation-path-width: 300px
+        width var(--animation-path-width)
+        position relative
+
+        &:after
+            content: 'Loading ...'
+            position absolute
+            left: 50%
+            transform: translateX(-50%)
+            top: -20px
+            color: #777
+            font-size: 15px
+            z-index: 1
+
+        .animation-path
+            height: 1px
+            background: #aaaaaa
+            overflow: hidden
+            position: relative
+            flex: 1
+            margin-top:-10px; 
+
+            &:before
+                content: ""
+                position: absolute
+                left: 0
+                top: 50%
+                transform: translateY(-50%)
+                width 3px
+                height: @width
+                border-radius: @width
+                background: #FFFFFF
+                box-shadow: 0 0 0 1px #ffffff
+                will-change: transform
+                animation: suspense-loading-animation 2s infinite ease-in-out
+            
+
+@keyframes suspense-loading-animation {
+    from {
+        transform: translateX(0)
+    }
+    to {
+        transform: translateX(var(--animation-path-width))
+    }
+}

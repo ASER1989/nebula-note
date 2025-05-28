@@ -5,7 +5,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import classNames from 'classnames';
 
-interface MarkdownEditorProps {
+export interface MarkdownEditorProps {
     children?: string;
     id: string;
     isLoading: boolean;
