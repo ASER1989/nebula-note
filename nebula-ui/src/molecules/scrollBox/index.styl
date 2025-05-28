@@ -2,6 +2,7 @@
   display flex
   width 100%
   position relative
+  --pagination-color var(--content-head-bg)
 
   .scroll-box-nav
     width 20px
@@ -13,9 +14,10 @@
     bottom 0
     opacity 0.3
     background-color #000000
+
     &:hover
       opacity 1
-      background-color transparent
+      background-color var(--pagination-color)
     &.prev
       justify-content flex-start
       left 0
