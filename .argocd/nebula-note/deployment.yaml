@@ -15,6 +15,10 @@ spec:
       containers:
         - name:  nebula-note
           image: registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+          resources:
+            requests:
+              cpu: "5m"
+              memory: "64Mi"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
