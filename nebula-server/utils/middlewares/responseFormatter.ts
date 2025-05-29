@@ -1,16 +1,7 @@
-import { Context, Next } from 'koa';
+import { Context, Middleware, Next } from 'koa';
 import respModel from '../responseModel';
 
-type Middleware = (ctx: Context, next: Next) => Promise<void>;
-
-export const setDefaultResponseType: () => Middleware = () => {
-    return async function (ctx: Context, next: Next) {
-        ctx.type = 'text/json';
-        await next();
-    };
-};
-
-export const formatResponse: () => Middleware = () => {
+export const useResponseFormatter: () => Middleware = () => {
     return async function (ctx: Context, next: Next) {
         try {
             const result = await next();
