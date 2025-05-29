@@ -3,6 +3,10 @@ import respModel from '../responseModel';
 
 export const useResponseFormatter: () => Middleware = () => {
     return async function (ctx: Context, next: Next) {
+        if (!/\/api\//.test(ctx.path)) {
+            return await next();
+        }
+        
         try {
             const result = await next();
             if (ctx.body instanceof Error) {
