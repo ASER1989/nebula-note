@@ -65,14 +65,14 @@ function App() {
                                     Nebula Note v{packageConfig.version}{' '}
                                     {isReadonly && getText('预览版')}
                                 </div>
-                                {isReadonly && (
-                                    <div>
-                                        <a href='https://github.com/ASER1989/nebula-note/releases'>
-                                            {getText('下载')}
-                                        </a>
-                                    </div>
-                                )}
                                 <div>aser1989.cn&copy;2024</div>
+                                {isReadonly && (
+                                  <div>
+                                      <a href='https://github.com/ASER1989/nebula-note/releases'>
+                                          {getText('下载')}
+                                      </a>
+                                  </div>
+                                )}
                             </div>
                             <div className='app_layout_footer_operation'>
                                 <NoteStatus />
