@@ -10,14 +10,14 @@ import noteRoute from './routes/note';
 import settingsRoute from './routes/settings';
 import sliceRoute from './routes/slice';
 import { useDefaultResponseType } from './utils/middlewares/defaultResponseType';
+import { useRequestLog } from './utils/middlewares/requestLog';
 import { useRequestTime } from './utils/middlewares/requestTime';
 import { useResponseFormatter } from './utils/middlewares/responseFormatter';
-import { useRequestLog } from './utils/middlewares/requestLog';
 
 const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
 const htmlFilePath = path.resolve(
     __dirname,
-    process.env.MODE === 'dev' ? '..' : '',
+    (process as unknown as any)['resourcesPath'] ? '.' : '..',
     'nebula-client/dist',
 );
 
@@ -38,7 +38,18 @@ app.use(
     }),
 );
 
-app.use(serve(htmlFilePath, { gzip: true, brotli: true, maxage: 72000000 }));
+app.use(
+    serve(htmlFilePath, {
+        gzip: true,
+        brotli: true,
+        maxage: 72000000,
+        setHeaders: (res, path) => {
+            if(path.endsWith('.html')){
+                res.setHeader('Cache-Control', 'no-cache');
+            }
+        },
+    }),
+);
 app.use(useDefaultResponseType());
 app.use(useResponseFormatter());
 app.use(sliceRoute('/api/slice'));

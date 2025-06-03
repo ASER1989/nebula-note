@@ -1,4 +1,4 @@
-import { BrowserWindow, app, dialog, ipcMain,Menu} from 'electron';
+import { BrowserWindow, Menu, app, dialog, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as server from '../../nebula-server/dist';
@@ -24,7 +24,7 @@ function createWindow(): void {
             preload: path.join(__dirname, 'preload.cjs'),
             nodeIntegration: false,
         },
-        titleBarStyle: 'hidden',
+        titleBarStyle: IS_MAC_OS ? 'hidden' : 'default',
         titleBarOverlay: {
             color: '#213547',
             symbolColor: '#74b1be',
