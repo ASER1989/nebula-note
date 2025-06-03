@@ -7,7 +7,8 @@
     "type": "module",
     "scripts": {
         "build": "rollup -c",
-        "start": "yarn build && MODE=dev node dist/index.js"
+        "start": "yarn build && node dist/index.js",
+        "start:nobuild":"node dist/index.js"
     },
     "author": "xu.huang",
     "license": "MIT",
