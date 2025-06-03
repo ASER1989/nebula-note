@@ -20,6 +20,6 @@ ENV HOME=/data/nebula-note/nebula-note-store
 USER appuser
 
 EXPOSE $PORT
-
-# 启动服务（假设入口文件为 index.js）
-CMD ["node", "./nebula-server/dist/index.js"]
+WORKDIR /app/nebula-server
+# 启动服务
+CMD ["node", "./dist/index.js"]
