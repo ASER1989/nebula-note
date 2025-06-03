@@ -47,7 +47,6 @@ app.use(
             if(path.endsWith('.html')){
                 res.setHeader('Cache-Control', 'no-cache');
             }
-            console.log(path);
         },
     }),
 );
