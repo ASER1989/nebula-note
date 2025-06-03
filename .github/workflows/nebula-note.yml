@@ -59,7 +59,7 @@ jobs:
       
       - name: Authenticate with GitHub
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/ASER1989/nebula-note.git
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PATH_PUBLIC }}@github.com/ASER1989/nebula-note.git
       
       - name: Update deployment.yaml
         run: |
