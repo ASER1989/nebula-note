@@ -1,7 +1,7 @@
 {
     "name": "nebula-note",
     "private": true,
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "It refers to a tool to optimize efficiency ",
     "main": "nebula-shell/dist/main.js",
     "author": "xu.huang",
