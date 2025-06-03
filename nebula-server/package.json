@@ -1,14 +1,14 @@
 {
     "name": "@nebula-note/server",
     "private": true,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
     "main": "index.js",
     "type": "module",
     "scripts": {
         "build": "rollup -c",
         "start": "yarn build && node dist/index.js",
-        "start:nobuild":"node dist/index.js"
+        "start:nobuild": "node dist/index.js"
     },
     "author": "xu.huang",
     "license": "MIT",

@@ -25,7 +25,8 @@
         "start:serve": "yarn workspace @nebula-note/server start",
         "start:dev": "(yarn build:ui && yarn start:serve) & yarn client:dev",
         "start:pro": "yarn build:ui && yarn build:client && yarn workspace @nebula-note/shell start",
-        "prettier:fix": "prettier --write ."
+        "prettier:fix": "prettier --write .",
+        "changeset:update": "changeset && changeset version"
     },
     "dependencies": {
         "@koa/router": "^13.1.0",
@@ -47,6 +48,7 @@
         "./nebula-shell"
     ],
     "devDependencies": {
+        "@changesets/cli": "^2.29.4",
         "@trivago/prettier-plugin-sort-imports": "^5.0.1",
         "cypress": "^13.17.0",
         "electron-builder": "^26.0.12",

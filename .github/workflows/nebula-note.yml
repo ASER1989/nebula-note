@@ -34,7 +34,7 @@ jobs:
       - name: Get Version from package.json
         id: version
         run: |
-          VERSION=$(node -p "require('./package.json').version")
+          VERSION=$(node -p "require('./nebula-server/package.json').version")
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Package Version: $VERSION"
 
@@ -51,4 +51,19 @@ jobs:
         run: |
           docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }}
           docker push registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "aser1989@sina.com"
+          git config --global user.name "CI Bot"
+      
+      - name: Authenticate with GitHub
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/ASER1989/nebula-note.git
+      
+      - name: Update deployment.yaml
+        run: |
+          sed -i "s|image: registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:.*|image: registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:${{ env.VERSION }}|" .argocd/nebula-note/deployment.yaml
+          git commit -am "Update deployment image to ${{ env.VERSION }}"
+          git push    
           
