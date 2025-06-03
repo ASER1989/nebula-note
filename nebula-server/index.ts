@@ -17,7 +17,7 @@ import { useResponseFormatter } from './utils/middlewares/responseFormatter';
 const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
 const htmlFilePath = path.resolve(
     __dirname,
-    (process as unknown as any)['resourcesPath'] ? '.' : '..',
+    process.env.MODE === 'dev' ? '..' : '',
     'nebula-client/dist',
 );
 
@@ -44,7 +44,7 @@ app.use(
         brotli: true,
         maxage: 72000000,
         setHeaders: (res, path) => {
-            if(path.endsWith('.html')){
+            if (path.endsWith('.html')) {
                 res.setHeader('Cache-Control', 'no-cache');
             }
         },
