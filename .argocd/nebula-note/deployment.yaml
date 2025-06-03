@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name:  nebula-note
-          image: registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:latest
+          image: registry.cn-hangzhou.aliyuncs.com/aser/nebula-note:1.0.1
           resources:
             requests:
               cpu: "5m"
