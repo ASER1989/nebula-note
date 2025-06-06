@@ -23,13 +23,13 @@
 **Nebula Note** 主要由三个部分组成：文档、运行参数和代码内容。
 
 1. 文档采用 Markdown 格式编辑和展示，简洁易用。
-2. 运行参数目前支持 JSON、YAML 等数据格式，用于管理数据内容，且为非必需项。
+2. 运行参数目前仅支持 JSON 数据格式，用于管理数据内容，且为非必需项。
 3. 代码内容可用于记录代码片段或完整的代码内容，还支持使用 EJS 进行编程，从简单的内容替换到复杂的函数组合，都能轻松实现。使用EJS代码模版结合运行参数可以实现简单的代码创建。 代码内容可以有多个，并支持嵌套引用。
 
 **Nebula Note** 是一款专注于文档管理的工具，所有内容均以文档文件形式存储。可以通过 Git 实现多人协作与分布式存储。
 
 ## 开发
-**Nebula Note** 使用yarn作为包管理工具，node>=18,yarn>=1.22.0。项目中使用到的技术栈大致如下：
+**Nebula Note** 使用yarn作为包管理工具，node>=20,yarn>=1.22.0。项目中使用到的技术栈大致如下：
 + **client：** React、Redux、Cypress、TypeScript、Vite;
 + **server：** Node、Koa、Koa-router、TypeScript、Rollup;
 + **shell:** Electron、TypeScript、Rollup;
