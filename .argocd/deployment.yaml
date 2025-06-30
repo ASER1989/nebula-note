@@ -36,7 +36,28 @@ spec:
       targetPort: 80 # 发送到 Pod 内部的端口
   type: ClusterIP  # Service 类型（可改为 NodePort 或 LoadBalancer）
 
+---
 
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nebula-ui-cert
+  namespace: cert-manager
+spec:
+  secretName: nebula-ui-cert
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: ui.aser1989.cn
+  dnsNames:
+    - ui.aser1989.cn
+  usages:
+    - digital signature
+    - key encipherment
+  privateKey:
+    algorithm: RSA
+    size: 2048
+    
 ---
 
 apiVersion: traefik.containo.us/v1alpha1
