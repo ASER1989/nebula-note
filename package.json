@@ -55,5 +55,10 @@
         "prettier": "^3.4.2",
         "prettier-plugin-svelte": "^3.3.2",
         "svelte": "^5.7.1"
+    },
+    "resolutions": {
+        "prosemirror-model": "^1.25.0",
+        "prosemirror-state": "^1.4.0",
+        "prosemirror-view": "^1.40.0"
     }
 }
