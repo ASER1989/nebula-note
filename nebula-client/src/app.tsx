@@ -17,6 +17,7 @@ import {
 } from '@client/components/notificationBox';
 import { useLocalization } from '@client/localizations/useLocalization';
 import { usePermissions } from '@client/models/permissions/usePermissions';
+import MarkdownMode from '@client/modules/noteList/markdownMode';
 import { NoteStatus } from '@client/modules/noteList/noteStatus';
 import Settings from '@client/modules/settings';
 import routeConfig from '@client/routeConfig';
@@ -67,22 +68,25 @@ function App() {
                                 </div>
                                 <div>aser1989.cn&copy;2024</div>
                                 {isReadonly && (
-                                  <div>
-                                      <a href='https://github.com/ASER1989/nebula-note/releases'>
-                                          {getText('下载')}
-                                      </a>
-                                  </div>
+                                    <div>
+                                        <a href='https://github.com/ASER1989/nebula-note/releases'>
+                                            {getText('下载')}
+                                        </a>
+                                    </div>
                                 )}
                             </div>
                             <div className='app_layout_footer_operation'>
                                 <NoteStatus />
-                                <LuSettings
-                                    title='设置'
-                                    className={classNames('app_operate', {
-                                        active: settingsVisible,
-                                    })}
-                                    onClick={() => setSettingsVisible(true)}
-                                />
+                                <MarkdownMode />
+                                <div className='app_operation_box'>
+                                    <LuSettings
+                                        title={getText('设置')}
+                                        className={classNames('app_operate', {
+                                            active: settingsVisible,
+                                        })}
+                                        onClick={() => setSettingsVisible(true)}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <NotificationBox />

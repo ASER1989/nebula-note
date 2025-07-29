@@ -5,6 +5,7 @@ export type SvgTextProps = {
     height?: number | string;
     color?: string;
     fontSize: number;
+    textAnchor?: 'start' | 'end';
     ['data-test-id']?: string;
 };
 
@@ -34,17 +35,18 @@ export const SvgText = ({
     fontSize,
     height = '100%',
     color = 'black',
+    textAnchor = 'start',
     'data-test-id': dataTestId,
 }: SvgTextProps) => {
     const svgWidth = measureTextWidth(children ?? null, fontSize) + 10;
     return (
         <svg width={svgWidth} height={height} data-test-id={dataTestId}>
             <text
-                x='0'
+                x={textAnchor === 'start' ? '0' : '100%'}
                 y='50%'
                 fontSize={fontSize}
                 dominantBaseline='middle'
-                textAnchor='start'
+                textAnchor={textAnchor}
                 fill={color}
             >
                 {children}

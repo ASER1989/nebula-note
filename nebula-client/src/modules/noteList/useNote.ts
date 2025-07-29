@@ -8,6 +8,7 @@ export type NoteState = {
     fetchStatus: FetchStatus;
     note: NoteRecord;
     editStatus?: 'Edited' | 'Saved' | 'None';
+    markdownMode?: 'Markdown' | 'Code';
     activeProperty?: string;
     isCreateFormShown: boolean;
 };
@@ -18,6 +19,7 @@ const initialState: NoteState = {
     editStatus: 'None',
     activeProperty: 'document',
     isCreateFormShown: false,
+    markdownMode: 'Markdown',
 };
 
 export const useNote = (updateInterceptor?: () => void) => {
@@ -134,6 +136,10 @@ export const useNote = (updateInterceptor?: () => void) => {
         return updateState({ fetchStatus });
     };
 
+    const switchMarkdownMode = (markdownMode: NoteState['markdownMode']) => {
+        return updateState({ markdownMode });
+    };
+
     return {
         state,
         getStateSync,
@@ -152,6 +158,7 @@ export const useNote = (updateInterceptor?: () => void) => {
         setActiveProperty,
         setCreateFormShown,
         setFetchStatus,
+        switchMarkdownMode
     };
 };
 

@@ -6,13 +6,10 @@
   overscroll-behavior: contain;
   scroll-behavior: smooth;
   --milkdown-menu-max-height calc(100vh * 0.5)
-  
-  h1
-    border-bottom: 1px solid #ccc;
 
-  h3, h4
-    padding-bottom 5px
-
+  .cm-scroller
+    .cm-content
+      padding-top 10px
   table
     border-radius 5px
     overflow hidden
@@ -28,6 +25,15 @@
   .milkdown
     .ProseMirror 
       padding 50px 50px 60px 70px
+
+      h1 
+        font-size 36px
+      
+      h2
+        font-size 28px  
+
+      h3, h4
+        font-size 22px
 
     .milkdown-toolbar
       transform translateX(20px)
