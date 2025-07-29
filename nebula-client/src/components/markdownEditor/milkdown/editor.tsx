@@ -1,5 +1,5 @@
 import './index.styl';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Crepe } from '@milkdown/crepe';
 import { automd } from '@milkdown/plugin-automd';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -13,10 +13,12 @@ export interface EditorProps {
 }
 
 export const Editor = ({ children, onChange, id }: EditorProps) => {
+    const currentIdRef = useRef<string>(id);
+    const rootRef = useRef<HTMLDivElement>(null);
     useEditor(
         (root) => {
             const crepe = new Crepe({
-                root,
+                root: rootRef.current ?? root,
                 defaultValue: children,
                 featureConfigs: {
                     placeholder: {
@@ -25,8 +27,15 @@ export const Editor = ({ children, onChange, id }: EditorProps) => {
                     },
                 },
             });
-            crepe.on((lm) => {
-                lm.markdownUpdated((Ctx, nextMarkdown) => {
+            crepe.on((editor) => {
+
+                editor.markdownUpdated((Ctx, nextMarkdown) => {
+                    console.log("id==",id)
+                    console.log("currentId==",currentIdRef.current);
+                    if (currentIdRef.current !== id) {
+                        currentIdRef.current = id;
+                        return;
+                    }
                     onChange?.(nextMarkdown);
                 });
             });
@@ -34,10 +43,14 @@ export const Editor = ({ children, onChange, id }: EditorProps) => {
 
             return crepe;
         },
-        [id],
+        [id, rootRef],
     );
 
-    return <Milkdown />;
+    return (
+        <div ref={rootRef}>
+            <Milkdown />
+        </div>
+    );
 };
 
 export default Editor;

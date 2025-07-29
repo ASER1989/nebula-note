@@ -10,6 +10,7 @@
   .cm-scroller
     .cm-content
       padding-top 10px
+
   table
     border-radius 5px
     overflow hidden
@@ -22,18 +23,26 @@
 
       p
         color #555
-  .milkdown
-    .ProseMirror 
-      padding 50px 50px 60px 70px
 
-      h1 
-        font-size 36px
-      
+  .milkdown
+    --crepe-color-surface #f7f7f7ea
+
+    .ProseMirror
+      padding 10px 50px 60px 70px
+      --crepe-font-title 'Open Sans, Helvetica Neue, Helvetica, Arial, 나눔바른고딕, Nanum Barun Gothic, 맑은고딕, Malgun Gothic, sans-serif'
+      --crepe-font-default 'Open Sans, Helvetica Neue, Helvetica, Arial, 나눔바른고딕, Nanum Barun Gothic, 맑은고딕, Malgun Gothic, sans-serif'
+
+
+      h1,h2,h3,h4,h5
+        font-weight 700
+        margin-top 16px
+      h1
+        font-size 30px
       h2
-        font-size 28px  
+        font-size 24px
 
       h3, h4
-        font-size 22px
+        font-size 20px
 
     .milkdown-toolbar
       transform translateX(20px)
@@ -50,26 +59,26 @@
         justify-content center
         padding 0
         margin 0
-        --crepe-color-outline #777 
+        --crepe-color-outline #666
 
-    .milkdown-block-handle  
-        transform translateX(10px)
+    .milkdown-block-handle
+      transform translateX(10px)
 
-      .operation-item
-        width 26px
-        height @width
-        display flex
-        align-items center
-        justify-content center
+    .operation-item
+      width 26px
+      height @width
+      display flex
+      align-items center
+      justify-content center
 
     .milkdown-slash-menu
       .tab-group
         padding 6px 6px 0
-      
+
       .menu-groups
         padding 0 6px 6px
-        max-height var(--milkdown-menu-max-height,420px)  
-        
+        max-height var(--milkdown-menu-max-height, 420px)
+
         .menu-group li
-          gap 6px 
+          gap 6px
           padding 6px 6px
