@@ -140,3 +140,5 @@ dist
 
 **/cypress/screenshots
 nebula-ui/storybook-static/
+
+.vscode

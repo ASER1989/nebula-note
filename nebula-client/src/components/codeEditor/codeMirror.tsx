@@ -1,5 +1,6 @@
 import './index.styl';
 import React, { useMemo, useState } from 'react';
+import { EditorView } from '@codemirror/view';
 import { Dropdown, DropdownOption } from '@nebula-note/ui';
 import * as events from '@uiw/codemirror-extensions-events';
 import { langs } from '@uiw/codemirror-extensions-langs';
@@ -113,7 +114,7 @@ export default function CodeEditor(props: Props) {
             <div className='editor-box'>
                 <CodeMirror
                     {...resetProps}
-                    extensions={[langExtension, eventExt]}
+                    extensions={[langExtension, eventExt,EditorView.lineWrapping]}
                     theme={githubLight}
                 />
             </div>

@@ -1,0 +1,75 @@
+.nebula-markdown
+  text-align left
+  height 100%
+  position relative;
+  overflow-y auto
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  --milkdown-menu-max-height calc(100vh * 0.5)
+
+  .cm-scroller
+    .cm-content
+      padding-top 10px
+  table
+    border-radius 5px
+    overflow hidden
+    box-shadow 0 0 0 1px rgba(0, 0, 0, 0.1)
+
+    th
+      background-color #f0f0f0
+      color #555
+      font-weight 500
+
+      p
+        color #555
+  .milkdown
+    .ProseMirror 
+      padding 50px 50px 60px 70px
+
+      h1 
+        font-size 36px
+      
+      h2
+        font-size 28px  
+
+      h3, h4
+        font-size 22px
+
+    .milkdown-toolbar
+      transform translateX(20px)
+      align-items center
+      padding 0 10px
+      height 36px
+      gap 3px
+
+      .toolbar-item
+        width 26px
+        height @width
+        display flex
+        align-items center
+        justify-content center
+        padding 0
+        margin 0
+        --crepe-color-outline #777 
+
+    .milkdown-block-handle  
+        transform translateX(10px)
+
+      .operation-item
+        width 26px
+        height @width
+        display flex
+        align-items center
+        justify-content center
+
+    .milkdown-slash-menu
+      .tab-group
+        padding 6px 6px 0
+      
+      .menu-groups
+        padding 0 6px 6px
+        max-height var(--milkdown-menu-max-height,420px)  
+        
+        .menu-group li
+          gap 6px 
+          padding 6px 6px

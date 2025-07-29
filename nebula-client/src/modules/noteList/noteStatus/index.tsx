@@ -11,8 +11,10 @@ export const NoteStatus = () => {
     }
     const fontColor = state.editStatus === 'Edited' ? 'orange' : '#666';
     return (
-        <SvgText fontSize={10} height={20} color={fontColor}>
-            {getText(state.editStatus)}
-        </SvgText>
+        <div className='app_operation_box align-end'>
+            <SvgText fontSize={10} height={15} color={fontColor} textAnchor='end'>
+                {getText(state.editStatus)}
+            </SvgText>
+        </div>
     );
 };
