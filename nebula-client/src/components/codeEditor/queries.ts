@@ -11,8 +11,37 @@ export const SupportedLang = [
     'html',
     'yaml',
     'shell',
-    'mysql'
+    'mysql',
 ] as const;
+
+export const SupportLanguageList = [
+    ...SupportedLang,
+    ...SupportedLang.map((lang) => `${lang}Language`),
+    'parser',
+    'htmlCompletionSource',
+    'ContextTracker',
+    'ExternalTokenizer',
+    'LRParser',
+    'languages',
+    'completeFromList',
+    'ifNotIn',
+    'snippetCompletion',
+    'LRLanguage',
+    'LanguageDescription',
+    'LanguageSupport',
+    'NodeProp',
+    'StreamLanguage',
+    'Tag',
+    'continuedIndent',
+    'delimitedIndent',
+    'foldInside',
+    'foldNodeProp',
+    'indentNodeProp',
+    'parseMixed',
+    'styleTags',
+    'syntaxTree',
+    'tags',
+];
 
 export const getLangOptions = (): Array<
     DropdownOption<(typeof SupportedLang)[number]>
