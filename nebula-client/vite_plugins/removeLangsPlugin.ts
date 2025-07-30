@@ -49,7 +49,6 @@ export default function removeLangsPlugin(includeList: string[]): Plugin {
                     path.node.specifiers = path.node.specifiers.filter((spec) => {
                         const local = spec.local.name;
                         
-                                    console.log(local)
                         return _includeList.some(
                             (lang) => local === lang || local === `_${lang}`,
                         );
