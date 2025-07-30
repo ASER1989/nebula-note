@@ -6,6 +6,7 @@
   overscroll-behavior: contain;
   scroll-behavior: smooth;
   --milkdown-menu-max-height calc(100vh * 0.5)
+  --font-scale var(--global-font-scale,1)
 
   .cm-scroller
     .cm-content
@@ -29,21 +30,25 @@
 
     .ProseMirror
       padding 10px 50px 60px 70px
-      --crepe-font-title 'Open Sans, Helvetica Neue, Helvetica, Arial, 나눔바른고딕, Nanum Barun Gothic, 맑은고딕, Malgun Gothic, sans-serif'
-      --crepe-font-default 'Open Sans, Helvetica Neue, Helvetica, Arial, 나눔바른고딕, Nanum Barun Gothic, 맑은고딕, Malgun Gothic, sans-serif'
+      font-size calc(14px * var(--font-scale))
+      --crepe-font-title var(--global-font-family,'Open Sans, Helvetica Neue, Helvetica, Arial, 나눔바른고딕, Nanum Barun Gothic, 맑은고딕, Malgun Gothic, sans-serif')
+      --crepe-font-default var(--global-font-family,'Open Sans, Helvetica Neue, Helvetica, Arial, 나눔바른고딕, Nanum Barun Gothic, 맑은고딕, Malgun Gothic, sans-serif')
 
 
       h1,h2,h3,h4,h5
         font-weight 700
         margin-top 16px
       h1
-        font-size 30px
+        font-size calc(28px * var(--font-scale))
       h2
-        font-size 24px
+        font-size calc(23px * var(--font-scale))
 
       h3, h4
-        font-size 20px
+        font-size calc(19px * var(--font-scale))
 
+      p, div, span, section, a, li,td
+        font-size calc(14px * var(--font-scale))
+        
     .milkdown-toolbar
       transform translateX(20px)
       align-items center

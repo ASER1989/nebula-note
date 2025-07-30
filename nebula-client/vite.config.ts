@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import type { PluginOption } from 'vite';
 import compression from 'vite-plugin-compression';
-import { SupportedLang } from './src/components/codeEditor/queries';
+import { SupportLanguageList } from './src/components/codeEditor/queries';
 import removeLangDatasPlugin from './vite_plugins/removeLangDatasPlugin';
 import removeLangsPlugin from './vite_plugins/removeLangsPlugin';
 
@@ -15,8 +15,8 @@ export default defineConfig(({ command, mode }) => {
     let removeLangPlugins: Array<PluginOption> = [];
     if (mode === 'production') {
         removeLangPlugins = [
-            removeLangsPlugin(SupportedLang as unknown as Array<string>),
-            removeLangDatasPlugin(SupportedLang as unknown as Array<string>),
+            removeLangsPlugin(SupportLanguageList as unknown as Array<string>),
+            removeLangDatasPlugin(SupportLanguageList as unknown as Array<string>),
         ];
     }
     return {
