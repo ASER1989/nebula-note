@@ -1,7 +1,7 @@
 {
     "name": "nebula-note",
     "private": true,
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "It refers to a tool to optimize efficiency ",
     "main": "nebula-shell/dist/main.js",
     "author": "xu.huang",
@@ -57,8 +57,8 @@
         "svelte": "^5.7.1"
     },
     "resolutions": {
-        "prosemirror-model": "^1.25.0",
-        "prosemirror-state": "^1.4.0",
-        "prosemirror-view": "^1.40.0"
+        "prosemirror-model": "1.25.0",
+        "prosemirror-state": "1.4.0",
+        "prosemirror-view": "1.40.0"
     }
 }

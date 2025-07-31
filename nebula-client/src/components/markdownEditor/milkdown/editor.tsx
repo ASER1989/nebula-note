@@ -14,12 +14,16 @@ export interface EditorProps {
 
 export const Editor = ({ children, onChange, id }: EditorProps) => {
     const currentIdRef = useRef<string>(id);
-    const rootRef = useRef<HTMLDivElement>(null);
+    const updateEnabledRef = useRef<boolean>(false);
     useEditor(
         (root) => {
+            updateEnabledRef.current = false;
             const crepe = new Crepe({
-                root: rootRef.current ?? root,
+                root,
                 defaultValue: children,
+                features: {
+                    [Crepe.Feature.CodeMirror]: true,
+                },
                 featureConfigs: {
                     placeholder: {
                         text: '开始写点什么吧...',
@@ -28,29 +32,30 @@ export const Editor = ({ children, onChange, id }: EditorProps) => {
                 },
             });
             crepe.on((editor) => {
-
                 editor.markdownUpdated((Ctx, nextMarkdown) => {
-                    console.log("id==",id)
-                    console.log("currentId==",currentIdRef.current);
                     if (currentIdRef.current !== id) {
                         currentIdRef.current = id;
                         return;
                     }
+                    if (!updateEnabledRef.current) {
+                        return;
+                    }
                     onChange?.(nextMarkdown);
                 });
+
+                editor.focus((ctx) => {
+                    updateEnabledRef.current = true;
+                });
             });
+
             crepe.editor.use(commonmark).use(automd);
 
             return crepe;
         },
-        [id, rootRef],
+        [id],
     );
 
-    return (
-        <div ref={rootRef}>
-            <Milkdown />
-        </div>
-    );
+    return <Milkdown />;
 };
 
 export default Editor;

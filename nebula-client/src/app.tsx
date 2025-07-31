@@ -43,6 +43,23 @@ function App() {
         setSettingsVisible(false);
     };
 
+    useEffect(() => {
+        const errorHandle = function (event: ErrorEvent) {
+            // ignore prosemirror setSelection exception.
+            if (
+                event.error.message ==
+                'Selection passed to setSelection must point at the current document'
+            ) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        };
+        window.addEventListener('error', errorHandle);
+        return () => {
+            window.removeEventListener('error', errorHandle);
+        };
+    }, []);
+
     return (
         <MessageContext.Provider
             value={{ ...messageContextValue, defaultButtonText: getText('确定') }}
