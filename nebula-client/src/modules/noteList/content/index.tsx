@@ -151,14 +151,18 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         {state?.note?.document ?? '   '}
                     </MarkdownEditor>
                 </TabPane>
-                <TabPane id='meta' key='meta' title={getText('参数配置')}>
-                    <CodeEditor
-                        value={state?.note?.meta ?? '{}'}
-                        lang='json'
-                        disableLangChange
-                        onChange={handleMetaChange}
-                    />
-                </TabPane>
+                {
+                    ((state?.note?.templateList ?? []).length > 0 && (
+                        <TabPane id='meta' key='meta' title={getText('参数配置')}>
+                            <CodeEditor
+                                value={state?.note?.meta ?? '{}'}
+                                lang='json'
+                                disableLangChange
+                                onChange={handleMetaChange}
+                            />
+                        </TabPane>
+                    )) as never
+                }
                 {
                     (state?.note?.templateList ?? []).map((snippet, index) => (
                         <TabPane
