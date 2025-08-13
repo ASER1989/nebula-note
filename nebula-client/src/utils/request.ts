@@ -33,6 +33,36 @@ export default {
                 .catch((ex) => reject(ex));
         });
     },
+    upload<T>(
+        url: string,
+        file: File,
+        dataObj?: Record<string, unknown>,
+        initOptions?: Record<string, unknown>,
+    ) {
+        return new Promise<Response<T>>((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('file', file);
+            Object.keys(dataObj ?? {}).forEach((key) => {
+                formData.append(key, dataObj?.[key] as never);
+            });
+
+            fetch('/api' + url, {
+                method: 'POST',
+                body: formData,
+                ...initOptions,
+            })
+                .then((resp) =>
+                    resp.json().then((res) => {
+                        if (res.success) {
+                            resolve(res);
+                        } else {
+                            reject(res.error);
+                        }
+                    }),
+                )
+                .catch((ex) => reject(ex));
+        });
+    },
     get<T>(
         url: string,
         params?: Record<string, unknown>,

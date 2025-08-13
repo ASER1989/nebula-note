@@ -1,10 +1,13 @@
+///<reference types="../types.d.ts" />
+
 import Router from '@koa/router';
 import templateUtils from '../../utils/note-utils';
+import fileUtils from '../../utils/fileUtils';
 import _ from 'lodash';
 import templateStore from '../../utils/note-utils/store';
 import {Context} from 'koa';
-import './types';
 import {useReadonly} from "../utils/middlewares/permission";
+import path from 'path';
 
 export default (prefix: string) => {
   const router = new Router({prefix});
@@ -66,6 +69,27 @@ export default (prefix: string) => {
       await templateUtils.saveFile(item?.content, itemPath);
     }
     return newConfig.version;
+  });
+  
+  router.post('/image/upload', async (ctx:global.MultipartContext)=>{
+    const {filePath} = <Note.NoteImageUploadReq>ctx.request.body;
+    const file = ctx.request.files?.file;
+    
+    if(file && fileUtils.isPathExistedSync(file.filepath)){
+      const folderPath = templateUtils.filePathToImgPath(filePath);
+      const ext = path.extname(file.originalFilename);
+      const configPath = templateUtils.getDataFolder();
+      const targetDir = path.join(configPath,folderPath)
+      const fileName =  Date.now() + ext;
+      const newPath = path.join(targetDir,fileName);
+      
+      await fileUtils.mkdir(targetDir);
+      await fileUtils.rename(file.filepath, newPath);
+
+      return path.join('image',folderPath,fileName);
+    }
+    
+    return new Error('未检测到文件');
   });
 
   router.get('/content', async (ctx: Context) => {

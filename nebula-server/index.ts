@@ -13,6 +13,8 @@ import { useDefaultResponseType } from './utils/middlewares/defaultResponseType'
 import { useRequestLog } from './utils/middlewares/requestLog';
 import { useRequestTime } from './utils/middlewares/requestTime';
 import { useResponseFormatter } from './utils/middlewares/responseFormatter';
+import { useMultipart } from './utils/middlewares/multipart';
+import templateUtils from '../utils/note-utils';
 
 const __dirname = (process as unknown as any)['resourcesPath'] ?? process.cwd();
 const htmlFilePath = path.resolve(
@@ -20,23 +22,26 @@ const htmlFilePath = path.resolve(
     (process as unknown as any)['resourcesPath'] ? '.' : '..',
     'nebula-client/dist',
 );
+const configPath = templateUtils.getDataFolder();
 
 const app = new Koa();
 app.use(useRequestTime);
 app.use(useRequestLog());
 app.use(
     historyApiFallback({
-        whiteList: ['/api', '/assets', 'favicon.ico'],
+        whiteList: ['/api', '/assets', 'favicon.ico','/image'],
         index: '/',
         disableDotRule: true,
     }),
 );
 app.use(
     bodyParser({
-        formLimit: '30mb',
+        formLimit: '60mb',
         jsonLimit: '30mb',
+        textLimit: '30mb',
     }),
 );
+app.use(useMultipart(path.join(configPath,".tmp")));
 
 app.use(
     serve(htmlFilePath, {
@@ -44,7 +49,7 @@ app.use(
         brotli: true,
         maxage: 72000000,
         setHeaders: (res, path) => {
-            if(path.endsWith('.html')){
+            if (path.endsWith('.html')) {
                 res.setHeader('Cache-Control', 'no-cache');
             }
         },

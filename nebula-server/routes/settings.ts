@@ -1,8 +1,9 @@
+///<reference types="../types.d.ts" />
+
 import Router from '@koa/router';
 import { Context } from 'koa';
 import systemConfig from '../../utils/system-config';
 import { useReadonly } from '../utils/middlewares/permission';
-import './types';
 
 export default (prefix: string) => {
     const router = new Router({ prefix });

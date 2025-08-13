@@ -76,6 +76,11 @@ const filePathToMetaPath = (filePath) => {
 const filePathToDocPath = (filePath) => {
     return path.join(filePath, 'doc.md');
 };
+
+const filePathToImgPath = (filePath) => {
+    return path.join(filePath, 'imgs');
+};
+
 const filePathToTemplateFolderPath = (filePath) => {
     return path.join(filePath, 'template');
 };
@@ -111,6 +116,7 @@ module.exports = {
     reloadConfig,
     filePathToMetaPath,
     filePathToDocPath,
+    filePathToImgPath,
     filePathToTemplatePath,
     filePathToTemplateFolderPath,
     clearFolder,

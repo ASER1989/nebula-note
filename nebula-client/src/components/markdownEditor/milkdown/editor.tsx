@@ -1,5 +1,6 @@
 import './index.styl';
 import React, { useRef } from 'react';
+import { imageBlockComponent, imageBlockConfig } from '@milkdown/components/image-block';
 import { Crepe } from '@milkdown/crepe';
 import { automd } from '@milkdown/plugin-automd';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -10,9 +11,10 @@ export interface EditorProps {
     isLoading?: boolean;
     id: string;
     onChange?: (value: string) => void;
+    onImageUpload?: (file: File) => Promise<string | undefined>;
 }
 
-export const Editor = ({ children, onChange, id }: EditorProps) => {
+export const Editor = ({ children, onChange, id, onImageUpload }: EditorProps) => {
     const currentIdRef = useRef<string>(id);
     const updateEnabledRef = useRef<boolean>(false);
     useEditor(
@@ -48,7 +50,20 @@ export const Editor = ({ children, onChange, id }: EditorProps) => {
                 });
             });
 
-            crepe.editor.use(commonmark).use(automd);
+            crepe.editor.use(commonmark).use(imageBlockComponent).use(automd);
+
+            crepe.editor.config((ctx) => {
+                ctx.update(imageBlockConfig.key, (defaultConfig) => ({
+                    ...defaultConfig,
+                    onUpload: async (file: File) => {
+                        const imgUrl = await onImageUpload?.(file);
+                        if (!imgUrl) {
+                            return '';
+                        }
+                        return imgUrl;
+                    },
+                }));
+            });
 
             return crepe;
         },
