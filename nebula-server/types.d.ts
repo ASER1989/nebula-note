@@ -37,8 +37,8 @@ namespace System {
     };
 }
 
-namespace global {
-    export type MultipartContext = Koa.Context & {
-        request: Koa.Request & { files?: formidable.Files<string> };
-    };
-}
+type RequestContext<T> = Koa.Context & { request: Koa.Request & { body: T } };
+
+type MultipartContext<T = unknown> = Koa.Context & {
+    request: Koa.Request & { files?: formidable.Files<string>; body: T };
+};

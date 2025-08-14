@@ -30,7 +30,7 @@ app.use(useRequestTime);
 app.use(useRequestLog());
 app.use(
     historyApiFallback({
-        whiteList: ['/api', '/assets', 'favicon.ico', '/image'],
+        whiteList: ['/api', '/assets', 'favicon.ico', '/note/doc/image'],
         index: '/',
         disableDotRule: true,
     }),

@@ -1,5 +1,4 @@
 ///<reference types="../types.d.ts" />
-
 import Router from '@koa/router';
 import { Context } from 'koa';
 import systemConfig from '../../utils/system-config';

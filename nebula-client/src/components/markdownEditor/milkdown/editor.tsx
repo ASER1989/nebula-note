@@ -62,6 +62,33 @@ export const Editor = ({ children, onChange, id, onImageUpload }: EditorProps) =
                         }
                         return imgUrl;
                     },
+                    proxyDomURL: (url: string) => {
+                        let hasHostname = true;
+                        let isSameHostname = true;
+                        try {
+                            if (url) {
+                                const urlObj = new URL(url);
+                                isSameHostname =
+                                    urlObj.hostname === window.location.hostname;
+                            }
+                        } catch (ex) {
+                            hasHostname = false;
+                        }
+
+                        if (hasHostname && !isSameHostname) {
+                            return url;
+                        }
+
+                        if (/note\/doc\/image/.test(url)) {
+                            const newUrl = url.replace(
+                                'note/doc/image',
+                                `note/doc/image/${id}`,
+                            );
+                            return newUrl;
+                        }
+                        
+                        return url;
+                    },
                 }));
             });
 

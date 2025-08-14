@@ -25,7 +25,9 @@ const reloadConfig = async () => {
     if (await fileUtils.isPathExisted(customConfigPath)) {
         const configString = await fileUtils.readFile(customConfigPath);
         setConfig(JSON.parse(configString.toString()));
+        return;
     }
+    setConfig([]);
 };
 const getConfig = async () => {
     if (_config) {

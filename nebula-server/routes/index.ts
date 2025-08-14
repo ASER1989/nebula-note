@@ -8,7 +8,7 @@ import templateUtils from '../../utils/note-utils';
 export default (prefix: string) => {
     const router = new Router({ prefix });
 
-    router.get('image/:sourcePath+', (ctx: Context) => {
+    router.get('note/doc/image/:sourcePath+', (ctx: Context) => {
         const { sourcePath }: { sourcePath: string } = ctx.params;
         const configPath = templateUtils.getDataFolder();
         const assertPath = path.join(configPath, sourcePath);

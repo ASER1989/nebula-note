@@ -103,10 +103,10 @@ export const useNoteController = () => {
 
     const onImageUpload = async (file: File, filePath?: string) => {
         if (isReadonly) {
-            return undefined;
+            return URL.createObjectURL(file);
         }
         const resp = await noteApi.imageUpload(file, { filePath });
-        if(resp?.success){
+        if (resp?.success) {
             return resp.data;
         }
         return undefined;
