@@ -1,10 +1,13 @@
 import './index.styl';
 import React, { useRef } from 'react';
-import { imageBlockComponent, imageBlockConfig } from '@milkdown/components/image-block';
+import { codeBlockComponent } from '@milkdown/components/code-block';
+import { imageBlockComponent } from '@milkdown/components/image-block';
 import { Crepe } from '@milkdown/crepe';
 import { automd } from '@milkdown/plugin-automd';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { Milkdown, useEditor } from '@milkdown/react';
+import useImageBlock from './config/useImageBlock';
+import useCodeBlock from './config/useCodeBlock';
 
 export interface EditorProps {
     children?: string;
@@ -17,6 +20,9 @@ export interface EditorProps {
 export const Editor = ({ children, onChange, id, onImageUpload }: EditorProps) => {
     const currentIdRef = useRef<string>(id);
     const updateEnabledRef = useRef<boolean>(false);
+    const imageBlockConfig = useImageBlock({ id, onImageUpload });
+    const codeBlockConfig = useCodeBlock();
+
     useEditor(
         (root) => {
             updateEnabledRef.current = false;
@@ -50,47 +56,13 @@ export const Editor = ({ children, onChange, id, onImageUpload }: EditorProps) =
                 });
             });
 
-            crepe.editor.use(commonmark).use(imageBlockComponent).use(automd);
-
-            crepe.editor.config((ctx) => {
-                ctx.update(imageBlockConfig.key, (defaultConfig) => ({
-                    ...defaultConfig,
-                    onUpload: async (file: File) => {
-                        const imgUrl = await onImageUpload?.(file);
-                        if (!imgUrl) {
-                            return '';
-                        }
-                        return imgUrl;
-                    },
-                    proxyDomURL: (url: string) => {
-                        let hasHostname = true;
-                        let isSameHostname = true;
-                        try {
-                            if (url) {
-                                const urlObj = new URL(url);
-                                isSameHostname =
-                                    urlObj.hostname === window.location.hostname;
-                            }
-                        } catch (ex) {
-                            hasHostname = false;
-                        }
-
-                        if (hasHostname && !isSameHostname) {
-                            return url;
-                        }
-
-                        if (/note\/doc\/image/.test(url)) {
-                            const newUrl = url.replace(
-                                'note/doc/image',
-                                `note/doc/image/${id}`,
-                            );
-                            return newUrl;
-                        }
-                        
-                        return url;
-                    },
-                }));
-            });
+            crepe.editor
+                .config(imageBlockConfig)
+                .config(codeBlockConfig)
+                .use(commonmark)
+                .use(imageBlockComponent)
+                .use(codeBlockComponent)
+                .use(automd);
 
             return crepe;
         },
