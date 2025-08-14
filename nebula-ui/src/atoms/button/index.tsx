@@ -6,12 +6,13 @@ export type ButtonProps = {
     onClick: () => void;
     children: React.ReactNode | string | Array<React.ReactNode | string>;
     type?: 'primary' | 'default';
+    focus?: boolean;
     disabled?: boolean;
     ['data-test-id']?: string;
 };
 
 const ButtonBase = (
-    { onClick, children, type, disabled, 'data-test-id': dataTestId }: ButtonProps,
+    { onClick, children, type, disabled, focus, 'data-test-id': dataTestId }: ButtonProps,
     ref: ForwardedRef<HTMLDivElement>,
 ) => {
     const handleClick = () => {
@@ -25,6 +26,7 @@ const ButtonBase = (
             className={classNames('nebula-button', {
                 primary: type === 'primary',
                 disabled: disabled,
+                focus,
             })}
             onClick={handleClick}
             data-test-id={dataTestId}

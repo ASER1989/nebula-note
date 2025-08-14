@@ -27,6 +27,7 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
     const { getText } = useLocalization();
     const { changeSelectedItem } = useNoteController();
     const [formState, setFormState] = useState<NoteRecord>(initialState);
+
     const handleFieldChange = (key: string, value: string) => {
         setFormState((ownState) => {
             return {
@@ -58,7 +59,7 @@ export const CreateForm: FC<Props> = ({ visible, onHide }) => {
         >
             <div className='shared-template-save'>
                 <div className='save-as-form'>
-                    <Form labelWidth='50px'>
+                    <Form labelWidth='50px' onSubmit={handleTemplateSave}>
                         <FormItem label={getText('标题')}>
                             <Input
                                 onChange={_.partial(handleFieldChange, 'name')}
