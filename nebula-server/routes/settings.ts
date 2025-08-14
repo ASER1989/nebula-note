@@ -11,8 +11,8 @@ export default (prefix: string) => {
         return systemConfig.getConfig();
     });
 
-    router.post('/', useReadonly, async (ctx: Context) => {
-        const settings = ctx.request.body as System.Settings;
+    router.post('/', useReadonly, async (ctx: RequestContext<System.Settings>) => {
+        const settings = ctx.request.body;
         return await systemConfig.updateConfig(settings);
     });
 

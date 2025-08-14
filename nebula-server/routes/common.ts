@@ -1,3 +1,4 @@
+///<reference types="../types.d.ts" />
 import Router from '@koa/router';
 import * as fs from 'fs';
 import {Context} from 'koa';
@@ -47,9 +48,9 @@ export default (prefix: string) => {
     }
   });
 
-  router.post('/folder/list', async (ctx: Context) => {
+  router.post('/folder/list', async (ctx: RequestContext<{ folderPath: string }>) => {
     ctx.type = 'text/json';
-    const {folderPath} = <{ folderPath: string }>ctx.request.body;
+    const {folderPath} = ctx.request.body;
 
     try {
       let parts: string[] = [];
