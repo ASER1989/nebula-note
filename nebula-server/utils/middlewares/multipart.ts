@@ -4,7 +4,7 @@ import { Middleware, Next } from 'koa';
 import fileUtils from '../../../utils/fileUtils';
 
 export const useMultipart: (tempPath: string) => Middleware =
-    (tempPath: string) => async (ctx: global.MultipartContext, next: Next) => {
+    (tempPath: string) => async (ctx: MultipartContext, next: Next) => {
         if (ctx.req.headers['content-type']?.includes('multipart/form-data;')) {
             if (tempPath) {
                 await fileUtils.mkdir(tempPath);
