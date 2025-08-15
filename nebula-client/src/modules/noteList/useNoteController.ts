@@ -100,7 +100,19 @@ export const useNoteController = () => {
         }
         await save();
     };
-    return { changeSelectedItem, onSave };
+
+    const onImageUpload = async (file: File, filePath?: string) => {
+        if (isReadonly) {
+            return URL.createObjectURL(file);
+        }
+        const resp = await noteApi.imageUpload(file, { filePath });
+        if (resp?.success) {
+            return resp.data;
+        }
+        return undefined;
+    };
+
+    return { changeSelectedItem, onSave, onImageUpload };
 };
 
 export default useNoteController;

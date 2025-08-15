@@ -38,3 +38,12 @@ export const buildTemplate = (postData: {
 }) => {
     return request.post<string>('/slice/build/meta', postData);
 };
+
+export const imageUpload = (
+    file: File,
+    postData: {
+        filePath?: string;
+    },
+) => {
+    return request.upload<string>('/note/image/upload', file, postData);
+};

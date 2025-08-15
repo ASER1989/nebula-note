@@ -17,6 +17,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { LuPencilLine } from 'react-icons/lu';
 import { contentTabIdQuery } from '../queries';
+import useNoteController from '../useNoteController';
 import Empty from './empty';
 
 export type Props = {
@@ -30,6 +31,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
     const { isReadonly } = usePermissions();
     const [titleFocus, setTitleFocus] = useState(false);
     const autoSaveInterceptor = useDebounce(() => onSave?.(), 500, 3000);
+    const { onImageUpload } = useNoteController();
 
     const interceptorHandle = () => {
         if (settings?.autoSave && !isReadonly) {
@@ -67,6 +69,10 @@ export const Content: FC<Props> = ({ state, onSave }) => {
         const tabId = contentTabIdQuery(nextIndex);
         handleTabChange(index === 0 ? 'meta' : tabId);
         setTitleFocus(false);
+    };
+
+    const handleImageUpload = async (file: File) => {
+       return  await onImageUpload(file, state?.note?.filePath);
     };
 
     const handleTabTitleChange = (title: string, newTitle: string) => {
@@ -147,6 +153,7 @@ export const Content: FC<Props> = ({ state, onSave }) => {
                         id={state?.note?.name}
                         isLoading={state?.fetchStatus === 'Pending'}
                         mode={state.markdownMode}
+                        onImageUpload={handleImageUpload}
                     >
                         {state?.note?.document ?? '   '}
                     </MarkdownEditor>

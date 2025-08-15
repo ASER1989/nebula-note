@@ -25,7 +25,9 @@ const reloadConfig = async () => {
     if (await fileUtils.isPathExisted(customConfigPath)) {
         const configString = await fileUtils.readFile(customConfigPath);
         setConfig(JSON.parse(configString.toString()));
+        return;
     }
+    setConfig([]);
 };
 const getConfig = async () => {
     if (_config) {
@@ -76,6 +78,11 @@ const filePathToMetaPath = (filePath) => {
 const filePathToDocPath = (filePath) => {
     return path.join(filePath, 'doc.md');
 };
+
+const filePathToImgPath = (filePath) => {
+    return path.join(filePath, 'imgs');
+};
+
 const filePathToTemplateFolderPath = (filePath) => {
     return path.join(filePath, 'template');
 };
@@ -111,6 +118,7 @@ module.exports = {
     reloadConfig,
     filePathToMetaPath,
     filePathToDocPath,
+    filePathToImgPath,
     filePathToTemplatePath,
     filePathToTemplateFolderPath,
     clearFolder,

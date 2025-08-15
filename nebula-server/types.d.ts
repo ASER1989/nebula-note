@@ -1,3 +1,6 @@
+/// <reference types="koa" />
+/// <reference types="formidable" />
+
 namespace Note {
     export type TemplateRecord = {
         title: string;
@@ -16,7 +19,11 @@ namespace Note {
 
     export type NoteRecordReq = NoteRecord & {
         replace?: boolean;
-    }
+    };
+
+    export type NoteImageUploadReq = NoteRecord & {
+        file: File;
+    };
 }
 namespace System {
     export type Settings = {
@@ -29,3 +36,9 @@ namespace System {
         }>;
     };
 }
+
+type RequestContext<T> = Koa.Context & { request: Koa.Request & { body: T } };
+
+type MultipartContext<T = unknown> = Koa.Context & {
+    request: Koa.Request & { files?: formidable.Files<string>; body: T };
+};
