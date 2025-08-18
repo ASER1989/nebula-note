@@ -1,7 +1,7 @@
 {
     "name": "@nebula-note/client",
     "private": true,
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "It refers to a tool to optimize efficiency ",
     "main": "index.html",
     "scripts": {
