@@ -16,12 +16,27 @@ import useNoteController from '@client/modules/noteList/useNoteController';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { queryErrorMessage } from '@client/utils/queries';
 import { useBoxSize } from '@client/utils/useBoxSize';
-import { Section } from '@nebula-note/ui';
+import {
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    closestCenter,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
+import {
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { Stack, StackItem } from '@nebula-note/ui';
 import { useParams } from 'react-router-dom';
+import { contentTabIdQuery } from '../queries';
 import { Header } from './header';
 import { ListItem } from './item';
-import { contentTabIdQuery } from '../queries';
+import { DragBox } from './item/dragBox';
 
 type Props = {
     state: NoteState;
@@ -33,7 +48,7 @@ export const List = ({ state, onSave }: Props) => {
     const actions = useNote();
     const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
-    const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
+    const { noteList, reload, rename, remove, reorder, fetchStatus } = useNoteConfig();
     const { isReadonly } = usePermissions();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
         BuildResultStateName,
@@ -44,6 +59,14 @@ export const List = ({ state, onSave }: Props) => {
     );
 
     const { navigateNoteName, navigateTabName } = useParams();
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    );
+
     useEffect(() => {
         if (fetchStatus === 'Success' && navigateNoteName) {
             const targetNote = noteList.find(
@@ -171,42 +194,56 @@ export const List = ({ state, onSave }: Props) => {
         return false;
     };
 
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+        if (over && active.id !== over.id) {
+            reorder(active.id as string, over.id as string);
+        }
+    };
+
     return (
         <Stack direction='vertical'>
             <StackItem>
                 <Header></Header>
             </StackItem>
             <StackItem flex style={{ overflowY: 'auto' }}>
-                <div className='note-list' data-test-id='note-list' ref={boxRef}>
-                    {noteList.map((note) => {
-                        return (
-                            <Section
-                                style={{
-                                    width: boxSize.width,
-                                    boxShadow: 'none',
-                                    borderWidth: 0,
-                                    borderBottomWidth: 1,
-                                    borderRadius: 0,
-                                }}
-                                key={note.name}
-                                padding='0'
-                            >
-                                <ListItem
-                                    isChecked={note.name === state?.note.name}
-                                    name={note.name as string}
-                                    onClick={() => handleClick(note)}
-                                    onBuild={
-                                        (note.templateList?.length ?? 0 > 0)
-                                            ? handleRunBuild
-                                            : undefined
-                                    }
-                                    onRemove={handleRemove}
-                                    onRename={handleRename}
-                                />
-                            </Section>
-                        );
-                    })}
-                </div>
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                    modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+                >
+                    <SortableContext
+                        items={noteList.map((item) => ({ ...item, id: item.name }))}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        <div className='note-list' data-test-id='note-list' ref={boxRef}>
+                            {noteList.map((note) => {
+                                return (
+                                    <DragBox
+                                        id={note.name}
+                                        boxSize={boxSize}
+                                        isChecked={note.name === state?.note.name}
+                                        key={note.name}
+                                    >
+                                        <ListItem
+                                            isChecked={note.name === state?.note.name}
+                                            name={note.name as string}
+                                            onClick={() => handleClick(note)}
+                                            onBuild={
+                                                (note.templateList?.length ?? 0 > 0)
+                                                    ? handleRunBuild
+                                                    : undefined
+                                            }
+                                            onRemove={handleRemove}
+                                            onRename={handleRename}
+                                        />
+                                    </DragBox>
+                                );
+                            })}
+                        </div>
+                    </SortableContext>
+                </DndContext>
             </StackItem>
         </Stack>
     );

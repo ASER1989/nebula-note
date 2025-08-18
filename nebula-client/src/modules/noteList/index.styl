@@ -2,12 +2,27 @@
   display flex
   flex-direction column
   max-height 100vh
+  overflow hidden
 
   > *
     box-sizing border-box
 
-  .note-list-item
+  .note-list-drag_box
     border-bottom solid 1px #cccccc
+    box-shadow none
+    border-width: 0
+    border-bottom-width: 1px
+    border-radius: 0
+
+    &:hover, &.checked
+      background-color #eeeeee
+      .drag-handle
+        opacity 1
+    .drag-handle
+      opacity 0
+      transition opacity .3s
+
+  .note-list-item
     padding 12px 3px 12px 0
     cursor pointer
     display flex
@@ -27,10 +42,11 @@
       flex 1
 
     .item-operation
-      width 42px
+      width 49px
       display flex
       align-items center
-      padding-left 5px
+      padding-left 3px
+      position relative
 
 .note-list-header
   height 35px

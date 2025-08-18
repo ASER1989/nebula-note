@@ -1,5 +1,11 @@
 # @nebula-note/server
 
+## 1.0.3
+
+### Patch Changes
+
+- 笔记列表添加拖动排序功能
+
 ## 1.0.2
 
 ### Patch Changes
