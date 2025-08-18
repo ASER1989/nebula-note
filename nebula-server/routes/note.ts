@@ -8,6 +8,8 @@ import templateUtils from '../../utils/note-utils';
 import templateStore from '../../utils/note-utils/store';
 import { useReadonly } from '../utils/middlewares/permission';
 
+import NoteRecord = Note.NoteRecord;
+
 export default (prefix: string) => {
     const router = new Router({ prefix });
 
@@ -99,7 +101,11 @@ export default (prefix: string) => {
                 await fileUtils.mkdir(targetDir);
                 await fileUtils.rename(file.filepath, newPath);
 
-                return path.join('note/doc/image', folderPath.replace(filePath, ''), fileName);
+                return path.join(
+                    'note/doc/image',
+                    folderPath.replace(filePath, ''),
+                    fileName,
+                );
             }
 
             return new Error('未检测到文件');
@@ -138,6 +144,32 @@ export default (prefix: string) => {
     router.get('/config', async (ctx: Context) => {
         return await templateUtils.getConfig();
     });
+
+    router.post(
+        '/reorder',
+        async (ctx: RequestContext<{ activeName: string; overName: string }>) => {
+            const { activeName, overName } = ctx.request.body;
+            const templateConfigs: Note.NoteRecord[] =
+                (await templateUtils.getConfig()) || [];
+
+            const activeIndex = templateConfigs.findIndex(
+                (item: NoteRecord) => item.name === activeName,
+            );
+            const overIndex = templateConfigs.findIndex(
+                (item: NoteRecord) => item.name === overName,
+            );
+
+            const clonedConfigs = templateConfigs.slice();
+
+            clonedConfigs.splice(
+                overIndex < 0 ? clonedConfigs.length + overIndex : overIndex,
+                0,
+                clonedConfigs.splice(activeIndex, 1)[0],
+            );
+            await templateUtils.updateConfig(clonedConfigs);
+            return true;
+        },
+    );
 
     router.post('/remove', useReadonly, async (ctx: RequestContext<{ name: string }>) => {
         const { name } = ctx.request.body;

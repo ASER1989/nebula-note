@@ -5,6 +5,10 @@ export const getNoteList = () => {
     return request.get<Array<NoteRecord>>('/note/list');
 };
 
+export const reorderNote = (activeName: string, overName: string) => {
+    return request.post('/note/reorder', { activeName, overName });
+}
+
 export const getNoteDocument = (filePath: string) => {
     return request.get<string>('/note/doc', { path: filePath });
 };

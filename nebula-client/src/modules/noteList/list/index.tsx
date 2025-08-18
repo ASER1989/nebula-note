@@ -18,31 +18,25 @@ import { queryErrorMessage } from '@client/utils/queries';
 import { useBoxSize } from '@client/utils/useBoxSize';
 import {
     DndContext,
+    DragEndEvent,
     KeyboardSensor,
     PointerSensor,
     closestCenter,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
+import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
 import {
     SortableContext,
-    arrayMove,
     sortableKeyboardCoordinates,
-    useSortable,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Section } from '@nebula-note/ui';
 import { Stack, StackItem } from '@nebula-note/ui';
 import { useParams } from 'react-router-dom';
 import { contentTabIdQuery } from '../queries';
 import { Header } from './header';
 import { ListItem } from './item';
 import { DragBox } from './item/dragBox';
-import {
-  restrictToVerticalAxis,
-  restrictToWindowEdges,
-} from '@dnd-kit/modifiers';
 
 type Props = {
     state: NoteState;
@@ -54,7 +48,7 @@ export const List = ({ state, onSave }: Props) => {
     const actions = useNote();
     const { changeSelectedItem } = useNoteController();
     const { showConfirm } = useContext(ConfirmContext);
-    const { noteList, reload, rename, remove, fetchStatus } = useNoteConfig();
+    const { noteList, reload, rename, remove, reorder, fetchStatus } = useNoteConfig();
     const { isReadonly } = usePermissions();
     const { setState: setBuildResult } = useRedux<BuildResultState>(
         BuildResultStateName,
@@ -200,14 +194,10 @@ export const List = ({ state, onSave }: Props) => {
         return false;
     };
 
-    const handleDragEnd = (event) => {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (over && active.id !== over.id) {
-            // setItems((items) => {
-            //     const oldIndex = items.indexOf(active.id as string);
-            //     const newIndex = items.indexOf(over.id as string);
-            //     return arrayMove(items, oldIndex, newIndex);
-            // });
+            reorder(active.id as string, over.id as string);
         }
     };
 
@@ -221,7 +211,7 @@ export const List = ({ state, onSave }: Props) => {
                     sensors={sensors}
                     collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
-                    modifiers={[restrictToVerticalAxis,restrictToWindowEdges]}
+                    modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
                 >
                     <SortableContext
                         items={noteList.map((item) => ({ ...item, id: item.name }))}
@@ -230,7 +220,12 @@ export const List = ({ state, onSave }: Props) => {
                         <div className='note-list' data-test-id='note-list' ref={boxRef}>
                             {noteList.map((note) => {
                                 return (
-                                    <DragBox id={note.name} boxSize={boxSize} isChecked={note.name === state?.note.name}>
+                                    <DragBox
+                                        id={note.name}
+                                        boxSize={boxSize}
+                                        isChecked={note.name === state?.note.name}
+                                        key={note.name}
+                                    >
                                         <ListItem
                                             isChecked={note.name === state?.note.name}
                                             name={note.name as string}

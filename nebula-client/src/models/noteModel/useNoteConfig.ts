@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from 'react';
 import { useNotification } from '@client/components/notificationBox';
 import { useLocalization } from '@client/localizations/useLocalization';
+import { usePermissions } from '@client/models/permissions/usePermissions';
 import { useRedux } from '@client/store/hooks/useRedux';
 import { FetchStatus } from '@client/types';
 import { queryErrorMessage } from '@client/utils/queries';
 import { Response } from '@client/utils/request';
-import { getNoteList, noteRemove, noteRename, noteUpsert } from './api';
+import { getNoteList, noteRemove, noteRename, noteUpsert, reorderNote } from './api';
 import { NoteConfigState, NoteRecord } from './types';
 
 export interface IUseNoteConfig {
@@ -16,6 +17,7 @@ export interface IUseNoteConfig {
     create: (newRecord: NoteRecord) => Promise<Response<number> | undefined>;
     rename: (name: string, newName: string) => Promise<NoteRecord | undefined>;
     remove: (name: string) => Promise<Response<string>>;
+    reorder: (activeName: string, overName: string) => void;
     isNoteExist: (templateName: string) => boolean;
     fetchStatus: FetchStatus | undefined;
 }
@@ -25,6 +27,7 @@ let isInitialized = false;
 const useNoteConfig = () => {
     const { showNotice } = useNotification();
     const { getText } = useLocalization();
+    const { isReadonly } = usePermissions();
 
     const { state, setState, updateState } = useRedux<NoteConfigState>(REDUX_KEY, {
         fetchStatus: 'None',
@@ -99,6 +102,24 @@ const useNoteConfig = () => {
         }
     };
 
+    const reorder = (activeName: string, overName: string) => {
+        if (!isReadonly) {
+            reorderNote(activeName, overName).catch(() => void 0);
+        }
+
+        const activeIndex = noteList.findIndex((item) => item.name === activeName);
+        const overIndex = noteList.findIndex((item) => item.name === overName);
+
+        const newList = noteList.slice();
+
+        newList.splice(
+            overIndex < 0 ? newList.length + overIndex : overIndex,
+            0,
+            newList.splice(activeIndex, 1)[0],
+        );
+        updateState({ noteList: newList });
+    };
+
     const isNoteExist = (templateName: string) => {
         return noteList.some((item) => item.name === templateName);
     };
@@ -130,6 +151,7 @@ const useNoteConfig = () => {
         create,
         rename,
         remove,
+        reorder,
         setKeyword,
         isNoteExist,
     } as IUseNoteConfig;
